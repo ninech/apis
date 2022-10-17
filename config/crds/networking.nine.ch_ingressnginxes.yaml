@@ -1,0 +1,414 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: (unknown)
+  creationTimestamp: null
+  name: ingressnginxes.networking.nine.ch
+spec:
+  group: networking.nine.ch
+  names:
+    kind: IngressNginx
+    listKind: IngressNginxList
+    plural: ingressnginxes
+    shortNames:
+    - nginx
+    singular: ingressnginx
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: IngressNginx deploys an NGINX ingress controller to a cluster.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: IngressNginxSpec defines the desired state of an IngressNginx.
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: IngressNginxParameters are the configurable fields of
+                  a IngressNginx.
+                properties:
+                  appendToXForwardedFor:
+                    default: false
+                    description: AppendToXForwardedFor defines if the ingress should
+                      take the incoming X-Forwarded-For header and append IPs to it,
+                      instead of replacing the whole header. Do NOT use this option
+                      in combination with Cloudflare enabled as this will break client
+                      IP detection.
+                    type: boolean
+                  cache:
+                    description: "Cache defines caching settings. If set, the cache
+                      will be enabled and use the default settings. If not set, the
+                      cache will not be enabled. Caching also needs to be enabled
+                      on the ingress resource by setting a server-snippet annotation
+                      like this: \n nginx.ingress.kubernetes.io/server-snippet: |
+                      proxy_cache mycache; proxy_cache_lock on; proxy_cache_valid
+                      any 60m; proxy_ignore_headers Cache-Control; add_header X-Cache-Status
+                      $upstream_cache_status;"
+                    properties:
+                      key:
+                        default: $scheme$proxy_host$request_uri
+                        description: Key defines the key that is used to index the
+                          nginx cache.
+                        type: string
+                    type: object
+                  cloudflare:
+                    description: Cloudflare defines the settings for having Cloudflare
+                      as a CDN in front of this Ingress Controller. Do NOT use this
+                      option in combination with the `AppendToXForwardedFor` variable
+                      as this will break client IP detection. Disabled if not set.
+                    properties:
+                      ips:
+                        default:
+                        - 173.245.48.0/20
+                        - 103.21.244.0/22
+                        - 103.22.200.0/22
+                        - 103.31.4.0/22
+                        - 141.101.64.0/18
+                        - 108.162.192.0/18
+                        - 190.93.240.0/20
+                        - 188.114.96.0/20
+                        - 197.234.240.0/22
+                        - 198.41.128.0/17
+                        - 162.158.0.0/15
+                        - 104.16.0.0/13
+                        - 104.24.0.0/14
+                        - 172.64.0.0/13
+                        - 131.0.72.0/22
+                        description: IPs is a list of CIDRs which should contain all
+                          Cloudflare Networks.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  cluster:
+                    description: Cluster specifies on which cluster this IngressNginx
+                      should be installed.
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  defaultBackend:
+                    description: DefaultBackend sets the default backend that the
+                      ingress will proxy to if the request does not match any configured
+                      ingress route. If disabled, nginx will just return a generic
+                      404 for such requests.
+                    properties:
+                      defaultBackendImage:
+                        default:
+                          registry: k8s.gcr.io
+                          repository: defaultbackend-amd64
+                          tag: "1.5"
+                        description: Image sets the image that is used for the backend
+                          pods. These are responsible for returning HTTP error pages
+                          in case of a failure in the service that an ingress resource
+                          points to.
+                        properties:
+                          digest:
+                            description: Digest specifies the image digest to use
+                            type: string
+                          pullPolicy:
+                            default: Always
+                            description: PullPolicy specifies the image pull policy
+                              to use
+                            type: string
+                          pullSecret:
+                            description: PullSecret specifies a image pull secret
+                              name
+                            type: string
+                          registry:
+                            description: Registry specifies the registry from where
+                              the image should be pulled
+                            type: string
+                          repository:
+                            description: Repository specifies the repository from
+                              where the image should be pulled
+                            type: string
+                          tag:
+                            description: Tag specifies the image tag to use
+                            type: string
+                        type: object
+                      defaultBackendReplicas:
+                        default: 2
+                        description: Replicas sets the number of replicas for the
+                          default backend.
+                        type: integer
+                    type: object
+                  ingressClass:
+                    default: nginx
+                    description: IngressClass sets the class of the ingress controller.
+                      Specifies which ingress objects the controller should take care
+                      of. Please note that the class `nginx` itself will handle all
+                      ingresses without a class annotation set.
+                    type: string
+                  ipSharing:
+                    description: IPSharing enables sharing the IP address of the ingress
+                      LB with an existing service type LoadBalancer. The reference
+                      should point to the service with which the LB IP should be shared.
+                      The referenced service has to have the annotation metallb.universe.tf/allow-shared-ip
+                      set and the ports 80 and 443 cannot be already in use.
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                      namespace:
+                        description: Namespace of the target.
+                        type: string
+                    required:
+                    - name
+                    - namespace
+                    type: object
+                  isDefaultIngressClass:
+                    default: false
+                    description: IsDefaultIngressClass specifies if the IngressClass
+                      of this controller should be the default IngressClass in the
+                      target cluster.
+                    type: boolean
+                  scrapeConfigurations:
+                    description: ScrapeConfigurations allows to overwrite which metrics
+                      of the ingress-nginx instance are scraped by certain Prometheus
+                      instances.
+                    items:
+                      description: ScrapeConfig configures a metrics scrape config.
+                      properties:
+                        additionalMetrics:
+                          description: AdditionalMetrics specifies which additional
+                            metrics should be scraped from this exporter
+                          items:
+                            type: string
+                          type: array
+                        allMetrics:
+                          default: false
+                          description: AllMetrics specifies that all metrics of this
+                            specific component should be scraped
+                          type: boolean
+                        enabled:
+                          default: true
+                          description: Enabled specifies if metrics of a corresponding
+                            exporter should be scraped by certain Prometheus instances
+                          type: boolean
+                        name:
+                          description: Name uniquely identifies an ExporterScrapeConfig.
+                          type: string
+                        scrapedBy:
+                          description: ScrapedBy defines which prometheus instances
+                            will target this scrape config.
+                          items:
+                            description: LocalReference references another object
+                              in the same namespace.
+                            properties:
+                              name:
+                                description: Name of the target.
+                                type: string
+                            required:
+                            - name
+                            type: object
+                          type: array
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  sslPassthrough:
+                    default: false
+                    description: 'SSLPassthrough flag enables the SSL Passthrough
+                      feature, which is disabled by default. This is required to enable
+                      passthrough backends in ingress objects. This feature is implemented
+                      by intercepting all traffic on the configured HTTPS port (default:
+                      443) and handing it over to a local TCP proxy. This bypasses
+                      NGINX completely and introduces a non-negligible performance
+                      penalty.'
+                    type: boolean
+                required:
+                - cluster
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: IngressNginxStatus represents the observed state of an IngressNginx.
+            properties:
+              atProvider:
+                description: IngressNginxObservation are the observable fields of
+                  an IngressNginx.
+                properties:
+                  childResourceErrors:
+                    description: ChildResourceErrors of a managed resource.
+                    items:
+                      description: ChildResourceError is an error that occurred on
+                        a child resource of a managed resource.
+                      properties:
+                        message:
+                          description: Message that describes why the resource failed.
+                          type: string
+                        resource:
+                          description: Resource references the child resource that
+                            errored.
+                          properties:
+                            name:
+                              description: Name of the target.
+                              type: string
+                            namespace:
+                              description: Namespace of the target.
+                              type: string
+                          required:
+                          - name
+                          - namespace
+                          type: object
+                        type:
+                          description: Type specifies the type of the resource.
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                            version:
+                              type: string
+                          required:
+                          - group
+                          - kind
+                          - version
+                          type: object
+                      required:
+                      - message
+                      - resource
+                      - type
+                      type: object
+                    type: array
+                  dnsName:
+                    description: DNSName is the name of the ingress A-Record, pointing
+                      to IPAddress.
+                    type: string
+                  ipAddress:
+                    description: IPAddress is the address where the ingress controller
+                      is reachable.
+                    type: string
+                  ipSharingError:
+                    description: IPSharingError indicates errors with the IPSharing
+                      configuration.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            required:
+            - atProvider
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
