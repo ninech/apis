@@ -156,7 +156,7 @@ type NodePool struct {
 	MachineType MachineType `json:"machineType"`
 	// DiskSize specifies the size of the disk for the nodes in this pool.
 	// Changing this results in a new rollout of all nodes in the pool.
-	// +kubebuilder:validation:Enum="20Gi";"50Gi"
+	// Allowed range is 20Gi - 100Gi.
 	// +kubebuilder:default:="20Gi"
 	// +optional
 	DiskSize *resource.Quantity `json:"diskSize,omitempty"`

@@ -448,10 +448,8 @@ spec:
                           default: 20Gi
                           description: DiskSize specifies the size of the disk for
                             the nodes in this pool. Changing this results in a new
-                            rollout of all nodes in the pool.
-                          enum:
-                          - 20Gi
-                          - 50Gi
+                            rollout of all nodes in the pool. Allowed range is 20Gi
+                            - 100Gi.
                           pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                           x-kubernetes-int-or-string: true
                         labels:
