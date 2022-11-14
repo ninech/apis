@@ -49,4 +49,5 @@ type SealedSecretsStatus struct {
 // SealedSecretsObservation are the observable fields of a SealedSecrets instance.
 type SealedSecretsObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
+	meta.ReferenceStatus     `json:",inline"`
 }

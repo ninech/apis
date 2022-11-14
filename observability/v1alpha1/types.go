@@ -259,7 +259,8 @@ type PrometheusStatus struct {
 // PrometheusObservation are the observable fields of a Prometheus.
 type PrometheusObservation struct {
 	// HelmReleaseStatus is the status of the prometheus helm release
-	HelmReleaseStatus helmreleasev1beta1.ReleaseStatus `json:"helmReleaseStatus,omitempty"`
+	HelmReleaseStatus    helmreleasev1beta1.ReleaseStatus `json:"helmReleaseStatus,omitempty"`
+	meta.ReferenceStatus `json:",inline"`
 }
 
 // Promtail deploys Promtail to a cluster and pushes logs to the configured Loki instance.
@@ -310,4 +311,5 @@ type PromtailStatus struct {
 // PromtailObservation are the observable fields of a Promtail.
 type PromtailObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
+	meta.ReferenceStatus     `json:",inline"`
 }

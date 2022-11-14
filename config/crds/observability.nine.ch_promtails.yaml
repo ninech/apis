@@ -186,6 +186,26 @@ spec:
                       - type
                       type: object
                     type: array
+                  referenceErrors:
+                    items:
+                      properties:
+                        kind:
+                          type: string
+                        message:
+                          type: string
+                        name:
+                          description: Name of the target.
+                          type: string
+                        namespace:
+                          description: Namespace of the target.
+                          type: string
+                      required:
+                      - kind
+                      - message
+                      - name
+                      - namespace
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

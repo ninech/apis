@@ -66,8 +66,7 @@ type KubernetesClustersRoleBindingStatus struct {
 	AtProvider               KubernetesClustersRoleBindingObservation `json:"atProvider,omitempty"`
 }
 type KubernetesClustersRoleBindingObservation struct {
-	// +optional
-	ReferenceErrors meta.ReferenceErrors `json:"referenceErrors,omitempty"`
+	meta.ReferenceStatus `json:",inline"`
 }
 
 // A KubernetesServiceAccount is a service account to access KubernetesClusters.
@@ -118,5 +117,6 @@ type KubernetesServiceAccountObservation struct {
 	// Namespace of the service account on the cluster.
 	Namespace string `json:"namespace"`
 	// FullName is the full username of the service account on the cluster.
-	FullName string `json:"fullName"`
+	FullName             string `json:"fullName"`
+	meta.ReferenceStatus `json:",inline"`
 }

@@ -54,6 +54,7 @@ type KedaStatus struct {
 type KedaObservation struct {
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
+	meta.ReferenceStatus     `json:",inline"`
 }
 
 // A KubernetesCluster is a fully managed Kubernetes cluster.

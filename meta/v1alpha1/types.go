@@ -89,12 +89,17 @@ type LocalReference struct {
 	// Name of the target.
 	Name string `json:"name"`
 }
+
+// +kubebuilder:object:generate=true
+type ReferenceStatus struct {
+	ReferenceErrors ReferenceErrors `json:"referenceErrors,omitempty"`
+}
+type ReferenceErrors []ReferenceError
 type ReferenceError struct {
 	Reference `json:",inline"`
 	Kind      string `json:"kind"`
 	Message   string `json:"message"`
 }
-type ReferenceErrors []ReferenceError
 type LocalReferenceSelector struct {
 	LocalReference `json:",inline"`
 	// Key describes the key within the secret.

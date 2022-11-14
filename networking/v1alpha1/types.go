@@ -158,4 +158,5 @@ type IngressNginxObservation struct {
 	// +optional
 	IPSharingError           string `json:"ipSharingError,omitempty"`
 	meta.ChildResourceStatus `json:",inline"`
+	meta.ReferenceStatus     `json:",inline"`
 }

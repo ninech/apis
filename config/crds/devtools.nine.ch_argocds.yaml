@@ -182,6 +182,26 @@ spec:
                     description: ClusterConnectionError is an error that occurs if
                       any of the references point to a cluster that does not exist.
                     type: string
+                  referenceErrors:
+                    items:
+                      properties:
+                        kind:
+                          type: string
+                        message:
+                          type: string
+                        name:
+                          description: Name of the target.
+                          type: string
+                        namespace:
+                          description: Namespace of the target.
+                          type: string
+                      required:
+                      - kind
+                      - message
+                      - name
+                      - namespace
+                      type: object
+                    type: array
                   url:
                     description: URL points to the web UI of Argo CD.
                     type: string

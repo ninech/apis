@@ -58,4 +58,5 @@ type ArgoCDObservation struct {
 	// point to a cluster that does not exist.
 	ClusterConnectionError   string `json:"clusterConnectionError,omitempty"`
 	meta.ChildResourceStatus `json:",inline"`
+	meta.ReferenceStatus     `json:",inline"`
 }
