@@ -2,6 +2,7 @@ package v1alpha1
 
 import (
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	infrav1alpha1 "github.com/ninech/apis/infrastructure/v1alpha1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -197,6 +198,90 @@ type BucketUserObservation struct {
 	// ResettingCredentials indicates if a reset is in progress. If it is true,
 	// the current credentials can be considered out of date.
 	ResettingCredentials bool `json:"resettingCredentials"`
+	// Status of all our child resources.
+	meta.ChildResourceStatus `json:",inline"`
+}
+
+// Postgres deploys a Self Service Postgres instance.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:resource:shortName=dbpsql
+// +kubebuilder:object:root=true
+type Postgres struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              PostgresSpec   `json:"spec"`
+	Status            PostgresStatus `json:"status,omitempty"`
+}
+
+// PostgresList contains a list of Postgres database
+// +kubebuilder:object:root=true
+type PostgresList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []Postgres `json:"items"`
+}
+
+// A PostgresSpec defines the desired state of a Postgres database.
+type PostgresSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            PostgresParameters `json:"forProvider"`
+}
+
+// PostgresParameters are the configurable fields of a Postgres database.
+type PostgresParameters struct {
+	// MachineType defines the sizing for a particular machine and
+	// implicitly the provider.
+	MachineType infrav1alpha1.MachineType `json:"machineType"`
+	// Location specifies in which Datacenter the database will be spawned.
+	// Needs to match the available MachineTypes in that datacenter.
+	// +immutable
+	Location meta.LocationName `json:"location"`
+	// Version specifies the Postgres version.
+	// Needs to match an available Postgres Version.
+	// +immutable
+	// +optional
+	// +kubebuilder:default:="14"
+	// +kubebuilder:validation:Enum="13";"14"
+	Version PostgresVersion `json:"version"`
+	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
+	// IPs are in CIDR format, e.g. 192.168.1.1/24
+	// +listType:="set"
+	// +optional
+	AllowedCIDRs []string `json:"allowedCIDRs"`
+	// SSHKeys contains a list of SSH public keys, allowed to connect to the
+	// db server, in order to up-/download and directly restore database backups.
+	// +optional
+	SSHKeys []SSHKey `json:"sshKeys"`
+	// Number of daily database backups to keep. Note, that setting this
+	// to 0, backup will be disabled and existing dumps deleted immediately.
+	// +optional
+	// +kubebuilder:default=10
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=365
+	KeepDailyBackups *int `json:"keepDailyBackups,omitempty"`
+}
+
+// PostgresVersion Version of Postgres
+type PostgresVersion string
+
+// SSHKey Public SSH key without options
+// +kubebuilder:validation:Pattern=`\A(?:sk-(?:ecdsa-sha2-nistp256|ssh-ed25519)@openssh\.com|ecdsa-sha2-nistp(?:256|384|521))|ssh-(?:ed25519|dss|rsa) [a-z0-9A-Z+\/]+={0,2}(?: [^\n]+)?\z`
+type SSHKey string
+
+// A PostgresStatus represents the observed state of a Postgres database.
+type PostgresStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               PostgresObservation `json:"atProvider"`
+}
+
+// PostgresObservation are the observable fields of a Postgres database.
+type PostgresObservation struct {
+	// FQDN is the fully qualified domain name, at which the database is reachable at.
+	FQDN string `json:"fqdn,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
