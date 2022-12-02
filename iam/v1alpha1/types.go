@@ -113,10 +113,10 @@ type KubernetesServiceAccountStatus struct {
 // KubernetesServiceAccountObservation are the observable fields of a KubernetesServiceAccount.
 type KubernetesServiceAccountObservation struct {
 	// Name of the service account on the cluster.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// Namespace of the service account on the cluster.
-	Namespace string `json:"namespace"`
+	Namespace string `json:"namespace,omitempty"`
 	// FullName is the full username of the service account on the cluster.
-	FullName             string `json:"fullName"`
+	FullName             string `json:"fullName,omitempty"`
 	meta.ReferenceStatus `json:",inline"`
 }
