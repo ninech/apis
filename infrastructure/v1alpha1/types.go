@@ -125,6 +125,10 @@ type VClusterSettings struct {
 	// +kubebuilder:default:="1.24"
 	// +kubebuilder:validation:Enum:="1.21";"1.22";"1.23";"1.24"
 	Version string `json:"version,omitempty"`
+	// CertManager enables cert-manager on the vcluster. Currently just
+	// Certificate resources are supported.
+	// +optional
+	CertManager bool `json:"certManager,omitempty"`
 }
 
 // NodePool configures a pool of nodes which are added to the cluster.
