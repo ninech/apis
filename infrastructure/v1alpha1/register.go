@@ -30,9 +30,14 @@ var (
 	KubernetesClusterGroupKind        = schema.GroupKind{Group: Group, Kind: KubernetesClusterKind}.String()
 	KubernetesClusterKindAPIVersion   = KubernetesClusterKind + "." + SchemeGroupVersion.String()
 	KubernetesClusterGroupVersionKind = SchemeGroupVersion.WithKind(KubernetesClusterKind)
+	NodeResurrectorKind             = reflect.TypeOf(NodeResurrector{}).Name()
+	NodeResurrectorGroupKind        = schema.GroupKind{Group: Group, Kind: NodeResurrectorKind}.String()
+	NodeResurrectorKindAPIVersion   = NodeResurrectorKind + "." + SchemeGroupVersion.String()
+	NodeResurrectorGroupVersionKind = SchemeGroupVersion.WithKind(NodeResurrectorKind)
 )
 
 func init() {
 	SchemeBuilder.Register(&Keda{}, &KedaList{})
 	SchemeBuilder.Register(&KubernetesCluster{}, &KubernetesClusterList{})
+	SchemeBuilder.Register(&NodeResurrector{}, &NodeResurrectorList{})
 }
