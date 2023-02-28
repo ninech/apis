@@ -214,12 +214,27 @@ type KubernetesClusterObservation struct {
 	APICACert string `json:"apiCACert,omitempty"`
 	// NodePools lists the name of the node pools plus their associated status.
 	NodePools map[string]NodePoolStatus `json:"nodePools,omitempty"`
+	// VCluster exposes vcluster specific status fields.
+	// +optional
+	VCluster *VClusterSpecificStatus `json:"vcluster,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
 type NodePoolStatus struct {
 	// NumNodes describes the current number of nodes in the node pool.
 	NumNodes int `json:"numNodes"`
+}
+type VClusterSpecificStatus struct {
+	// DefaultIngress that Ingress objects within the vcluster can use.
+	DefaultIngress VClusterIngress `json:"defaultIngress"`
+}
+type VClusterIngress struct {
+	// Host is the fully qualified hostname that points to the Ingress
+	// Loadbalancer.
+	Host string `json:"host"`
+	// Class is the name of the IngressClass that can be referenced within an
+	// Ingress resource.
+	Class string `json:"class"`
 }
 
 // NodeResurrector deploys the node-problem-detector to a KubernetesCluster. It

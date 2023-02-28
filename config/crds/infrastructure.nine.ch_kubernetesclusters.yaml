@@ -944,6 +944,28 @@ spec:
                     description: NodePools lists the name of the node pools plus their
                       associated status.
                     type: object
+                  vcluster:
+                    description: VCluster exposes vcluster specific status fields.
+                    properties:
+                      defaultIngress:
+                        description: DefaultIngress that Ingress objects within the
+                          vcluster can use.
+                        properties:
+                          class:
+                            description: Class is the name of the IngressClass that
+                              can be referenced within an Ingress resource.
+                            type: string
+                          host:
+                            description: Host is the fully qualified hostname that
+                              points to the Ingress Loadbalancer.
+                            type: string
+                        required:
+                        - class
+                        - host
+                        type: object
+                    required:
+                    - defaultIngress
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.
