@@ -40,6 +40,15 @@ type ArgoCDParameters struct {
 	// Clusters that Argo CD has access to.
 	// +kubebuilder:validation:MinItems:=1
 	Clusters []meta.Reference `json:"clusters"`
+	// EnableApplicationSets specifies if Argo CD should support
+	// ApplicationSet CRDs
+	// +optional
+	// +kubebuilder:default:=false
+	EnableApplicationSets bool `json:"enableApplicationSets"`
+	// CustomSecrets allows to pass secrets to ArgoCD which can then be
+	// used (e.g. in ApplicationSets)
+	// +optional
+	CustomSecret *meta.LocalReference `json:"customSecret,omitempty"`
 }
 
 // An ArgoCDStatus represents the observed state of a ArgoCD.
@@ -51,12 +60,32 @@ type ArgoCDStatus struct {
 // ArgoCDObservation are the observable fields of a ArgoCD.
 type ArgoCDObservation struct {
 	// URL points to the web UI of Argo CD.
+	// +optional
 	URL string `json:"url,omitempty"`
 	// CLIURL points to the URL used for logging into the CLI.
+	// +optional
 	CLIURL string `json:"cliURL,omitempty"`
+	// Webhooks outputs the URLs for configured webhooks
+	// +optional
+	Webhooks *ArgoCDWebhooks `json:"webhooks,omitempty"`
+	// CustomSecret is the name of the secret which can be used in ArgoCD
+	// (e.g. in ApplicationSets). It contains the same keys as the
+	// referenced custom secret.
+	// +optional
+	CustomSecret *meta.Reference `json:"customSecret,omitempty"`
 	// ClusterConnectionError is an error that occurs if any of the references
 	// point to a cluster that does not exist.
 	ClusterConnectionError   string `json:"clusterConnectionError,omitempty"`
 	meta.ChildResourceStatus `json:",inline"`
 	meta.ReferenceStatus     `json:",inline"`
+}
+type ArgoCDWebhooks struct {
+	// ArgoCD specifies the default webhook used to notify ArgoCD about git
+	// repository changes
+	//+optional
+	ArgoCD string `json:"argoCD,omitempty"`
+	// ApplicationSet specifies the special application set webhook used to
+	// notify the ArgoCD ApplicationSet generators about changes in git
+	//+optional
+	ApplicationSet string `json:"applicationSet,omitempty"`
 }

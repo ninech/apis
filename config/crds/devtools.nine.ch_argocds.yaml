@@ -78,6 +78,21 @@ spec:
                       type: object
                     minItems: 1
                     type: array
+                  customSecret:
+                    description: CustomSecrets allows to pass secrets to ArgoCD which
+                      can then be used (e.g. in ApplicationSets)
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  enableApplicationSets:
+                    default: false
+                    description: EnableApplicationSets specifies if Argo CD should
+                      support ApplicationSet CRDs
+                    type: boolean
                 required:
                 - clusters
                 type: object
@@ -182,6 +197,21 @@ spec:
                     description: ClusterConnectionError is an error that occurs if
                       any of the references point to a cluster that does not exist.
                     type: string
+                  customSecret:
+                    description: CustomSecret is the name of the secret which can
+                      be used in ArgoCD (e.g. in ApplicationSets). It contains the
+                      same keys as the referenced custom secret.
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                      namespace:
+                        description: Namespace of the target.
+                        type: string
+                    required:
+                    - name
+                    - namespace
+                    type: object
                   referenceErrors:
                     items:
                       properties:
@@ -205,6 +235,19 @@ spec:
                   url:
                     description: URL points to the web UI of Argo CD.
                     type: string
+                  webhooks:
+                    description: Webhooks outputs the URLs for configured webhooks
+                    properties:
+                      applicationSet:
+                        description: ApplicationSet specifies the special application
+                          set webhook used to notify the ArgoCD ApplicationSet generators
+                          about changes in git
+                        type: string
+                      argoCD:
+                        description: ArgoCD specifies the default webhook used to
+                          notify ArgoCD about git repository changes
+                        type: string
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.
