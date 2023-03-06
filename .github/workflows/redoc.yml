@@ -1,0 +1,26 @@
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+    container: ghcr.io/redocly/redoc/cli:v2.0.0-rc.77
+    name: generate-api-docs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: build
+        working-directory: ./docs
+        run: redoc-cli build openapi-spec.json -t template.html -o index.html
+      - uses: actions/upload-artifact@v3
+        with:
+          name: redoc
+          path: |
+            docs/index.html
+            docs/logo.svg
+            docs/favicon.ico
