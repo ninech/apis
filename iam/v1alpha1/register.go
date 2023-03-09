@@ -22,6 +22,10 @@ var (
 )
 
 var (
+	APIServiceAccountKind             = reflect.TypeOf(APIServiceAccount{}).Name()
+	APIServiceAccountGroupKind        = schema.GroupKind{Group: Group, Kind: APIServiceAccountKind}.String()
+	APIServiceAccountKindAPIVersion   = APIServiceAccountKind + "." + SchemeGroupVersion.String()
+	APIServiceAccountGroupVersionKind = SchemeGroupVersion.WithKind(APIServiceAccountKind)
 	KubernetesClustersRoleBindingKind             = reflect.TypeOf(KubernetesClustersRoleBinding{}).Name()
 	KubernetesClustersRoleBindingGroupKind        = schema.GroupKind{Group: Group, Kind: KubernetesClustersRoleBindingKind}.String()
 	KubernetesClustersRoleBindingKindAPIVersion   = KubernetesClustersRoleBindingKind + "." + SchemeGroupVersion.String()
@@ -33,6 +37,7 @@ var (
 )
 
 func init() {
+	SchemeBuilder.Register(&APIServiceAccount{}, &APIServiceAccountList{})
 	SchemeBuilder.Register(&KubernetesClustersRoleBinding{}, &KubernetesClustersRoleBindingList{})
 	SchemeBuilder.Register(&KubernetesServiceAccount{}, &KubernetesServiceAccountList{})
 }

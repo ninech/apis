@@ -6,6 +6,50 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// A APIServiceAccount is a service account to access the API
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced,shortName=asa
+// +kubebuilder:object:root=true
+type APIServiceAccount struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              APIServiceAccountSpec   `json:"spec"`
+	Status            APIServiceAccountStatus `json:"status,omitempty"`
+}
+
+// APIServiceAccountList contains a list of APIServiceAccounts
+// +kubebuilder:object:root=true
+type APIServiceAccountList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []APIServiceAccount `json:"items"`
+}
+
+// APIServiceAccountSpec defines the desired state of a APIServiceAccount.
+type APIServiceAccountSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            APIServiceAccountParameters `json:"forProvider"`
+}
+
+// APIServiceAccountParameters are the configurable fields of an APIServiceAccount.
+type APIServiceAccountParameters struct {
+	// A predefined Role the service account will get.
+	// +optional
+	// +kubebuilder:default:="admin"
+	Role APIServiceAccountRole `json:"role,omitempty"`
+}
+
+// +kubebuilder:validation:Enum:=admin;viewer
+type APIServiceAccountRole string
+
+// APIServiceAccountStatus represents the observed state of a APIServiceAccount.
+type APIServiceAccountStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+}
+
 // A KubernetesClustersRoleBinding binds a role to subjects and KubernetesClusters.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
