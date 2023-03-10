@@ -1,12 +1,14 @@
-features.openapi:
-  theme:
-    sidebar:
-      # make sidebar a bit wider than the default 285px
-      width: 350px
-    logo:
-      gutter: 20px
-      maxHeight: 100px
-    colors:
-      primary:
-        main: "#0091CF"
-  jsonSampleExpandLevel: all
+theme:
+  openapi:
+    scrollYOffset: 60
+    theme:
+      sidebar:
+        # make sidebar a bit wider than the default 285px
+        width: 350px
+      logo:
+        gutter: 20px
+        maxHeight: 100px
+      colors:
+        primary:
+          main: "#0091CF"
+    jsonSampleExpandLevel: all
