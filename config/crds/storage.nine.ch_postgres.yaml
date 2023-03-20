@@ -88,14 +88,8 @@ spec:
                     description: MachineType defines the sizing for a particular machine
                       and implicitly the provider.
                     enum:
-                    - C1
-                    - C2
-                    - C4
                     - nine-standard-1
                     - nine-standard-2
-                    - nine-standard-4
-                    - nine-highmem-2
-                    - nine-highmem-4
                     type: string
                   sshKeys:
                     description: SSHKeys contains a list of SSH public keys, allowed

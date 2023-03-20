@@ -158,6 +158,7 @@ type NodePool struct {
 	Taints []v1.Taint `json:"taints,omitempty"`
 	// MachineType identifies the machine sizing. Changing this results in a
 	// new rollout of all nodes in the pool.
+	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4
 	MachineType MachineType `json:"machineType"`
 	// DiskSize specifies the size of the disk for the nodes in this pool.
 	// Changing this results in a new rollout of all nodes in the pool.
@@ -168,7 +169,6 @@ type NodePool struct {
 }
 
 // MachineType is a name for a particular machine sizing.
-// +kubebuilder:validation:Enum=C1;C2;C4;nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4
 type MachineType string
 type KubernetesClusterScrapeConfiguration struct {
 	// +listType:="map"

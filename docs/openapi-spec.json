@@ -11175,9 +11175,6 @@
                         "description": "MachineType identifies the machine sizing. Changing this results in a new rollout of all nodes in the pool.",
                         "type": "string",
                         "enum": [
-                          "C1",
-                          "C2",
-                          "C4",
                           "nine-standard-1",
                           "nine-standard-2",
                           "nine-standard-4",
@@ -14944,14 +14941,8 @@
                   "description": "MachineType defines the sizing for a particular machine and implicitly the provider.",
                   "type": "string",
                   "enum": [
-                    "C1",
-                    "C2",
-                    "C4",
                     "nine-standard-1",
-                    "nine-standard-2",
-                    "nine-standard-4",
-                    "nine-highmem-2",
-                    "nine-highmem-4"
+                    "nine-standard-2"
                   ]
                 },
                 "sshKeys": {

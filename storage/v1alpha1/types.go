@@ -235,6 +235,7 @@ type PostgresSpec struct {
 type PostgresParameters struct {
 	// MachineType defines the sizing for a particular machine and
 	// implicitly the provider.
+	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2
 	MachineType infrav1alpha1.MachineType `json:"machineType"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.

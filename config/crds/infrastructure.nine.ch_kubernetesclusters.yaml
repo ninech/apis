@@ -463,9 +463,6 @@ spec:
                             Changing this results in a new rollout of all nodes in
                             the pool.
                           enum:
-                          - C1
-                          - C2
-                          - C4
                           - nine-standard-1
                           - nine-standard-2
                           - nine-standard-4
