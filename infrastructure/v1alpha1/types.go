@@ -205,18 +205,27 @@ type KubernetesClusterStatus struct {
 
 // KubernetesClusterObservation are the observable fields of a KubernetesCluster.
 type KubernetesClusterObservation struct {
+	ClusterObservation `json:",inline"`
 	// KubernetesVersion represents the version of Kubernetes that this cluster
 	// is running at.
 	KubernetesVersion string `json:"kubernetesVersion,omitempty"`
+	// VCluster exposes vcluster specific status fields.
+	// +optional
+	VCluster *VClusterSpecificStatus `json:"vcluster,omitempty"`
+}
+
+// ClusterObservation are the observable fields of a Cluster.
+type ClusterObservation struct {
 	// APIEndpoint is the URL under which the Kubernetes API is reachable at.
 	APIEndpoint string `json:"apiEndpoint,omitempty"`
 	// APICACert is the base64 encoded ca certificate of the kube-apiserver
 	APICACert string `json:"apiCACert,omitempty"`
+	// OIDCClientID is the client ID for the OIDC login flow to this cluster.
+	OIDCClientID string `json:"oidcClientID,omitempty"`
+	// OIDCIssuerURL is the issuer URL for the OIDC login flow to this cluster.
+	OIDCIssuerURL string `json:"oidcIssuerURL,omitempty"`
 	// NodePools lists the name of the node pools plus their associated status.
 	NodePools map[string]NodePoolStatus `json:"nodePools,omitempty"`
-	// VCluster exposes vcluster specific status fields.
-	// +optional
-	VCluster *VClusterSpecificStatus `json:"vcluster,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }

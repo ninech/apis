@@ -11713,6 +11713,14 @@
                     }
                   }
                 },
+                "oidcClientID": {
+                  "description": "OIDCClientID is the client ID for the OIDC login flow to this cluster.",
+                  "type": "string"
+                },
+                "oidcIssuerURL": {
+                  "description": "OIDCIssuerURL is the issuer URL for the OIDC login flow to this cluster.",
+                  "type": "string"
+                },
                 "vcluster": {
                   "description": "VCluster exposes vcluster specific status fields.",
                   "type": "object",
