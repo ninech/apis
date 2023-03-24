@@ -245,8 +245,8 @@ type PostgresParameters struct {
 	// Needs to match an available Postgres Version.
 	// +immutable
 	// +optional
-	// +kubebuilder:default:="14"
-	// +kubebuilder:validation:Enum="13";"14"
+	// +kubebuilder:default:="15"
+	// +kubebuilder:validation:Enum="13";"14";"15"
 	Version PostgresVersion `json:"version"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
