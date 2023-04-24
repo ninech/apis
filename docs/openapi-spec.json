@@ -11179,7 +11179,10 @@
                           "nine-standard-2",
                           "nine-standard-4",
                           "nine-highmem-2",
-                          "nine-highmem-4"
+                          "nine-highmem-4",
+                          "nine-highcpu-2",
+                          "nine-highcpu-4",
+                          "nine-highcpu-8"
                         ]
                       },
                       "maxNodes": {
