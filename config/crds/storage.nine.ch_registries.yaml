@@ -55,6 +55,16 @@ spec:
                 - Orphan
                 - Delete
                 type: string
+              forProvider:
+                description: RegistryParameters are the configurable fields of a Registry.
+                properties:
+                  nineAuthServer:
+                    default: false
+                    description: NineAuthServer adds an auth server in front of the
+                      registry to allow authentication and authorization using Nine
+                      API credentials. If disabled auth will be done using basic auth.
+                    type: boolean
+                type: object
               providerConfigRef:
                 default:
                   name: default

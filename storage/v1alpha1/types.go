@@ -312,6 +312,18 @@ type RegistryList struct {
 // An RegistrySpec defines the desired state of a Registry.
 type RegistrySpec struct {
 	runtimev1.ResourceSpec `json:",inline"`
+	// +optional
+	ForProvider RegistryParameters `json:"forProvider,omitempty"`
+}
+
+// RegistryParameters are the configurable fields of a Registry.
+type RegistryParameters struct {
+	// NineAuthServer adds an auth server in front of the registry to allow
+	// authentication and authorization using Nine API credentials. If
+	// disabled auth will be done using basic auth.
+	// +kubebuilder:default:=false
+	// +optional
+	NineAuthServer bool `json:"nineAuthServer,omitempty"`
 }
 
 // An RegistryStatus represents the observed state of a Registry.

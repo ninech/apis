@@ -15209,6 +15209,16 @@
                 "Delete"
               ]
             },
+            "forProvider": {
+              "description": "RegistryParameters are the configurable fields of a Registry.",
+              "type": "object",
+              "properties": {
+                "nineAuthServer": {
+                  "description": "NineAuthServer adds an auth server in front of the registry to allow authentication and authorization using Nine API credentials. If disabled auth will be done using basic auth.",
+                  "type": "boolean"
+                }
+              }
+            },
             "providerConfigRef": {
               "description": "ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.",
               "type": "object",
@@ -15388,7 +15398,8 @@
           "writeConnectionSecretToRef": {
             "name": "credentials",
             "namespace": "ecorp"
-          }
+          },
+          "forProvider": {}
         },
         "status": {
           "atProvider": {}
