@@ -5,20 +5,22 @@ import (
 	"strings"
 
 	"github.com/gobuffalo/flect"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/api/meta"
-	"k8s.io/apimachinery/pkg/runtime/schema"
+	apps "github.com/ninech/apis/apps/v1alpha1"
 	devtools "github.com/ninech/apis/devtools/v1alpha1"
 	iam "github.com/ninech/apis/iam/v1alpha1"
 	infrastructure "github.com/ninech/apis/infrastructure/v1alpha1"
 	networking "github.com/ninech/apis/networking/v1alpha1"
-	storage "github.com/ninech/apis/storage/v1alpha1"
 	observability "github.com/ninech/apis/observability/v1alpha1"
 	security "github.com/ninech/apis/security/v1alpha1"
+	storage "github.com/ninech/apis/storage/v1alpha1"
+	"k8s.io/apimachinery/pkg/api/meta"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 func init() {
 	AddToSchemes = append(AddToSchemes,
+		apps.SchemeBuilder.AddToScheme,
 		devtools.SchemeBuilder.AddToScheme,
 		iam.SchemeBuilder.AddToScheme,
 		infrastructure.SchemeBuilder.AddToScheme,
@@ -41,6 +43,10 @@ func AddToScheme(s *runtime.Scheme) error {
 // defined to avoid slow discovery.
 func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	mapper := meta.NewDefaultRESTMapper(scheme.PrioritizedVersionsAllGroups())
+	AddToMapper(mapper, apps.ApplicationGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, apps.BuildGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, apps.ProjectConfigGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, apps.ReleaseGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, devtools.ArgoCDGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, iam.APIServiceAccountGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, iam.KubernetesClustersRoleBindingGroupVersionKind, meta.RESTScopeNamespace)
