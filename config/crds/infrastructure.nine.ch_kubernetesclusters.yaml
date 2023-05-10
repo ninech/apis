@@ -30,7 +30,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: A KubernetesCluster is a fully managed Kubernetes cluster.
+        description: KubernetesCluster is a fully managed Kubernetes cluster.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

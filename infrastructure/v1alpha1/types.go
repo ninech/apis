@@ -57,7 +57,7 @@ type KedaObservation struct {
 	meta.ReferenceStatus     `json:",inline"`
 }
 
-// A KubernetesCluster is a fully managed Kubernetes cluster.
+// KubernetesCluster is a fully managed Kubernetes cluster.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"

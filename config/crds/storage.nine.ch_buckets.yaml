@@ -28,7 +28,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: A Bucket is an object storage bucket. It's used to group objects,
+        description: Bucket is an object storage bucket. It's used to group objects,
           defines who can access them and how they are stored.
         properties:
           apiVersion:

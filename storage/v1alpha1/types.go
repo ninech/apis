@@ -7,7 +7,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// A Bucket is an object storage bucket. It's used to group objects, defines
+// Bucket is an object storage bucket. It's used to group objects, defines
 // who can access them and how they are stored.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -149,7 +149,7 @@ type BucketObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 }
 
-// A BucketUser is a user to access a Bucket.
+// BucketUser defines a user who can access Buckets.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"

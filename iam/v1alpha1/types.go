@@ -6,7 +6,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// A APIServiceAccount is a service account to access the API
+// APIServiceAccount is a service account to access the API.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
@@ -50,7 +50,7 @@ type APIServiceAccountStatus struct {
 	runtimev1.ResourceStatus `json:",inline"`
 }
 
-// A KubernetesClustersRoleBinding binds a role to subjects and KubernetesClusters.
+// KubernetesClustersRoleBinding binds a role to subjects and KubernetesClusters.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
@@ -113,7 +113,7 @@ type KubernetesClustersRoleBindingObservation struct {
 	meta.ReferenceStatus `json:",inline"`
 }
 
-// A KubernetesServiceAccount is a service account to access KubernetesClusters.
+// KubernetesServiceAccount is a service account to access a KubernetesCluster.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"

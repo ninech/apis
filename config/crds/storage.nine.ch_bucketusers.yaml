@@ -28,7 +28,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: A BucketUser is a user to access a Bucket.
+        description: BucketUser defines a user who can access Buckets.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

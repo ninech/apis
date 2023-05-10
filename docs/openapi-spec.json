@@ -9986,7 +9986,7 @@
       ]
     },
     "ch.nine.iam.v1alpha1.APIServiceAccount": {
-      "description": "A APIServiceAccount is a service account to access the API",
+      "description": "APIServiceAccount is a service account to access the API.",
       "type": "object",
       "required": [
         "spec"
@@ -10166,7 +10166,7 @@
       ]
     },
     "ch.nine.iam.v1alpha1.KubernetesClustersRoleBinding": {
-      "description": "A KubernetesClustersRoleBinding binds a role to subjects and KubernetesClusters.",
+      "description": "KubernetesClustersRoleBinding binds a role to subjects and KubernetesClusters.",
       "type": "object",
       "required": [
         "spec"
@@ -10461,7 +10461,7 @@
       ]
     },
     "ch.nine.iam.v1alpha1.KubernetesServiceAccount": {
-      "description": "A KubernetesServiceAccount is a service account to access KubernetesClusters.",
+      "description": "KubernetesServiceAccount is a service account to access a KubernetesCluster.",
       "type": "object",
       "required": [
         "spec"
@@ -11000,7 +11000,7 @@
       ]
     },
     "ch.nine.infrastructure.v1alpha1.KubernetesCluster": {
-      "description": "A KubernetesCluster is a fully managed Kubernetes cluster.",
+      "description": "KubernetesCluster is a fully managed Kubernetes cluster.",
       "type": "object",
       "required": [
         "spec"
@@ -14183,7 +14183,7 @@
       ]
     },
     "ch.nine.storage.v1alpha1.Bucket": {
-      "description": "A Bucket is an object storage bucket. It's used to group objects, defines who can access them and how they are stored.",
+      "description": "Bucket is an object storage bucket. It's used to group objects, defines who can access them and how they are stored.",
       "type": "object",
       "required": [
         "spec"
@@ -14603,7 +14603,7 @@
       ]
     },
     "ch.nine.storage.v1alpha1.BucketUser": {
-      "description": "A BucketUser is a user to access a Bucket.",
+      "description": "BucketUser defines a user who can access Buckets.",
       "type": "object",
       "required": [
         "spec"
@@ -16977,6 +16977,76 @@
   "security": [
     {
       "BearerToken": []
+    }
+  ],
+  "tags": [
+    {
+      "description": "APIServiceAccount is a service account to access the API.",
+      "name": "APIServiceAccount"
+    },
+    {
+      "description": "Alertmanager deploys a fully managed Alertmanager instance.",
+      "name": "Alertmanager"
+    },
+    {
+      "description": "ArgoCD deploys a fully managed Argo CD instance.",
+      "name": "ArgoCD"
+    },
+    {
+      "description": "Bucket is an object storage bucket. It's used to group objects, defines who can access them and how they are stored.",
+      "name": "Bucket"
+    },
+    {
+      "description": "BucketUser defines a user who can access Buckets.",
+      "name": "BucketUser"
+    },
+    {
+      "description": "Grafana deploys a fully managed Grafana instance.",
+      "name": "Grafana"
+    },
+    {
+      "description": "IngressNginx deploys an NGINX ingress controller to a cluster.",
+      "name": "IngressNginx"
+    },
+    {
+      "description": "Keda deploys Keda to a KubernetesCluster.",
+      "name": "Keda"
+    },
+    {
+      "description": "KubernetesCluster is a fully managed Kubernetes cluster.",
+      "name": "KubernetesCluster"
+    },
+    {
+      "description": "KubernetesClustersRoleBinding binds a role to subjects and KubernetesClusters.",
+      "name": "KubernetesClustersRoleBinding"
+    },
+    {
+      "description": "KubernetesServiceAccount is a service account to access a KubernetesCluster.",
+      "name": "KubernetesServiceAccount"
+    },
+    {
+      "description": "Loki deploys a fully managed Loki instance.",
+      "name": "Loki"
+    },
+    {
+      "description": "Postgres deploys a Self Service Postgres instance.",
+      "name": "Postgres"
+    },
+    {
+      "description": "Prometheus deploys a fully managed Prometheus server.",
+      "name": "Prometheus"
+    },
+    {
+      "description": "Promtail deploys Promtail to a cluster and pushes logs to the configured Loki instance.",
+      "name": "Promtail"
+    },
+    {
+      "description": "Registry describes and deploys Docker Container Registry to a cluster.",
+      "name": "Registry"
+    },
+    {
+      "description": "SealedSecrets deploys the SealedSecrets controller to a cluster.",
+      "name": "SealedSecrets"
     }
   ],
   "x-tagGroups": [

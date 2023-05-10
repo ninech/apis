@@ -30,8 +30,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: A KubernetesClustersRoleBinding binds a role to subjects and
-          KubernetesClusters.
+        description: KubernetesClustersRoleBinding binds a role to subjects and KubernetesClusters.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
