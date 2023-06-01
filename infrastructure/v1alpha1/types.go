@@ -119,11 +119,11 @@ type NKEClusterSettings struct{}
 // based on VCluster can have.
 type VClusterSettings struct {
 	// Version specifies the Kubernetes version that will be used for this
-	// cluster, e.g. "1.24". The patch version cannot be specified and the
+	// cluster, e.g. "1.26". The patch version cannot be specified and the
 	// latest supported one will be used.
 	// +optional
-	// +kubebuilder:default:="1.24"
-	// +kubebuilder:validation:Enum:="1.21";"1.22";"1.23";"1.24"
+	// +kubebuilder:default:="1.26"
+	// +kubebuilder:validation:Enum:="1.21";"1.22";"1.23";"1.24";"1.25";"1.26"
 	Version string `json:"version,omitempty"`
 	// CertManager enables cert-manager on the vcluster. Currently just
 	// Certificate resources are supported.

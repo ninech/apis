@@ -808,9 +808,9 @@ spec:
                           Currently just Certificate resources are supported.
                         type: boolean
                       version:
-                        default: "1.24"
+                        default: "1.26"
                         description: Version specifies the Kubernetes version that
-                          will be used for this cluster, e.g. "1.24". The patch version
+                          will be used for this cluster, e.g. "1.26". The patch version
                           cannot be specified and the latest supported one will be
                           used.
                         enum:
@@ -818,6 +818,8 @@ spec:
                         - "1.22"
                         - "1.23"
                         - "1.24"
+                        - "1.25"
+                        - "1.26"
                         type: string
                     type: object
                 required:
