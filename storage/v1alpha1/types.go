@@ -4,6 +4,7 @@ import (
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	infrav1alpha1 "github.com/ninech/apis/infrastructure/v1alpha1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -208,7 +209,6 @@ type BucketUserObservation struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Namespaced
-// +kubebuilder:resource:shortName=dbpsql
 // +kubebuilder:object:root=true
 type Postgres struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,13 +246,12 @@ type PostgresParameters struct {
 	// +immutable
 	// +optional
 	// +kubebuilder:default:="15"
-	// +kubebuilder:validation:Enum="13";"14";"15"
 	Version PostgresVersion `json:"version"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []string `json:"allowedCIDRs"`
+	AllowedCIDRs []IPv4CIDR `json:"allowedCIDRs"`
 	// SSHKeys contains a list of SSH public keys, allowed to connect to the
 	// db server, in order to up-/download and directly restore database backups.
 	// +optional
@@ -267,7 +266,12 @@ type PostgresParameters struct {
 }
 
 // PostgresVersion Version of Postgres
+// +kubebuilder:validation:Enum="13";"14";"15"
 type PostgresVersion string
+
+// IPv4CIDR represents a IPv4 address in CIDR notation
+// +kubebuilder:validation:Pattern=`\A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z`
+type IPv4CIDR string
 
 // SSHKey Public SSH key without options
 // +kubebuilder:validation:Pattern=`\A(?:sk-(?:ecdsa-sha2-nistp256|ssh-ed25519)@openssh\.com|ecdsa-sha2-nistp(?:256|384|521))|ssh-(?:ed25519|dss|rsa) [a-z0-9A-Z+\/]+={0,2}(?: [^\n]+)?\z`
@@ -282,7 +286,11 @@ type PostgresStatus struct {
 // PostgresObservation are the observable fields of a Postgres database.
 type PostgresObservation struct {
 	// FQDN is the fully qualified domain name, at which the database is reachable at.
+	// +optional
 	FQDN string `json:"fqdn,omitempty"`
+	// Size specifies the total disk size
+	// +optional
+	Size *resource.Quantity `json:"size,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
