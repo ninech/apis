@@ -232,6 +232,10 @@ type ClusterObservation struct {
 type NodePoolStatus struct {
 	// NumNodes describes the current number of nodes in the node pool.
 	NumNodes int `json:"numNodes"`
+	// MachineType shows the current machine type of the node pool.
+	MachineType *MachineType `json:"machineType,omitempty"`
+	// DiskSize shows the current disk size of the node pool.
+	DiskSize *resource.Quantity `json:"diskSize,omitempty"`
 }
 type VClusterSpecificStatus struct {
 	// DefaultIngress that Ingress objects within the vcluster can use.

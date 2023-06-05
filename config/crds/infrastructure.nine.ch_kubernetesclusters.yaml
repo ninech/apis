@@ -936,6 +936,18 @@ spec:
                   nodePools:
                     additionalProperties:
                       properties:
+                        diskSize:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          description: DiskSize shows the current disk size of the
+                            node pool.
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                        machineType:
+                          description: MachineType shows the current machine type
+                            of the node pool.
+                          type: string
                         numNodes:
                           description: NumNodes describes the current number of nodes
                             in the node pool.
