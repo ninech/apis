@@ -1,0 +1,349 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: (unknown)
+  creationTimestamp: null
+  name: applications.apps.nine.ch
+spec:
+  group: apps.nine.ch
+  names:
+    kind: Application
+    listKind: ApplicationList
+    plural: applications
+    shortNames:
+    - app
+    singular: application
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Application takes source code as the input and fully builds and
+          deploys the application.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: An ApplicationSpec defines the desired state of an Application.
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: DeletionPolicy specifies what will happen to the underlying
+                  external when this managed resource is deleted - either "Delete"
+                  or "Orphan" the external resource.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: ApplicationParameters are the configurable fields of
+                  a Application.
+                properties:
+                  config:
+                    description: Config contains all parameters configuring the deployment
+                      of an Application.
+                    properties:
+                      env:
+                        description: Env variables which are passed to the app at
+                          runtime.
+                        items:
+                          properties:
+                            name:
+                              type: string
+                            value:
+                              type: string
+                          required:
+                          - name
+                          - value
+                          type: object
+                        type: array
+                      port:
+                        description: Port the app is listening on.
+                        format: int32
+                        type: integer
+                      replicas:
+                        description: Replicas sets the amount of replicas of the running
+                          app. If this is increased, make sure your application can
+                          cope with running multiple replicas and all state required
+                          is shared in some way.
+                        format: int32
+                        type: integer
+                      size:
+                        description: ApplicationSize defines the size of an application
+                          and the resources that will be allocated for it.
+                        enum:
+                        - micro
+                        - mini
+                        - standard-1
+                        type: string
+                    type: object
+                  git:
+                    description: ApplicationGitConfig configures the git repo to connect
+                      to.
+                    properties:
+                      auth:
+                        description: Auth configures the authentication to a secured
+                          git repository. Can be omitted for publicly accessible git
+                          repositories.
+                        properties:
+                          fromSecret:
+                            description: "FromSecret is a reference to a Secret to
+                              read the credentials from instead of using the inline
+                              fields. Should contain the following keys depending
+                              on the protocol used. \n HTTPS: data: username: <username>
+                              password: <password> SSH: data: privatekey: <x509-private-key>"
+                            properties:
+                              name:
+                                description: Name of the target.
+                                type: string
+                            required:
+                            - name
+                            type: object
+                          password:
+                            description: Password is the password to use when connecting
+                              to the git repository over HTTPS. In case of GitHub
+                              or GitLab, this can also be an access token.
+                            type: string
+                          sshPrivateKey:
+                            description: SSHPrivateKey is a private key in x509 format
+                              to connect to the git repository via SSH.
+                            type: string
+                          username:
+                            description: Username is the username to use when connecting
+                              to the git repository over HTTPS.
+                            type: string
+                        type: object
+                      revision:
+                        description: Revision defines the revision of the source to
+                          deploy the application to. This can be a commit, tag, or
+                          branch.
+                        minLength: 1
+                        type: string
+                      subPath:
+                        description: SubPath is a path in the git repo which contains
+                          the application code. If not given, the root directory of
+                          the git repo will be used.
+                        type: string
+                      url:
+                        description: URL is the URL to the Git repository containing
+                          the application source. Both HTTPS and SSH formats are supported.
+                        minLength: 1
+                        type: string
+                    required:
+                    - revision
+                    - url
+                    type: object
+                  hosts:
+                    description: Hosts is a list of host names where the application
+                      can be accessed. If empty, the application will just be accessible
+                      on a generated host name on the deploio.app domain.
+                    items:
+                      type: string
+                    type: array
+                required:
+                - config
+                - git
+                type: object
+              providerConfigRef:
+                default:
+                  name: default
+                description: ProviderConfigReference specifies how the provider that
+                  will be used to create, observe, update, and delete this managed
+                  resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be
+                  used to create, observe, update, and delete this managed resource.
+                  Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace
+                  and name of a Secret to which any connection details for this managed
+                  resource should be written. Connection details frequently include
+                  the endpoint, username, and password required to connect to the
+                  managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: An ApplicationStatus represents the observed state of an
+              Application.
+            properties:
+              atProvider:
+                description: ApplicationObservation are the observable fields of an
+                  Application.
+                properties:
+                  cnameTarget:
+                    description: CNAMETarget specifies to which DNS entry all custom
+                      hosts should point to (via a CNAME entry)
+                    type: string
+                  defaultURLs:
+                    description: DefaultURLs are the URLs at which the application
+                      is avalilable.
+                    items:
+                      type: string
+                    type: array
+                  hosts:
+                    description: Hosts represents the latest status of the verification
+                      of each custom host.
+                    items:
+                      properties:
+                        error:
+                          description: Error displays a potential error which happened
+                            during the verification
+                          properties:
+                            message:
+                              description: Message refers to the error message
+                              type: string
+                            timestamp:
+                              description: Timestamp refers to the time when this
+                                error happened
+                              format: date-time
+                              type: string
+                          required:
+                          - message
+                          - timestamp
+                          type: object
+                        latestSuccess:
+                          description: LatestSuccess specifies when this host was
+                            last verified successfully
+                          format: date-time
+                          type: string
+                        name:
+                          description: the hostname of the verification entry
+                          type: string
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  latestRelease:
+                    description: LatestRelease shows the latest release for this application
+                    type: string
+                  referenceErrors:
+                    items:
+                      properties:
+                        kind:
+                          type: string
+                        message:
+                          type: string
+                        name:
+                          description: Name of the target.
+                          type: string
+                        namespace:
+                          description: Namespace of the target.
+                          type: string
+                      required:
+                      - kind
+                      - message
+                      - name
+                      - namespace
+                      type: object
+                    type: array
+                  replicas:
+                    description: Replicas shows the effective amount of replicas which
+                      are currently deployed
+                    format: int32
+                    type: integer
+                  size:
+                    description: Size shows the effective application size which is
+                      currently in use
+                    enum:
+                    - micro
+                    - mini
+                    - standard-1
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's
+                        last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition
+                        type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            required:
+            - atProvider
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
