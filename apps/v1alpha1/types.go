@@ -118,7 +118,7 @@ type Config struct {
 
 // ApplicationSize defines the size of an application and the resources that
 // will be allocated for it.
-// +kubebuilder:validation:Enum:=micro;mini;standard-1
+// +kubebuilder:validation:Enum:=micro;mini;standard-1;standard-2
 type ApplicationSize string
 type EnvVars []EnvVar
 

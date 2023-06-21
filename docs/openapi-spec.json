@@ -12506,7 +12506,8 @@
                       "enum": [
                         "micro",
                         "mini",
-                        "standard-1"
+                        "standard-1",
+                        "standard-2"
                       ]
                     }
                   }
@@ -12726,7 +12727,8 @@
                   "enum": [
                     "micro",
                     "mini",
-                    "standard-1"
+                    "standard-1",
+                    "standard-2"
                   ]
                 }
               }
@@ -12941,7 +12943,8 @@
                       "enum": [
                         "micro",
                         "mini",
-                        "standard-1"
+                        "standard-1",
+                        "standard-2"
                       ]
                     }
                   }
@@ -13243,7 +13246,8 @@
                       "enum": [
                         "micro",
                         "mini",
-                        "standard-1"
+                        "standard-1",
+                        "standard-2"
                       ]
                     }
                   }
@@ -13483,7 +13487,8 @@
                       "enum": [
                         "micro",
                         "mini",
-                        "standard-1"
+                        "standard-1",
+                        "standard-2"
                       ]
                     }
                   }

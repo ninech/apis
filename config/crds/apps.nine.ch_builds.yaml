@@ -130,6 +130,7 @@ spec:
                         - micro
                         - mini
                         - standard-1
+                        - standard-2
                         type: string
                     type: object
                   image:
