@@ -12492,18 +12492,17 @@
                     },
                     "port": {
                       "description": "Port the app is listening on.",
-                      "type": "integer",
                       "format": "int32"
                     },
                     "replicas": {
                       "description": "Replicas sets the amount of replicas of the running app. If this is increased, make sure your application can cope with running multiple replicas and all state required is shared in some way.",
-                      "type": "integer",
                       "format": "int32"
                     },
                     "size": {
                       "description": "ApplicationSize defines the size of an application and the resources that will be allocated for it.",
                       "type": "string",
                       "enum": [
+                        "",
                         "micro",
                         "mini",
                         "standard-1",
@@ -12725,6 +12724,7 @@
                   "description": "Size shows the effective application size which is currently in use",
                   "type": "string",
                   "enum": [
+                    "",
                     "micro",
                     "mini",
                     "standard-1",
@@ -12929,18 +12929,17 @@
                     },
                     "port": {
                       "description": "Port the app is listening on.",
-                      "type": "integer",
                       "format": "int32"
                     },
                     "replicas": {
                       "description": "Replicas sets the amount of replicas of the running app. If this is increased, make sure your application can cope with running multiple replicas and all state required is shared in some way.",
-                      "type": "integer",
                       "format": "int32"
                     },
                     "size": {
                       "description": "ApplicationSize defines the size of an application and the resources that will be allocated for it.",
                       "type": "string",
                       "enum": [
+                        "",
                         "micro",
                         "mini",
                         "standard-1",
@@ -13232,18 +13231,17 @@
                     },
                     "port": {
                       "description": "Port the app is listening on.",
-                      "type": "integer",
                       "format": "int32"
                     },
                     "replicas": {
                       "description": "Replicas sets the amount of replicas of the running app. If this is increased, make sure your application can cope with running multiple replicas and all state required is shared in some way.",
-                      "type": "integer",
                       "format": "int32"
                     },
                     "size": {
                       "description": "ApplicationSize defines the size of an application and the resources that will be allocated for it.",
                       "type": "string",
                       "enum": [
+                        "",
                         "micro",
                         "mini",
                         "standard-1",
@@ -13473,18 +13471,17 @@
                     },
                     "port": {
                       "description": "Port the app is listening on.",
-                      "type": "integer",
                       "format": "int32"
                     },
                     "replicas": {
                       "description": "Replicas sets the amount of replicas of the running app. If this is increased, make sure your application can cope with running multiple replicas and all state required is shared in some way.",
-                      "type": "integer",
                       "format": "int32"
                     },
                     "size": {
                       "description": "ApplicationSize defines the size of an application and the resources that will be allocated for it.",
                       "type": "string",
                       "enum": [
+                        "",
                         "micro",
                         "mini",
                         "standard-1",

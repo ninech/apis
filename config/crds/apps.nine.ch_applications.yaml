@@ -82,6 +82,7 @@ spec:
                       port:
                         description: Port the app is listening on.
                         format: int32
+                        nullable: true
                         type: integer
                       replicas:
                         description: Replicas sets the amount of replicas of the running
@@ -89,11 +90,14 @@ spec:
                           cope with running multiple replicas and all state required
                           is shared in some way.
                         format: int32
+                        nullable: true
                         type: integer
                       size:
+                        default: ""
                         description: ApplicationSize defines the size of an application
                           and the resources that will be allocated for it.
                         enum:
+                        - ""
                         - micro
                         - mini
                         - standard-1
@@ -294,6 +298,7 @@ spec:
                     description: Size shows the effective application size which is
                       currently in use
                     enum:
+                    - ""
                     - micro
                     - mini
                     - standard-1

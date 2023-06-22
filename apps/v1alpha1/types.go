@@ -102,23 +102,26 @@ type GitAuth struct {
 // Config contains all parameters configuring the deployment of an Application.
 type Config struct {
 	// +optional
-	Size *ApplicationSize `json:"size" yaml:"size"`
+	// +kubebuilder:default:=""
+	Size ApplicationSize `json:"size" yaml:"size"`
 	// Env variables which are passed to the app at runtime.
 	// +optional
 	Env EnvVars `json:"env" yaml:"env"`
 	// Port the app is listening on.
 	// +optional
+	// +nullable
 	Port *int32 `json:"port" yaml:"port"`
 	// Replicas sets the amount of replicas of the running app. If this is
 	// increased, make sure your application can cope with running multiple
 	// replicas and all state required is shared in some way.
 	// +optional
+	// +nullable
 	Replicas *int32 `json:"replicas" yaml:"replicas"`
 }
 
 // ApplicationSize defines the size of an application and the resources that
 // will be allocated for it.
-// +kubebuilder:validation:Enum:=micro;mini;standard-1;standard-2
+// +kubebuilder:validation:Enum:="";micro;mini;standard-1;standard-2
 type ApplicationSize string
 type EnvVars []EnvVar
 
