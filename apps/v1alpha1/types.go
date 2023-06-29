@@ -117,6 +117,10 @@ type Config struct {
 	// +optional
 	// +nullable
 	Replicas *int32 `json:"replicas" yaml:"replicas"`
+	// EnableBasicAuth enables basic authentication for the application
+	// +optional
+	// +nullable
+	EnableBasicAuth *bool `json:"enableBasicAuth,omitempty" yaml:"enableBasicAuth,omitempty"`
 }
 
 // ApplicationSize defines the size of an application and the resources that
@@ -154,6 +158,10 @@ type ApplicationObservation struct {
 	// deployed
 	// +optional
 	Replicas *int32 `json:"replicas,omitempty"`
+	// BasicAuthSecret references the secret which contains the basic auth
+	// credentials
+	// +optional
+	BasicAuthSecret *meta.LocalReference `json:"basicAuthSecret,omitempty"`
 	// ReferenceStatus contains errors for wrongly referenced resources
 	meta.ReferenceStatus `json:",inline"`
 }
@@ -342,6 +350,10 @@ type ReleaseParameters struct {
 	// VerifiedHosts are the hosts which have been verified and can be used in the release
 	// +optional
 	VerifiedHosts []string `json:"verifiedHosts,omitempty"`
+	// BasicAuthSecret references a local secret which contains the basic
+	// auth credentials
+	// +optional
+	BasicAuthSecret *meta.LocalReference `json:"basicAuthSecret,omitempty"`
 }
 
 // An ReleaseStatus represents the observed Release state

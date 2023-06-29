@@ -12471,6 +12471,9 @@
                   "description": "Config contains all parameters configuring the deployment of an Application.",
                   "type": "object",
                   "properties": {
+                    "enableBasicAuth": {
+                      "description": "EnableBasicAuth enables basic authentication for the application"
+                    },
                     "env": {
                       "description": "Env variables which are passed to the app at runtime.",
                       "type": "array",
@@ -12632,6 +12635,19 @@
               "description": "ApplicationObservation are the observable fields of an Application.",
               "type": "object",
               "properties": {
+                "basicAuthSecret": {
+                  "description": "BasicAuthSecret references the secret which contains the basic auth credentials",
+                  "type": "object",
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "Name of the target.",
+                      "type": "string"
+                    }
+                  }
+                },
                 "cnameTarget": {
                   "description": "CNAMETarget specifies to which DNS entry all custom hosts should point to (via a CNAME entry)",
                   "type": "string"
@@ -12908,6 +12924,9 @@
                   "description": "Config contains deployment related config",
                   "type": "object",
                   "properties": {
+                    "enableBasicAuth": {
+                      "description": "EnableBasicAuth enables basic authentication for the application"
+                    },
                     "env": {
                       "description": "Env variables which are passed to the app at runtime.",
                       "type": "array",
@@ -13210,6 +13229,9 @@
                   "description": "Config contains all parameters configuring the deployment of an Application.",
                   "type": "object",
                   "properties": {
+                    "enableBasicAuth": {
+                      "description": "EnableBasicAuth enables basic authentication for the application"
+                    },
                     "env": {
                       "description": "Env variables which are passed to the app at runtime.",
                       "type": "array",
@@ -13433,6 +13455,19 @@
                 "image"
               ],
               "properties": {
+                "basicAuthSecret": {
+                  "description": "BasicAuthSecret references a local secret which contains the basic auth credentials",
+                  "type": "object",
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "Name of the target.",
+                      "type": "string"
+                    }
+                  }
+                },
                 "build": {
                   "description": "Build references the Build resource, that is the Release source.",
                   "type": "object",
@@ -13450,6 +13485,9 @@
                   "description": "Config contains all configurations from the various configuration sources (project level, application level, etc) merged into one.",
                   "type": "object",
                   "properties": {
+                    "enableBasicAuth": {
+                      "description": "EnableBasicAuth enables basic authentication for the application"
+                    },
                     "env": {
                       "description": "Env variables which are passed to the app at runtime.",
                       "type": "array",

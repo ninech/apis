@@ -77,6 +77,16 @@ spec:
               forProvider:
                 description: ReleaseParameters define the desired Release state
                 properties:
+                  basicAuthSecret:
+                    description: BasicAuthSecret references a local secret which contains
+                      the basic auth credentials
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                    required:
+                    - name
+                    type: object
                   build:
                     description: Build references the Build resource, that is the
                       Release source.
@@ -92,6 +102,11 @@ spec:
                       configuration sources (project level, application level, etc)
                       merged into one.
                     properties:
+                      enableBasicAuth:
+                        description: EnableBasicAuth enables basic authentication
+                          for the application
+                        nullable: true
+                        type: boolean
                       env:
                         description: Env variables which are passed to the app at
                           runtime.

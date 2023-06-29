@@ -126,6 +126,11 @@ func (in *ApplicationObservation) DeepCopyInto(out *ApplicationObservation) {
 		*out = new(int32)
 		**out = **in
 	}
+	if in.BasicAuthSecret != nil {
+		in, out := &in.BasicAuthSecret, &out.BasicAuthSecret
+		*out = new(metav1alpha1.LocalReference)
+		**out = **in
+	}
 	in.ReferenceStatus.DeepCopyInto(&out.ReferenceStatus)
 }
 
@@ -360,6 +365,11 @@ func (in *Config) DeepCopyInto(out *Config) {
 	if in.Replicas != nil {
 		in, out := &in.Replicas, &out.Replicas
 		*out = new(int32)
+		**out = **in
+	}
+	if in.EnableBasicAuth != nil {
+		in, out := &in.EnableBasicAuth, &out.EnableBasicAuth
+		*out = new(bool)
 		**out = **in
 	}
 }
@@ -635,6 +645,11 @@ func (in *ReleaseParameters) DeepCopyInto(out *ReleaseParameters) {
 		in, out := &in.VerifiedHosts, &out.VerifiedHosts
 		*out = make([]string, len(*in))
 		copy(*out, *in)
+	}
+	if in.BasicAuthSecret != nil {
+		in, out := &in.BasicAuthSecret, &out.BasicAuthSecret
+		*out = new(metav1alpha1.LocalReference)
+		**out = **in
 	}
 }
 

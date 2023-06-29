@@ -98,6 +98,11 @@ spec:
                   config:
                     description: Config contains deployment related config
                     properties:
+                      enableBasicAuth:
+                        description: EnableBasicAuth enables basic authentication
+                          for the application
+                        nullable: true
+                        type: boolean
                       env:
                         description: Env variables which are passed to the app at
                           runtime.
