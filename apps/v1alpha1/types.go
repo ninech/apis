@@ -44,6 +44,10 @@ type ApplicationParameters struct {
 	// on the deploio.app domain.
 	// +optional
 	Hosts []string `json:"hosts,omitempty"`
+	// Env variables which are passed to configure env variables required during
+	// the build process.
+	// +optional
+	BuildEnv EnvVars `json:"buildEnv"`
 }
 
 // ApplicationGitConfig configures the git repo to connect to.

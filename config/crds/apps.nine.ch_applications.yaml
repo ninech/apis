@@ -61,6 +61,20 @@ spec:
                 description: ApplicationParameters are the configurable fields of
                   a Application.
                 properties:
+                  buildEnv:
+                    description: Env variables which are passed to configure env variables
+                      required during the build process.
+                    items:
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
                   config:
                     description: Config contains all parameters configuring the deployment
                       of an Application.

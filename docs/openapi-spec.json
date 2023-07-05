@@ -12467,6 +12467,25 @@
                 "git"
               ],
               "properties": {
+                "buildEnv": {
+                  "description": "Env variables which are passed to configure env variables required during the build process.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "value"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
                 "config": {
                   "description": "Config contains all parameters configuring the deployment of an Application.",
                   "type": "object",
