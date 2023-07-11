@@ -4,7 +4,6 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: (unknown)
-  creationTimestamp: null
   name: kubernetesclusters.infrastructure.nine.ch
 spec:
   group: infrastructure.nine.ch
@@ -201,6 +200,7 @@ spec:
                                               only "value". The requirements are ANDed.
                                             type: object
                                         type: object
+                                        x-kubernetes-map-type: atomic
                                       name:
                                         description: Name is the name of this hook.
                                         type: string
@@ -377,6 +377,7 @@ spec:
                                     requirements are ANDed.
                                   type: object
                               type: object
+                              x-kubernetes-map-type: atomic
                             orderedResources:
                               additionalProperties:
                                 type: string
@@ -1030,9 +1031,3 @@ spec:
     storage: true
     subresources:
       status: {}
-status:
-  acceptedNames:
-    kind: ""
-    plural: ""
-  conditions: []
-  storedVersions: []
