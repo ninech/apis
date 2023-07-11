@@ -10,7 +10,7 @@ import (
 var (
 	// DefaultConfig defines the default values used for deplo.io
 	// applications
-	DefaultConfig                 = Config{Size: AppMicro, Replicas: pointer.Int32Ptr(1), Port: pointer.Int32Ptr(8080), EnableBasicAuth: pointer.BoolPtr(false)}
+	DefaultConfig                 = Config{Size: AppMicro, Replicas: pointer.Int32(1), Port: pointer.Int32(8080), EnableBasicAuth: pointer.Bool(false)}
 	AppMicro      ApplicationSize = "micro"
 	AppMini       ApplicationSize = "mini"
 	AppStandard1  ApplicationSize = "standard-1"

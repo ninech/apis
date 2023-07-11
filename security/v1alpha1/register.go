@@ -22,6 +22,10 @@ var (
 )
 
 var (
+	ExternalSecretsKind             = reflect.TypeOf(ExternalSecrets{}).Name()
+	ExternalSecretsGroupKind        = schema.GroupKind{Group: Group, Kind: ExternalSecretsKind}.String()
+	ExternalSecretsKindAPIVersion   = ExternalSecretsKind + "." + SchemeGroupVersion.String()
+	ExternalSecretsGroupVersionKind = SchemeGroupVersion.WithKind(ExternalSecretsKind)
 	SealedSecretsKind             = reflect.TypeOf(SealedSecrets{}).Name()
 	SealedSecretsGroupKind        = schema.GroupKind{Group: Group, Kind: SealedSecretsKind}.String()
 	SealedSecretsKindAPIVersion   = SealedSecretsKind + "." + SchemeGroupVersion.String()
@@ -29,5 +33,6 @@ var (
 )
 
 func init() {
+	SchemeBuilder.Register(&ExternalSecrets{}, &ExternalSecretsList{})
 	SchemeBuilder.Register(&SealedSecrets{}, &SealedSecretsList{})
 }
