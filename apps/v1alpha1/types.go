@@ -94,7 +94,7 @@ type GitAuth struct {
 	// token.
 	// +optional
 	Password string `json:"password,omitempty"`
-	// SSHPrivateKey is a private key in x509 format to connect to the git
+	// SSHPrivateKey is a private key in PEM format to connect to the git
 	// repository via SSH.
 	// +optional
 	SSHPrivateKey string `json:"sshPrivateKey,omitempty"`
@@ -108,7 +108,7 @@ type GitAuth struct {
 	//   password: <password>
 	// SSH:
 	// data:
-	//   privatekey: <x509-private-key>
+	//   privatekey: <pem-private-key>
 	//
 	// +optional
 	FromSecret *meta.LocalReference `json:"fromSecret,omitempty"`
@@ -136,6 +136,9 @@ type Config struct {
 	// +optional
 	// +nullable
 	EnableBasicAuth *bool `json:"enableBasicAuth,omitempty" yaml:"enableBasicAuth,omitempty"`
+	// +optional
+	// +nullable
+	DeployJob *DeployJob `json:"deployJobs,omitempty"`
 }
 
 // ApplicationSize defines the size of an application and the resources that
@@ -143,6 +146,38 @@ type Config struct {
 // +kubebuilder:validation:Enum:="";micro;mini;standard-1;standard-2
 type ApplicationSize string
 type EnvVars []EnvVar
+
+// DeployJob defines a command which is executed before a new release gets
+// deployed. The deployment will only continue if the job finished
+// successfully.
+type DeployJob struct {
+	Job       `json:",inline"`
+	FiniteJob `json:",inline"`
+}
+
+// Job defines fields which all jobs have in common
+type Job struct {
+	// Name of the Job.
+	Name string `json:"name"`
+	// Command to execute. This command will be executed by a bash shell which
+	// gets started by the cloud native buildpacks launcher binary.
+	Command string `json:"command"`
+}
+
+// FiniteJob defines fields for all jobs which have a finite runtime
+type FiniteJob struct {
+	// Retries defines how many times the job will be restarted on failure.
+	// +optional
+	// +kubebuilder:default:=0
+	// +kubebuilder:validation:max:=5
+	Retries *int32 `json:"retries,omitempty"`
+	// Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.
+	// +optional
+	// +kubebuilder:default:="5m"
+	// +kubebuilder:validation:Type=string
+	// +kubebuilder:validation:Format=duration
+	Timeout *metav1.Duration `json:"timeout,omitempty"`
+}
 
 // An ApplicationStatus represents the observed state of an Application.
 type ApplicationStatus struct {
@@ -379,9 +414,12 @@ type ReleaseStatus struct {
 
 // ReleaseObservation are the observable fields of a Release
 type ReleaseObservation struct {
-	// Status describes the status of the Release
+	// ReleaseStatus describes the status of the Release
 	// +optional
 	ReleaseStatus ReleaseProcessStatus `json:"releaseStatus,omitempty"`
+	// DeployJobStatus describes the status of the deploy job of a release
+	// +optional
+	DeployJobStatus DeployJobStatus `json:"deployJobsStatus,omitempty"`
 	// Replicas describes the amount of rolled out replicas, ie. for the
 	// underlying Deployment, it shows number of non-terminated pods targeted by
 	// this Release.
@@ -391,3 +429,22 @@ type ReleaseObservation struct {
 
 // ReleaseProcessStatus represents the Release status
 type ReleaseProcessStatus string
+type DeployJobStatus struct {
+	// Name of the deploy job.
+	Name string `json:"name"`
+	// Status indicates the status of the deploy job.
+	Status DeployJobProcessStatus `json:"status"`
+	// Reason indicates the failure reason in case of a failure.
+	// +optional
+	Reason DeployJobProcessReason `json:"reason,omitempty"`
+	// StartTime is the timestamp the job has started.
+	// +optional
+	StartTime *metav1.Time `json:"startTime,omitempty"`
+	// ExitTime is the timestamp the job has exited.
+	// +optional
+	ExitTime *metav1.Time `json:"exitTime,omitempty"`
+}
+
+// DeployJobProcessStatus represents the deploy job status
+type DeployJobProcessStatus string
+type DeployJobProcessReason string

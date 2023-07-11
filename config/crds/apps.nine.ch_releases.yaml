@@ -102,6 +102,36 @@ spec:
                       configuration sources (project level, application level, etc)
                       merged into one.
                     properties:
+                      deployJobs:
+                        description: DeployJob defines a command which is executed
+                          before a new release gets deployed. The deployment will
+                          only continue if the job finished successfully.
+                        nullable: true
+                        properties:
+                          command:
+                            description: Command to execute. This command will be
+                              executed by a bash shell which gets started by the cloud
+                              native buildpacks launcher binary.
+                            type: string
+                          name:
+                            description: Name of the Job.
+                            type: string
+                          retries:
+                            default: 0
+                            description: Retries defines how many times the job will
+                              be restarted on failure.
+                            format: int32
+                            type: integer
+                          timeout:
+                            default: 5m
+                            description: Timeout of the job. Minimum is 1 minute and
+                              maximum is 30 minutes.
+                            format: duration
+                            type: string
+                        required:
+                        - command
+                        - name
+                        type: object
                       enableBasicAuth:
                         description: EnableBasicAuth enables basic authentication
                           for the application
@@ -233,8 +263,34 @@ spec:
               atProvider:
                 description: ReleaseObservation are the observable fields of a Release
                 properties:
+                  deployJobsStatus:
+                    description: DeployJobStatus describes the status of the deploy
+                      job of a release
+                    properties:
+                      exitTime:
+                        description: ExitTime is the timestamp the job has exited.
+                        format: date-time
+                        type: string
+                      name:
+                        description: Name of the deploy job.
+                        type: string
+                      reason:
+                        description: Reason indicates the failure reason in case of
+                          a failure.
+                        type: string
+                      startTime:
+                        description: StartTime is the timestamp the job has started.
+                        format: date-time
+                        type: string
+                      status:
+                        description: Status indicates the status of the deploy job.
+                        type: string
+                    required:
+                    - name
+                    - status
+                    type: object
                   releaseStatus:
-                    description: Status describes the status of the Release
+                    description: ReleaseStatus describes the status of the Release
                     type: string
                   replicas:
                     description: Replicas describes the amount of rolled out replicas,
