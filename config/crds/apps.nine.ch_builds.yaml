@@ -97,7 +97,7 @@ spec:
                   config:
                     description: Config contains deployment related config
                     properties:
-                      deployJobs:
+                      deployJob:
                         description: DeployJob defines a command which is executed
                           before a new release gets deployed. The deployment will
                           only continue if the job finished successfully.
