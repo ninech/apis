@@ -101,7 +101,7 @@ spec:
                       configuration sources (project level, application level, etc)
                       merged into one.
                     properties:
-                      deployJob:
+                      deployJobs:
                         description: DeployJob defines a command which is executed
                           before a new release gets deployed. The deployment will
                           only continue if the job finished successfully.
@@ -262,7 +262,7 @@ spec:
               atProvider:
                 description: ReleaseObservation are the observable fields of a Release
                 properties:
-                  deployJobStatus:
+                  deployJobsStatus:
                     description: DeployJobStatus describes the status of the deploy
                       job of a release
                     properties:

@@ -78,7 +78,7 @@ spec:
                     description: Config contains all parameters configuring the deployment
                       of an Application.
                     properties:
-                      deployJob:
+                      deployJobs:
                         description: DeployJob defines a command which is executed
                           before a new release gets deployed. The deployment will
                           only continue if the job finished successfully.
