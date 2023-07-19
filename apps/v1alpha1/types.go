@@ -7,6 +7,50 @@ import (
 	"k8s.io/utils/pointer"
 )
 
+const (
+	// BuildProcessStatusError represents an unknown build status
+	BuildProcessStatusUnknown BuildProcessStatus = "unknown"
+	// BuildProcessStatusError represents the status of a failed build
+	BuildProcessStatusError BuildProcessStatus = "error"
+	// BuildProcessStatusRunning represents the status of a running build
+	BuildProcessStatusRunning BuildProcessStatus = "running"
+	// BuildProcessStatusSuccess represents the status of a successful/finished build
+	BuildProcessStatusSuccess BuildProcessStatus = "success"
+	// ReleaseProcessStatusReplicaFailure is added in a Release when for the
+	// collection of underlying resources (Deployment, Service, Ingress, Secret,
+	// etc), one of its pods fails to be created or deleted.
+	ReleaseProcessStatusReplicaFailure ReleaseProcessStatus = "replicaFailure"
+	// ReleaseProcessStatusProgressing means the Release is progressing.
+	// Progress for a Release is considered when for the collection of
+	// underlying resources (Deployment, Service, Ingress, Secret, etc), a new
+	// replica set is created or adopted, and when new pods scale up or old pods
+	// scale down.
+	ReleaseProcessStatusProgressing ReleaseProcessStatus = "progressing"
+	// ReleaseProcessStatusAvailable means the Release is available, ie. for the
+	// collection of underlying resources (Deployment, Service, Ingress, Secret,
+	// etc), at least the minimum available replicas required are up and running
+	// for at least minReadySeconds.
+	ReleaseProcessStatusAvailable ReleaseProcessStatus = "available"
+	// ReleaseProcessStatusSuperseded means that this release has been
+	// superseded by a later one.
+	ReleaseProcessStatusSuperseded ReleaseProcessStatus = "superseded"
+	// ReleaseProcessStatusFailure indicates the release has failed.
+	ReleaseProcessStatusFailure ReleaseProcessStatus = "failure"
+	// DeployJobProcessStatusSucceeded indicates that the deploy job has
+	// succeeded.
+	DeployJobProcessStatusSucceeded DeployJobProcessStatus = "succeeded"
+	// DeployJobProcessStatusRunning indicates that the deploy job is
+	// currently running.
+	DeployJobProcessStatusRunning DeployJobProcessStatus = "running"
+	// DeployJobProcessStatusFailed indicates that the deploy job was unable
+	// to successfully complete within the configured amount of retries.
+	DeployJobProcessStatusFailed DeployJobProcessStatus = "failed"
+	// DeployJobProcessStatusUnknown indicates the status is unknown.
+	DeployJobProcessStatusUnknown DeployJobProcessStatus = "unknown"
+	DeployJobProcessReasonTimeout DeployJobProcessReason = "timeout"
+	DeployJobProcessReasonBackoff DeployJobProcessReason = "backoffLimitExceeded"
+)
+
 var (
 	// DefaultConfig defines the default values used for deplo.io
 	// applications
@@ -138,7 +182,7 @@ type Config struct {
 	EnableBasicAuth *bool `json:"enableBasicAuth,omitempty" yaml:"enableBasicAuth,omitempty"`
 	// +optional
 	// +nullable
-	DeployJob *DeployJob `json:"deployJobs,omitempty"`
+	DeployJob *DeployJob `json:"deployJob,omitempty"`
 }
 
 // ApplicationSize defines the size of an application and the resources that
@@ -419,7 +463,7 @@ type ReleaseObservation struct {
 	ReleaseStatus ReleaseProcessStatus `json:"releaseStatus,omitempty"`
 	// DeployJobStatus describes the status of the deploy job of a release
 	// +optional
-	DeployJobStatus DeployJobStatus `json:"deployJobsStatus,omitempty"`
+	DeployJobStatus DeployJobStatus `json:"deployJobStatus,omitempty"`
 	// Replicas describes the amount of rolled out replicas, ie. for the
 	// underlying Deployment, it shows number of non-terminated pods targeted by
 	// this Release.
