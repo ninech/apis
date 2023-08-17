@@ -175,6 +175,135 @@ spec:
                         - standard-2
                         type: string
                     type: object
+                  configuration:
+                    description: Configuration contains all configurations from the
+                      various configuration sources (project level, application level,
+                      etc) merged into one.
+                    properties:
+                      deployJob:
+                        properties:
+                          origin:
+                            description: ConfigOrigin describes the origin of a config
+                            type: string
+                          value:
+                            description: DeployJob defines a command which is executed
+                              before a new release gets deployed. The deployment will
+                              only continue if the job finished successfully.
+                            properties:
+                              command:
+                                description: Command to execute. This command will
+                                  be executed by a bash shell which gets started by
+                                  the cloud native buildpacks launcher binary.
+                                type: string
+                              name:
+                                description: Name of the Job.
+                                type: string
+                              retries:
+                                default: 0
+                                description: Retries defines how many times the job
+                                  will be restarted on failure.
+                                format: int32
+                                type: integer
+                              timeout:
+                                default: 5m
+                                description: Timeout of the job. Minimum is 1 minute
+                                  and maximum is 30 minutes.
+                                format: duration
+                                type: string
+                            required:
+                            - command
+                            - name
+                            type: object
+                        required:
+                        - origin
+                        - value
+                        type: object
+                      enableBasicAuth:
+                        description: EnableBasicAuth enables basic authentication
+                          for the application
+                        properties:
+                          origin:
+                            description: ConfigOrigin describes the origin of a config
+                            type: string
+                          value:
+                            type: boolean
+                        required:
+                        - origin
+                        - value
+                        type: object
+                      env:
+                        description: Env variables which are passed to the app at
+                          runtime.
+                        items:
+                          properties:
+                            origin:
+                              description: ConfigOrigin describes the origin of a
+                                config
+                              type: string
+                            value:
+                              properties:
+                                name:
+                                  type: string
+                                value:
+                                  type: string
+                              required:
+                              - name
+                              - value
+                              type: object
+                          required:
+                          - origin
+                          - value
+                          type: object
+                        type: array
+                      port:
+                        description: Port the app is listening on.
+                        properties:
+                          origin:
+                            description: ConfigOrigin describes the origin of a config
+                            type: string
+                          value:
+                            format: int32
+                            type: integer
+                        required:
+                        - origin
+                        - value
+                        type: object
+                      replicas:
+                        description: Replicas sets the amount of replicas of the running
+                          app.
+                        properties:
+                          origin:
+                            description: ConfigOrigin describes the origin of a config
+                            type: string
+                          value:
+                            format: int32
+                            type: integer
+                        required:
+                        - origin
+                        - value
+                        type: object
+                      size:
+                        description: Size describes the CPU and memory requirements
+                          of the application
+                        properties:
+                          origin:
+                            description: ConfigOrigin describes the origin of a config
+                            type: string
+                          value:
+                            default: ""
+                            description: ApplicationSize defines the size of an application
+                              and the resources that will be allocated for it.
+                            enum:
+                            - ""
+                            - micro
+                            - mini
+                            - standard-1
+                            - standard-2
+                            type: string
+                        required:
+                        - origin
+                        type: object
+                    type: object
                   image:
                     description: Image defines the image spec of the built image
                     properties:
@@ -210,6 +339,7 @@ spec:
                 required:
                 - build
                 - config
+                - configuration
                 - image
                 type: object
               providerConfigRef:
