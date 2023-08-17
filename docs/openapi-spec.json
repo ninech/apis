@@ -14056,7 +14056,6 @@
               "required": [
                 "build",
                 "config",
-                "configuration",
                 "image"
               ],
               "properties": {
