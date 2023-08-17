@@ -339,7 +339,6 @@ spec:
                 required:
                 - build
                 - config
-                - configuration
                 - image
                 type: object
               providerConfigRef:

@@ -464,7 +464,8 @@ type ReleaseParameters struct {
 	BasicAuthSecret *meta.LocalReference `json:"basicAuthSecret,omitempty"`
 	// Configuration contains all configurations from the various configuration
 	// sources (project level, application level, etc) merged into one.
-	Configuration *FieldOriginConfig `json:"configuration"`
+	// +optional
+	Configuration *FieldOriginConfig `json:"configuration,omitempty"`
 }
 
 // A FieldOriginConfig contains the fields of a normal config, but with an
