@@ -14056,6 +14056,7 @@
               "required": [
                 "build",
                 "config",
+                "configuration",
                 "image"
               ],
               "properties": {
@@ -14136,6 +14137,162 @@
                         "standard-1",
                         "standard-2"
                       ]
+                    }
+                  }
+                },
+                "configuration": {
+                  "description": "Configuration contains all configurations from the various configuration sources (project level, application level, etc) merged into one.",
+                  "type": "object",
+                  "properties": {
+                    "deployJob": {
+                      "type": "object",
+                      "required": [
+                        "origin",
+                        "value"
+                      ],
+                      "properties": {
+                        "origin": {
+                          "description": "ConfigOrigin describes the origin of a config",
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "DeployJob defines a command which is executed before a new release gets deployed. The deployment will only continue if the job finished successfully.",
+                          "type": "object",
+                          "required": [
+                            "command",
+                            "name"
+                          ],
+                          "properties": {
+                            "command": {
+                              "description": "Command to execute. This command will be executed by a bash shell which gets started by the cloud native buildpacks launcher binary.",
+                              "type": "string"
+                            },
+                            "name": {
+                              "description": "Name of the Job.",
+                              "type": "string"
+                            },
+                            "retries": {
+                              "description": "Retries defines how many times the job will be restarted on failure.",
+                              "type": "integer",
+                              "format": "int32"
+                            },
+                            "timeout": {
+                              "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
+                              "type": "string",
+                              "format": "duration"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "enableBasicAuth": {
+                      "description": "EnableBasicAuth enables basic authentication for the application",
+                      "type": "object",
+                      "required": [
+                        "origin",
+                        "value"
+                      ],
+                      "properties": {
+                        "origin": {
+                          "description": "ConfigOrigin describes the origin of a config",
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
+                    "env": {
+                      "description": "Env variables which are passed to the app at runtime.",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "origin",
+                          "value"
+                        ],
+                        "properties": {
+                          "origin": {
+                            "description": "ConfigOrigin describes the origin of a config",
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "value"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "port": {
+                      "description": "Port the app is listening on.",
+                      "type": "object",
+                      "required": [
+                        "origin",
+                        "value"
+                      ],
+                      "properties": {
+                        "origin": {
+                          "description": "ConfigOrigin describes the origin of a config",
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "integer",
+                          "format": "int32"
+                        }
+                      }
+                    },
+                    "replicas": {
+                      "description": "Replicas sets the amount of replicas of the running app.",
+                      "type": "object",
+                      "required": [
+                        "origin",
+                        "value"
+                      ],
+                      "properties": {
+                        "origin": {
+                          "description": "ConfigOrigin describes the origin of a config",
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "integer",
+                          "format": "int32"
+                        }
+                      }
+                    },
+                    "size": {
+                      "description": "Size describes the CPU and memory requirements of the application",
+                      "type": "object",
+                      "required": [
+                        "origin"
+                      ],
+                      "properties": {
+                        "origin": {
+                          "description": "ConfigOrigin describes the origin of a config",
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "ApplicationSize defines the size of an application and the resources that will be allocated for it.",
+                          "type": "string",
+                          "enum": [
+                            "",
+                            "micro",
+                            "mini",
+                            "standard-1",
+                            "standard-2"
+                          ]
+                        }
+                      }
                     }
                   }
                 },

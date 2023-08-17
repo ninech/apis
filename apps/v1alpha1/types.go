@@ -16,6 +16,13 @@ const (
 	BuildProcessStatusRunning BuildProcessStatus = "running"
 	// BuildProcessStatusSuccess represents the status of a successful/finished build
 	BuildProcessStatusSuccess BuildProcessStatus = "success"
+	// The following config origins describe all possible sources where a
+	// configuration can be given
+	ConfigOriginDefault      = "default"
+	ConfigOriginApplication  = "application"
+	ConfigOriginProject      = "project"
+	ConfigOriginOrganization = "organization"
+	ConfigOriginGit          = "git"
 	// ReleaseProcessStatusReplicaFailure is added in a Release when for the
 	// collection of underlying resources (Deployment, Service, Ingress, Secret,
 	// etc), one of its pods fails to be created or deleted.
@@ -351,6 +358,13 @@ type BuildObservation struct {
 
 // BuildProcessStatus describes the status of a build
 type BuildProcessStatus string
+
+// ConfigOrigin describes the origin of a config
+type ConfigOrigin string
+type OriginEnvVar struct {
+	Value  EnvVar       `json:"value" yaml:"value"`
+	Origin ConfigOrigin `json:"origin" yaml:"origin"`
+}
 type EnvVar struct {
 	Name  string `json:"name" yaml:"name"`
 	Value string `json:"value" yaml:"value"`
@@ -448,6 +462,49 @@ type ReleaseParameters struct {
 	// auth credentials
 	// +optional
 	BasicAuthSecret *meta.LocalReference `json:"basicAuthSecret,omitempty"`
+	// Configuration contains all configurations from the various configuration
+	// sources (project level, application level, etc) merged into one.
+	Configuration *FieldOriginConfig `json:"configuration"`
+}
+
+// A FieldOriginConfig contains the fields of a normal config, but with an
+// origin indicator for that field.
+type FieldOriginConfig struct {
+	// Size describes the CPU and memory requirements of the application
+	Size OriginApplicationSize `json:"size,omitempty" yaml:"size,omitempty"`
+	// Env variables which are passed to the app at runtime.
+	// +optional
+	Env OriginEnvVarList `json:"env,omitempty" yaml:"env,omitempty"`
+	// Port the app is listening on.
+	// +optional
+	Port *OriginInt32 `json:"port,omitempty" yaml:"port,omitempty"`
+	// Replicas sets the amount of replicas of the running app.
+	// +optional
+	Replicas *OriginInt32 `json:"replicas,omitempty" yaml:"replicas,omitempty"`
+	// EnableBasicAuth enables basic authentication for the application
+	// +optional
+	EnableBasicAuth *OriginBool `json:"enableBasicAuth,omitempty" yaml:"enableBasicAuth,omitempty"`
+	// +optional
+	DeployJob *OriginDeployJob `json:"deployJob,omitempty" yaml:"deployJob,omitempty"`
+}
+type OriginApplicationSize struct {
+	// +optional
+	// +kubebuilder:default:=""
+	Value  ApplicationSize `json:"value" yaml:"size"`
+	Origin ConfigOrigin    `json:"origin" yaml:"origin"`
+}
+type OriginEnvVarList []OriginEnvVar
+type OriginInt32 struct {
+	Value  int32        `json:"value" yaml:"value"`
+	Origin ConfigOrigin `json:"origin" yaml:"origin"`
+}
+type OriginBool struct {
+	Value  bool         `json:"value" yaml:"value"`
+	Origin ConfigOrigin `json:"origin" yaml:"origin"`
+}
+type OriginDeployJob struct {
+	Value  DeployJob    `json:"value" yaml:"value"`
+	Origin ConfigOrigin `json:"origin" yaml:"origin"`
 }
 
 // An ReleaseStatus represents the observed Release state
