@@ -2,6 +2,15 @@ package v1alpha1
 
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+const (
+	// NineOwnedLabelKey specifies the key for the label which
+	// identifies nine resources.
+	NineOwnedLabelKey = "nine.ch/owned-by"
+	// NineOwnedLabelValue specifies the value for the label which
+	// identifies nine resources.
+	NineOwnedLabelValue = "nine"
+)
+
 // ChildResourceStatus reflects observed errors from child resources
 // of a managed resource.
 // +kubebuilder:object:generate=true
