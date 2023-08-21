@@ -466,6 +466,12 @@ type ReleaseParameters struct {
 	// sources (project level, application level, etc) merged into one.
 	// +optional
 	Configuration *FieldOriginConfig `json:"configuration,omitempty"`
+	// Timeout of the release after it will be considered failed. This does
+	// not include the time spent waiting for the deploy job and only concerns
+	// the release rollout.
+	// +optional
+	// +kubebuilder:default:="10m"
+	Timeout *metav1.Duration `json:"timeout,omitempty"`
 }
 
 // A FieldOriginConfig contains the fields of a normal config, but with an
