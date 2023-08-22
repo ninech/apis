@@ -14325,6 +14325,10 @@
                     }
                   }
                 },
+                "timeout": {
+                  "description": "Timeout of the release after it will be considered failed. This does not include the time spent waiting for the deploy job and only concerns the release rollout.",
+                  "type": "string"
+                },
                 "verifiedHosts": {
                   "description": "VerifiedHosts are the hosts which have been verified and can be used in the release",
                   "type": "array",
