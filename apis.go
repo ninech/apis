@@ -8,6 +8,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	security "github.com/ninech/apis/security/v1alpha1"
 	apps "github.com/ninech/apis/apps/v1alpha1"
 	devtools "github.com/ninech/apis/devtools/v1alpha1"
 	iam "github.com/ninech/apis/iam/v1alpha1"
@@ -16,11 +17,11 @@ import (
 	storage "github.com/ninech/apis/storage/v1alpha1"
 	management "github.com/ninech/apis/management/v1alpha1"
 	observability "github.com/ninech/apis/observability/v1alpha1"
-	security "github.com/ninech/apis/security/v1alpha1"
 )
 
 func init() {
 	AddToSchemes = append(AddToSchemes,
+		security.SchemeBuilder.AddToScheme,
 		apps.SchemeBuilder.AddToScheme,
 		devtools.SchemeBuilder.AddToScheme,
 		iam.SchemeBuilder.AddToScheme,
@@ -29,7 +30,6 @@ func init() {
 		storage.SchemeBuilder.AddToScheme,
 		management.SchemeBuilder.AddToScheme,
 		observability.SchemeBuilder.AddToScheme,
-		security.SchemeBuilder.AddToScheme,
 	)
 }
 
@@ -45,6 +45,9 @@ func AddToScheme(s *runtime.Scheme) error {
 // defined to avoid slow discovery.
 func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	mapper := meta.NewDefaultRESTMapper(scheme.PrioritizedVersionsAllGroups())
+	AddToMapper(mapper, security.ExternalSecretsGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, security.SealedSecretsGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, security.SSHKeyGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, apps.ApplicationGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, apps.BuildGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, apps.ProjectConfigGroupVersionKind, meta.RESTScopeNamespace)
@@ -66,8 +69,6 @@ func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	AddToMapper(mapper, observability.LokiGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.PrometheusGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.PromtailGroupVersionKind, meta.RESTScopeNamespace)
-	AddToMapper(mapper, security.ExternalSecretsGroupVersionKind, meta.RESTScopeNamespace)
-	AddToMapper(mapper, security.SealedSecretsGroupVersionKind, meta.RESTScopeNamespace)
 	return mapper
 }
 
