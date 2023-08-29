@@ -426,27 +426,6 @@ spec:
                   releaseStatus:
                     description: ReleaseStatus describes the status of the Release
                     type: string
-                  replicaObservation:
-                    description: ReplicaObservation shows details about all replicas
-                      of the release
-                    items:
-                      description: ReplicaObservation describes a replica
-                      properties:
-                        lastExitCode:
-                          description: LastExitCode shows the last exit code of the
-                            replica.
-                          format: int32
-                          type: integer
-                        restartCount:
-                          description: RestartCount indicates how often the replica
-                            was already restarted.
-                          format: int32
-                          type: integer
-                        status:
-                          description: Status describes the status of the replica.
-                          type: string
-                      type: object
-                    type: array
                   replicas:
                     description: Replicas describes the amount of rolled out replicas,
                       ie. for the underlying Deployment, it shows number of non-terminated

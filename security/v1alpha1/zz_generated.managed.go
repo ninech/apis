@@ -75,62 +75,6 @@ func (mg *ExternalSecrets) SetWriteConnectionSecretToReference(r *xpv1.SecretRef
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this SSHKey.
-func (mg *SSHKey) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
-	return mg.Status.GetCondition(ct)
-}
-
-// GetDeletionPolicy of this SSHKey.
-func (mg *SSHKey) GetDeletionPolicy() xpv1.DeletionPolicy {
-	return mg.Spec.DeletionPolicy
-}
-
-// GetProviderConfigReference of this SSHKey.
-func (mg *SSHKey) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
-}
-
-/*
-GetProviderReference of this SSHKey.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *SSHKey) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
-}
-
-// GetWriteConnectionSecretToReference of this SSHKey.
-func (mg *SSHKey) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
-}
-
-// SetConditions of this SSHKey.
-func (mg *SSHKey) SetConditions(c ...xpv1.Condition) {
-	mg.Status.SetConditions(c...)
-}
-
-// SetDeletionPolicy of this SSHKey.
-func (mg *SSHKey) SetDeletionPolicy(r xpv1.DeletionPolicy) {
-	mg.Spec.DeletionPolicy = r
-}
-
-// SetProviderConfigReference of this SSHKey.
-func (mg *SSHKey) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
-}
-
-/*
-SetProviderReference of this SSHKey.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *SSHKey) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
-}
-
-// SetWriteConnectionSecretToReference of this SSHKey.
-func (mg *SSHKey) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
-}
-
 // GetCondition of this SealedSecrets.
 func (mg *SealedSecrets) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)

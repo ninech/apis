@@ -43,17 +43,6 @@ const (
 	ReleaseProcessStatusSuperseded ReleaseProcessStatus = "superseded"
 	// ReleaseProcessStatusFailure indicates the release has failed.
 	ReleaseProcessStatusFailure ReleaseProcessStatus = "failure"
-	// ReplicaStatusReady is the status for a ready running replica.
-	ReplicaStatusReady ReplicaStatus = "ready"
-	// RepicaStatusProgressing is the status for a currently progressing
-	// replica.
-	ReplicaStatusProgressing ReplicaStatus = "progressing"
-	// ReplicaStatusFailing describes a replica which is not in a ready state
-	// and has restarted more than 2 times.
-	ReplicaStatusFailing ReplicaStatus = "failing"
-	// ReplicaStatusWaiting describes a state where a replica is waiting for
-	// an event to happen. For example a currently running deploy job.
-	ReplicaStatusWaiting ReplicaStatus = "waiting"
 	// DeployJobProcessStatusSucceeded indicates that the deploy job has
 	// succeeded.
 	DeployJobProcessStatusSucceeded DeployJobProcessStatus = "succeeded"
@@ -536,12 +525,9 @@ type ReleaseObservation struct {
 	// ReleaseStatus describes the status of the Release
 	// +optional
 	ReleaseStatus ReleaseProcessStatus `json:"releaseStatus,omitempty"`
-	// ReplicaObservation shows details about all replicas of the release
-	// +optional
-	ReplicaObservation []ReplicaObservation `json:"replicaObservation,omitempty"`
 	// DeployJobStatus describes the status of the deploy job of a release
 	// +optional
-	DeployJobStatus *DeployJobStatus `json:"deployJobStatus,omitempty"`
+	DeployJobStatus DeployJobStatus `json:"deployJobStatus,omitempty"`
 	// Replicas describes the amount of rolled out replicas, ie. for the
 	// underlying Deployment, it shows number of non-terminated pods targeted by
 	// this Release.
@@ -551,22 +537,6 @@ type ReleaseObservation struct {
 
 // ReleaseProcessStatus represents the Release status
 type ReleaseProcessStatus string
-
-// ReplicaObservation describes a replica
-type ReplicaObservation struct {
-	// Status describes the status of the replica.
-	// +optional
-	Status ReplicaStatus `json:"status"`
-	// LastExitCode shows the last exit code of the replica.
-	// +optional
-	LastExitCode *int32 `json:"lastExitCode,omitempty"`
-	// RestartCount indicates how often the replica was already restarted.
-	// +optional
-	RestartCount *int32 `json:"restartCount,omitempty"`
-}
-
-// ReplicaStatus is a status of a replica
-type ReplicaStatus string
 type DeployJobStatus struct {
 	// Name of the deploy job.
 	Name string `json:"name"`

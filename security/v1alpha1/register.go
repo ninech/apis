@@ -30,14 +30,9 @@ var (
 	SealedSecretsGroupKind        = schema.GroupKind{Group: Group, Kind: SealedSecretsKind}.String()
 	SealedSecretsKindAPIVersion   = SealedSecretsKind + "." + SchemeGroupVersion.String()
 	SealedSecretsGroupVersionKind = SchemeGroupVersion.WithKind(SealedSecretsKind)
-	SSHKeyKind             = reflect.TypeOf(SSHKey{}).Name()
-	SSHKeyGroupKind        = schema.GroupKind{Group: Group, Kind: SSHKeyKind}.String()
-	SSHKeyKindAPIVersion   = SSHKeyKind + "." + SchemeGroupVersion.String()
-	SSHKeyGroupVersionKind = SchemeGroupVersion.WithKind(SSHKeyKind)
 )
 
 func init() {
 	SchemeBuilder.Register(&ExternalSecrets{}, &ExternalSecretsList{})
 	SchemeBuilder.Register(&SealedSecrets{}, &SealedSecretsList{})
-	SchemeBuilder.Register(&SSHKey{}, &SSHKeyList{})
 }
