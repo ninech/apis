@@ -14995,6 +14995,30 @@
                   "description": "ReleaseStatus describes the status of the Release",
                   "type": "string"
                 },
+                "replicaObservation": {
+                  "description": "ReplicaObservation shows details about all replicas of the release",
+                  "type": "array",
+                  "items": {
+                    "description": "ReplicaObservation describes a replica",
+                    "type": "object",
+                    "properties": {
+                      "lastExitCode": {
+                        "description": "LastExitCode shows the last exit code of the replica.",
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "restartCount": {
+                        "description": "RestartCount indicates how often the replica was already restarted.",
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "status": {
+                        "description": "Status describes the status of the replica.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
                 "replicas": {
                   "description": "Replicas describes the amount of rolled out replicas, ie. for the underlying Deployment, it shows number of non-terminated pods targeted by this Release.",
                   "type": "integer",
