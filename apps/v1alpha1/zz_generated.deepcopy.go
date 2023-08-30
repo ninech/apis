@@ -881,6 +881,11 @@ func (in *ReleaseParameters) DeepCopyInto(out *ReleaseParameters) {
 	out.Build = in.Build
 	out.Image = in.Image
 	in.Config.DeepCopyInto(&out.Config)
+	if in.DefaultHosts != nil {
+		in, out := &in.DefaultHosts, &out.DefaultHosts
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	if in.VerifiedHosts != nil {
 		in, out := &in.VerifiedHosts, &out.VerifiedHosts
 		*out = make([]string, len(*in))
