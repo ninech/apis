@@ -260,6 +260,10 @@ type ApplicationObservation struct {
 	// custom host.
 	// +optional
 	Hosts []VerificationStatus `json:"hosts,omitempty"`
+	// DefaultHostsCertificateStatus represents the latest Certificate status for the
+	// default URLs where the app is available.
+	// +optional
+	DefaultHostsCertificateStatus CertificateStatus `json:"defaultHostsCertificateStatus,omitempty"`
 	// LatestRelease shows the latest release for this application
 	// +optional
 	LatestRelease string `json:"latestRelease,omitempty"`
@@ -294,6 +298,9 @@ type VerificationError struct {
 	// Timestamp refers to the time when this error happened
 	Timestamp metav1.Time `json:"timestamp"`
 }
+
+// CertificateStatus represents the Certificate status
+type CertificateStatus string
 
 // A Build represents an OCI image build of some referenced source code
 // +kubebuilder:subresource:status
@@ -466,7 +473,11 @@ type ReleaseParameters struct {
 	// Config contains all configurations from the various configuration
 	// sources (project level, application level, etc) merged into one.
 	Config Config `json:"config"`
-	// VerifiedHosts are the hosts which have been verified and can be used in the release
+	// DefaultHosts are the URLs at which the application is available.
+	// +optional
+	DefaultHosts []string `json:"defaultHosts"`
+	// VerifiedHosts are the custom hosts which have been verified and can be
+	// used in the release
 	// +optional
 	VerifiedHosts []string `json:"verifiedHosts,omitempty"`
 	// BasicAuthSecret references a local secret which contains the basic
@@ -542,6 +553,10 @@ type ReleaseObservation struct {
 	// DeployJobStatus describes the status of the deploy job of a release
 	// +optional
 	DeployJobStatus *DeployJobStatus `json:"deployJobStatus,omitempty"`
+	// CustomHostsCertificateStatus represents the latest Certificate status for
+	// the custom hosts where the app is available.
+	// +optional
+	CustomHostsCertificateStatus CertificateStatus `json:"customHostsCertificateStatus,omitempty"`
 	// Replicas describes the amount of rolled out replicas, ie. for the
 	// underlying Deployment, it shows number of non-terminated pods targeted by
 	// this Release.

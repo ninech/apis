@@ -13806,6 +13806,10 @@
                   "description": "CNAMETarget specifies to which DNS entry all custom hosts should point to (via a CNAME entry)",
                   "type": "string"
                 },
+                "defaultHostsCertificateStatus": {
+                  "description": "DefaultHostsCertificateStatus represents the latest Certificate status for the default URLs where the app is available.",
+                  "type": "string"
+                },
                 "defaultURLs": {
                   "description": "DefaultURLs are the URLs at which the application is avalilable.",
                   "type": "array",
@@ -14859,6 +14863,13 @@
                     }
                   }
                 },
+                "defaultHosts": {
+                  "description": "DefaultHosts are the URLs at which the application is available.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "image": {
                   "description": "Image defines the image spec of the built image",
                   "type": "object",
@@ -14894,7 +14905,7 @@
                   "type": "string"
                 },
                 "verifiedHosts": {
-                  "description": "VerifiedHosts are the hosts which have been verified and can be used in the release",
+                  "description": "VerifiedHosts are the custom hosts which have been verified and can be used in the release",
                   "type": "array",
                   "items": {
                     "type": "string"
@@ -14959,6 +14970,10 @@
               "description": "ReleaseObservation are the observable fields of a Release",
               "type": "object",
               "properties": {
+                "customHostsCertificateStatus": {
+                  "description": "CustomHostsCertificateStatus represents the latest Certificate status for the custom hosts where the app is available.",
+                  "type": "string"
+                },
                 "deployJobStatus": {
                   "description": "DeployJobStatus describes the status of the deploy job of a release",
                   "type": "object",

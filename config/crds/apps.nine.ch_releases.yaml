@@ -304,6 +304,12 @@ spec:
                         - origin
                         type: object
                     type: object
+                  defaultHosts:
+                    description: DefaultHosts are the URLs at which the application
+                      is available.
+                    items:
+                      type: string
+                    type: array
                   image:
                     description: Image defines the image spec of the built image
                     properties:
@@ -337,8 +343,8 @@ spec:
                       deploy job and only concerns the release rollout.
                     type: string
                   verifiedHosts:
-                    description: VerifiedHosts are the hosts which have been verified
-                      and can be used in the release
+                    description: VerifiedHosts are the custom hosts which have been
+                      verified and can be used in the release
                     items:
                       type: string
                     type: array
@@ -397,6 +403,10 @@ spec:
               atProvider:
                 description: ReleaseObservation are the observable fields of a Release
                 properties:
+                  customHostsCertificateStatus:
+                    description: CustomHostsCertificateStatus represents the latest
+                      Certificate status for the custom hosts where the app is available.
+                    type: string
                   deployJobStatus:
                     description: DeployJobStatus describes the status of the deploy
                       job of a release
