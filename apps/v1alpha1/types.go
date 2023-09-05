@@ -255,7 +255,11 @@ type ApplicationObservation struct {
 	// CNAMETarget specifies to which DNS entry all custom hosts should point to
 	// (via a CNAME entry)
 	// +optional
-	CNAMETarget string `json:"cnameTarget"`
+	CNAMETarget string `json:"cnameTarget,omitempty"`
+	// TXTRecordContent specifies the content of the DNS TXT record which
+	// will be used for host validation
+	// +optional
+	TXTRecordContent string `json:"txtRecordContent,omitempty"`
 	// Hosts represents the latest status of the verification of each
 	// custom host.
 	// +optional
@@ -284,6 +288,10 @@ type ApplicationObservation struct {
 type VerificationStatus struct {
 	// the hostname of the verification entry
 	Name string `json:"name"`
+	// CheckType describes which kind of DNS check this entry is about
+	// (CNAME or TXT)
+	// +optional
+	CheckType dnsCheckType `json:"checkType,omitempty"`
 	// LatestSuccess specifies when this host was last verified successfully
 	// +optional
 	LatestSuccess *metav1.Time `json:"latestSuccess,omitempty"`
@@ -292,6 +300,7 @@ type VerificationStatus struct {
 	// +optional
 	Error *VerificationError `json:"error,omitempty"`
 }
+type dnsCheckType string
 type VerificationError struct {
 	// Message refers to the error message
 	Message string `json:"message"`
