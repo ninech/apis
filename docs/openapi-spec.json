@@ -13826,6 +13826,10 @@
                       "name"
                     ],
                     "properties": {
+                      "checkType": {
+                        "description": "CheckType describes which kind of DNS check this entry is about (CNAME or TXT)",
+                        "type": "string"
+                      },
                       "error": {
                         "description": "Error displays a potential error which happened during the verification",
                         "type": "object",
@@ -13904,6 +13908,10 @@
                     "standard-1",
                     "standard-2"
                   ]
+                },
+                "txtRecordContent": {
+                  "description": "TXTRecordContent specifies the content of the DNS TXT record which will be used for host validation",
+                  "type": "string"
                 }
               }
             },
