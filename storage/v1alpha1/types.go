@@ -203,6 +203,107 @@ type BucketUserObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 }
 
+// ObjectsAccessKey defines a key who can access Nutanix Objects Buckets.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type ObjectsAccessKey struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ObjectsAccessKeySpec   `json:"spec"`
+	Status            ObjectsAccessKeyStatus `json:"status,omitempty"`
+}
+
+// ObjectsAccessKeyList contains a list of ObjectsAccessKey
+// +kubebuilder:object:root=true
+type ObjectsAccessKeyList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ObjectsAccessKey `json:"items"`
+}
+
+// A ObjectsAccessKeySpec defines the desired state of an ObjectsAccessKey.
+type ObjectsAccessKeySpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            ObjectsAccessKeyParameters `json:"forProvider"`
+}
+
+// ObjectsAccessKeyParameters are the configurable fields of an ObjectsAccessKey.
+type ObjectsAccessKeyParameters struct {
+	// ObjectsUser to create this access key for.
+	ObjectsUser meta.LocalReference `json:"objectsUser"`
+}
+
+// A ObjectsAccessKeyStatus represents the observed state of an ObjectsAccessKey.
+type ObjectsAccessKeyStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               ObjectsAccessKeyObservation `json:"atProvider,omitempty"`
+}
+
+// ObjectsAccessKeyObservation are the observable fields of an ObjectsAccessKey.
+type ObjectsAccessKeyObservation struct{}
+
+// ObjectsUser defines a user who can access Nutanix Objects Buckets.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type ObjectsUser struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ObjectsUserSpec   `json:"spec"`
+	Status            ObjectsUserStatus `json:"status,omitempty"`
+}
+
+// ObjectsUserList contains a list of ObjectsUser
+// +kubebuilder:object:root=true
+type ObjectsUserList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ObjectsUser `json:"items"`
+}
+
+// A ObjectsUserSpec defines the desired state of an ObjectsUser.
+type ObjectsUserSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            ObjectsUserParameters `json:"forProvider"`
+}
+
+// ObjectsUserParameters are the configurable fields of an ObjectsUser.
+type ObjectsUserParameters struct {
+	// Location specifies the physical location of the ObjectsUser.
+	Location meta.LocationName `json:"location"`
+	// Quota of the user.
+	// +optional
+	Quota *ObjectsUserQuota `json:"quota,omitempty"`
+}
+type ObjectsUserQuota struct {
+	// Storage configures a hard quota of the storage that can be used by this
+	// user.
+	// +optional
+	Storage *resource.Quantity `json:"storage,omitempty"`
+	// BucketCount configures a hard quota of amounts of buckets a user can have.
+	// +optional
+	BucketCount int `json:"count,omitempty"`
+}
+
+// A ObjectsUserStatus represents the observed state of an ObjectsUser.
+type ObjectsUserStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               ObjectsUserObservation `json:"atProvider,omitempty"`
+}
+
+// ObjectsUserObservation are the observable fields of an ObjectsUser.
+type ObjectsUserObservation struct {
+	// Usage shows the usage across all buckets of the user.
+	Usage *ObjectsUserQuota `json:"usage,omitempty"`
+}
+
 // Postgres deploys a Self Service Postgres instance.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

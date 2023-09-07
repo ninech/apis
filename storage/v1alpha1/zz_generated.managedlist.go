@@ -37,6 +37,24 @@ func (l *BucketUserList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ObjectsAccessKeyList.
+func (l *ObjectsAccessKeyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this ObjectsUserList.
+func (l *ObjectsUserList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this PostgresList.
 func (l *PostgresList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

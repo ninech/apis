@@ -30,6 +30,14 @@ var (
 	BucketUserGroupKind        = schema.GroupKind{Group: Group, Kind: BucketUserKind}.String()
 	BucketUserKindAPIVersion   = BucketUserKind + "." + SchemeGroupVersion.String()
 	BucketUserGroupVersionKind = SchemeGroupVersion.WithKind(BucketUserKind)
+	ObjectsAccessKeyKind             = reflect.TypeOf(ObjectsAccessKey{}).Name()
+	ObjectsAccessKeyGroupKind        = schema.GroupKind{Group: Group, Kind: ObjectsAccessKeyKind}.String()
+	ObjectsAccessKeyKindAPIVersion   = ObjectsAccessKeyKind + "." + SchemeGroupVersion.String()
+	ObjectsAccessKeyGroupVersionKind = SchemeGroupVersion.WithKind(ObjectsAccessKeyKind)
+	ObjectsUserKind             = reflect.TypeOf(ObjectsUser{}).Name()
+	ObjectsUserGroupKind        = schema.GroupKind{Group: Group, Kind: ObjectsUserKind}.String()
+	ObjectsUserKindAPIVersion   = ObjectsUserKind + "." + SchemeGroupVersion.String()
+	ObjectsUserGroupVersionKind = SchemeGroupVersion.WithKind(ObjectsUserKind)
 	PostgresKind             = reflect.TypeOf(Postgres{}).Name()
 	PostgresGroupKind        = schema.GroupKind{Group: Group, Kind: PostgresKind}.String()
 	PostgresKindAPIVersion   = PostgresKind + "." + SchemeGroupVersion.String()
@@ -43,6 +51,8 @@ var (
 func init() {
 	SchemeBuilder.Register(&Bucket{}, &BucketList{})
 	SchemeBuilder.Register(&BucketUser{}, &BucketUserList{})
+	SchemeBuilder.Register(&ObjectsAccessKey{}, &ObjectsAccessKeyList{})
+	SchemeBuilder.Register(&ObjectsUser{}, &ObjectsUserList{})
 	SchemeBuilder.Register(&Postgres{}, &PostgresList{})
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})
 }
