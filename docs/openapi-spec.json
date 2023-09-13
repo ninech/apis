@@ -16709,7 +16709,8 @@
                           "nine-highmem-4",
                           "nine-highcpu-2",
                           "nine-highcpu-4",
-                          "nine-highcpu-8"
+                          "nine-highcpu-8",
+                          "nine-highcpu-16"
                         ]
                       },
                       "maxNodes": {
