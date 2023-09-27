@@ -31,6 +31,11 @@ type ProjectList struct {
 // A ProjectSpec defines the desired state of a Project.
 type ProjectSpec struct {
 	runtimev1.ResourceSpec `json:",inline"`
+	// DisplayName is the name that, if specified, is displayed in the UI.
+	// DisplayName is a user-friendly Project name. DisplayName is not unique.
+	// DisplayName may differ from the Project name.
+	// +optional
+	DisplayName string `json:"displayName,omitempty"`
 }
 
 // A ProjectStatus represents the observed state of a Project.
