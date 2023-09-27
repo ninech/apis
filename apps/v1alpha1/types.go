@@ -271,6 +271,9 @@ type ApplicationObservation struct {
 	// LatestRelease shows the latest release for this application
 	// +optional
 	LatestRelease string `json:"latestRelease,omitempty"`
+	// LatestBuild shows the latest build for this application
+	// +optional
+	LatestBuild string `json:"latestBuild,omitempty"`
 	// Size shows the effective application size which is currently in use
 	// +optional
 	Size ApplicationSize `json:"size,omitempty"`

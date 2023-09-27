@@ -13861,6 +13861,10 @@
                     }
                   }
                 },
+                "latestBuild": {
+                  "description": "LatestBuild shows the latest build for this application",
+                  "type": "string"
+                },
                 "latestRelease": {
                   "description": "LatestRelease shows the latest release for this application",
                   "type": "string"
