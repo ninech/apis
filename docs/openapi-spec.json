@@ -13861,10 +13861,6 @@
                     }
                   }
                 },
-                "latestBuild": {
-                  "description": "LatestBuild shows the latest build for this application",
-                  "type": "string"
-                },
                 "latestRelease": {
                   "description": "LatestRelease shows the latest release for this application",
                   "type": "string"
@@ -17438,10 +17434,6 @@
                 "Orphan",
                 "Delete"
               ]
-            },
-            "displayName": {
-              "description": "DisplayName is the name that, if specified, is displayed in the UI. DisplayName is a user-friendly Project name. DisplayName is not unique. DisplayName may differ from the Project name.",
-              "type": "string"
             },
             "providerConfigRef": {
               "description": "ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.",
