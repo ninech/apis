@@ -186,7 +186,16 @@ type BucketUserParameters struct {
 	ResetCredentials *bool `json:"resetCredentials,omitempty"`
 	// Location specifies the physical location of the BucketUser.
 	Location meta.LocationName `json:"location"`
+	// +optional
+	// +kubebuilder:default:="v1"
+	BackendVersion BucketBackendVersion `json:"backendVersion,omitempty"`
 }
+
+// BackendVersion specifies the bucket backend version to use. While the
+// APIs work the same, buckets with v1 are only compatible with
+// bucketusers also on v1 and the same applies to v2.
+// +kubebuilder:validation:Enum=v1;v2
+type BucketBackendVersion string
 
 // A BucketUserStatus represents the observed state of a BucketUser.
 type BucketUserStatus struct {
