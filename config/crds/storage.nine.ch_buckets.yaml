@@ -100,8 +100,15 @@ spec:
                             will be expired (deleted). Note that this is not minute-accurate
                             and an object might exist for a bit longer than specified
                             until it is cleaned up. Usually it can take around 30
-                            minutes.
+                            minutes. This field will only be used by Buckets with
+                            backend version 'v1'.
                           type: string
+                        expireAfterDays:
+                          description: ExpireAfterDays defines the amount of days
+                            after an object will be expired (deleted). This field
+                            will only be used by Buckets with backend version 'v2'.
+                          format: int32
+                          type: integer
                         isLive:
                           default: true
                           description: IsLive specifies if this policy applies to
@@ -114,8 +121,6 @@ spec:
                             a certain prefix. Do not specify if all objects should
                             be expired.
                           type: string
-                      required:
-                      - expireAfter
                       type: object
                     type: array
                   location:
