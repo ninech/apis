@@ -131,6 +131,62 @@ func (mg *BucketUser) SetWriteConnectionSecretToReference(r *xpv1.SecretReferenc
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ObjectsBucket.
+func (mg *ObjectsBucket) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ObjectsBucket.
+func (mg *ObjectsBucket) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this ObjectsBucket.
+func (mg *ObjectsBucket) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this ObjectsBucket.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *ObjectsBucket) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetWriteConnectionSecretToReference of this ObjectsBucket.
+func (mg *ObjectsBucket) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ObjectsBucket.
+func (mg *ObjectsBucket) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ObjectsBucket.
+func (mg *ObjectsBucket) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this ObjectsBucket.
+func (mg *ObjectsBucket) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this ObjectsBucket.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *ObjectsBucket) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ObjectsBucket.
+func (mg *ObjectsBucket) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this Postgres.
 func (mg *Postgres) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)

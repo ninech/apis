@@ -12423,6 +12423,570 @@
         }
       ]
     },
+    "/apis/storage.nine.ch/v1alpha1/namespaces/{namespace}/objectsbuckets": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "application/yaml"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "ObjectsBucket"
+        ],
+        "summary": "list objects of kind ObjectsBucket",
+        "operationId": "listStorageNineChV1alpha1NamespacedObjectsBucket",
+        "parameters": [
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "allowWatchBookmarks requests watch events with type \"BOOKMARK\". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.",
+            "name": "allowWatchBookmarks",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
+            "name": "continue",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
+            "name": "fieldSelector",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
+            "name": "labelSelector",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+            "name": "resourceVersion",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+            "name": "resourceVersionMatch",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
+            "name": "timeoutSeconds",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
+            "name": "watch",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucketList"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "x-kubernetes-action": "list",
+        "x-kubernetes-group-version-kind": {
+          "group": "storage.nine.ch",
+          "kind": "ObjectsBucket",
+          "version": "v1alpha1"
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json",
+          "application/yaml"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "ObjectsBucket"
+        ],
+        "summary": "create an ObjectsBucket",
+        "operationId": "createStorageNineChV1alpha1NamespacedObjectsBucket",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+            "name": "fieldManager",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "x-kubernetes-action": "post",
+        "x-kubernetes-group-version-kind": {
+          "group": "storage.nine.ch",
+          "kind": "ObjectsBucket",
+          "version": "v1alpha1"
+        }
+      },
+      "delete": {
+        "consumes": [
+          "application/json",
+          "application/yaml"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "ObjectsBucket"
+        ],
+        "summary": "delete collection of ObjectsBucket",
+        "operationId": "deleteStorageNineChV1alpha1CollectionNamespacedObjectsBucket",
+        "parameters": [
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "allowWatchBookmarks requests watch events with type \"BOOKMARK\". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored.",
+            "name": "allowWatchBookmarks",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the \"next key\".\n\nThis field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications.",
+            "name": "continue",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "A selector to restrict the list of returned objects by their fields. Defaults to everything.",
+            "name": "fieldSelector",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "A selector to restrict the list of returned objects by their labels. Defaults to everything.",
+            "name": "labelSelector",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.\n\nThe server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+            "name": "resourceVersion",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+            "name": "resourceVersionMatch",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity.",
+            "name": "timeoutSeconds",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion.",
+            "name": "watch",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status_v2"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "x-kubernetes-action": "deletecollection",
+        "x-kubernetes-group-version-kind": {
+          "group": "storage.nine.ch",
+          "kind": "ObjectsBucket",
+          "version": "v1alpha1"
+        }
+      },
+      "parameters": [
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "object name and auth scope, such as for teams and projects",
+          "name": "namespace",
+          "in": "path",
+          "required": true
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "If 'true', then the output is pretty printed.",
+          "name": "pretty",
+          "in": "query"
+        }
+      ]
+    },
+    "/apis/storage.nine.ch/v1alpha1/namespaces/{namespace}/objectsbuckets/{name}": {
+      "get": {
+        "consumes": [
+          "application/json",
+          "application/yaml"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "ObjectsBucket"
+        ],
+        "summary": "read the specified ObjectsBucket",
+        "operationId": "readStorageNineChV1alpha1NamespacedObjectsBucket",
+        "parameters": [
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details.\n\nDefaults to unset",
+            "name": "resourceVersion",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "x-kubernetes-action": "get",
+        "x-kubernetes-group-version-kind": {
+          "group": "storage.nine.ch",
+          "kind": "ObjectsBucket",
+          "version": "v1alpha1"
+        }
+      },
+      "put": {
+        "consumes": [
+          "application/json",
+          "application/yaml"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "ObjectsBucket"
+        ],
+        "summary": "replace the specified ObjectsBucket",
+        "operationId": "replaceStorageNineChV1alpha1NamespacedObjectsBucket",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+            "name": "fieldManager",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "x-kubernetes-action": "put",
+        "x-kubernetes-group-version-kind": {
+          "group": "storage.nine.ch",
+          "kind": "ObjectsBucket",
+          "version": "v1alpha1"
+        }
+      },
+      "delete": {
+        "consumes": [
+          "application/json",
+          "application/yaml"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "ObjectsBucket"
+        ],
+        "summary": "delete an ObjectsBucket",
+        "operationId": "deleteStorageNineChV1alpha1NamespacedObjectsBucket",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions_v2"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "integer",
+            "description": "The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately.",
+            "name": "gracePeriodSeconds",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "boolean",
+            "description": "Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \"orphan\" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both.",
+            "name": "orphanDependents",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground.",
+            "name": "propagationPolicy",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status_v2"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status_v2"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "x-kubernetes-action": "delete",
+        "x-kubernetes-group-version-kind": {
+          "group": "storage.nine.ch",
+          "kind": "ObjectsBucket",
+          "version": "v1alpha1"
+        }
+      },
+      "patch": {
+        "consumes": [
+          "application/json-patch+json",
+          "application/merge-patch+json",
+          "application/apply-patch+yaml"
+        ],
+        "produces": [
+          "application/json",
+          "application/yaml"
+        ],
+        "schemes": [
+          "https"
+        ],
+        "tags": [
+          "ObjectsBucket"
+        ],
+        "summary": "partially update the specified ObjectsBucket",
+        "operationId": "patchStorageNineChV1alpha1NamespacedObjectsBucket",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch"
+            }
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed",
+            "name": "dryRun",
+            "in": "query"
+          },
+          {
+            "uniqueItems": true,
+            "type": "string",
+            "description": "fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint.",
+            "name": "fieldManager",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "x-kubernetes-action": "patch",
+        "x-kubernetes-group-version-kind": {
+          "group": "storage.nine.ch",
+          "kind": "ObjectsBucket",
+          "version": "v1alpha1"
+        }
+      },
+      "parameters": [
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "name of the ObjectsBucket",
+          "name": "name",
+          "in": "path",
+          "required": true
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "object name and auth scope, such as for teams and projects",
+          "name": "namespace",
+          "in": "path",
+          "required": true
+        },
+        {
+          "uniqueItems": true,
+          "type": "string",
+          "description": "If 'true', then the output is pretty printed.",
+          "name": "pretty",
+          "in": "query"
+        }
+      ]
+    },
     "/apis/storage.nine.ch/v1alpha1/namespaces/{namespace}/postgres": {
       "get": {
         "consumes": [
@@ -20512,13 +21076,15 @@
                   "items": {
                     "description": "BucketLifecyclePolicy defines a lifecycle policy of bucket objects.",
                     "type": "object",
-                    "required": [
-                      "expireAfter"
-                    ],
                     "properties": {
                       "expireAfter": {
-                        "description": "ExpireAfter defines the time after an object will be expired (deleted). Note that this is not minute-accurate and an object might exist for a bit longer than specified until it is cleaned up. Usually it can take around 30 minutes.",
+                        "description": "ExpireAfter defines the time after an object will be expired (deleted). Note that this is not minute-accurate and an object might exist for a bit longer than specified until it is cleaned up. Usually it can take around 30 minutes. This field will only be used by Buckets with backend version 'v1'.",
                         "type": "string"
+                      },
+                      "expireAfterDays": {
+                        "description": "ExpireAfterDays defines the amount of days after an object will be expired (deleted). This field will only be used by Buckets with backend version 'v2'.",
+                        "type": "integer",
+                        "format": "int32"
                       },
                       "isLive": {
                         "description": "IsLive specifies if this policy applies to live objects. If false, this policy only applies to archived objects, so this is only useful when the bucket has versioning enabled.",
@@ -21138,6 +21704,352 @@
         {
           "group": "storage.nine.ch",
           "kind": "BucketUserList",
+          "version": "v1alpha1"
+        }
+      ]
+    },
+    "ch.nine.storage.v1alpha1.ObjectsBucket": {
+      "description": "ObjectsBucket defines a Nutanix Objects Bucket.",
+      "type": "object",
+      "required": [
+        "spec"
+      ],
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta_v2"
+        },
+        "spec": {
+          "description": "A ObjectsBucketSpec defines the desired state of an ObjectsBucket.",
+          "type": "object",
+          "required": [
+            "forProvider"
+          ],
+          "properties": {
+            "deletionPolicy": {
+              "description": "DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either \"Delete\" or \"Orphan\" the external resource.",
+              "type": "string",
+              "enum": [
+                "Orphan",
+                "Delete"
+              ]
+            },
+            "forProvider": {
+              "description": "ObjectsBucketParameters are the configurable fields of an ObjectsBucket.",
+              "type": "object",
+              "required": [
+                "location"
+              ],
+              "properties": {
+                "cors": {
+                  "description": "CORS settings for this bucket. CORS is a mechanism to allow code running in a browser to make requests to a domain other than the one from where it originated.",
+                  "type": "object",
+                  "required": [
+                    "origins"
+                  ],
+                  "properties": {
+                    "maxAge": {
+                      "description": "MaxAge is the maximum time for the origin to hold the preflight results, in seconds. Also known as the cache-expiry time, it defines the duration in which the browser is allowed to make requests before it must repeat the preflight request.",
+                      "type": "integer"
+                    },
+                    "origins": {
+                      "description": "Origins specifies the origins that should be allowed for CORS.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "responseHeaders": {
+                      "description": "ResponseHeaders specifies which headers should be allowed for CORS.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "lifecyclePolicies": {
+                  "description": "LifecyclePolicies allows to define automatic expiry (deletion) of objects using certain rules.",
+                  "type": "array",
+                  "items": {
+                    "description": "BucketLifecyclePolicy defines a lifecycle policy of bucket objects.",
+                    "type": "object",
+                    "properties": {
+                      "expireAfter": {
+                        "description": "ExpireAfter defines the time after an object will be expired (deleted). Note that this is not minute-accurate and an object might exist for a bit longer than specified until it is cleaned up. Usually it can take around 30 minutes. This field will only be used by Buckets with backend version 'v1'.",
+                        "type": "string"
+                      },
+                      "expireAfterDays": {
+                        "description": "ExpireAfterDays defines the amount of days after an object will be expired (deleted). This field will only be used by Buckets with backend version 'v2'.",
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "isLive": {
+                        "description": "IsLive specifies if this policy applies to live objects. If false, this policy only applies to archived objects, so this is only useful when the bucket has versioning enabled.",
+                        "type": "boolean"
+                      },
+                      "prefix": {
+                        "description": "Prefix can be used to only expire objects with a certain prefix. Do not specify if all objects should be expired.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "location": {
+                  "description": "Location specifies the physical location of the ObjectsBucket.",
+                  "type": "string",
+                  "enum": [
+                    "nine-cz41",
+                    "nine-cz42",
+                    "nine-es34"
+                  ]
+                },
+                "permissions": {
+                  "description": "Permissions configures user access to the objects in this Bucket.",
+                  "type": "array",
+                  "items": {
+                    "description": "BucketPermission defines a role and users to assign permissions on a Bucket.",
+                    "type": "object",
+                    "required": [
+                      "role"
+                    ],
+                    "properties": {
+                      "role": {
+                        "description": "Role that this permission will be assigned.",
+                        "type": "string",
+                        "enum": [
+                          "reader",
+                          "writer"
+                        ]
+                      },
+                      "userRefs": {
+                        "description": "BucketUserRefs references users that will receive this permission.",
+                        "type": "array",
+                        "items": {
+                          "description": "LocalReference references another object in the same namespace.",
+                          "type": "object",
+                          "required": [
+                            "name"
+                          ],
+                          "properties": {
+                            "name": {
+                              "description": "Name of the target.",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "publicList": {
+                  "description": "PublicList sets this Buckets objects to be publicly listable.",
+                  "type": "boolean"
+                },
+                "publicRead": {
+                  "description": "PublicRead sets this Buckets objects to be publicly readable.",
+                  "type": "boolean"
+                },
+                "versioning": {
+                  "description": "Versioning enables object versioning for this Bucket.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "providerConfigRef": {
+              "description": "ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.",
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referenced object.",
+                  "type": "string"
+                }
+              }
+            },
+            "providerRef": {
+              "description": "ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`",
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referenced object.",
+                  "type": "string"
+                }
+              }
+            },
+            "writeConnectionSecretToRef": {
+              "description": "WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.",
+              "type": "object",
+              "required": [
+                "name",
+                "namespace"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the secret.",
+                  "type": "string"
+                },
+                "namespace": {
+                  "description": "Namespace of the secret.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "status": {
+          "description": "A ObjectsBucketStatus represents the observed state of an ObjectsBucket.",
+          "type": "object",
+          "properties": {
+            "atProvider": {
+              "description": "ObjectsBucketObservation are the observable fields of an ObjectsBucket.",
+              "type": "object",
+              "required": [
+                "bytesUsed",
+                "endpoint",
+                "objectCount",
+                "url"
+              ],
+              "properties": {
+                "bytesUsed": {
+                  "description": "BytesUsed shows the amount of bytes a bucket is currently using.",
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "endpoint": {
+                  "description": "API endpoint to use with S3 compatible clients.",
+                  "type": "string"
+                },
+                "objectCount": {
+                  "description": "ObjectCount shows the amount of objects a bucket has.",
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "referenceErrors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "kind",
+                      "message",
+                      "name",
+                      "namespace"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "Name of the target.",
+                        "type": "string"
+                      },
+                      "namespace": {
+                        "description": "Namespace of the target.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "url": {
+                  "description": "URL where the bucket can be accessed for path-style access.",
+                  "type": "string"
+                }
+              }
+            },
+            "conditions": {
+              "description": "Conditions of the resource.",
+              "type": "array",
+              "items": {
+                "description": "A Condition that may apply to a resource.",
+                "type": "object",
+                "required": [
+                  "lastTransitionTime",
+                  "reason",
+                  "status",
+                  "type"
+                ],
+                "properties": {
+                  "lastTransitionTime": {
+                    "description": "LastTransitionTime is the last time this condition transitioned from one status to another.",
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "message": {
+                    "description": "A Message containing details about this condition's last transition from one status to another, if any.",
+                    "type": "string"
+                  },
+                  "reason": {
+                    "description": "A Reason for this condition's last transition from one status to another.",
+                    "type": "string"
+                  },
+                  "status": {
+                    "description": "Status of this condition; is it currently True, False, or Unknown?",
+                    "type": "string"
+                  },
+                  "type": {
+                    "description": "Type of this condition. At most one of each condition type may apply to a resource at any point in time.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "storage.nine.ch",
+          "kind": "ObjectsBucket",
+          "version": "v1alpha1"
+        }
+      ]
+    },
+    "ch.nine.storage.v1alpha1.ObjectsBucketList": {
+      "description": "ObjectsBucketList is a list of ObjectsBucket",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "description": "List of objectsbuckets. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ch.nine.storage.v1alpha1.ObjectsBucket"
+          }
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "storage.nine.ch",
+          "kind": "ObjectsBucketList",
           "version": "v1alpha1"
         }
       ]
@@ -23307,6 +24219,10 @@
       "name": "Loki"
     },
     {
+      "description": "ObjectsBucket defines a Nutanix Objects Bucket.",
+      "name": "ObjectsBucket"
+    },
+    {
       "description": "Postgres deploys a Self Service Postgres instance.",
       "name": "Postgres"
     },
@@ -23431,6 +24347,8 @@
         "BucketList",
         "BucketUser",
         "BucketUserList",
+        "ObjectsBucket",
+        "ObjectsBucketList",
         "Postgres",
         "PostgresList",
         "Registry",
