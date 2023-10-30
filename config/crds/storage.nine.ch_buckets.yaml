@@ -57,6 +57,16 @@ spec:
               forProvider:
                 description: BucketParameters are the configurable fields of a Bucket.
                 properties:
+                  backendVersion:
+                    default: v1
+                    description: BackendVersion specifies the bucket backend version
+                      to use. While the APIs work the same, buckets with v1 are only
+                      compatible with bucketusers also on v1 and the same applies
+                      to v2.
+                    enum:
+                    - v1
+                    - v2
+                    type: string
                   cors:
                     description: CORS settings for this bucket. CORS is a mechanism
                       to allow code running in a browser to make requests to a domain
@@ -86,7 +96,10 @@ spec:
                     - origins
                     type: object
                   encryption:
-                    description: Encryption enables encryption at rest for this Bucket.
+                    description: 'Encryption enables encryption at rest for this Bucket.
+                      This is only relevant for Buckets which use the v1 storage backend.
+                      Buckets with a backend of v2 are always encrypted at rest. Deprecated:
+                      Only affects v1 Buckets and will be removed in the future.'
                     type: boolean
                   lifecyclePolicies:
                     description: LifecyclePolicies allows to define automatic expiry
