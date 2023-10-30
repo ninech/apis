@@ -55,7 +55,10 @@ type BucketParameters struct {
 	// PublicList sets this Buckets objects to be publicly listable.
 	// +optional
 	PublicList bool `json:"publicList,omitempty"`
-	// Encryption enables encryption at rest for this Bucket.
+	// Encryption enables encryption at rest for this Bucket. This is only
+	// relevant for Buckets which use the v1 storage backend. Buckets with a
+	// backend of v2 are always encrypted at rest.
+	// Deprecated: Only affects v1 Buckets and will be removed in the future.
 	// +optional
 	Encryption bool `json:"encryption,omitempty"`
 	// Versioning enables object versioning for this Bucket.
@@ -70,6 +73,9 @@ type BucketParameters struct {
 	// one from where it originated.
 	// +optional
 	CORS *CORSConfig `json:"cors,omitempty"`
+	// +optional
+	// +kubebuilder:default:="v1"
+	BackendVersion BucketBackendVersion `json:"backendVersion,omitempty"`
 }
 
 // BucketStorageType defines the backing storage for a Bucket.
@@ -136,6 +142,12 @@ type CORSConfig struct {
 	MaxAge int `json:"maxAge"`
 }
 
+// BackendVersion specifies the bucket backend version to use. While the
+// APIs work the same, buckets with v1 are only compatible with
+// bucketusers also on v1 and the same applies to v2.
+// +kubebuilder:validation:Enum=v1;v2
+type BucketBackendVersion string
+
 // A BucketStatus represents the observed state of a Bucket.
 type BucketStatus struct {
 	runtimev1.ResourceStatus `json:",inline"`
@@ -196,12 +208,6 @@ type BucketUserParameters struct {
 	// +kubebuilder:default:="v1"
 	BackendVersion BucketBackendVersion `json:"backendVersion,omitempty"`
 }
-
-// BackendVersion specifies the bucket backend version to use. While the
-// APIs work the same, buckets with v1 are only compatible with
-// bucketusers also on v1 and the same applies to v2.
-// +kubebuilder:validation:Enum=v1;v2
-type BucketBackendVersion string
 
 // A BucketUserStatus represents the observed state of a BucketUser.
 type BucketUserStatus struct {

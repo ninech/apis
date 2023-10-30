@@ -21039,6 +21039,14 @@
                 "storageTier"
               ],
               "properties": {
+                "backendVersion": {
+                  "description": "BackendVersion specifies the bucket backend version to use. While the APIs work the same, buckets with v1 are only compatible with bucketusers also on v1 and the same applies to v2.",
+                  "type": "string",
+                  "enum": [
+                    "v1",
+                    "v2"
+                  ]
+                },
                 "cors": {
                   "description": "CORS settings for this bucket. CORS is a mechanism to allow code running in a browser to make requests to a domain other than the one from where it originated.",
                   "type": "object",
@@ -21067,7 +21075,7 @@
                   }
                 },
                 "encryption": {
-                  "description": "Encryption enables encryption at rest for this Bucket.",
+                  "description": "Encryption enables encryption at rest for this Bucket. This is only relevant for Buckets which use the v1 storage backend. Buckets with a backend of v2 are always encrypted at rest. Deprecated: Only affects v1 Buckets and will be removed in the future.",
                   "type": "boolean"
                 },
                 "lifecyclePolicies": {
