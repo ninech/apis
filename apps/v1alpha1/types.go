@@ -400,6 +400,59 @@ type EnvVar struct {
 	Value string `json:"value" yaml:"value"`
 }
 
+// GitExploreResponse describes the response to a GitExploreRequest.
+// +kubebuilder:object:generate=false
+type GitExploreResponse struct {
+	// Warnings contains optional warning messages
+	Warnings []string `json:"warnings,omitempty"`
+	// Error contains an optional occured error during the exploration of a
+	// Git repository.
+	Error string `json:"error,omitempty"`
+	// RepositoryInfo contains the explored items of a Git repository.
+	RepositoryInfo *RepositoryInfo `json:"repositoryInfo,omitempty"`
+}
+
+// RepositoryInfo contains information about an explored Git repository
+// +kubebuilder:object:generate=false
+type RepositoryInfo struct {
+	// URL is the URL used to obtain the information
+	URL string `json:"url"`
+	// Branches are the available git branches
+	Branches []string `json:"branches,omitempty"`
+	// Tags are the available tags
+	Tags []string `json:"tags,omitempty"`
+}
+
+// GitExploreRequest describes a request to our Git information service
+// +kubebuilder:object:generate=false
+type GitExploreRequest struct {
+	// Repository describes the path to the GIT repository. It can be given
+	// as a full URL ("http(s)://" or "ssh://" prefix) or just in
+	// "<Hostname>/<Path>" format in which case HTTPS will be
+	// used.
+	Repository string `json:"repository"`
+	// Auth defines the authentication which is needed. If not given, no
+	// authentication will be used.
+	Auth *Auth `json:"auth,omitempty"`
+}
+
+// Auth defines the possible authentication methods.
+// +kubebuilder:object:generate=false
+type Auth struct {
+	// PrivateKey is a PEM encoded SSH private key which must not be
+	// encrypted. The key has to be base64 encoded.
+	PrivateKey []byte `json:"privateKey,omitempty"`
+	// BasicAuth describes basic auth credentials to be used with HTTPS
+	BasicAuth *BasicAuth `json:"basicAuth,omitempty"`
+}
+
+// BasicAuth is a simple username/password pair used for authentication
+// +kubebuilder:object:generate=false
+type BasicAuth struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 // A ProjectConfig defines the default config of an application in a project.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
