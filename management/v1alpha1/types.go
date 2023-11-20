@@ -36,6 +36,13 @@ type ProjectSpec struct {
 	// DisplayName may differ from the Project name.
 	// +optional
 	DisplayName string `json:"displayName,omitempty"`
+	// IsNonProduction declares this project as containing no productive
+	// resources (dev, test, staging environment). Resources in this
+	// project will then be upgraded before resources in production
+	// projects.
+	// +optional
+	// +kubebuilder:default:=false
+	IsNonProduction bool `json:"isNonProduction"`
 }
 
 // A ProjectStatus represents the observed state of a Project.
