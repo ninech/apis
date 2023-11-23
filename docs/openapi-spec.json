@@ -18007,10 +18007,6 @@
               "description": "DisplayName is the name that, if specified, is displayed in the UI. DisplayName is a user-friendly Project name. DisplayName is not unique. DisplayName may differ from the Project name.",
               "type": "string"
             },
-            "isNonProduction": {
-              "description": "IsNonProduction declares this project as containing no productive resources (dev, test, staging environment). Resources in this project will then be upgraded before resources in production projects.",
-              "type": "boolean"
-            },
             "providerConfigRef": {
               "description": "ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.",
               "type": "object",
