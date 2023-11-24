@@ -390,6 +390,99 @@ type PostgresObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 }
 
+// Redis deploys an on-demand Redis instance.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="MEMORYSIZE",type="string",JSONPath=".spec.forProvider.memorySize"
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type Redis struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              RedisSpec   `json:"spec"`
+	Status            RedisStatus `json:"status,omitempty"`
+}
+
+// RedisList contains a list of Redis instances.
+// +kubebuilder:object:root=true
+type RedisList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []Redis `json:"items"`
+}
+
+// A RedisSpec defines the desired state of a Redis in-memory data store.
+type RedisSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            RedisParameters `json:"forProvider"`
+}
+
+// RedisParameters are the configurable fields of a Redis in-memory data store.
+type RedisParameters struct {
+	// Location specifies in which Datacenter the in-memory data store will be spawned.
+	// +immutable
+	Location meta.LocationName `json:"location"`
+	// Version specifies the Redis version.
+	// Needs to match an available Redis Version.
+	// +immutable
+	// +optional
+	// +kubebuilder:default:="7"
+	Version RedisVersion `json:"version,omitempty"`
+	// MemorySize configures Redis to use a specified amount of memory for the data set.
+	// +optional
+	MemorySize *RedisMemorySize `json:"memorySize,omitempty"`
+	// MaxMemoryPolicy specifies the exact behavior Redis follows when the maxmemory limit is reached.
+	// +optional
+	MaxMemoryPolicy RedisMaxMemoryPolicy `json:"maxMemoryPolicy,omitempty"`
+	// AllowedCIDRs specify the allowed IP addresses, connecting to the instance.
+	// IPs are in CIDR format, e.g. 192.168.1.1/24
+	// +listType:="set"
+	// +optional
+	AllowedCIDRs []IPv4CIDR `json:"allowedCIDRs,omitempty"`
+}
+
+// RedisVersion defines the Redis version to be used.
+// +kubebuilder:validation:Enum="7"
+type RedisVersion string
+
+// RedisMemorySize configures Redis to use a specified amount of memory for the data set.
+// When the specified amount of memory is reached, how eviction policies are configured determines the default behavior.
+// Redis can return errors for commands that could result in more memory being used,
+// or it can evict some old data to return back to the specified limit every time new data is added.
+// https://redis.io/docs/reference/eviction/#maxmemory-configuration-directive
+// +kubebuilder:default:="1Gi"
+type RedisMemorySize struct {
+	resource.Quantity `json:",inline"`
+}
+
+// RedisMaxMemoryPolicy defines the exact behavior Redis follows when the maxmemory limit is reached:
+// https://redis.io/docs/reference/eviction/#eviction-policies
+// +kubebuilder:default:="allkeys-lru"
+// +kubebuilder:validation:Enum="noeviction";"allkeys-lru";"allkeys-lfu";"volatile-lru";"volatile-lfu";"allkeys-random";"volatile-random";"volatile-ttl"
+type RedisMaxMemoryPolicy string
+
+// A RedisStatus represents the observed state of a Redis in-memory data store.
+type RedisStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               RedisObservation `json:"atProvider"`
+}
+
+// RedisObservation are the observable fields of a Redis in-memory data store.
+type RedisObservation struct {
+	// FQDN is the fully qualified domain name, at which the instance is reachable at.
+	// +optional
+	FQDN string `json:"fqdn,omitempty"`
+	// DiskUsage specifies the total disk size used.
+	// +optional
+	DiskUsage *resource.Quantity `json:"size,omitempty"`
+	// CACert defines the cert of the CA that signed the certificate of the Redis instance.
+	CACert string `json:"caCert,omitempty"`
+	// Status of all the child resources.
+	meta.ChildResourceStatus `json:",inline"`
+}
+
 // Registry describes and deploys Docker Container Registry to a cluster.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

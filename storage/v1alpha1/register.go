@@ -38,6 +38,10 @@ var (
 	PostgresGroupKind        = schema.GroupKind{Group: Group, Kind: PostgresKind}.String()
 	PostgresKindAPIVersion   = PostgresKind + "." + SchemeGroupVersion.String()
 	PostgresGroupVersionKind = SchemeGroupVersion.WithKind(PostgresKind)
+	RedisKind             = reflect.TypeOf(Redis{}).Name()
+	RedisGroupKind        = schema.GroupKind{Group: Group, Kind: RedisKind}.String()
+	RedisKindAPIVersion   = RedisKind + "." + SchemeGroupVersion.String()
+	RedisGroupVersionKind = SchemeGroupVersion.WithKind(RedisKind)
 	RegistryKind             = reflect.TypeOf(Registry{}).Name()
 	RegistryGroupKind        = schema.GroupKind{Group: Group, Kind: RegistryKind}.String()
 	RegistryKindAPIVersion   = RegistryKind + "." + SchemeGroupVersion.String()
@@ -49,5 +53,6 @@ func init() {
 	SchemeBuilder.Register(&BucketUser{}, &BucketUserList{})
 	SchemeBuilder.Register(&ObjectsBucket{}, &ObjectsBucketList{})
 	SchemeBuilder.Register(&Postgres{}, &PostgresList{})
+	SchemeBuilder.Register(&Redis{}, &RedisList{})
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})
 }

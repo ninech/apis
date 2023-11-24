@@ -55,6 +55,15 @@ func (l *PostgresList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this RedisList.
+func (l *RedisList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this RegistryList.
 func (l *RegistryList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
