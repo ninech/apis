@@ -61,6 +61,7 @@ func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	AddToMapper(mapper, networking.IngressNginxGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.BucketGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.BucketUserGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, storage.MySQLGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.ObjectsBucketGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.PostgresGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.RegistryGroupVersionKind, meta.RESTScopeNamespace)
