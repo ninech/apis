@@ -224,6 +224,179 @@ type BucketUserObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 }
 
+// MySQL deploys a Self Service MySQL instance.
+//
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type MySQL struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              MySQLSpec   `json:"spec"`
+	Status            MySQLStatus `json:"status,omitempty"`
+}
+
+// MySQLList contains a list of MySQL database
+// +kubebuilder:object:root=true
+type MySQLList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []MySQL `json:"items"`
+}
+
+// A MySQLSpec defines the desired state of a MySQL database.
+type MySQLSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            MySQLParameters `json:"forProvider"`
+}
+
+// MySQLParameters are the configurable fields of a MySQL database.
+type MySQLParameters struct {
+	// MachineType defines the sizing for a particular machine and
+	// implicitly the provider.
+	//
+	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2
+	MachineType infrav1alpha1.MachineType `json:"machineType"`
+	// Location specifies in which Datacenter the database will be spawned.
+	// Needs to match the available MachineTypes in that datacenter.
+	//
+	// +immutable
+	Location meta.LocationName `json:"location"`
+	// Version specifies the MySQL version.
+	// Needs to match an available MySQL Version.
+	//
+	// +immutable
+	// +optional
+	// +kubebuilder:default:="8"
+	Version MySQLVersion `json:"version,omitempty"`
+	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
+	// IPs are in CIDR format, e.g. 192.168.1.1/24
+	//
+	// +listType:="set"
+	// +optional
+	AllowedCIDRs []IPv4CIDR `json:"allowedCIDRs"`
+	// SSHKeys contains a list of SSH public keys, allowed to connect to the
+	// db server, in order to up-/download and directly restore database backups.
+	//
+	// +optional
+	SSHKeys []SSHKey `json:"sshKeys"`
+	// SQLMode configures the sql_mode setting.
+	// Modes affect the SQL syntax MySQL supports and the data validation checks it performs.
+	//
+	// +listType:="set"
+	// +optional
+	// +kubebuilder:default={"ONLY_FULL_GROUP_BY","STRICT_TRANS_TABLES","NO_ZERO_IN_DATE","NO_ZERO_DATE","ERROR_FOR_DIVISION_BY_ZERO","NO_ENGINE_SUBSTITUTION"}
+	SQLMode *[]MySQLMode `json:"sqlMode,omitempty"`
+	// CharacterSet configures the `character_set_server` and collation_server` variables.
+	//
+	// +optional
+	CharacterSet MySQLCharacterSet `json:"characterSet"`
+	// LongQueryTime configures the `long_query_time` variable.
+	// If a query takes longer than this many seconds, the the query is logged to the slow query log file.
+	// This value is measured in real time, not CPU time, so a query that is under the threshold on a lightly
+	// loaded system might be above the threshold on a heavily loaded one.
+	// Smaller values of this variable result in more statements being considered long-running, with the result that more space is required for the slow query log.
+	//
+	// +optional
+	// +kubebuilder:default="10s"
+	LongQueryTime LongQueryTime `json:"longQueryTime,omitempty"`
+	// MinWordLength configures the`ft_min_word_len` and `innodb_ft_min_token_size` variables.
+	// Minimum length of words that are stored in an InnoDB or MyISAM FULLTEXT index.
+	//
+	// +optional
+	// +kubebuilder:default=3
+	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:validation:Maximum=16
+	MinWordLength *int `json:"minWordLength,omitempty"`
+	// TransactionIsolation configures the `transaction_isolation` variable.
+	//
+	// +optional
+	// +kubebuilder:default="REPEATABLE-READ"
+	TransactionIsolation MySQLTransactionCharacteristic `json:"transactionIsolation,omitempty"`
+	// Number of daily database backups to keep. Note, that setting this
+	// to 0, backup will be disabled and existing dumps deleted immediately.
+	//
+	// +optional
+	// +kubebuilder:default=10
+	// +kubebuilder:validation:Minimum=0
+	// +kubebuilder:validation:Maximum=365
+	KeepDailyBackups *int `json:"keepDailyBackups,omitempty"`
+}
+
+// MySQLVersion Version of MySQL
+// +kubebuilder:validation:Enum="8"
+type MySQLVersion string
+
+// IPv4CIDR represents a IPv4 address in CIDR notation
+// +kubebuilder:validation:Pattern=`\A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z`
+type IPv4CIDR string
+
+// SSHKey Public SSH key without options
+// +kubebuilder:validation:Pattern=`\A(?:sk-(?:ecdsa-sha2-nistp256|ssh-ed25519)@openssh\.com|ecdsa-sha2-nistp(?:256|384|521))|ssh-(?:ed25519|dss|rsa) [a-z0-9A-Z+\/]+={0,2}(?: [^\n]+)?\z`
+type SSHKey string
+
+// MySQLMode represents a single possible SQL mode.
+// Modes affect the SQL syntax MySQL supports and the data validation checks it performs.
+// This makes it easier to use MySQL in different environments and to use
+// MySQL together with other database servers.
+// https://dev.mysql.com/doc/refman/8.0/en/sql-mode.html
+//
+// +kubebuilder:validation:Enum="ALLOW_INVALID_DATES";"ANSI_QUOTES";"ERROR_FOR_DIVISION_BY_ZERO";"HIGH_NOT_PRECEDENCE";"IGNORE_SPACE";"NO_AUTO_VALUE_ON_ZERO";"NO_BACKSLASH_ESCAPES";"NO_DIR_IN_CREATE";"NO_ENGINE_SUBSTITUTION";"NO_UNSIGNED_SUBTRACTION";"NO_ZERO_DATE";"NO_ZERO_IN_DATE";"ONLY_FULL_GROUP_BY";"PAD_CHAR_TO_FULL_LENGTH";"PIPES_AS_CONCAT";"REAL_AS_FLOAT";"STRICT_ALL_TABLES";"STRICT_TRANS_TABLES";"TIME_TRUNCATE_FRACTIONAL"
+type MySQLMode string
+
+// MySQLCharacterSet defines the `character_set_server` and `collation_server` variables.
+type MySQLCharacterSet struct {
+	// Name configures the `character_set_server` variable.
+	// The servers default character set.
+	// See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+	// If you set this variable, you should also set collation_server to specify the collation for the character set.
+	//
+	// +optional
+	// +kubebuilder:default="utf8mb4"
+	// +kubebuilder:validation:Enum="armscii8";"ascii";"big5";"binary";"cp1250";"cp1251";"cp1256";"cp1257";"cp850";"cp852";"cp866";"cp932";"dec8";"eucjpms";"euckr";"gb2312";"gbk";"geostd8";"greek";"hebrew";"hp8";"keybcs2";"koi8r";"koi8u";"latin1";"latin2";"latin5";"latin7";"macce";"macroman";"sjis";"swe7";"tis620";"ucs2";"ujis";"utf16";"utf16le";"utf32";"utf8mb3";"utf8mb4"
+	Name string `json:"name,omitempty"`
+	// Collation configures the `collation_server` variable.
+	// The server's default collation.
+	// See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+	// This should be aligned with the configured character set.
+	//
+	// +optional
+	// +kubebuilder:default="utf8mb4_unicode_ci"
+	// +kubebuilder:validation:Enum="armscii8_bin";"armscii8_general_ci";"armscii8_general_nopad_ci";"armscii8_nopad_bin";"ascii_bin";"ascii_general_ci";"ascii_general_nopad_ci";"ascii_nopad_bin";"big5_bin";"big5_chinese_ci";"big5_chinese_nopad_ci";"big5_nopad_bin";"binary";"cp1250_bin";"cp1250_croatian_ci";"cp1250_czech_cs";"cp1250_general_ci";"cp1250_general_nopad_ci";"cp1250_nopad_bin";"cp1250_polish_ci";"cp1251_bin";"cp1251_bulgarian_ci";"cp1251_general_ci";"cp1251_general_cs";"cp1251_general_nopad_ci";"cp1251_nopad_bin";"cp1251_ukrainian_ci";"cp1256_bin";"cp1256_general_ci";"cp1256_general_nopad_ci";"cp1256_nopad_bin";"cp1257_bin";"cp1257_general_ci";"cp1257_general_nopad_ci";"cp1257_lithuanian_ci";"cp1257_nopad_bin";"cp850_bin";"cp850_general_ci";"cp850_general_nopad_ci";"cp850_nopad_bin";"cp852_bin";"cp852_general_ci";"cp852_general_nopad_ci";"cp852_nopad_bin";"cp866_bin";"cp866_general_ci";"cp866_general_nopad_ci";"cp866_nopad_bin";"cp932_bin";"cp932_japanese_ci";"cp932_japanese_nopad_ci";"cp932_nopad_bin";"dec8_bin";"dec8_nopad_bin";"dec8_swedish_ci";"dec8_swedish_nopad_ci";"eucjpms_bin";"eucjpms_japanese_ci";"eucjpms_japanese_nopad_ci";"eucjpms_nopad_bin";"euckr_bin";"euckr_korean_ci";"euckr_korean_nopad_ci";"euckr_nopad_bin";"gb2312_bin";"gb2312_chinese_ci";"gb2312_chinese_nopad_ci";"gb2312_nopad_bin";"gbk_bin";"gbk_chinese_ci";"gbk_chinese_nopad_ci";"gbk_nopad_bin";"geostd8_bin";"geostd8_general_ci";"geostd8_general_nopad_ci";"geostd8_nopad_bin";"greek_bin";"greek_general_ci";"greek_general_nopad_ci";"greek_nopad_bin";"hebrew_bin";"hebrew_general_ci";"hebrew_general_nopad_ci";"hebrew_nopad_bin";"hp8_bin";"hp8_english_ci";"hp8_english_nopad_ci";"hp8_nopad_bin";"keybcs2_bin";"keybcs2_general_ci";"keybcs2_general_nopad_ci";"keybcs2_nopad_bin";"koi8r_bin";"koi8r_general_ci";"koi8r_general_nopad_ci";"koi8r_nopad_bin";"koi8u_bin";"koi8u_general_ci";"koi8u_general_nopad_ci";"koi8u_nopad_bin";"latin1_bin";"latin1_danish_ci";"latin1_general_ci";"latin1_general_cs";"latin1_german1_ci";"latin1_german2_ci";"latin1_nopad_bin";"latin1_spanish_ci";"latin1_swedish_ci";"latin1_swedish_nopad_ci";"latin2_bin";"latin2_croatian_ci";"latin2_czech_cs";"latin2_general_ci";"latin2_general_nopad_ci";"latin2_hungarian_ci";"latin2_nopad_bin";"latin5_bin";"latin5_nopad_bin";"latin5_turkish_ci";"latin5_turkish_nopad_ci";"latin7_bin";"latin7_estonian_cs";"latin7_general_ci";"latin7_general_cs";"latin7_general_nopad_ci";"latin7_nopad_bin";"macce_bin";"macce_general_ci";"macce_general_nopad_ci";"macce_nopad_bin";"macroman_bin";"macroman_general_ci";"macroman_general_nopad_ci";"macroman_nopad_bin";"sjis_bin";"sjis_japanese_ci";"sjis_japanese_nopad_ci";"sjis_nopad_bin";"swe7_bin";"swe7_nopad_bin";"swe7_swedish_ci";"swe7_swedish_nopad_ci";"tis620_bin";"tis620_nopad_bin";"tis620_thai_ci";"tis620_thai_nopad_ci";"ucs2_bin";"ucs2_croatian_ci";"ucs2_croatian_mysql561_ci";"ucs2_czech_ci";"ucs2_danish_ci";"ucs2_esperanto_ci";"ucs2_estonian_ci";"ucs2_general_ci";"ucs2_general_mysql500_ci";"ucs2_general_nopad_ci";"ucs2_german2_ci";"ucs2_hungarian_ci";"ucs2_icelandic_ci";"ucs2_latvian_ci";"ucs2_lithuanian_ci";"ucs2_myanmar_ci";"ucs2_nopad_bin";"ucs2_persian_ci";"ucs2_polish_ci";"ucs2_roman_ci";"ucs2_romanian_ci";"ucs2_sinhala_ci";"ucs2_slovak_ci";"ucs2_slovenian_ci";"ucs2_spanish2_ci";"ucs2_spanish_ci";"ucs2_swedish_ci";"ucs2_thai_520_w2";"ucs2_turkish_ci";"ucs2_unicode_520_ci";"ucs2_unicode_520_nopad_ci";"ucs2_unicode_ci";"ucs2_unicode_nopad_ci";"ucs2_vietnamese_ci";"ujis_bin";"ujis_japanese_ci";"ujis_japanese_nopad_ci";"ujis_nopad_bin";"utf16_bin";"utf16_croatian_ci";"utf16_croatian_mysql561_ci";"utf16_czech_ci";"utf16_danish_ci";"utf16_esperanto_ci";"utf16_estonian_ci";"utf16_general_ci";"utf16_general_nopad_ci";"utf16_german2_ci";"utf16_hungarian_ci";"utf16_icelandic_ci";"utf16_latvian_ci";"utf16le_bin";"utf16le_general_ci";"utf16le_general_nopad_ci";"utf16le_nopad_bin";"utf16_lithuanian_ci";"utf16_myanmar_ci";"utf16_nopad_bin";"utf16_persian_ci";"utf16_polish_ci";"utf16_roman_ci";"utf16_romanian_ci";"utf16_sinhala_ci";"utf16_slovak_ci";"utf16_slovenian_ci";"utf16_spanish2_ci";"utf16_spanish_ci";"utf16_swedish_ci";"utf16_thai_520_w2";"utf16_turkish_ci";"utf16_unicode_520_ci";"utf16_unicode_520_nopad_ci";"utf16_unicode_ci";"utf16_unicode_nopad_ci";"utf16_vietnamese_ci";"utf32_bin";"utf32_croatian_ci";"utf32_croatian_mysql561_ci";"utf32_czech_ci";"utf32_danish_ci";"utf32_esperanto_ci";"utf32_estonian_ci";"utf32_general_ci";"utf32_general_nopad_ci";"utf32_german2_ci";"utf32_hungarian_ci";"utf32_icelandic_ci";"utf32_latvian_ci";"utf32_lithuanian_ci";"utf32_myanmar_ci";"utf32_nopad_bin";"utf32_persian_ci";"utf32_polish_ci";"utf32_roman_ci";"utf32_romanian_ci";"utf32_sinhala_ci";"utf32_slovak_ci";"utf32_slovenian_ci";"utf32_spanish2_ci";"utf32_spanish_ci";"utf32_swedish_ci";"utf32_thai_520_w2";"utf32_turkish_ci";"utf32_unicode_520_ci";"utf32_unicode_520_nopad_ci";"utf32_unicode_ci";"utf32_unicode_nopad_ci";"utf32_vietnamese_ci";"utf8mb3_bin";"utf8mb3_croatian_ci";"utf8mb3_croatian_mysql561_ci";"utf8mb3_czech_ci";"utf8mb3_danish_ci";"utf8mb3_esperanto_ci";"utf8mb3_estonian_ci";"utf8mb3_general_ci";"utf8mb3_general_mysql500_ci";"utf8mb3_general_nopad_ci";"utf8mb3_german2_ci";"utf8mb3_hungarian_ci";"utf8mb3_icelandic_ci";"utf8mb3_latvian_ci";"utf8mb3_lithuanian_ci";"utf8mb3_myanmar_ci";"utf8mb3_nopad_bin";"utf8mb3_persian_ci";"utf8mb3_polish_ci";"utf8mb3_roman_ci";"utf8mb3_romanian_ci";"utf8mb3_sinhala_ci";"utf8mb3_slovak_ci";"utf8mb3_slovenian_ci";"utf8mb3_spanish2_ci";"utf8mb3_spanish_ci";"utf8mb3_swedish_ci";"utf8mb3_thai_520_w2";"utf8mb3_turkish_ci";"utf8mb3_unicode_520_ci";"utf8mb3_unicode_520_nopad_ci";"utf8mb3_unicode_ci";"utf8mb3_unicode_nopad_ci";"utf8mb3_vietnamese_ci";"utf8mb4_bin";"utf8mb4_croatian_ci";"utf8mb4_croatian_mysql561_ci";"utf8mb4_czech_ci";"utf8mb4_danish_ci";"utf8mb4_esperanto_ci";"utf8mb4_estonian_ci";"utf8mb4_general_ci";"utf8mb4_general_nopad_ci";"utf8mb4_german2_ci";"utf8mb4_hungarian_ci";"utf8mb4_icelandic_ci";"utf8mb4_latvian_ci";"utf8mb4_lithuanian_ci";"utf8mb4_myanmar_ci";"utf8mb4_nopad_bin";"utf8mb4_persian_ci";"utf8mb4_polish_ci";"utf8mb4_roman_ci";"utf8mb4_romanian_ci";"utf8mb4_sinhala_ci";"utf8mb4_slovak_ci";"utf8mb4_slovenian_ci";"utf8mb4_spanish2_ci";"utf8mb4_spanish_ci";"utf8mb4_swedish_ci";"utf8mb4_thai_520_w2";"utf8mb4_turkish_ci";"utf8mb4_unicode_520_ci";"utf8mb4_unicode_520_nopad_ci";"utf8mb4_unicode_ci";"utf8mb4_unicode_nopad_ci";"utf8mb4_vietnamese_ci"
+	Collation string `json:"collation,omitempty"`
+}
+
+// LongQueryTime configures the `long_query_time` variable.
+type LongQueryTime string
+
+// MySQLTransactionCharacteristic value sets the transaction isolation level or access mode.
+// The isolation level is used for operations on InnoDB tables.
+// The access mode specifies whether transactions operate in read/write or read-only mode.
+//
+// +kubebuilder:validation:Enum="READ-UNCOMMITTED";"READ-COMMITTED";"REPEATABLE-READ";"SERIALIZABLE"
+type MySQLTransactionCharacteristic string
+
+// A MySQLStatus represents the observed state of a MySQL database.
+type MySQLStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               MySQLObservation `json:"atProvider"`
+}
+
+// MySQLObservation are the observable fields of a MySQL database.
+type MySQLObservation struct {
+	// FQDN is the fully qualified domain name, at which the database is reachable at.
+	// +optional
+	FQDN string `json:"fqdn,omitempty"`
+	// Size specifies the total disk size
+	// +optional
+	Size *resource.Quantity `json:"size,omitempty"`
+	// Status of all our child resources.
+	meta.ChildResourceStatus `json:",inline"`
+}
+
 // ObjectsBucket defines a Nutanix Objects Bucket.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -363,14 +536,6 @@ type PostgresParameters struct {
 // PostgresVersion Version of Postgres
 // +kubebuilder:validation:Enum="13";"14";"15"
 type PostgresVersion string
-
-// IPv4CIDR represents a IPv4 address in CIDR notation
-// +kubebuilder:validation:Pattern=`\A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z`
-type IPv4CIDR string
-
-// SSHKey Public SSH key without options
-// +kubebuilder:validation:Pattern=`\A(?:sk-(?:ecdsa-sha2-nistp256|ssh-ed25519)@openssh\.com|ecdsa-sha2-nistp(?:256|384|521))|ssh-(?:ed25519|dss|rsa) [a-z0-9A-Z+\/]+={0,2}(?: [^\n]+)?\z`
-type SSHKey string
 
 // A PostgresStatus represents the observed state of a Postgres database.
 type PostgresStatus struct {
