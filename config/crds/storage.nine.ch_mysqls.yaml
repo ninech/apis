@@ -58,8 +58,10 @@ spec:
                   database.
                 properties:
                   allowedCIDRs:
-                    description: AllowedCIDRs specify the allowed IP addresses, connecting
-                      to the db. IPs are in CIDR format, e.g. 192.168.1.1/24
+                    description: 'AllowedCIDRs specify the allowed IP addresses, connecting
+                      to the db. IPs are in CIDR format, e.g. 192.168.1.1/24 Access
+                      from our Kubernetes products NKE and GKE as well as from deplo.io
+                      is already enabled. See the documentation here: https://docs.nine.ch/docs/on-demand-databases/configuration-options#allowed-ip-addresses'
                     items:
                       description: IPv4CIDR represents a IPv4 address in CIDR notation
                       pattern: \A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z
