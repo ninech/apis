@@ -274,6 +274,8 @@ type MySQLParameters struct {
 	Version MySQLVersion `json:"version,omitempty"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
+	// Access from our Kubernetes products NKE and GKE as well as from deplo.io is already enabled.
+	// See the documentation here: https://docs.nine.ch/docs/on-demand-databases/configuration-options#allowed-ip-addresses
 	//
 	// +listType:="set"
 	// +optional
@@ -517,6 +519,9 @@ type PostgresParameters struct {
 	Version PostgresVersion `json:"version"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
+	// Access from our Kubernetes products NKE and GKE as well as from deplo.io is already enabled.
+	// See the documentation here: https://docs.nine.ch/docs/on-demand-databases/configuration-options#allowed-ip-addresses
+	//
 	// +listType:="set"
 	// +optional
 	AllowedCIDRs []IPv4CIDR `json:"allowedCIDRs"`
