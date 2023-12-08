@@ -104,6 +104,29 @@ type IngressNginxParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	SSLPassthrough bool `json:"sslPassthrough,omitempty"`
+	// DisableSnippetAnnotations disables all "*-snippet" annotations (like
+	// "configuration-snippet" or "server-snippet") on ingress resources.
+	// These annotations are potentially dangerous in an environment where
+	// you do not trust all your users (multitenant environments). For
+	// example, it might allow to see the generated nginx.conf file.
+	// +optional
+	// +kubebuilder:default:=false
+	DisableSnippetAnnotations bool `json:"disableSnippetAnnotations,omitempty"`
+	// AnnotationValueWordBlocklist is a list of comma seperated words
+	// which, if found in snippet annotations, will block the acceptance of
+	// the ingress resource. This allows to block nginx configuration stanzas
+	// which are potentially dangerous in a multitenant use case of the
+	// ingress controller while still allowing snippet annotations to be
+	// made.
+	//
+	// The suggested list of the ingress-nginx project is:
+	// "load_module,lua_package,_by_lua,location,root,proxy_pass,serviceaccount,{,},',\""
+	//
+	// It is still recommended to disable snippet annotations in general
+	// (see disableSnippetAnnotations) when using this ingress-nginx in a
+	// multitenant scenario.
+	// +optional
+	AnnotationValueWordBlocklist string `json:"annotationValueWordBlocklist,omitempty"`
 }
 
 // IngressNginxCache uses the nginx settings `proxy_cache_<x>` to cache

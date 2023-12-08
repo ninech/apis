@@ -59,6 +59,18 @@ spec:
                 description: IngressNginxParameters are the configurable fields of
                   a IngressNginx.
                 properties:
+                  annotationValueWordBlocklist:
+                    description: "AnnotationValueWordBlocklist is a list of comma
+                      seperated words which, if found in snippet annotations, will
+                      block the acceptance of the ingress resource. This allows to
+                      block nginx configuration stanzas which are potentially dangerous
+                      in a multitenant use case of the ingress controller while still
+                      allowing snippet annotations to be made. \n The suggested list
+                      of the ingress-nginx project is: \"load_module,lua_package,_by_lua,location,root,proxy_pass,serviceaccount,{,},',\\\"\"
+                      \n It is still recommended to disable snippet annotations in
+                      general (see disableSnippetAnnotations) when using this ingress-nginx
+                      in a multitenant scenario."
+                    type: string
                   appendToXForwardedFor:
                     default: false
                     description: AppendToXForwardedFor defines if the ingress should
@@ -168,6 +180,15 @@ spec:
                           default backend.
                         type: integer
                     type: object
+                  disableSnippetAnnotations:
+                    default: false
+                    description: DisableSnippetAnnotations disables all "*-snippet"
+                      annotations (like "configuration-snippet" or "server-snippet")
+                      on ingress resources. These annotations are potentially dangerous
+                      in an environment where you do not trust all your users (multitenant
+                      environments). For example, it might allow to see the generated
+                      nginx.conf file.
+                    type: boolean
                   ingressClass:
                     default: nginx
                     description: IngressClass sets the class of the ingress controller.
