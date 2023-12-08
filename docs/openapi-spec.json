@@ -18811,6 +18811,10 @@
                 "cluster"
               ],
               "properties": {
+                "annotationValueWordBlocklist": {
+                  "description": "AnnotationValueWordBlocklist is a list of comma seperated words which, if found in snippet annotations, will block the acceptance of the ingress resource. This allows to block nginx configuration stanzas which are potentially dangerous in a multitenant use case of the ingress controller while still allowing snippet annotations to be made. \n The suggested list of the ingress-nginx project is: \"load_module,lua_package,_by_lua,location,root,proxy_pass,serviceaccount,{,},',\\\"\" \n It is still recommended to disable snippet annotations in general (see disableSnippetAnnotations) when using this ingress-nginx in a multitenant scenario.",
+                  "type": "string"
+                },
                 "appendToXForwardedFor": {
                   "description": "AppendToXForwardedFor defines if the ingress should take the incoming X-Forwarded-For header and append IPs to it, instead of replacing the whole header. Do NOT use this option in combination with Cloudflare enabled as this will break client IP detection.",
                   "type": "boolean"
@@ -18890,6 +18894,10 @@
                       "type": "integer"
                     }
                   }
+                },
+                "disableSnippetAnnotations": {
+                  "description": "DisableSnippetAnnotations disables all \"*-snippet\" annotations (like \"configuration-snippet\" or \"server-snippet\") on ingress resources. These annotations are potentially dangerous in an environment where you do not trust all your users (multitenant environments). For example, it might allow to see the generated nginx.conf file.",
+                  "type": "boolean"
                 },
                 "ingressClass": {
                   "description": "IngressClass sets the class of the ingress controller. Specifies which ingress objects the controller should take care of. Please note that the class `nginx` itself will handle all ingresses without a class annotation set.",
