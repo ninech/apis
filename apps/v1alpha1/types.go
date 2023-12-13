@@ -141,8 +141,7 @@ type GitTarget struct {
 	// code. If not given, the root directory of the git repo will be used. The
 	// SubPath field needs to start with a letter.
 	// +optional
-	// +kubebuilder:validation:Pattern=^[^\/].*$
-	SubPath string `json:"subPath,omitempty"`
+	SubPath string `json:"subPath"`
 	// Revision defines the revision of the source to deploy the application
 	// to. This can be a commit, tag, or branch.
 	// +kubebuilder:validation:MinLength=1
