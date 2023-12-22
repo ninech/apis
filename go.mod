@@ -6,10 +6,10 @@ require (
 	github.com/crossplane-contrib/provider-helm v0.9.0
 	github.com/crossplane/crossplane-runtime v0.15.1
 	github.com/gobuffalo/flect v0.2.3
-	github.com/prometheus/common v0.37.0
-	github.com/vmware-tanzu/velero v1.6.3
-	k8s.io/api v0.23.5
-	k8s.io/apimachinery v0.23.5
-	k8s.io/utils v0.0.0-20211116205334-6203023598ed
-	sigs.k8s.io/controller-runtime v0.11.2
+	github.com/prometheus/common v0.44.0
+	github.com/vmware-tanzu/velero v1.12.2
+	k8s.io/api v0.28.3
+	k8s.io/apimachinery v0.28.3
+	k8s.io/utils v0.0.0-20230406110748-d93618cff8a2
+	sigs.k8s.io/controller-runtime v0.16.3
 )
