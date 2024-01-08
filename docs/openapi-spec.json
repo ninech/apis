@@ -15272,6 +15272,25 @@
                     }
                   }
                 },
+                "env": {
+                  "description": "Env variables used at the build time",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "value"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
                 "image": {
                   "description": "Images defines the image spec of the final built image",
                   "type": "object",
@@ -15394,6 +15413,29 @@
               "description": "BuildObservation are the observable fields of a Build.",
               "type": "object",
               "properties": {
+                "buildMetadata": {
+                  "description": "BuildMetadata describes the list of buildpack binaries that were used in the build phase",
+                  "type": "array",
+                  "items": {
+                    "description": "BuildpackMetadata describes the binary that was used in the build phase. Copied from https://github.com/buildpacks-community/kpack/blob/v0.10.0/pkg/apis/core/v1alpha1/buildpack_metadata.go",
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "version"
+                    ],
+                    "properties": {
+                      "homepage": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
                 "buildStatus": {
                   "description": "Status describes the status of the build",
                   "type": "string"

@@ -315,6 +315,14 @@ type VerificationError struct {
 // CertificateStatus represents the Certificate status
 type CertificateStatus string
 
+// BuildpackMetadata describes the binary that was used in the build phase.
+// Copied from https://github.com/buildpacks-community/kpack/blob/v0.10.0/pkg/apis/core/v1alpha1/buildpack_metadata.go
+type BuildpackMetadata struct {
+	Id       string `json:"id"`
+	Version  string `json:"version"`
+	Homepage string `json:"homepage,omitempty"`
+}
+
 // A Build represents an OCI image build of some referenced source code
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -354,6 +362,9 @@ type BuildParameters struct {
 	// Config contains deployment related config
 	// +optional
 	Config Config `json:"config"`
+	// Env variables used at the build time
+	// +optional
+	Env EnvVars `json:"env,omitempty"`
 }
 
 // BuildReference describes a reference to a kpack build on a cluster
@@ -385,10 +396,17 @@ type BuildObservation struct {
 	// StepsCompleted describes all the completed build steps
 	// +optional
 	StepsCompleted []string `json:"stepsCompleted,omitempty"`
+	// BuildMetadata describes the list of buildpack binaries that were used in
+	// the build phase
+	// +optional
+	BuildMetadata BuildpackMetadataList `json:"buildMetadata,omitempty"`
 }
 
 // BuildProcessStatus describes the status of a build
 type BuildProcessStatus string
+
+// BuildpackMetadataList contains a list of BuildpackMetadata
+type BuildpackMetadataList []BuildpackMetadata
 
 // ConfigOrigin describes the origin of a config
 type ConfigOrigin string
