@@ -171,6 +171,19 @@ spec:
                         - standard-2
                         type: string
                     type: object
+                  env:
+                    description: Env variables used at the build time
+                    items:
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
                   image:
                     description: Images defines the image spec of the final built
                       image
@@ -285,6 +298,24 @@ spec:
               atProvider:
                 description: BuildObservation are the observable fields of a Build.
                 properties:
+                  buildMetadata:
+                    description: BuildMetadata describes the list of buildpack binaries
+                      that were used in the build phase
+                    items:
+                      description: BuildpackMetadata describes the binary that was
+                        used in the build phase. Copied from https://github.com/buildpacks-community/kpack/blob/v0.10.0/pkg/apis/core/v1alpha1/buildpack_metadata.go
+                      properties:
+                        homepage:
+                          type: string
+                        id:
+                          type: string
+                        version:
+                          type: string
+                      required:
+                      - id
+                      - version
+                      type: object
+                    type: array
                   buildStatus:
                     description: Status describes the status of the build
                     type: string
