@@ -29,17 +29,19 @@ func (mg *ArgoCD) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this ArgoCD.
+func (mg *ArgoCD) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this ArgoCD.
 func (mg *ArgoCD) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this ArgoCD.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *ArgoCD) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this ArgoCD.
+func (mg *ArgoCD) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this ArgoCD.
@@ -57,17 +59,19 @@ func (mg *ArgoCD) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this ArgoCD.
+func (mg *ArgoCD) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this ArgoCD.
 func (mg *ArgoCD) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this ArgoCD.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *ArgoCD) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this ArgoCD.
+func (mg *ArgoCD) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ArgoCD.

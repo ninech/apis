@@ -29,17 +29,19 @@ func (mg *Bucket) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this Bucket.
+func (mg *Bucket) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this Bucket.
 func (mg *Bucket) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Bucket.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Bucket) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this Bucket.
+func (mg *Bucket) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this Bucket.
@@ -57,17 +59,19 @@ func (mg *Bucket) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this Bucket.
+func (mg *Bucket) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this Bucket.
 func (mg *Bucket) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this Bucket.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Bucket) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this Bucket.
+func (mg *Bucket) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this Bucket.
@@ -85,17 +89,19 @@ func (mg *BucketUser) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this BucketUser.
+func (mg *BucketUser) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this BucketUser.
 func (mg *BucketUser) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this BucketUser.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *BucketUser) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this BucketUser.
+func (mg *BucketUser) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this BucketUser.
@@ -113,17 +119,19 @@ func (mg *BucketUser) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this BucketUser.
+func (mg *BucketUser) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this BucketUser.
 func (mg *BucketUser) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this BucketUser.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *BucketUser) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this BucketUser.
+func (mg *BucketUser) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this BucketUser.
@@ -141,17 +149,19 @@ func (mg *MySQL) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this MySQL.
+func (mg *MySQL) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this MySQL.
 func (mg *MySQL) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this MySQL.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *MySQL) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this MySQL.
+func (mg *MySQL) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this MySQL.
@@ -169,17 +179,19 @@ func (mg *MySQL) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this MySQL.
+func (mg *MySQL) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this MySQL.
 func (mg *MySQL) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this MySQL.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *MySQL) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this MySQL.
+func (mg *MySQL) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this MySQL.
@@ -197,17 +209,19 @@ func (mg *ObjectsBucket) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this ObjectsBucket.
+func (mg *ObjectsBucket) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this ObjectsBucket.
 func (mg *ObjectsBucket) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this ObjectsBucket.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *ObjectsBucket) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this ObjectsBucket.
+func (mg *ObjectsBucket) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this ObjectsBucket.
@@ -225,17 +239,19 @@ func (mg *ObjectsBucket) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this ObjectsBucket.
+func (mg *ObjectsBucket) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this ObjectsBucket.
 func (mg *ObjectsBucket) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this ObjectsBucket.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *ObjectsBucket) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this ObjectsBucket.
+func (mg *ObjectsBucket) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ObjectsBucket.
@@ -253,17 +269,19 @@ func (mg *Postgres) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this Postgres.
+func (mg *Postgres) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this Postgres.
 func (mg *Postgres) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Postgres.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Postgres) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this Postgres.
+func (mg *Postgres) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this Postgres.
@@ -281,17 +299,19 @@ func (mg *Postgres) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this Postgres.
+func (mg *Postgres) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this Postgres.
 func (mg *Postgres) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this Postgres.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Postgres) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this Postgres.
+func (mg *Postgres) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this Postgres.
@@ -309,17 +329,19 @@ func (mg *Registry) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this Registry.
+func (mg *Registry) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this Registry.
 func (mg *Registry) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this Registry.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *Registry) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this Registry.
+func (mg *Registry) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this Registry.
@@ -337,17 +359,19 @@ func (mg *Registry) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this Registry.
+func (mg *Registry) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this Registry.
 func (mg *Registry) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this Registry.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *Registry) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this Registry.
+func (mg *Registry) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this Registry.

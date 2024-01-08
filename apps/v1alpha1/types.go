@@ -4,7 +4,7 @@ import (
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/ptr"
 )
 
 const (
@@ -72,7 +72,7 @@ const (
 var (
 	// DefaultConfig defines the default values used for deplo.io
 	// applications
-	DefaultConfig                 = Config{Size: AppMicro, Replicas: pointer.Int32(1), Port: pointer.Int32(8080), EnableBasicAuth: pointer.Bool(false)}
+	DefaultConfig                 = Config{Size: AppMicro, Replicas: ptr.To(int32(1)), Port: ptr.To(int32(8080)), EnableBasicAuth: ptr.To(false)}
 	AppMicro      ApplicationSize = "micro"
 	AppMini       ApplicationSize = "mini"
 	AppStandard1  ApplicationSize = "standard-1"

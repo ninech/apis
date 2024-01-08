@@ -29,17 +29,19 @@ func (mg *APIServiceAccount) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this APIServiceAccount.
+func (mg *APIServiceAccount) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this APIServiceAccount.
 func (mg *APIServiceAccount) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this APIServiceAccount.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *APIServiceAccount) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this APIServiceAccount.
+func (mg *APIServiceAccount) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this APIServiceAccount.
@@ -57,17 +59,19 @@ func (mg *APIServiceAccount) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this APIServiceAccount.
+func (mg *APIServiceAccount) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this APIServiceAccount.
 func (mg *APIServiceAccount) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this APIServiceAccount.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *APIServiceAccount) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this APIServiceAccount.
+func (mg *APIServiceAccount) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this APIServiceAccount.
@@ -85,17 +89,19 @@ func (mg *KubernetesClustersRoleBinding) GetDeletionPolicy() xpv1.DeletionPolicy
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this KubernetesClustersRoleBinding.
+func (mg *KubernetesClustersRoleBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this KubernetesClustersRoleBinding.
 func (mg *KubernetesClustersRoleBinding) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this KubernetesClustersRoleBinding.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *KubernetesClustersRoleBinding) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this KubernetesClustersRoleBinding.
+func (mg *KubernetesClustersRoleBinding) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this KubernetesClustersRoleBinding.
@@ -113,17 +119,19 @@ func (mg *KubernetesClustersRoleBinding) SetDeletionPolicy(r xpv1.DeletionPolicy
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this KubernetesClustersRoleBinding.
+func (mg *KubernetesClustersRoleBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this KubernetesClustersRoleBinding.
 func (mg *KubernetesClustersRoleBinding) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this KubernetesClustersRoleBinding.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *KubernetesClustersRoleBinding) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this KubernetesClustersRoleBinding.
+func (mg *KubernetesClustersRoleBinding) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this KubernetesClustersRoleBinding.
@@ -141,17 +149,19 @@ func (mg *KubernetesServiceAccount) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
+// GetManagementPolicies of this KubernetesServiceAccount.
+func (mg *KubernetesServiceAccount) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
 // GetProviderConfigReference of this KubernetesServiceAccount.
 func (mg *KubernetesServiceAccount) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-/*
-GetProviderReference of this KubernetesServiceAccount.
-Deprecated: Use GetProviderConfigReference.
-*/
-func (mg *KubernetesServiceAccount) GetProviderReference() *xpv1.Reference {
-	return mg.Spec.ProviderReference
+// GetPublishConnectionDetailsTo of this KubernetesServiceAccount.
+func (mg *KubernetesServiceAccount) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this KubernetesServiceAccount.
@@ -169,17 +179,19 @@ func (mg *KubernetesServiceAccount) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
+// SetManagementPolicies of this KubernetesServiceAccount.
+func (mg *KubernetesServiceAccount) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
 // SetProviderConfigReference of this KubernetesServiceAccount.
 func (mg *KubernetesServiceAccount) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-/*
-SetProviderReference of this KubernetesServiceAccount.
-Deprecated: Use SetProviderConfigReference.
-*/
-func (mg *KubernetesServiceAccount) SetProviderReference(r *xpv1.Reference) {
-	mg.Spec.ProviderReference = r
+// SetPublishConnectionDetailsTo of this KubernetesServiceAccount.
+func (mg *KubernetesServiceAccount) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this KubernetesServiceAccount.
