@@ -269,6 +269,10 @@ type ApplicationObservation struct {
 	// default URLs where the app is available.
 	// +optional
 	DefaultHostsCertificateStatus CertificateStatus `json:"defaultHostsCertificateStatus,omitempty"`
+	// CustomHostsCertificateStatus represents the latest Certificate status for the
+	// defined custom hosts.
+	// +optional
+	CustomHostsCertificateStatus CertificateStatus `json:"customHostsCertificateStatus,omitempty"`
 	// LatestRelease shows the latest release for this application
 	// +optional
 	LatestRelease string `json:"latestRelease,omitempty"`

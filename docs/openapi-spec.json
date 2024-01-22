@@ -15577,6 +15577,10 @@
                   "description": "CNAMETarget specifies to which DNS entry all custom hosts should point to (via a CNAME entry)",
                   "type": "string"
                 },
+                "customHostsCertificateStatus": {
+                  "description": "CustomHostsCertificateStatus represents the latest Certificate status for the defined custom hosts.",
+                  "type": "string"
+                },
                 "defaultHostsCertificateStatus": {
                   "description": "DefaultHostsCertificateStatus represents the latest Certificate status for the default URLs where the app is available.",
                   "type": "string"
