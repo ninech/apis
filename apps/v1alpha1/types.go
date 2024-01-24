@@ -110,8 +110,13 @@ type ApplicationSpec struct {
 
 // ApplicationParameters are the configurable fields of a Application.
 type ApplicationParameters struct {
-	Git    ApplicationGitConfig `json:"git"`
-	Config Config               `json:"config"`
+	// Language specifies which kind of application/language should be
+	// used for building the application. If left empty, an automatic
+	// detection will be run.
+	// +optional
+	Language Language             `json:"language,omitempty"`
+	Git      ApplicationGitConfig `json:"git"`
+	Config   Config               `json:"config"`
 	// Hosts is a list of host names where the application can be accessed. If
 	// empty, the application will just be accessible on a generated host name
 	// on the deploio.app domain.
@@ -122,6 +127,11 @@ type ApplicationParameters struct {
 	// +optional
 	BuildEnv EnvVars `json:"buildEnv"`
 }
+
+// Language specifies which kind of application/language should be used
+// for building the application. It influences the buildpack used.
+// +kubebuilder:validation:Enum:="";ruby;php;python;golang;nodejs;static
+type Language string
 
 // ApplicationGitConfig configures the git repo to connect to.
 type ApplicationGitConfig struct {

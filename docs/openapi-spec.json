@@ -15403,6 +15403,19 @@
                   "items": {
                     "type": "string"
                   }
+                },
+                "language": {
+                  "description": "Language specifies which kind of application/language should be used for building the application. If left empty, an automatic detection will be run.",
+                  "type": "string",
+                  "enum": [
+                    "",
+                    "ruby",
+                    "php",
+                    "python",
+                    "golang",
+                    "nodejs",
+                    "static"
+                  ]
                 }
               }
             },
