@@ -220,19 +220,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  language:
-                    description: Language specifies which kind of application/language
-                      should be used for building the application. If left empty,
-                      an automatic detection will be run.
-                    enum:
-                    - ""
-                    - ruby
-                    - php
-                    - python
-                    - golang
-                    - nodejs
-                    - static
-                    type: string
                 required:
                 - config
                 - git
