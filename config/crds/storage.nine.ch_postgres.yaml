@@ -107,14 +107,13 @@ spec:
                       type: string
                     type: array
                   version:
-                    default: "16"
+                    default: "15"
                     description: Version specifies the Postgres version. Needs to
                       match an available Postgres Version.
                     enum:
                     - "13"
                     - "14"
                     - "15"
-                    - "16"
                     type: string
                 required:
                 - location

@@ -99,8 +99,8 @@ type RoleBindingSubject struct {
 // +kubebuilder:validation:Enum:=User;Group;ServiceAccount
 type RoleBindingKind string
 
-// KubernetesClusterRole are the permissions for KubernetesClusters. See
-// https://docs.nine.ch/a/b25bM5HIh5M/#rbac for more information.
+// KubernetesClusterRole are the permissions for KubernetesClusters.
+// See https://support.nine.ch/articles/users-permissions for more information.
 // +kubebuilder:validation:Enum:=admin;viewer;user;argocd;nine-admin;nine-viewer
 type KubernetesClusterRole string
 
