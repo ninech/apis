@@ -191,24 +191,24 @@ type GitAuth struct {
 type Config struct {
 	// +optional
 	// +kubebuilder:default:=""
-	Size ApplicationSize `json:"size" yaml:"size"`
+	Size ApplicationSize `json:"size"`
 	// Env variables which are passed to the app at runtime.
 	// +optional
-	Env EnvVars `json:"env" yaml:"env"`
+	Env EnvVars `json:"env"`
 	// Port the app is listening on.
 	// +optional
 	// +nullable
-	Port *int32 `json:"port" yaml:"port"`
+	Port *int32 `json:"port"`
 	// Replicas sets the amount of replicas of the running app. If this is
 	// increased, make sure your application can cope with running multiple
 	// replicas and all state required is shared in some way.
 	// +optional
 	// +nullable
-	Replicas *int32 `json:"replicas" yaml:"replicas"`
+	Replicas *int32 `json:"replicas"`
 	// EnableBasicAuth enables basic authentication for the application
 	// +optional
 	// +nullable
-	EnableBasicAuth *bool `json:"enableBasicAuth,omitempty" yaml:"enableBasicAuth,omitempty"`
+	EnableBasicAuth *bool `json:"enableBasicAuth,omitempty"`
 	// +optional
 	// +nullable
 	DeployJob *DeployJob `json:"deployJob,omitempty"`
@@ -425,12 +425,12 @@ type BuildpackMetadataList []BuildpackMetadata
 // ConfigOrigin describes the origin of a config
 type ConfigOrigin string
 type OriginEnvVar struct {
-	Value  EnvVar       `json:"value" yaml:"value"`
-	Origin ConfigOrigin `json:"origin" yaml:"origin"`
+	Value  EnvVar       `json:"value"`
+	Origin ConfigOrigin `json:"origin"`
 }
 type EnvVar struct {
-	Name  string `json:"name" yaml:"name"`
-	Value string `json:"value" yaml:"value"`
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 // GitExploreResponse describes the response to a GitExploreRequest.
@@ -598,40 +598,40 @@ type ReleaseParameters struct {
 // origin indicator for that field.
 type FieldOriginConfig struct {
 	// Size describes the CPU and memory requirements of the application
-	Size OriginApplicationSize `json:"size,omitempty" yaml:"size,omitempty"`
+	Size OriginApplicationSize `json:"size,omitempty"`
 	// Env variables which are passed to the app at runtime.
 	// +optional
-	Env OriginEnvVarList `json:"env,omitempty" yaml:"env,omitempty"`
+	Env OriginEnvVarList `json:"env,omitempty"`
 	// Port the app is listening on.
 	// +optional
-	Port *OriginInt32 `json:"port,omitempty" yaml:"port,omitempty"`
+	Port *OriginInt32 `json:"port,omitempty"`
 	// Replicas sets the amount of replicas of the running app.
 	// +optional
-	Replicas *OriginInt32 `json:"replicas,omitempty" yaml:"replicas,omitempty"`
+	Replicas *OriginInt32 `json:"replicas,omitempty"`
 	// EnableBasicAuth enables basic authentication for the application
 	// +optional
-	EnableBasicAuth *OriginBool `json:"enableBasicAuth,omitempty" yaml:"enableBasicAuth,omitempty"`
+	EnableBasicAuth *OriginBool `json:"enableBasicAuth,omitempty"`
 	// +optional
-	DeployJob *OriginDeployJob `json:"deployJob,omitempty" yaml:"deployJob,omitempty"`
+	DeployJob *OriginDeployJob `json:"deployJob,omitempty"`
 }
 type OriginApplicationSize struct {
 	// +optional
 	// +kubebuilder:default:=""
-	Value  ApplicationSize `json:"value" yaml:"size"`
-	Origin ConfigOrigin    `json:"origin" yaml:"origin"`
+	Value  ApplicationSize `json:"value"`
+	Origin ConfigOrigin    `json:"origin"`
 }
 type OriginEnvVarList []OriginEnvVar
 type OriginInt32 struct {
-	Value  int32        `json:"value" yaml:"value"`
-	Origin ConfigOrigin `json:"origin" yaml:"origin"`
+	Value  int32        `json:"value"`
+	Origin ConfigOrigin `json:"origin"`
 }
 type OriginBool struct {
-	Value  bool         `json:"value" yaml:"value"`
-	Origin ConfigOrigin `json:"origin" yaml:"origin"`
+	Value  bool         `json:"value"`
+	Origin ConfigOrigin `json:"origin"`
 }
 type OriginDeployJob struct {
-	Value  DeployJob    `json:"value" yaml:"value"`
-	Origin ConfigOrigin `json:"origin" yaml:"origin"`
+	Value  DeployJob    `json:"value"`
+	Origin ConfigOrigin `json:"origin"`
 }
 
 // An ReleaseStatus represents the observed Release state
