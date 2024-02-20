@@ -211,7 +211,7 @@ type Config struct {
 	EnableBasicAuth *bool `json:"enableBasicAuth,omitempty" yaml:"enableBasicAuth,omitempty"`
 	// +optional
 	// +nullable
-	DeployJob *DeployJob `json:"deployJob,omitempty"`
+	DeployJob *DeployJob `json:"deployJob,omitempty" yaml:"deployJob,omitempty"`
 }
 
 // ApplicationSize defines the size of an application and the resources that
@@ -224,17 +224,17 @@ type EnvVars []EnvVar
 // deployed. The deployment will only continue if the job finished
 // successfully.
 type DeployJob struct {
-	Job       `json:",inline"`
-	FiniteJob `json:",inline"`
+	Job       `json:",inline" yaml:",inline"`
+	FiniteJob `json:",inline" yaml:",inline"`
 }
 
 // Job defines fields which all jobs have in common
 type Job struct {
 	// Name of the Job.
-	Name string `json:"name"`
+	Name string `json:"name" yaml:"name"`
 	// Command to execute. This command will be executed by a bash shell which
 	// gets started by the cloud native buildpacks launcher binary.
-	Command string `json:"command"`
+	Command string `json:"command" yaml:"command"`
 }
 
 // FiniteJob defines fields for all jobs which have a finite runtime
@@ -243,13 +243,13 @@ type FiniteJob struct {
 	// +optional
 	// +kubebuilder:default:=0
 	// +kubebuilder:validation:max:=5
-	Retries *int32 `json:"retries,omitempty"`
+	Retries *int32 `json:"retries,omitempty" yaml:"retries,omitempty"`
 	// Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.
 	// +optional
 	// +kubebuilder:default:="5m"
 	// +kubebuilder:validation:Type=string
 	// +kubebuilder:validation:Format=duration
-	Timeout *metav1.Duration `json:"timeout,omitempty"`
+	Timeout *metav1.Duration `json:"timeout,omitempty" yaml:"timeout,omitempty"`
 }
 
 // An ApplicationStatus represents the observed state of an Application.
