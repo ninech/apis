@@ -30,6 +30,10 @@ var (
 	BucketUserGroupKind        = schema.GroupKind{Group: Group, Kind: BucketUserKind}.String()
 	BucketUserKindAPIVersion   = BucketUserKind + "." + SchemeGroupVersion.String()
 	BucketUserGroupVersionKind = SchemeGroupVersion.WithKind(BucketUserKind)
+	BucketMigrationKind             = reflect.TypeOf(BucketMigration{}).Name()
+	BucketMigrationGroupKind        = schema.GroupKind{Group: Group, Kind: BucketMigrationKind}.String()
+	BucketMigrationKindAPIVersion   = BucketMigrationKind + "." + SchemeGroupVersion.String()
+	BucketMigrationGroupVersionKind = SchemeGroupVersion.WithKind(BucketMigrationKind)
 	MySQLKind             = reflect.TypeOf(MySQL{}).Name()
 	MySQLGroupKind        = schema.GroupKind{Group: Group, Kind: MySQLKind}.String()
 	MySQLKindAPIVersion   = MySQLKind + "." + SchemeGroupVersion.String()
@@ -51,6 +55,7 @@ var (
 func init() {
 	SchemeBuilder.Register(&Bucket{}, &BucketList{})
 	SchemeBuilder.Register(&BucketUser{}, &BucketUserList{})
+	SchemeBuilder.Register(&BucketMigration{}, &BucketMigrationList{})
 	SchemeBuilder.Register(&MySQL{}, &MySQLList{})
 	SchemeBuilder.Register(&ObjectsBucket{}, &ObjectsBucketList{})
 	SchemeBuilder.Register(&Postgres{}, &PostgresList{})
