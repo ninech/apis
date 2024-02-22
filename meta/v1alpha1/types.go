@@ -114,9 +114,3 @@ type LocalReferenceSelector struct {
 	// Key describes the key within the secret.
 	Key string `json:"key"`
 }
-type TypedReference struct {
-	// Reference to the resource
-	Reference `json:",inline"`
-	// Type info about the resource.
-	metav1.GroupKind `json:",inline"`
-}

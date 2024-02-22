@@ -8,25 +8,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-const (
-	FiveMins    IntervalString = "5"
-	TenMins     IntervalString = "10"
-	FifteenMins IntervalString = "15"
-	ThirtyMins  IntervalString = "30"
-	SixtyMins   IntervalString = "60"
-	// SyncStatusSucceeded indicates that the sync job has
-	// succeeded.
-	SyncStatusSucceeded SyncStatus = "succeeded"
-	// SyncStatusRunning indicates that the sync job is
-	// currently running.
-	SyncStatusRunning SyncStatus = "running"
-	// SyncStatusFailed indicates that the sync job was unable
-	// to successfully complete within the configured amount of retries.
-	SyncStatusFailed SyncStatus = "failed"
-	// SyncStatusUnknown indicates the status is unknown.
-	SyncStatusUnknown SyncStatus = "unknown"
-)
-
 // Bucket is an object storage bucket. It's used to group objects, defines
 // who can access them and how they are stored.
 // +kubebuilder:subresource:status
@@ -242,74 +223,6 @@ type BucketUserObservation struct {
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
-
-// BucketMigration is an object to migrate a v1 Bucket's data to a v2 Bucket.
-// +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
-// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Namespaced
-// +kubebuilder:object:root=true
-type BucketMigration struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BucketMigrationSpec   `json:"spec"`
-	Status            BucketMigrationStatus `json:"status,omitempty"`
-}
-
-// BucketMigrationList contains a list of BucketMigration
-// +kubebuilder:object:root=true
-type BucketMigrationList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []BucketMigration `json:"items"`
-}
-
-// A BucketMigrationSpec defines the desired state of a BucketMigration.
-type BucketMigrationSpec struct {
-	runtimev1.ResourceSpec `json:",inline"`
-	ForProvider            BucketMigrationParameters `json:"forProvider"`
-}
-
-// BucketMigrationParameters are the configurable fields of a BucketMigration.
-type BucketMigrationParameters struct {
-	// Source represents the source Bucket
-	Source meta.TypedReference `json:"source"`
-	// SourceUser is the BucketUser used for reading objects in the source
-	// Bucket. It needs read permissions on the Source Bucket.
-	SourceUser meta.TypedReference `json:"sourceUser"`
-	// Destination represents the destination Bucket
-	Destination meta.TypedReference `json:"destination"`
-	// DestinationUser is the BucketUser used for reading objects in the source
-	// Bucket. It needs read permissions on the Destination Bucket.
-	DestinationUser meta.TypedReference `json:"destinationUser"`
-	// If set to true, the BucketMigration will delete all objects in the
-	// Destination that do not exist in the Source.
-	// +kubebuilder:default:=false
-	// +optional
-	DeleteOutOfSyncObjects bool `json:"deleteOutOfSyncObjects"`
-	// Interval defines how often the sync is run
-	// +kubebuilder:default:="15"
-	// +optional
-	Interval IntervalString `json:"interval"`
-}
-type IntervalString string
-
-// A BucketMigrationStatus represents the observed state of a BucketMigration.
-type BucketMigrationStatus struct {
-	runtimev1.ResourceStatus `json:",inline"`
-	AtProvider               BucketMigrationObservation `json:"atProvider,omitempty"`
-}
-
-// BucketMigrationObservation are the observable fields of a BucketMigration.
-type BucketMigrationObservation struct {
-	// Status indicates the status of the sync job.
-	// +optional
-	Status SyncStatus `json:"status"`
-}
-
-// SyncStatus represents the sync job status
-type SyncStatus string
 
 // MySQL deploys a Self Service MySQL instance.
 //
