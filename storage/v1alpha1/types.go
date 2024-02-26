@@ -14,8 +14,6 @@ const (
 	FifteenMins IntervalString = "15"
 	ThirtyMins  IntervalString = "30"
 	SixtyMins   IntervalString = "60"
-	// SyncStatusPending indicates the sync is pending and is scheduled to be started.
-	SyncStatusPending SyncStatus = "pending"
 	// SyncStatusSucceeded indicates that the sync job has
 	// succeeded.
 	SyncStatusSucceeded SyncStatus = "succeeded"
@@ -305,21 +303,9 @@ type BucketMigrationStatus struct {
 
 // BucketMigrationObservation are the observable fields of a BucketMigration.
 type BucketMigrationObservation struct {
-	// InitialSync indicates the status of the initial bucket data sync.
-	InitialSync BucketMigrationSyncStatus `json:"initialSync"`
-	// InitialSync indicates the status of the continuous bucket data sync.
-	Resync BucketMigrationSyncStatus `json:"resync"`
-}
-type BucketMigrationSyncStatus struct {
-	// SyncStatus indicates the status of the last sync run.
+	// Status indicates the status of the sync job.
 	// +optional
 	Status SyncStatus `json:"status"`
-	// SyncStartTime is the timestamp of the last sync run start.
-	// +optional
-	SyncStartTime *metav1.Time `json:"syncStartTime"`
-	// SyncEndTime is the timestamp of the last sync run end.
-	// +optional
-	SyncEndTime *metav1.Time `json:"syncEndTime"`
 }
 
 // SyncStatus represents the sync job status

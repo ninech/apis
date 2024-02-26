@@ -325,47 +325,9 @@ spec:
                 description: BucketMigrationObservation are the observable fields
                   of a BucketMigration.
                 properties:
-                  initialSync:
-                    description: InitialSync indicates the status of the initial bucket
-                      data sync.
-                    properties:
-                      status:
-                        description: SyncStatus indicates the status of the last sync
-                          run.
-                        type: string
-                      syncEndTime:
-                        description: SyncEndTime is the timestamp of the last sync
-                          run end.
-                        format: date-time
-                        type: string
-                      syncStartTime:
-                        description: SyncStartTime is the timestamp of the last sync
-                          run start.
-                        format: date-time
-                        type: string
-                    type: object
-                  resync:
-                    description: InitialSync indicates the status of the continuous
-                      bucket data sync.
-                    properties:
-                      status:
-                        description: SyncStatus indicates the status of the last sync
-                          run.
-                        type: string
-                      syncEndTime:
-                        description: SyncEndTime is the timestamp of the last sync
-                          run end.
-                        format: date-time
-                        type: string
-                      syncStartTime:
-                        description: SyncStartTime is the timestamp of the last sync
-                          run start.
-                        format: date-time
-                        type: string
-                    type: object
-                required:
-                - initialSync
-                - resync
+                  status:
+                    description: Status indicates the status of the sync job.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.
