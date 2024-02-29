@@ -450,10 +450,23 @@ type GitExploreResponse struct {
 type RepositoryInfo struct {
 	// URL is the URL used to obtain the information
 	URL string `json:"url"`
+	// RevisionResponse returns information about the optional revision
+	// which was requested in the GitExploreRequest
+	// +optional
+	RevisionResponse *RevisionResponse `json:"revisionResponse,omitempty"`
 	// Branches are the available git branches
 	Branches []string `json:"branches,omitempty"`
 	// Tags are the available tags
 	Tags []string `json:"tags,omitempty"`
+}
+
+// RevisionResponse contains information about a requested git revision.
+// +kubebuilder:object:generate=false
+type RevisionResponse struct {
+	// RevisionRequested is the revision which was requested
+	RevisionRequested string `json:"revisionRequested"`
+	// Found is set to true if the requested revision was found, otherwise false
+	Found bool `json:"found"`
 }
 
 // GitExploreRequest describes a request to our Git information service
@@ -467,6 +480,11 @@ type GitExploreRequest struct {
 	// Auth defines the authentication which is needed. If not given, no
 	// authentication will be used.
 	Auth *Auth `json:"auth,omitempty"`
+	// +optional
+	// Revision is a git revision which will be checked for existence in
+	// the specified repository. If not given, no revision check will be
+	// done.
+	Revision string `json:"revision,omitempty"`
 }
 
 // Auth defines the possible authentication methods.
