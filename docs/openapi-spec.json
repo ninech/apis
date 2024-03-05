@@ -20346,12 +20346,21 @@
                       "description": "Version specifies the Kubernetes version that will be used for this cluster, e.g. \"1.26\". The patch version cannot be specified and the latest supported one will be used.",
                       "type": "string",
                       "enum": [
-                        "1.21",
-                        "1.22",
-                        "1.23",
-                        "1.24",
                         "1.25",
-                        "1.26"
+                        "1.26",
+                        "1.27",
+                        "1.28",
+                        "1.29"
+                      ],
+                      "x-kubernetes-validations": [
+                        {
+                          "message": "downgrade is not allowed",
+                          "rule": "double(self) \u003e= double(oldSelf)"
+                        },
+                        {
+                          "message": "only one minor upgrade is allowed",
+                          "rule": "double(self) - double(oldSelf) \u003c 0.02"
+                        }
                       ]
                     }
                   }
