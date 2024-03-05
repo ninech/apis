@@ -122,10 +122,8 @@ type VClusterSettings struct {
 	// cluster, e.g. "1.26". The patch version cannot be specified and the
 	// latest supported one will be used.
 	// +optional
-	// +kubebuilder:default:="1.28"
-	// +kubebuilder:validation:Enum:="1.25";"1.26";"1.27";"1.28";"1.29"
-	// +kubebuilder:validation:XValidation:message="downgrade is not allowed",rule="double(self) >= double(oldSelf)"
-	// +kubebuilder:validation:XValidation:message="only one minor upgrade is allowed",rule="double(self) - double(oldSelf) < 0.02"
+	// +kubebuilder:default:="1.26"
+	// +kubebuilder:validation:Enum:="1.21";"1.22";"1.23";"1.24";"1.25";"1.26"
 	Version string `json:"version,omitempty"`
 	// CertManager enables cert-manager on the vcluster. Currently just
 	// Certificate resources are supported.
