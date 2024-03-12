@@ -780,6 +780,18 @@ spec:
                       - type
                       type: object
                     type: array
+                  dbcount:
+                    description: DBCount specifies the number of DBs
+                    properties:
+                      lastUpdated:
+                        format: date-time
+                        type: string
+                      value:
+                        type: integer
+                    required:
+                    - lastUpdated
+                    - value
+                    type: object
                   fqdn:
                     description: FQDN is the fully qualified domain name, at which
                       the database is reachable at.

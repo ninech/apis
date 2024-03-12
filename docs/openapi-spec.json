@@ -26912,6 +26912,23 @@
                     }
                   }
                 },
+                "dbcount": {
+                  "description": "DBCount specifies the number of DBs",
+                  "type": "object",
+                  "required": [
+                    "lastUpdated",
+                    "value"
+                  ],
+                  "properties": {
+                    "lastUpdated": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "value": {
+                      "type": "integer"
+                    }
+                  }
+                },
                 "fqdn": {
                   "description": "FQDN is the fully qualified domain name, at which the database is reachable at.",
                   "type": "string"
@@ -27760,6 +27777,23 @@
                           }
                         }
                       }
+                    }
+                  }
+                },
+                "dbcount": {
+                  "description": "DBCount specifies the number of DBs",
+                  "type": "object",
+                  "required": [
+                    "lastUpdated",
+                    "value"
+                  ],
+                  "properties": {
+                    "lastUpdated": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "value": {
+                      "type": "integer"
                     }
                   }
                 },
