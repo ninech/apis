@@ -309,6 +309,10 @@ type BucketMigrationObservation struct {
 	InitialSync BucketMigrationSyncStatus `json:"initialSync"`
 	// InitialSync indicates the status of the continuous bucket data sync.
 	Resync BucketMigrationSyncStatus `json:"resync"`
+	// BucketConnectionError indicates if there's an error connecting with the
+	// referenced buckets or bucketusers.
+	// +optional
+	BucketConnectionError string `json:"bucketConnectionError,omitempty"`
 }
 type BucketMigrationSyncStatus struct {
 	// SyncStatus indicates the status of the last sync run.

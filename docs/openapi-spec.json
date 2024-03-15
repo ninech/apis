@@ -25660,6 +25660,10 @@
                 "resync"
               ],
               "properties": {
+                "bucketConnectionError": {
+                  "description": "BucketConnectionError indicates if there's an error connecting with the referenced buckets or bucketusers.",
+                  "type": "string"
+                },
                 "initialSync": {
                   "description": "InitialSync indicates the status of the initial bucket data sync.",
                   "type": "object",
