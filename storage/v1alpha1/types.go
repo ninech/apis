@@ -308,7 +308,8 @@ type BucketMigrationObservation struct {
 	// InitialSync indicates the status of the initial bucket data sync.
 	InitialSync BucketMigrationSyncStatus `json:"initialSync"`
 	// InitialSync indicates the status of the continuous bucket data sync.
-	Resync BucketMigrationSyncStatus `json:"resync"`
+	Resync               BucketMigrationSyncStatus `json:"resync"`
+	meta.ReferenceStatus `json:",inline"`
 }
 type BucketMigrationSyncStatus struct {
 	// SyncStatus indicates the status of the last sync run.

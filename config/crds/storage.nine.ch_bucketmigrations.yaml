@@ -344,6 +344,26 @@ spec:
                         format: date-time
                         type: string
                     type: object
+                  referenceErrors:
+                    items:
+                      properties:
+                        kind:
+                          type: string
+                        message:
+                          type: string
+                        name:
+                          description: Name of the target.
+                          type: string
+                        namespace:
+                          description: Namespace of the target.
+                          type: string
+                      required:
+                      - kind
+                      - message
+                      - name
+                      - namespace
+                      type: object
+                    type: array
                   resync:
                     description: InitialSync indicates the status of the continuous
                       bucket data sync.

@@ -25680,6 +25680,34 @@
                     }
                   }
                 },
+                "referenceErrors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "kind",
+                      "message",
+                      "name",
+                      "namespace"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "Name of the target.",
+                        "type": "string"
+                      },
+                      "namespace": {
+                        "description": "Namespace of the target.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
                 "resync": {
                   "description": "InitialSync indicates the status of the continuous bucket data sync.",
                   "type": "object",
