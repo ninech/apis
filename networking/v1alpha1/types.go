@@ -127,6 +127,19 @@ type IngressNginxParameters struct {
 	// multitenant scenario.
 	// +optional
 	AnnotationValueWordBlocklist string `json:"annotationValueWordBlocklist,omitempty"`
+	// EnableModSecurity enables the owasp-modsecurity. Note this will enable
+	// it for all paths, and each path must be disabled manually. ModSecurity
+	// will run in "Detection-Only" mode using the recommended configuration.
+	// You can enable the OWASP Core Rule Set by setting the following
+	// annotation:
+	//
+	// nginx.ingress.kubernetes.io/enable-owasp-core-rules: "true"
+	//
+	// https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
+	//
+	// +optional
+	// +kubebuilder:default:=false
+	EnableModSecurity bool `json:"enableModSecurity,omitempty"`
 }
 
 // IngressNginxCache uses the nginx settings `proxy_cache_<x>` to cache

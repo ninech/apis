@@ -21229,6 +21229,10 @@
                   "description": "DisableSnippetAnnotations disables all \"*-snippet\" annotations (like \"configuration-snippet\" or \"server-snippet\") on ingress resources. These annotations are potentially dangerous in an environment where you do not trust all your users (multitenant environments). For example, it might allow to see the generated nginx.conf file.",
                   "type": "boolean"
                 },
+                "enableModSecurity": {
+                  "description": "EnableModSecurity enables the owasp-modsecurity. Note this will enable it for all paths, and each path must be disabled manually. ModSecurity will run in \"Detection-Only\" mode using the recommended configuration. You can enable the OWASP Core Rule Set by setting the following annotation: \n nginx.ingress.kubernetes.io/enable-owasp-core-rules: \"true\" \n https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity",
+                  "type": "boolean"
+                },
                 "ingressClass": {
                   "description": "IngressClass sets the class of the ingress controller. Specifies which ingress objects the controller should take care of. Please note that the class `nginx` itself will handle all ingresses without a class annotation set.",
                   "type": "string"
