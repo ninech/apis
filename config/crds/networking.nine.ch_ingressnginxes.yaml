@@ -193,6 +193,16 @@ spec:
                       environments). For example, it might allow to see the generated
                       nginx.conf file.
                     type: boolean
+                  enableModSecurity:
+                    default: false
+                    description: "EnableModSecurity enables the owasp-modsecurity.
+                      Note this will enable it for all paths, and each path must be
+                      disabled manually. ModSecurity will run in \"Detection-Only\"
+                      mode using the recommended configuration. You can enable the
+                      OWASP Core Rule Set by setting the following annotation: \n
+                      nginx.ingress.kubernetes.io/enable-owasp-core-rules: \"true\"
+                      \n https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity"
+                    type: boolean
                   ingressClass:
                     default: nginx
                     description: IngressClass sets the class of the ingress controller.
