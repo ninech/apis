@@ -65,6 +65,7 @@ func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	AddToMapper(mapper, storage.MySQLGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.ObjectsBucketGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.PostgresGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, storage.RedisGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.RegistryGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, management.ProjectGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.AlertmanagerGroupVersionKind, meta.RESTScopeNamespace)
