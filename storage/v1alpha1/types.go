@@ -308,8 +308,7 @@ type BucketMigrationObservation struct {
 	// InitialSync indicates the status of the initial bucket data sync.
 	InitialSync BucketMigrationSyncStatus `json:"initialSync"`
 	// InitialSync indicates the status of the continuous bucket data sync.
-	Resync               BucketMigrationSyncStatus `json:"resync"`
-	meta.ReferenceStatus `json:",inline"`
+	Resync BucketMigrationSyncStatus `json:"resync"`
 }
 type BucketMigrationSyncStatus struct {
 	// SyncStatus indicates the status of the last sync run.
@@ -325,13 +324,6 @@ type BucketMigrationSyncStatus struct {
 
 // SyncStatus represents the sync job status
 type SyncStatus string
-
-// DBCount contains the number of databases.
-// +kubebuilder:object:generate:=true
-type DBCount struct {
-	Value       int         `json:"value"`
-	LastUpdated metav1.Time `json:"lastUpdated"`
-}
 
 // MySQL deploys a Self Service MySQL instance.
 //
@@ -504,9 +496,6 @@ type MySQLObservation struct {
 	// Size specifies the total disk size
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
-	// DBCount specifies the number of DBs
-	// +optional
-	DBCount *DBCount `json:"dbcount,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
@@ -668,9 +657,6 @@ type PostgresObservation struct {
 	// Size specifies the total disk size
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
-	// DBCount specifies the number of DBs
-	// +optional
-	DBCount *DBCount `json:"dbcount,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
