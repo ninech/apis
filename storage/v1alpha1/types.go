@@ -9,11 +9,11 @@ import (
 )
 
 const (
-	FiveMins    IntervalString = "5"
-	TenMins     IntervalString = "10"
-	FifteenMins IntervalString = "15"
-	ThirtyMins  IntervalString = "30"
-	SixtyMins   IntervalString = "60"
+	FiveMins    MigrationIntervalMinutes = "5"
+	TenMins     MigrationIntervalMinutes = "10"
+	FifteenMins MigrationIntervalMinutes = "15"
+	ThirtyMins  MigrationIntervalMinutes = "30"
+	SixtyMins   MigrationIntervalMinutes = "60"
 	// SyncStatusPending indicates the sync is pending and is scheduled to be started.
 	SyncStatusPending SyncStatus = "pending"
 	// SyncStatusSucceeded indicates that the sync job has
@@ -292,12 +292,13 @@ type BucketMigrationParameters struct {
 	// +kubebuilder:default:=false
 	// +optional
 	DeleteOutOfSyncObjects bool `json:"deleteOutOfSyncObjects"`
-	// Interval defines how often the sync is run
+	// Interval defines how often the sync is run in minutes.
+	// +kubebuilder:validation:Enum="5";"10";"15";"30";"60"
 	// +kubebuilder:default:="15"
 	// +optional
-	Interval IntervalString `json:"interval"`
+	Interval MigrationIntervalMinutes `json:"interval,omitempty"`
 }
-type IntervalString string
+type MigrationIntervalMinutes string
 
 // A BucketMigrationStatus represents the observed state of a BucketMigration.
 type BucketMigrationStatus struct {
@@ -323,6 +324,9 @@ type BucketMigrationSyncStatus struct {
 	// SyncEndTime is the timestamp of the last sync run end.
 	// +optional
 	SyncEndTime *metav1.Time `json:"syncEndTime"`
+	// Schedule in cron format.
+	// +optional
+	Schedule string `json:"schedule,omitempty"`
 }
 
 // SyncStatus represents the sync job status
