@@ -27,8 +27,6 @@ const (
 	SyncStatusFailed SyncStatus = "failed"
 	// SyncStatusUnknown indicates the status is unknown.
 	SyncStatusUnknown SyncStatus = "unknown"
-	// RedisUser is the name of the Redis user account.
-	RedisUser string = "default"
 )
 
 // Bucket is an object storage bucket. It's used to group objects, defines
