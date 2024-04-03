@@ -27,6 +27,10 @@ const (
 	SyncStatusFailed SyncStatus = "failed"
 	// SyncStatusUnknown indicates the status is unknown.
 	SyncStatusUnknown SyncStatus = "unknown"
+	// MySQLUser is the name of the MySQL user account.
+	MySQLUser string = "dbadmin"
+	// PostgresUser is the name of the Postgres user account.
+	PostgresUser string = "dbadmin"
 	// RedisUser is the name of the Redis user account.
 	RedisUser string = "default"
 )
