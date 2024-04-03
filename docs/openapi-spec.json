@@ -25452,15 +25452,8 @@
                   }
                 },
                 "interval": {
-                  "description": "Interval defines how often the sync is run in minutes.",
-                  "type": "string",
-                  "enum": [
-                    "5",
-                    "10",
-                    "15",
-                    "30",
-                    "60"
-                  ]
+                  "description": "Interval defines how often the sync is run",
+                  "type": "string"
                 },
                 "source": {
                   "description": "Source represents the source Bucket",
@@ -25675,10 +25668,6 @@
                   "description": "InitialSync indicates the status of the initial bucket data sync.",
                   "type": "object",
                   "properties": {
-                    "schedule": {
-                      "description": "Schedule in cron format.",
-                      "type": "string"
-                    },
                     "status": {
                       "description": "SyncStatus indicates the status of the last sync run.",
                       "type": "string"
@@ -25727,10 +25716,6 @@
                   "description": "InitialSync indicates the status of the continuous bucket data sync.",
                   "type": "object",
                   "properties": {
-                    "schedule": {
-                      "description": "Schedule in cron format.",
-                      "type": "string"
-                    },
                     "status": {
                       "description": "SyncStatus indicates the status of the last sync run.",
                       "type": "string"
