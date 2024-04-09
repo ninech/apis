@@ -3,6 +3,15 @@ package v1alpha1
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 const (
+	// LocationNineCZ41 is the name for our CZ41 location
+	LocationNineCZ41 LocationName = NinePrefix + "cz41"
+	// LocationNineCZ42 is the name for our CZ42 location
+	LocationNineCZ42 LocationName = NinePrefix + "cz42"
+	// LocationNineES34 is the name for our ES34 location
+	LocationNineES34 LocationName = NinePrefix + "es34"
+	// NinePrefix contains a prefix which all nine owned
+	// resources begin their name with
+	NinePrefix = "nine-"
 	// NineOwnedLabelKey specifies the key for the label which
 	// identifies nine resources.
 	NineOwnedLabelKey = "nine.ch/owned-by"

@@ -27,8 +27,14 @@ const (
 	SyncStatusFailed SyncStatus = "failed"
 	// SyncStatusUnknown indicates the status is unknown.
 	SyncStatusUnknown SyncStatus = "unknown"
+	// DBLocationDefault is the default location for DBs.
+	DBLocationDefault = meta.LocationNineCZ41
+	// DBDailyBackupsDefault is the default unmber of daily database backups to keep.
+	DBKeepDailyBackupsDefault int = 10
 	// MySQLUser is the name of the MySQL user account.
 	MySQLUser string = "dbadmin"
+	// MySQLLongQueryTimeDefault is the default value for long_query_time.
+	MySQLLongQueryTimeDefault LongQueryTime = "10s"
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
 	// RedisUser is the name of the Redis user account.
