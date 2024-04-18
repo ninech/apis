@@ -517,6 +517,17 @@ spec:
                     type: string
                   nke:
                     description: NKE represents a KubernetesCluster in Nine's datacentres.
+                    properties:
+                      staticEgress:
+                        description: StaticEgress defines settings for the static
+                          egress feature
+                        properties:
+                          enabled:
+                            default: false
+                            description: Enabled defines if the static egress feature
+                              should be enabled or disabled
+                            type: boolean
+                        type: object
                     type: object
                   nodePools:
                     items:
