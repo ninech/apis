@@ -113,7 +113,18 @@ type KubernetesClusterParameters struct {
 
 // NKEClusterSettings defines additional fields that a nine KubernetesCluster
 // can have.
-type NKEClusterSettings struct{}
+type NKEClusterSettings struct {
+	// StaticEgress defines settings for the static egress feature
+	// +optional
+	StaticEgress StaticEgress `json:"staticEgress"`
+}
+type StaticEgress struct {
+	// Enabled defines if the static egress feature should be enabled or
+	// disabled
+	// +optional
+	// +kubebuilder:default:=false
+	Enabled bool `json:"enabled"`
+}
 
 // VClusterSettings defines additional fields that a nine KubernetesCluster
 // based on VCluster can have.

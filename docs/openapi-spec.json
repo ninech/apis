@@ -19916,7 +19916,19 @@
                 },
                 "nke": {
                   "description": "NKE represents a KubernetesCluster in Nine's datacentres.",
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "staticEgress": {
+                      "description": "StaticEgress defines settings for the static egress feature",
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "description": "Enabled defines if the static egress feature should be enabled or disabled",
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
                 },
                 "nodePools": {
                   "type": "array",
@@ -20715,7 +20727,11 @@
           },
           "forProvider": {
             "location": "nine-es34",
-            "nke": {},
+            "nke": {
+              "staticEgress": {
+                "enabled": false
+              }
+            },
             "nodePools": [
               {
                 "name": "production",
