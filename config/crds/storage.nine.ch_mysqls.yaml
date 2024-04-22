@@ -465,6 +465,7 @@ spec:
                     minimum: 0
                     type: integer
                   location:
+                    default: nine-cz41
                     description: Location specifies in which Datacenter the database
                       will be spawned. Needs to match the available MachineTypes in
                       that datacenter.
@@ -485,6 +486,7 @@ spec:
                       that more space is required for the slow query log.
                     type: string
                   machineType:
+                    default: nine-standard-1
                     description: MachineType defines the sizing for a particular machine
                       and implicitly the provider.
                     enum:
@@ -560,11 +562,14 @@ spec:
                     - SERIALIZABLE
                     type: string
                   version:
+                    allOf:
+                    - enum:
+                      - "8"
+                    - enum:
+                      - "8"
                     default: "8"
                     description: Version specifies the MySQL version. Needs to match
                       an available MySQL Version.
-                    enum:
-                    - "8"
                     type: string
                 required:
                 - location

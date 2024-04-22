@@ -26757,10 +26757,7 @@
                 },
                 "version": {
                   "description": "Version specifies the MySQL version. Needs to match an available MySQL Version.",
-                  "type": "string",
-                  "enum": [
-                    "8"
-                  ]
+                  "type": "string"
                 }
               }
             },
