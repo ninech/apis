@@ -9,6 +9,50 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+const (
+	// MachineTypeNineStandard1 is a VM running on Nine Infrastructure with:
+	// 1 CPU Cores
+	// 4GB RAM
+	MachineTypeNineStandard1 MachineType = "nine-standard-1"
+	// MachineTypeNineStandard2 is a VM running on Nine Infrastructure with:
+	// 2 CPU Cores
+	// 8GB RAM
+	MachineTypeNineStandard2 MachineType = "nine-standard-2"
+	// MachineTypeNineStandard4 is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 16GB RAM
+	MachineTypeNineStandard4 MachineType = "nine-standard-4"
+	// MachineTypeHighMem2 is a VM running on Nine Infrastructure with:
+	// 2 CPU Cores
+	// 16GB RAM
+	MachineTypeNineHighMem2 MachineType = "nine-highmem-2"
+	// MachineTypeHighMem4 is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 32GB RAM
+	MachineTypeNineHighMem4 MachineType = "nine-highmem-4"
+	// MachineTypeHighCPU2 is a VM running on Nine Infrastructure with:
+	// 2 CPU Cores
+	// 4GB RAM
+	MachineTypeNineHighCPU2 MachineType = "nine-highcpu-2"
+	// MachineTypeHighCPU4 is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 8GB RAM
+	MachineTypeNineHighCPU4 MachineType = "nine-highcpu-4"
+	// MachineTypeHighCPU8 is a VM running on Nine Infrastructure with:
+	// 8 CPU Cores
+	// 16GB RAM
+	MachineTypeNineHighCPU8 MachineType = "nine-highcpu-8"
+	// MachineTypeHighCPU16 is a VM running on Nine Infrastructure with:
+	// 16 CPU Cores
+	// 32GB RAM
+	MachineTypeNineHighCPU16 MachineType = "nine-highcpu-16"
+)
+
+var (
+	// MachineTypes is a list of all machine types.
+	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineHighCPU16}
+)
+
 // Keda deploys Keda to a KubernetesCluster.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -182,6 +226,7 @@ type NodePool struct {
 }
 
 // MachineType is a name for a particular machine sizing.
+// +nine:public:definition
 type MachineType string
 type KubernetesClusterScrapeConfiguration struct {
 	// +listType:="map"

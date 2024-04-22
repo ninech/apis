@@ -27,12 +27,49 @@ const (
 	SyncStatusFailed SyncStatus = "failed"
 	// SyncStatusUnknown indicates the status is unknown.
 	SyncStatusUnknown SyncStatus = "unknown"
+	// DBLocationDefault is the default location for DBs.
+	DBLocationDefault = meta.LocationNineCZ41
+	// DBDailyBackupsDefault is the default unmber of daily database backups to keep.
+	DBKeepDailyBackupsDefault int = 10
+	// MySQLVersion8 MySQL version 8
+	MySQLVersion8 MySQLVersion = "8"
 	// MySQLUser is the name of the MySQL user account.
 	MySQLUser string = "dbadmin"
+	// MySQLMachineTypeDefault specifies the default machine type.
+	MySQLMachineTypeDefault = infrav1alpha1.MachineTypeNineStandard1
+	// MySQLLocationDefault represents the default MySQL datacenter location.
+	// if no explicit version was specified.
+	MySQLLocationDefault = meta.LocationNineCZ41
+	// MySQLVersionDefault represents the default MySQL version used
+	// if no explicit version was specified.
+	MySQLVersionDefault MySQLVersion = MySQLVersion8
+	// MySQLUserDefault is the default MySQL user name.
+	MySQLUserDefault string = MySQLUser
+	// MySQLLongQueryTimeDefault is the default value for long_query_time.
+	MySQLLongQueryTimeDefault LongQueryTime = "10s"
+	// MySQLCharsetDefault is the default character set.
+	MySQLCharsetDefault string = "utf8mb4"
+	// MySQLCollationDefault is the default collation.
+	MySQLCollationDefault string = "utf8mb4_unicode_ci"
+	// MySQLMinWordLengthDefault is the default value for `ft_min_word_len` and `innodb_ft_min_token_size`.
+	MySQLMinWordLengthDefault int = 3
+	// MySQLTransactionIsolationDefault is the default transaction isolation level.
+	MySQLTransactionIsolationDefault MySQLTransactionCharacteristic = "REPEATABLE-READ"
+	// MySQLBackupRetentionDays is the number of days to retain backups by default.
+	MySQLBackupRetentionDaysDefault int = 10
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
 	// RedisUser is the name of the Redis user account.
 	RedisUser string = "default"
+)
+
+var (
+	// MySQLModeDefault is the list of enabled SQL modes.
+	MySQLModeDefault = []string{"ONLY_FULL_GROUP_BY", "STRICT_TRANS_TABLES", "NO_ZERO_IN_DATE", "NO_ZERO_DATE", "ERROR_FOR_DIVISION_BY_ZERO", "NO_ENGINE_SUBSTITUTION"}
+	// MySQLLocationOptions is a list of available datacenter locations.
+	MySQLLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
+	// MySQLMachineTypes is a list of available machine types.
+	MySQLMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypes
 )
 
 // Bucket is an object storage bucket. It's used to group objects, defines
@@ -378,17 +415,20 @@ type MySQLParameters struct {
 	// implicitly the provider.
 	//
 	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2
+	// +kubebuilder:default:="nine-standard-1"
 	MachineType infrav1alpha1.MachineType `json:"machineType"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
 	//
 	// +immutable
+	// +kubebuilder:default:="nine-cz41"
 	Location meta.LocationName `json:"location"`
 	// Version specifies the MySQL version.
 	// Needs to match an available MySQL Version.
 	//
 	// +immutable
 	// +optional
+	// +kubebuilder:validation:Enum="8"
 	// +kubebuilder:default:="8"
 	Version MySQLVersion `json:"version,omitempty"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
