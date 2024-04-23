@@ -31,6 +31,8 @@ const (
 	DBLocationDefault = meta.LocationNineCZ41
 	// DBDailyBackupsDefault is the default unmber of daily database backups to keep.
 	DBKeepDailyBackupsDefault int = 10
+	// KeyValueStoreUser is the name of the KeyValueStore user account.
+	KeyValueStoreUser string = "default"
 	// MySQLVersion8 MySQL version 8
 	MySQLVersion8 MySQLVersion = "8"
 	// MySQLUser is the name of the MySQL user account.
@@ -59,8 +61,6 @@ const (
 	MySQLBackupRetentionDaysDefault int = 10
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
-	// RedisUser is the name of the Redis user account.
-	RedisUser string = "default"
 )
 
 var (
