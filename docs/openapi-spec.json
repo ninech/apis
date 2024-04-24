@@ -19916,19 +19916,7 @@
                 },
                 "nke": {
                   "description": "NKE represents a KubernetesCluster in Nine's datacentres.",
-                  "type": "object",
-                  "properties": {
-                    "staticEgress": {
-                      "description": "StaticEgress defines settings for the static egress feature",
-                      "type": "object",
-                      "properties": {
-                        "enabled": {
-                          "description": "Enabled defines if the static egress feature should be enabled or disabled",
-                          "type": "boolean"
-                        }
-                      }
-                    }
-                  }
+                  "type": "object"
                 },
                 "nodePools": {
                   "type": "array",
@@ -20727,11 +20715,7 @@
           },
           "forProvider": {
             "location": "nine-es34",
-            "nke": {
-              "staticEgress": {
-                "enabled": false
-              }
-            },
+            "nke": {},
             "nodePools": [
               {
                 "name": "production",
@@ -26757,7 +26741,10 @@
                 },
                 "version": {
                   "description": "Version specifies the MySQL version. Needs to match an available MySQL Version.",
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "8"
+                  ]
                 }
               }
             },
