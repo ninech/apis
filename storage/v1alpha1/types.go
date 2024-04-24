@@ -380,6 +380,110 @@ type DBCount struct {
 	LastUpdated metav1.Time `json:"lastUpdated"`
 }
 
+// KeyValueStore deploys an on-demand KeyValueStore instance.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="MEMORYSIZE",type="string",JSONPath=".spec.forProvider.memorySize"
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced,shortName=kvs
+// +kubebuilder:object:root=true
+type KeyValueStore struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              KeyValueStoreSpec   `json:"spec"`
+	Status            KeyValueStoreStatus `json:"status,omitempty"`
+}
+
+// KeyValueStoreList contains a list of KeyValueStore instances.
+// +kubebuilder:object:root=true
+type KeyValueStoreList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []KeyValueStore `json:"items"`
+}
+
+// A KeyValueStoreSpec defines the desired state of a Key-Value in-memory data store.
+type KeyValueStoreSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            KeyValueStoreParameters `json:"forProvider"`
+}
+
+// KeyValueStoreParameters are the configurable fields of a Key-Value in-memory data store.
+type KeyValueStoreParameters struct {
+	// Location specifies in which Datacenter the in-memory data store will be spawned.
+	// +immutable
+	Location meta.LocationName `json:"location"`
+	// Version specifies the KeyValueStore version.
+	// Needs to match an available KeyValueStore Version.
+	// +immutable
+	// +optional
+	// +kubebuilder:default:="7"
+	Version KeyValueStoreVersion `json:"version,omitempty"`
+	// MemorySize configures KeyValueStore to use a specified amount of memory for the data set.
+	// +optional
+	// +kubebuilder:default:="1Gi"
+	MemorySize *KeyValueStoreMemorySize `json:"memorySize,omitempty"`
+	// MaxMemoryPolicy specifies the exact behavior KeyValueStore follows when the maxmemory limit is reached.
+	// +optional
+	// +kubebuilder:default:="allkeys-lru"
+	MaxMemoryPolicy KeyValueStoreMaxMemoryPolicy `json:"maxMemoryPolicy,omitempty"`
+	// AllowedCIDRs specify the allowed IP addresses, connecting to the instance.
+	// IPs are in CIDR format, e.g. 192.168.1.1/24
+	// +listType:="set"
+	// +optional
+	AllowedCIDRs []IPv4CIDR `json:"allowedCIDRs,omitempty"`
+}
+
+// KeyValueStoreVersion defines the KeyValueStore version to be used.
+// +kubebuilder:validation:Enum="7"
+type KeyValueStoreVersion string
+
+// KeyValueStoreMemorySize configures KeyValueStore to use a specified amount of memory for the data set.
+// When the specified amount of memory is reached, how eviction policies are configured determines the default behavior.
+// KeyValueStore can return errors for commands that could result in more memory being used,
+// or it can evict some old data to return back to the specified limit every time new data is added.
+// https://redis.io/docs/reference/eviction/#maxmemory-configuration-directive
+// +kubebuilder:validation:Type=string
+// +kubebuilder:validation:XIntOrString
+// +kubebuilder:validation:Pattern=`^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$`
+type KeyValueStoreMemorySize struct {
+	resource.Quantity `json:",inline"`
+}
+
+// KeyValueStoreMaxMemoryPolicy defines the exact behavior KeyValueStore follows when the maxmemory limit is reached:
+// https://redis.io/docs/reference/eviction/#eviction-policies
+// +kubebuilder:default:="allkeys-lru"
+// +kubebuilder:validation:Enum="noeviction";"allkeys-lru";"allkeys-lfu";"volatile-lru";"volatile-lfu";"allkeys-random";"volatile-random";"volatile-ttl"
+type KeyValueStoreMaxMemoryPolicy string
+
+// IPv4CIDR represents a IPv4 address in CIDR notation
+// +kubebuilder:validation:Pattern=`\A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z`
+type IPv4CIDR string
+
+// A KeyValueStoreStatus represents the observed state of a Key-Value in-memory data store.
+type KeyValueStoreStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               KeyValueStoreObservation `json:"atProvider"`
+}
+
+// KeyValueStoreObservation are the observable fields of a Key-Value in-memory data store.
+type KeyValueStoreObservation struct {
+	// FQDN is the fully qualified domain name, at which the instance is reachable at.
+	// +optional
+	FQDN string `json:"fqdn,omitempty"`
+	// DiskSize specifies the total disk size used for persistence.
+	// Note that the disk size cannot be decreased and is based
+	// on the configured MemorySize.
+	// +optional
+	DiskSize *resource.Quantity `json:"diskSize,omitempty"`
+	// CACert is the base64 certificate of the CA that signed the certificates of KeyValueStore.
+	// The value is base64 a encoded PEM.
+	CACert string `json:"caCert,omitempty"`
+	// Status of all the child resources.
+	meta.ChildResourceStatus `json:",inline"`
+}
+
 // MySQL deploys a Self Service MySQL instance.
 //
 // +kubebuilder:subresource:status
@@ -490,10 +594,6 @@ type MySQLParameters struct {
 // MySQLVersion Version of MySQL
 // +kubebuilder:validation:Enum="8"
 type MySQLVersion string
-
-// IPv4CIDR represents a IPv4 address in CIDR notation
-// +kubebuilder:validation:Pattern=`\A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z`
-type IPv4CIDR string
 
 // SSHKey Public SSH key without options
 // +kubebuilder:validation:Pattern=`\A(?:sk-(?:ecdsa-sha2-nistp256|ssh-ed25519)@openssh\.com|ecdsa-sha2-nistp(?:256|384|521))|ssh-(?:ed25519|dss|rsa) [a-z0-9A-Z+\/]+={0,2}(?: [^\n]+)?\z`
