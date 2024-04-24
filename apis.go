@@ -62,6 +62,7 @@ func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	AddToMapper(mapper, storage.BucketGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.BucketUserGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.BucketMigrationGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, storage.KeyValueStoreGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.MySQLGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.ObjectsBucketGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.PostgresGroupVersionKind, meta.RESTScopeNamespace)
