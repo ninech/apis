@@ -519,14 +519,16 @@ type MySQLParameters struct {
 	// implicitly the provider.
 	//
 	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2
+	// +optional
 	// +kubebuilder:default:="nine-standard-1"
-	MachineType infrav1alpha1.MachineType `json:"machineType"`
+	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
 	//
 	// +immutable
+	// +optional
 	// +kubebuilder:default:="nine-cz41"
-	Location meta.LocationName `json:"location"`
+	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the MySQL version.
 	// Needs to match an available MySQL Version.
 	//
@@ -768,11 +770,15 @@ type PostgresParameters struct {
 	// MachineType defines the sizing for a particular machine and
 	// implicitly the provider.
 	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2
-	MachineType infrav1alpha1.MachineType `json:"machineType"`
+	// +optional
+	// +kubebuilder:default:="nine-standard-1"
+	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
 	// +immutable
-	Location meta.LocationName `json:"location"`
+	// +optional
+	// +kubebuilder:default:="nine-cz41"
+	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the Postgres version.
 	// Needs to match an available Postgres Version.
 	// +immutable
