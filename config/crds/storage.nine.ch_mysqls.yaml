@@ -571,9 +571,6 @@ spec:
                     description: Version specifies the MySQL version. Needs to match
                       an available MySQL Version.
                     type: string
-                required:
-                - location
-                - machineType
                 type: object
               managementPolicies:
                 default:
