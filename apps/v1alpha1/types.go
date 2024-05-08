@@ -12,6 +12,8 @@ const (
 	BuildProcessStatusUnknown BuildProcessStatus = "unknown"
 	// BuildProcessStatusError represents the status of a failed build
 	BuildProcessStatusError BuildProcessStatus = "error"
+	// BuildProcessStatusImageUploadFailed represents the status of a failed build image upload
+	BuildProcessStatusImageUploadFailed BuildProcessStatus = "imageUploadFailed"
 	// BuildProcessStatusRunning represents the status of a running build
 	BuildProcessStatusRunning BuildProcessStatus = "running"
 	// BuildProcessStatusSuccess represents the status of a successful/finished build
