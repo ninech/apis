@@ -111,6 +111,11 @@ type GrafanaSpec struct {
 type GrafanaParameters struct {
 	// DataSource defines search parameters for DataSources.
 	DataSource DataSourceSelection `json:"dataSource"`
+	// EnableAdminAccess gives you admin permissions in the Grafana instance.
+	// Please note: Nine reserves the right to revoke admin access in future
+	// versions if the admin access is deemed a security or an operational risk.
+	// +optional
+	EnableAdminAccess bool `json:"enableAdminAccess,omitempty"`
 }
 
 // DataSourceSelection specifies parameters on how to select / search for DataSources.
