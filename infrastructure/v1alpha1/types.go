@@ -46,12 +46,138 @@ const (
 	// 16 CPU Cores
 	// 32GB RAM
 	MachineTypeNineHighCPU16 MachineType = "nine-highcpu-16"
+	// Ubuntu LTS
+	// http://releases.ubuntu.com/
+	Ubuntu22_04 OperatingSystem = "ubuntu22.04"
+	Ubuntu20_04 OperatingSystem = "ubuntu20.04"
+	Ubuntu18_04 OperatingSystem = "ubuntu18.04"
 )
 
 var (
+	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
+	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04)}
 	// MachineTypes is a list of all machine types.
 	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineHighCPU16}
 )
+
+// CloudVirtualMachine is a virtual machine instance providing flexible scaling and a
+// variety of Linux distributions.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="POWERSTATE",type="string",JSONPath=".status.atProvider.powerState"
+// +kubebuilder:printcolumn:name="IP",type="string",JSONPath=".status.atProvider.ipAddress"
+// +kubebuilder:printcolumn:name="FQDN",type="string",JSONPath=".status.atProvider.fqdn"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:resource:shortName=cloudvm
+// +kubebuilder:object:root=true
+type CloudVirtualMachine struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              CloudVirtualMachineSpec   `json:"spec"`
+	Status            CloudVirtualMachineStatus `json:"status,omitempty"`
+}
+
+// CloudVirtualMachineList contains a list of CloudVirtualMachines
+// +kubebuilder:object:root=true
+type CloudVirtualMachineList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []CloudVirtualMachine `json:"items"`
+}
+
+// CloudVirtualMachineSpec defines the desired state of a cloud VM.
+type CloudVirtualMachineSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            CloudVirtualMachineParameters `json:"forProvider"`
+}
+
+// CloudVirtualMachineParameters are the configurable fields of a CloudVirtualMachine.
+type CloudVirtualMachineParameters struct {
+	// MachineType defines the sizing for a particular cloud vm.
+	// +optional
+	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4
+	// +kubebuilder:default:=nine-standard-1
+	MachineType MachineType `json:"machineType,omitempty"`
+	// Location specifies in which datacenter the VM will be spawned.
+	// Needs to match the available MachineTypes in that datacenter.
+	Location meta.LocationName `json:"location"`
+	// Hostname allows to set the hostname explicitly. If unset, the name
+	// of the resource will be used as the hostname. This does not affect
+	// the DNS name.
+	// +optional
+	Hostname string `json:"hostname,omitempty"`
+	// OS which should be used to boot the VM.
+	// +optional
+	// +kubebuilder:default:=ubuntu22.04
+	OS CloudVirtualMachineOS `json:"os,omitempty"`
+	// BootDisk that will be used to boot the VM from.
+	// +optional
+	// +kubebuilder:default:={name:"root",size:"20Gi"}
+	BootDisk *Disk `json:"bootDisk,omitempty"`
+	// Disks specifies which additional disks to mount to the machine.
+	// +listType:="map"
+	// +listMapKey:="name"
+	// +optional
+	Disks []Disk `json:"disks,omitempty"`
+	// PowerState specifies the power state of the cloud VM. A value of
+	// "On" turns the VM on, shutdown sends an ACPI signal to the VM to
+	// perform a clean shutdown and off forces the power off immediately.
+	// +optional
+	// +kubebuilder:default:="on"
+	// +kubebuilder:validation:Enum=on;shutdown;off
+	PowerState VirtualMachinePowerState `json:"powerState,omitempty"`
+	// PublicKeys specifies the SSH Public Keys that can be used to connect to
+	// the VM as root. The keys are expected to be in SSH format as defined in
+	// RFC4253.
+	// +optional
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Public Key is immutable after creation"
+	PublicKeys []string `json:"publicKeys,omitempty"`
+	// CloudConfig allows to pass custom cloud config data (https://cloudinit.readthedocs.io/en/latest/topics/format.html#cloud-config-data)
+	// to the cloud VM. If a CloudConfig is passed, the PublicKey parameter is ignored.
+	// +optional
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Cloud Config is immutable after creation"
+	CloudConfig string `json:"cloudConfig,omitempty"`
+}
+
+// MachineType is a name for a particular machine sizing.
+// +nine:public:definition
+type MachineType string
+
+// CloudVirtualMachineOS is an operating system for a cloud VM.
+// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04
+// +nine:public:definition
+type CloudVirtualMachineOS OperatingSystem
+
+// Disk describes a Disk that can be attached to a VM.
+type Disk struct {
+	// Name specifies the name of the disk. Used to identify a disk, changing
+	// the name of a disk means the old disk will be deleted and a new one
+	// will be created.
+	Name string `json:"name"`
+	// Size specifies the disk size.
+	Size resource.Quantity `json:"size"`
+}
+type VirtualMachinePowerState string
+
+// CloudVirtualMachineStatus represents the observed state of a cloud VM.
+type CloudVirtualMachineStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               CloudVirtualMachineObservation `json:"atProvider"`
+}
+
+// CloudVirtualMachineObservation are the observable fields of a cloud VM.
+type CloudVirtualMachineObservation struct {
+	// IPAddress is the public IPAddress for the VM.
+	IPAddress string `json:"ipAddress,omitempty"`
+	// PowerState indicates the observed power state of the VM.
+	PowerState VirtualMachinePowerState `json:"powerState,omitempty"`
+	// FQDN is the fully qualified domain name at which the VM is reachable at.
+	FQDN string `json:"fqdn,omitempty"`
+	// Status of all our child resources.
+	meta.ChildResourceStatus `json:",inline"`
+}
 
 // Keda deploys Keda to a KubernetesCluster.
 // +kubebuilder:subresource:status
@@ -224,10 +350,6 @@ type NodePool struct {
 	// +optional
 	DiskSize *resource.Quantity `json:"diskSize,omitempty"`
 }
-
-// MachineType is a name for a particular machine sizing.
-// +nine:public:definition
-type MachineType string
 type KubernetesClusterScrapeConfiguration struct {
 	// +listType:="map"
 	// +listMapKey:="name"
@@ -307,3 +429,6 @@ type VClusterIngress struct {
 	// Ingress resource.
 	Class string `json:"class"`
 }
+
+// OperatingSystem is an Operating System for a VM.
+type OperatingSystem string
