@@ -129,9 +129,3 @@ type TypedReference struct {
 	// Type info about the resource.
 	metav1.GroupKind `json:",inline"`
 }
-type LocalTypedReference struct {
-	// Reference to the resource
-	LocalReference `json:",inline"`
-	// Type info about the resource.
-	metav1.GroupKind `json:",inline"`
-}

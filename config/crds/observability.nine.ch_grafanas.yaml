@@ -78,12 +78,6 @@ spec:
                           type: string
                         type: array
                     type: object
-                  enableAdminAccess:
-                    description: 'EnableAdminAccess gives you admin permissions in
-                      the Grafana instance. Please note: Nine reserves the right to
-                      revoke admin access in future versions if the admin access is
-                      deemed a security or an operational risk.'
-                    type: boolean
                 required:
                 - dataSource
                 type: object
