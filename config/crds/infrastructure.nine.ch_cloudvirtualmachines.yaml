@@ -185,6 +185,27 @@ spec:
                     x-kubernetes-validations:
                     - message: Public Key is immutable after creation
                       rule: self == oldSelf
+                  rescue:
+                    description: Rescue configures booting into a rescue live-OS for
+                      fixing a VM that is in an unbootable state.
+                    properties:
+                      enabled:
+                        description: Enable enables booting into rescue. This will
+                          trigger an immediate reboot of the VM into a rescue live-OS.
+                          Set this to false to configure boot from the root disk again.
+                        type: boolean
+                      publicKeys:
+                        description: PublicKeys specifies additional SSH Public Keys
+                          that can be used to connect to the rescue OS as root. The
+                          keys are expected to be in SSH format as defined in RFC4253.
+                          If not specified, just the PublicKeys from the parameters
+                          will be used.
+                        items:
+                          type: string
+                        type: array
+                    required:
+                    - enabled
+                    type: object
                 required:
                 - location
                 type: object
@@ -409,6 +430,9 @@ spec:
                   powerState:
                     description: PowerState indicates the observed power state of
                       the VM.
+                    type: string
+                  uuid:
+                    description: UUID of the underlying virtual machine.
                     type: string
                 type: object
               conditions:
