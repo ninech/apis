@@ -139,6 +139,9 @@ type CloudVirtualMachineParameters struct {
 	// +optional
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Cloud Config is immutable after creation"
 	CloudConfig string `json:"cloudConfig,omitempty"`
+	// Rescue configures booting into a rescue live-OS for fixing a VM that is
+	// in an unbootable state.
+	Rescue *CloudVirtualMachineRescue `json:"rescue,omitempty"`
 }
 
 // MachineType is a name for a particular machine sizing.
@@ -160,6 +163,17 @@ type Disk struct {
 	Size resource.Quantity `json:"size"`
 }
 type VirtualMachinePowerState string
+type CloudVirtualMachineRescue struct {
+	// Enable enables booting into rescue. This will trigger an immediate
+	// reboot of the VM into a rescue live-OS. Set this to false to configure
+	// boot from the root disk again.
+	Enabled bool `json:"enabled"`
+	// PublicKeys specifies additional SSH Public Keys that can be used to
+	// connect to the rescue OS as root. The keys are expected to be in SSH
+	// format as defined in RFC4253. If not specified, just the PublicKeys
+	// from the parameters will be used.
+	PublicKeys []string `json:"publicKeys,omitempty"`
+}
 
 // CloudVirtualMachineStatus represents the observed state of a cloud VM.
 type CloudVirtualMachineStatus struct {
@@ -175,6 +189,8 @@ type CloudVirtualMachineObservation struct {
 	PowerState VirtualMachinePowerState `json:"powerState,omitempty"`
 	// FQDN is the fully qualified domain name at which the VM is reachable at.
 	FQDN string `json:"fqdn,omitempty"`
+	// UUID of the underlying virtual machine.
+	UUID string `json:"uuid,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
