@@ -57,7 +57,7 @@ const (
 	MySQLMinWordLengthDefault int = 3
 	// MySQLTransactionIsolationDefault is the default transaction isolation level.
 	MySQLTransactionIsolationDefault MySQLTransactionCharacteristic = "REPEATABLE-READ"
-	// MySQLBackupRetentionDays is the number of days to retain backups by default.
+	// MySQLBackupRetentionDaysDefault is the number of days to retain backups by default.
 	MySQLBackupRetentionDaysDefault int = 10
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
