@@ -24182,6 +24182,16 @@
               "description": "LokiParameters are the configurable fields of a Loki.",
               "type": "object",
               "properties": {
+                "allowedCIDRs": {
+                  "description": "AllowedCIDRs specify the allowed IP addresses, connecting to Loki. IPs are in CIDR format, e.g. 192.168.1.1/24 In addition to your IPs, we add all operational necessary IPs as well.",
+                  "type": "array",
+                  "items": {
+                    "description": "IPv4CIDR represents a IPv4 address in CIDR notation",
+                    "type": "string",
+                    "pattern": "\\A([0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2])\\z"
+                  },
+                  "x-kubernetes-list-type": "set"
+                },
                 "retention": {
                   "description": "Retention is the amount of time the logs will be kept on the backend storage of Loki. Defaults to 30 days.",
                   "type": "string"
@@ -24461,7 +24471,9 @@
           "creationTimestamp": null
         },
         "spec": {
-          "forProvider": {}
+          "forProvider": {
+            "allowedCIDRs": null
+          }
         },
         "status": {
           "atProvider": {}
@@ -24564,6 +24576,16 @@
                       }
                     }
                   }
+                },
+                "allowedCIDRs": {
+                  "description": "AllowedCIDRs specify the allowed IP addresses, connecting to Prometheus. IPs are in CIDR format, e.g. 192.168.1.1/24 In addition to your IPs, we add all operational necessary IPs as well.",
+                  "type": "array",
+                  "items": {
+                    "description": "IPv4CIDR represents a IPv4 address in CIDR notation",
+                    "type": "string",
+                    "pattern": "\\A([0-9]{1,3}\\.){3}[0-9]{1,3}\\/([0-9]|[1-2][0-9]|3[0-2])\\z"
+                  },
+                  "x-kubernetes-list-type": "set"
                 },
                 "cluster": {
                   "description": "Cluster specifies on which cluster prometheus should be started on.",
@@ -24937,7 +24959,8 @@
                 "name": "example-resource",
                 "namespace": "ecorp"
               }
-            ]
+            ],
+            "allowedCIDRs": null
           }
         },
         "status": {

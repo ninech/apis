@@ -647,7 +647,7 @@ func (in *KeyValueStoreParameters) DeepCopyInto(out *KeyValueStoreParameters) {
 	}
 	if in.AllowedCIDRs != nil {
 		in, out := &in.AllowedCIDRs, &out.AllowedCIDRs
-		*out = make([]IPv4CIDR, len(*in))
+		*out = make([]metav1alpha1.IPv4CIDR, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -801,7 +801,7 @@ func (in *MySQLParameters) DeepCopyInto(out *MySQLParameters) {
 	*out = *in
 	if in.AllowedCIDRs != nil {
 		in, out := &in.AllowedCIDRs, &out.AllowedCIDRs
-		*out = make([]IPv4CIDR, len(*in))
+		*out = make([]metav1alpha1.IPv4CIDR, len(*in))
 		copy(*out, *in)
 	}
 	if in.SSHKeys != nil {
@@ -1116,7 +1116,7 @@ func (in *PostgresParameters) DeepCopyInto(out *PostgresParameters) {
 	*out = *in
 	if in.AllowedCIDRs != nil {
 		in, out := &in.AllowedCIDRs, &out.AllowedCIDRs
-		*out = make([]IPv4CIDR, len(*in))
+		*out = make([]metav1alpha1.IPv4CIDR, len(*in))
 		copy(*out, *in)
 	}
 	if in.SSHKeys != nil {
