@@ -72,6 +72,10 @@ type Image struct {
 	PullSecret string `json:"pullSecret,omitempty"`
 }
 
+// IPv4CIDR represents a IPv4 address in CIDR notation
+// +kubebuilder:validation:Pattern=`\A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z`
+type IPv4CIDR string
+
 // LocationName specifies the physical location of resources.
 // Not all locations implement the same functionality.
 // +kubebuilder:validation:Enum:=nine-cz41;nine-cz42;nine-es34
