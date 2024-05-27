@@ -432,7 +432,7 @@ type KeyValueStoreParameters struct {
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
+	AllowedCIDRs []IPv4CIDR `json:"allowedCIDRs,omitempty"`
 }
 
 // KeyValueStoreVersion defines the KeyValueStore version to be used.
@@ -456,6 +456,10 @@ type KeyValueStoreMemorySize struct {
 // +kubebuilder:default:="allkeys-lru"
 // +kubebuilder:validation:Enum="noeviction";"allkeys-lru";"allkeys-lfu";"volatile-lru";"volatile-lfu";"allkeys-random";"volatile-random";"volatile-ttl"
 type KeyValueStoreMaxMemoryPolicy string
+
+// IPv4CIDR represents a IPv4 address in CIDR notation
+// +kubebuilder:validation:Pattern=`\A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z`
+type IPv4CIDR string
 
 // A KeyValueStoreStatus represents the observed state of a Key-Value in-memory data store.
 type KeyValueStoreStatus struct {
@@ -540,7 +544,7 @@ type MySQLParameters struct {
 	//
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
+	AllowedCIDRs []IPv4CIDR `json:"allowedCIDRs"`
 	// SSHKeys contains a list of SSH public keys, allowed to connect to the
 	// db server, in order to up-/download and directly restore database backups.
 	//
@@ -788,7 +792,7 @@ type PostgresParameters struct {
 	//
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
+	AllowedCIDRs []IPv4CIDR `json:"allowedCIDRs"`
 	// SSHKeys contains a list of SSH public keys, allowed to connect to the
 	// db server, in order to up-/download and directly restore database backups.
 	// +optional

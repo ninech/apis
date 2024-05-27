@@ -178,14 +178,6 @@ type LokiParameters struct {
 	// storage of Loki. Defaults to 30 days.
 	// +kubebuilder:default:="720h"
 	Retention *metav1.Duration `json:"retention,omitempty"`
-	// AllowedCIDRs specify the allowed IP addresses, connecting to Loki.
-	// IPs are in CIDR format, e.g. 192.168.1.1/24
-	// In addition to your IPs, we add all operational necessary IPs as well.
-	//
-	// +listType:="set"
-	// +kubebuilder:default:={"0.0.0.0/0"}
-	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
 }
 
 // An LokiStatus represents the observed state of a Loki.
@@ -261,14 +253,6 @@ type PrometheusParameters struct {
 	// Alertmanagers Prometheus should send alerts to.
 	// +optional
 	Alertmanagers []meta.Reference `json:"alertmanagers,omitempty"`
-	// AllowedCIDRs specify the allowed IP addresses, connecting to Prometheus.
-	// IPs are in CIDR format, e.g. 192.168.1.1/24
-	// In addition to your IPs, we add all operational necessary IPs as well.
-	//
-	// +listType:="set"
-	// +kubebuilder:default:={"0.0.0.0/0"}
-	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
 }
 
 // PrometheusStatus represents the observed state of a Prometheus.

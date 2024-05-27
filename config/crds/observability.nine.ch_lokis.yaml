@@ -60,18 +60,6 @@ spec:
               forProvider:
                 description: LokiParameters are the configurable fields of a Loki.
                 properties:
-                  allowedCIDRs:
-                    default:
-                    - 0.0.0.0/0
-                    description: AllowedCIDRs specify the allowed IP addresses, connecting
-                      to Loki. IPs are in CIDR format, e.g. 192.168.1.1/24 In addition
-                      to your IPs, we add all operational necessary IPs as well.
-                    items:
-                      description: IPv4CIDR represents a IPv4 address in CIDR notation
-                      pattern: \A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z
-                      type: string
-                    type: array
-                    x-kubernetes-list-type: set
                   retention:
                     default: 720h
                     description: Retention is the amount of time the logs will be
