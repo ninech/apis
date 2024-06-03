@@ -18922,6 +18922,10 @@
                         "type": "integer",
                         "format": "int32"
                       },
+                      "replicaName": {
+                        "description": "ReplicaName is the name of the replica.",
+                        "type": "string"
+                      },
                       "restartCount": {
                         "description": "RestartCount indicates how often the replica was already restarted.",
                         "type": "integer",
