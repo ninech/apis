@@ -696,6 +696,9 @@ type ReplicaObservation struct {
 	// RestartCount indicates how often the replica was already restarted.
 	// +optional
 	RestartCount *int32 `json:"restartCount,omitempty"`
+	// ReplicaName is the name of the replica.
+	// +optional
+	ReplicaName string `json:"replicaName,omitempty"`
 }
 
 // ReplicaStatus is a status of a replica
