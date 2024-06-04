@@ -59,8 +59,26 @@ const (
 	MySQLTransactionIsolationDefault MySQLTransactionCharacteristic = "REPEATABLE-READ"
 	// MySQLBackupRetentionDays is the number of days to retain backups by default.
 	MySQLBackupRetentionDaysDefault int = 10
+	// PostgresVersion16 Postgres version 16
+	PostgresVersion16 PostgresVersion = "16"
+	// PostgresVersion15 Postgres version 15
+	PostgresVersion15 PostgresVersion = "15"
+	// PostgresVersion14 Postgres version 14
+	PostgresVersion14 PostgresVersion = "14"
+	// PostgresVersion13 Postgres version 13
+	PostgresVersion13 PostgresVersion = "13"
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
+	// PostgresMachineTypeDefault specifies the default machine type.
+	PostgresMachineTypeDefault = infrav1alpha1.MachineTypeNineStandard1
+	// PostgresLocationDefault represents the default PostgreSQL datacenter location.
+	// if no explicit version was specified.
+	PostgresLocationDefault = meta.LocationNineCZ41
+	// PostgresVersionDefault represents the default PostgreSQL version used
+	// if no explicit version was specified.
+	PostgresVersionDefault PostgresVersion = PostgresVersion16
+	// PostgresBackupRetentionDaysDefault is the number of days to retain backups by default.
+	PostgresBackupRetentionDaysDefault int = 10
 )
 
 var (
@@ -70,6 +88,10 @@ var (
 	MySQLLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLMachineTypes is a list of available machine types.
 	MySQLMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypes
+	// PostgresLocationOptions is a list of available datacenter locations.
+	PostgresLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
+	// PostgresMachineTypes is a list of available machine types.
+	PostgresMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypes
 )
 
 // Bucket is an object storage bucket. It's used to group objects, defines
