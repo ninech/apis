@@ -45,7 +45,8 @@ const (
 	// MachineTypeHighCPU16 is a VM running on Nine Infrastructure with:
 	// 16 CPU Cores
 	// 32GB RAM
-	MachineTypeNineHighCPU16 MachineType = "nine-highcpu-16"
+	MachineTypeNineHighCPU16 MachineType     = "nine-highcpu-16"
+	Rocky9                   OperatingSystem = "rocky9"
 	// Ubuntu LTS
 	// http://releases.ubuntu.com/
 	Ubuntu22_04 OperatingSystem = "ubuntu22.04"
@@ -149,7 +150,7 @@ type CloudVirtualMachineParameters struct {
 type MachineType string
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.
-// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04
+// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;rocky9
 // +nine:public:definition
 type CloudVirtualMachineOS OperatingSystem
 
