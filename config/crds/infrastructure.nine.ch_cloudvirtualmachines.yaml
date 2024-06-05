@@ -163,6 +163,7 @@ spec:
                     enum:
                     - ubuntu20.04
                     - ubuntu22.04
+                    - rocky9
                     type: string
                   powerState:
                     default: "on"
