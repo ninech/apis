@@ -56,7 +56,7 @@ const (
 
 var (
 	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
-	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Rocky9)}
+	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04)}
 	// MachineTypes is a list of all machine types.
 	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineHighCPU16}
 )
