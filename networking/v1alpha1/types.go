@@ -168,7 +168,7 @@ type IngressNginxDefaultBackend struct {
 	// responsible for returning HTTP error pages in case of a failure in the
 	// service that an ingress resource points to.
 	// +optional
-	// +kubebuilder:default:={registry: "registry.k8s.io", repository: "defaultbackend-amd64", tag: "1.5"}
+	// +kubebuilder:default:={registry: "k8s.gcr.io", repository: "defaultbackend-amd64", tag: "1.5"}
 	Image *meta.Image `json:"defaultBackendImage,omitempty"`
 	// Replicas sets the number of replicas for the default backend.
 	// +optional
