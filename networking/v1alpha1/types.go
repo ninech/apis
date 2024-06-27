@@ -196,3 +196,76 @@ type IngressNginxObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 	meta.ReferenceStatus     `json:",inline"`
 }
+
+// StaticEgress describes a static egress configuration
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="EGRESS-ADDRESS",type="string",JSONPath=".status.atProvider.address"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type StaticEgress struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              StaticEgressSpec   `json:"spec"`
+	Status            StaticEgressStatus `json:"status,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+// StaticEgressList contains a list of StaticEgress resources
+type StaticEgressList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []StaticEgress `json:"items"`
+}
+
+// A StaticEgressSpec defines the desired state of a StaticEgress
+type StaticEgressSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            StaticEgressParameters `json:"forProvider"`
+}
+
+// StaticEgressParameters are the configurable fields of a StaticEgress
+type StaticEgressParameters struct {
+	// Disabled can be set to true to quickly disable the static egress
+	// without loosing the registered egress IP.
+	// egress IP.
+	// +optional
+	// +kubebuilder:default:=false
+	Disabled bool `json:"disabled"`
+	// Target specifies for which resource the static egress should be
+	// configured
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Value is immutable"
+	Target meta.LocalTypedReference `json:"target"`
+}
+
+// A StaticEgressStatus represents the observed state of a StaticEgress
+type StaticEgressStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               StaticEgressObservation `json:"atProvider"`
+}
+
+// StaticEgressObservation are the observable fields of a static egress
+type StaticEgressObservation struct {
+	// Address is the egress IP which will be used for all egressing
+	// traffic
+	// +optional
+	Address string `json:"address,omitempty"`
+	// SelectorLabel needs to be set on pods in target clusters, so that
+	// all egressing traffic of the pod will be emitted with the egress IP
+	// address. Only supported by certain targets.
+	// +optional
+	SelectorLabel        *StaticEgressSelectorLabel `json:"selectionLabel,omitempty"`
+	meta.ReferenceStatus `json:",inline"`
+}
+
+// StaticEgressSelectorLabel needs to be used to select pods for matching
+// static egress traffic
+type StaticEgressSelectorLabel struct {
+	// Name of the label.
+	Name string `json:"name"`
+	// Value of the label.
+	Value string `json:"value"`
+}
