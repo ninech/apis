@@ -439,6 +439,10 @@ spec:
                   buildStatus:
                     description: Status describes the status of the build
                     type: string
+                  stack:
+                    description: Stack identifies the kpack stack used to build the
+                      image
+                    type: string
                   stepsCompleted:
                     description: StepsCompleted describes all the completed build
                       steps
