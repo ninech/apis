@@ -22844,7 +22844,7 @@
                   }
                 },
                 "kubernetesVersion": {
-                  "description": "KubernetesVersion represents the version of Kubernetes that this cluster is running at.",
+                  "description": "KubernetesVersion is the version of Kubernetes that this cluster is running.",
                   "type": "string"
                 },
                 "nodePools": {

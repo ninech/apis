@@ -403,8 +403,7 @@ type KubernetesClusterStatus struct {
 // KubernetesClusterObservation are the observable fields of a KubernetesCluster.
 type KubernetesClusterObservation struct {
 	ClusterObservation `json:",inline"`
-	// KubernetesVersion represents the version of Kubernetes that this cluster
-	// is running at.
+	// KubernetesVersion is the version of Kubernetes that this cluster is running.
 	KubernetesVersion string `json:"kubernetesVersion,omitempty"`
 	// VCluster exposes vcluster specific status fields.
 	// +optional
@@ -421,6 +420,8 @@ type ClusterObservation struct {
 	OIDCClientID string `json:"oidcClientID,omitempty"`
 	// OIDCIssuerURL is the issuer URL for the OIDC login flow to this cluster.
 	OIDCIssuerURL string `json:"oidcIssuerURL,omitempty"`
+	// KubernetesVersion is the version of Kubernetes that this cluster is running.
+	KubernetesVersion string `json:"kubernetesVersion,omitempty"`
 	// NodePools lists the name of the node pools plus their associated status.
 	NodePools map[string]NodePoolStatus `json:"nodePools,omitempty"`
 	// Status of all our child resources.
