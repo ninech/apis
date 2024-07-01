@@ -128,6 +128,10 @@ type ApplicationParameters struct {
 	// the build process.
 	// +optional
 	BuildEnv EnvVars `json:"buildEnv"`
+	// DockerfileBuild contains settings for building with an existing
+	// Dockerfile
+	// +optional
+	DockerfileBuild DockerfileBuild `json:"dockerfileBuild"`
 }
 
 // Language specifies which kind of application/language should be used
@@ -252,6 +256,21 @@ type FiniteJob struct {
 	// +kubebuilder:validation:Type=string
 	// +kubebuilder:validation:Format=duration
 	Timeout *metav1.Duration `json:"timeout,omitempty"`
+}
+type DockerfileBuild struct {
+	// Enabled defines if the Dockerfile build should be enabled
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Dockerfile builds cannot be enabled/disabled after creation of the application (field is immutable)"
+	// +optional
+	Enabled bool `json:"enabled"`
+	// DockerfilePath specifies the path to the Dockerfile. If left empty a
+	// file named Dockerfile will be searched in the application code root
+	// directory.
+	// +optional
+	DockerfilePath string `json:"dockerfilePath,omitempty"`
+	// BuildContext defines the build context. If left empty, the
+	// application code root directory will be used as build context.
+	// +optional
+	BuildContext string `json:"buildContext,omitempty"`
 }
 
 // An ApplicationStatus represents the observed state of an Application.
@@ -416,6 +435,9 @@ type BuildObservation struct {
 	// the build phase
 	// +optional
 	BuildMetadata BuildpackMetadataList `json:"buildMetadata,omitempty"`
+	// Stack identifies the kpack stack used to build the image
+	// +optional
+	Stack string `json:"stack,omitempty"`
 }
 
 // BuildProcessStatus describes the status of a build

@@ -156,6 +156,29 @@ spec:
                         - standard-2
                         type: string
                     type: object
+                  dockerfileBuild:
+                    description: DockerfileBuild contains settings for building with
+                      an existing Dockerfile
+                    properties:
+                      buildContext:
+                        description: BuildContext defines the build context. If left
+                          empty, the application code root directory will be used
+                          as build context.
+                        type: string
+                      dockerfilePath:
+                        description: DockerfilePath specifies the path to the Dockerfile.
+                          If left empty a file named Dockerfile will be searched in
+                          the application code root directory.
+                        type: string
+                      enabled:
+                        description: Enabled defines if the Dockerfile build should
+                          be enabled
+                        type: boolean
+                        x-kubernetes-validations:
+                        - message: Dockerfile builds cannot be enabled/disabled after
+                            creation of the application (field is immutable)
+                          rule: self == oldSelf
+                    type: object
                   git:
                     description: ApplicationGitConfig configures the git repo to connect
                       to.
