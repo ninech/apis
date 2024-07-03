@@ -536,7 +536,6 @@ type MySQLParameters struct {
 	// MachineType defines the sizing for a particular machine and
 	// implicitly the provider.
 	//
-	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2
 	// +optional
 	// +kubebuilder:default:="nine-standard-1"
 	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
@@ -787,7 +786,6 @@ type PostgresSpec struct {
 type PostgresParameters struct {
 	// MachineType defines the sizing for a particular machine and
 	// implicitly the provider.
-	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2
 	// +optional
 	// +kubebuilder:default:="nine-standard-1"
 	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
