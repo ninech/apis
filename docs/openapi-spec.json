@@ -23540,6 +23540,28 @@
                   "description": "EnableModSecurity enables the owasp-modsecurity. Note this will enable it for all paths, and each path must be disabled manually. ModSecurity will run in \"Detection-Only\" mode using the recommended configuration. You can enable the OWASP Core Rule Set by setting the following annotation: \n nginx.ingress.kubernetes.io/enable-owasp-core-rules: \"true\" \n https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity",
                   "type": "boolean"
                 },
+                "hsts": {
+                  "description": "HSTS allows to configure settings for the \"HTTP Strict Transport Security\" (HSTS) headers",
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "description": "Enabled enables/disables all HSTS headers. If not given all HSTS headers are enabled by default.",
+                      "type": "boolean"
+                    },
+                    "includeSubdomains": {
+                      "description": "IncludeSubdomains allows to toggle the \"includeSubDomains\" field in the HSTS header (enabled by default).",
+                      "type": "boolean"
+                    },
+                    "maxAge": {
+                      "description": "MaxAge sets the time that the browser should remember that this site is only to be accessed using HTTPS.",
+                      "type": "string"
+                    },
+                    "preload": {
+                      "description": "Preload allows to toggle the HSTS preload feature.",
+                      "type": "boolean"
+                    }
+                  }
+                },
                 "ingressClass": {
                   "description": "IngressClass sets the class of the ingress controller. Specifies which ingress objects the controller should take care of. Please note that the class `nginx` itself will handle all ingresses without a class annotation set.",
                   "type": "string"
