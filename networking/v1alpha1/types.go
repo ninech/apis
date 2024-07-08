@@ -140,6 +140,9 @@ type IngressNginxParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	EnableModSecurity bool `json:"enableModSecurity,omitempty"`
+	// HSTS allows to configure settings for the "HTTP Strict Transport
+	// Security" (HSTS) headers
+	HSTS *HSTSConfiguration `json:"hsts,omitempty"`
 }
 
 // IngressNginxCache uses the nginx settings `proxy_cache_<x>` to cache
@@ -174,6 +177,22 @@ type IngressNginxDefaultBackend struct {
 	// +optional
 	// +kubebuilder:default:=2
 	Replicas int `json:"defaultBackendReplicas,omitempty"`
+}
+
+// HSTSConfiguration allows to configure the "HTTP Strict Transport Security"
+// headers. HSTS is enabled by default.
+type HSTSConfiguration struct {
+	// Enabled enables/disables all HSTS headers. If not given all HSTS
+	// headers are enabled by default.
+	Enabled *bool `json:"enabled,omitempty"`
+	// IncludeSubdomains allows to toggle the "includeSubDomains" field in
+	// the HSTS header (enabled by default).
+	IncludeSubdomains *bool `json:"includeSubdomains,omitempty"`
+	// MaxAge sets the time that the browser should remember that this site
+	// is only to be accessed using HTTPS.
+	MaxAge *metav1.Duration `json:"maxAge,omitempty"`
+	// Preload allows to toggle the HSTS preload feature.
+	Preload *bool `json:"preload,omitempty"`
 }
 
 // IngressNginxStatus represents the observed state of an IngressNginx.
