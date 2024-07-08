@@ -21278,7 +21278,11 @@
                     "nine-standard-2",
                     "nine-standard-4",
                     "nine-highmem-2",
-                    "nine-highmem-4"
+                    "nine-highmem-4",
+                    "nine-highcpu-2",
+                    "nine-highcpu-4",
+                    "nine-highcpu-8",
+                    "nine-highcpu-16"
                   ]
                 },
                 "os": {
@@ -22891,7 +22895,18 @@
                       },
                       "machineType": {
                         "description": "MachineType shows the current machine type of the node pool.",
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                          "nine-standard-1",
+                          "nine-standard-2",
+                          "nine-standard-4",
+                          "nine-highmem-2",
+                          "nine-highmem-4",
+                          "nine-highcpu-2",
+                          "nine-highcpu-4",
+                          "nine-highcpu-8",
+                          "nine-highcpu-16"
+                        ]
                       },
                       "numNodes": {
                         "description": "NumNodes describes the current number of nodes in the node pool.",
@@ -29760,7 +29775,18 @@
                 },
                 "machineType": {
                   "description": "MachineType defines the sizing for a particular machine and implicitly the provider.",
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "nine-standard-1",
+                    "nine-standard-2",
+                    "nine-standard-4",
+                    "nine-highmem-2",
+                    "nine-highmem-4",
+                    "nine-highcpu-2",
+                    "nine-highcpu-4",
+                    "nine-highcpu-8",
+                    "nine-highcpu-16"
+                  ]
                 },
                 "minWordLength": {
                   "description": "MinWordLength configures the`ft_min_word_len` and `innodb_ft_min_token_size` variables. Minimum length of words that are stored in an InnoDB or MyISAM FULLTEXT index.",
@@ -30660,7 +30686,18 @@
                 },
                 "machineType": {
                   "description": "MachineType defines the sizing for a particular machine and implicitly the provider.",
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "nine-standard-1",
+                    "nine-standard-2",
+                    "nine-standard-4",
+                    "nine-highmem-2",
+                    "nine-highmem-4",
+                    "nine-highcpu-2",
+                    "nine-highcpu-4",
+                    "nine-highcpu-8",
+                    "nine-highcpu-16"
+                  ]
                 },
                 "sshKeys": {
                   "description": "SSHKeys contains a list of SSH public keys, allowed to connect to the db server, in order to up-/download and directly restore database backups.",

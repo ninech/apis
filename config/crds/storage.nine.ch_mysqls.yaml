@@ -489,6 +489,16 @@ spec:
                     default: nine-standard-1
                     description: MachineType defines the sizing for a particular machine
                       and implicitly the provider.
+                    enum:
+                    - nine-standard-1
+                    - nine-standard-2
+                    - nine-standard-4
+                    - nine-highmem-2
+                    - nine-highmem-4
+                    - nine-highcpu-2
+                    - nine-highcpu-4
+                    - nine-highcpu-8
+                    - nine-highcpu-16
                     type: string
                   minWordLength:
                     default: 3

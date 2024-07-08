@@ -1168,6 +1168,16 @@ spec:
                         machineType:
                           description: MachineType shows the current machine type
                             of the node pool.
+                          enum:
+                          - nine-standard-1
+                          - nine-standard-2
+                          - nine-standard-4
+                          - nine-highmem-2
+                          - nine-highmem-4
+                          - nine-highcpu-2
+                          - nine-highcpu-4
+                          - nine-highcpu-8
+                          - nine-highcpu-16
                           type: string
                         numNodes:
                           description: NumNodes describes the current number of nodes

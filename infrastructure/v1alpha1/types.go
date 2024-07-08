@@ -98,7 +98,6 @@ type CloudVirtualMachineSpec struct {
 type CloudVirtualMachineParameters struct {
 	// MachineType defines the sizing for a particular cloud vm.
 	// +optional
-	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4
 	// +kubebuilder:default:=nine-standard-1
 	MachineType MachineType `json:"machineType,omitempty"`
 	// Location specifies in which datacenter the VM will be spawned.
@@ -147,6 +146,7 @@ type CloudVirtualMachineParameters struct {
 
 // MachineType is a name for a particular machine sizing.
 // +nine:public:definition
+// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4;nine-highcpu-2;nine-highcpu-4;nine-highcpu-8;nine-highcpu-16
 type MachineType string
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.
@@ -358,7 +358,6 @@ type NodePool struct {
 	Taints []v1.Taint `json:"taints,omitempty"`
 	// MachineType identifies the machine sizing. Changing this results in a
 	// new rollout of all nodes in the pool.
-	// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4;nine-highcpu-2;nine-highcpu-4;nine-highcpu-8;nine-highcpu-16
 	MachineType MachineType `json:"machineType"`
 	// DiskSize specifies the size of the disk for the nodes in this pool.
 	// Changing this results in a new rollout of all nodes in the pool.
