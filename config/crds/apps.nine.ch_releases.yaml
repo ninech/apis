@@ -314,10 +314,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  dockerfileBuild:
-                    description: DockerfileBuild indicates if the build has been built
-                      using a dockerfile.
-                    type: boolean
                   image:
                     description: Image defines the image spec of the built image
                     properties:
