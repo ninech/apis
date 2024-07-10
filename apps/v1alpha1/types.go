@@ -634,6 +634,9 @@ type ReleaseParameters struct {
 	// +optional
 	// +kubebuilder:default:="10m"
 	Timeout *metav1.Duration `json:"timeout,omitempty"`
+	// DockerfileBuild indicates if the build has been built using a dockerfile.
+	// +optional
+	DockerfileBuild bool `json:"dockerfileBuild,omitempty"`
 }
 
 // A FieldOriginConfig contains the fields of a normal config, but with an
