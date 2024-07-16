@@ -17753,8 +17753,7 @@
                     "nine-highmem-4",
                     "nine-highcpu-2",
                     "nine-highcpu-4",
-                    "nine-highcpu-8",
-                    "nine-highcpu-16"
+                    "nine-highcpu-8"
                   ]
                 },
                 "os": {
@@ -18726,8 +18725,7 @@
                           "nine-highmem-4",
                           "nine-highcpu-2",
                           "nine-highcpu-4",
-                          "nine-highcpu-8",
-                          "nine-highcpu-16"
+                          "nine-highcpu-8"
                         ]
                       },
                       "maxNodes": {
@@ -19378,8 +19376,7 @@
                           "nine-highmem-4",
                           "nine-highcpu-2",
                           "nine-highcpu-4",
-                          "nine-highcpu-8",
-                          "nine-highcpu-16"
+                          "nine-highcpu-8"
                         ]
                       },
                       "numNodes": {
@@ -26296,8 +26293,7 @@
                     "nine-highmem-4",
                     "nine-highcpu-2",
                     "nine-highcpu-4",
-                    "nine-highcpu-8",
-                    "nine-highcpu-16"
+                    "nine-highcpu-8"
                   ]
                 },
                 "minWordLength": {
@@ -27209,8 +27205,7 @@
                     "nine-highmem-4",
                     "nine-highcpu-2",
                     "nine-highcpu-4",
-                    "nine-highcpu-8",
-                    "nine-highcpu-16"
+                    "nine-highcpu-8"
                   ]
                 },
                 "sshKeys": {
