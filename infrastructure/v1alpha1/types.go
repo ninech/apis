@@ -41,12 +41,8 @@ const (
 	// MachineTypeHighCPU8 is a VM running on Nine Infrastructure with:
 	// 8 CPU Cores
 	// 16GB RAM
-	MachineTypeNineHighCPU8 MachineType = "nine-highcpu-8"
-	// MachineTypeHighCPU16 is a VM running on Nine Infrastructure with:
-	// 16 CPU Cores
-	// 32GB RAM
-	MachineTypeNineHighCPU16 MachineType     = "nine-highcpu-16"
-	Rocky9                   OperatingSystem = "rocky9"
+	MachineTypeNineHighCPU8 MachineType     = "nine-highcpu-8"
+	Rocky9                  OperatingSystem = "rocky9"
 	// Ubuntu LTS
 	// http://releases.ubuntu.com/
 	Ubuntu22_04 OperatingSystem = "ubuntu22.04"
@@ -58,7 +54,7 @@ var (
 	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
 	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Rocky9)}
 	// MachineTypes is a list of all machine types.
-	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineHighCPU16}
+	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8}
 )
 
 // CloudVirtualMachine is a virtual machine instance providing flexible scaling and a
@@ -146,7 +142,7 @@ type CloudVirtualMachineParameters struct {
 
 // MachineType is a name for a particular machine sizing.
 // +nine:public:definition
-// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4;nine-highcpu-2;nine-highcpu-4;nine-highcpu-8;nine-highcpu-16
+// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4;nine-highcpu-2;nine-highcpu-4;nine-highcpu-8
 type MachineType string
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.

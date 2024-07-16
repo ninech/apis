@@ -159,7 +159,6 @@ spec:
                     - nine-highcpu-2
                     - nine-highcpu-4
                     - nine-highcpu-8
-                    - nine-highcpu-16
                     type: string
                   os:
                     default: ubuntu22.04

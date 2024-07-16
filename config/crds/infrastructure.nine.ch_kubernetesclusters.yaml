@@ -571,7 +571,6 @@ spec:
                           - nine-highcpu-2
                           - nine-highcpu-4
                           - nine-highcpu-8
-                          - nine-highcpu-16
                           type: string
                         maxNodes:
                           description: MinNodes describes the upper bound of nodes
@@ -1177,7 +1176,6 @@ spec:
                           - nine-highcpu-2
                           - nine-highcpu-4
                           - nine-highcpu-8
-                          - nine-highcpu-16
                           type: string
                         numNodes:
                           description: NumNodes describes the current number of nodes
