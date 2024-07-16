@@ -14238,7 +14238,8 @@
                     "python",
                     "golang",
                     "nodejs",
-                    "static"
+                    "static",
+                    "ruby-heroku"
                   ]
                 }
               }
