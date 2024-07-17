@@ -192,6 +192,57 @@ type CloudVirtualMachineObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 }
 
+// +kubebuilder:object:root=true
+// ClusterData provides cluster information of the referenced KubernetesCluster resource.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Cluster
+type ClusterData struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ClusterDataSpec   `json:"spec"`
+	Status            ClusterDataStatus `json:"status,omitempty"`
+}
+
+// ClusterDataList contains a list of ClusterData resources.
+// +kubebuilder:object:root=true
+type ClusterDataList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ClusterData `json:"items"`
+}
+
+// ClusterDataSpec defines the desired state of ClusterData resource.
+type ClusterDataSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            ClusterDataParameters `json:"forProvider"`
+}
+
+// ClusterDataParameters are the configurable fields of a ClusterData resource.
+type ClusterDataParameters struct {
+	// ClusterReference selects the KubernetesCluster of which the cluster
+	// data should be exposed
+	ClusterReference meta.Reference `json:"clusterReference"`
+}
+
+// ClusterDataStatus represents the observed state of a ClusterData resource.
+type ClusterDataStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               ClusterDataObservation `json:"atProvider"`
+}
+
+// ClusterDataObservation are the observable fields of a ClusterData resource.
+type ClusterDataObservation struct {
+	// APIEndpoint is the URL under which the Kubernetes API is reachable at.
+	// +optional
+	APIEndpoint string `json:"apiEndpoint,omitempty"`
+	// APICACert is the base64 encoded ca certificate of the kube-apiserver
+	// +optional
+	APICACert string `json:"apiCACert,omitempty"`
+}
+
 // Keda deploys Keda to a KubernetesCluster.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

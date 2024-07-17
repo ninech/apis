@@ -9,6 +9,9 @@ const (
 	LocationNineCZ42 LocationName = NinePrefix + "cz42"
 	// LocationNineES34 is the name for our ES34 location
 	LocationNineES34 LocationName = NinePrefix + "es34"
+	// ClusterDataDeploioName is the name of the ClusterData resource which
+	// exposes connection details of the deplo.io cluster to customers
+	ClusterDataDeploioName = "deploio"
 	// NinePrefix contains a prefix which all nine owned
 	// resources begin their name with
 	NinePrefix = "nine-"
