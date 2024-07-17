@@ -26,6 +26,10 @@ var (
 	CloudVirtualMachineGroupKind        = schema.GroupKind{Group: Group, Kind: CloudVirtualMachineKind}.String()
 	CloudVirtualMachineKindAPIVersion   = CloudVirtualMachineKind + "." + SchemeGroupVersion.String()
 	CloudVirtualMachineGroupVersionKind = SchemeGroupVersion.WithKind(CloudVirtualMachineKind)
+	ClusterDataKind             = reflect.TypeOf(ClusterData{}).Name()
+	ClusterDataGroupKind        = schema.GroupKind{Group: Group, Kind: ClusterDataKind}.String()
+	ClusterDataKindAPIVersion   = ClusterDataKind + "." + SchemeGroupVersion.String()
+	ClusterDataGroupVersionKind = SchemeGroupVersion.WithKind(ClusterDataKind)
 	KedaKind             = reflect.TypeOf(Keda{}).Name()
 	KedaGroupKind        = schema.GroupKind{Group: Group, Kind: KedaKind}.String()
 	KedaKindAPIVersion   = KedaKind + "." + SchemeGroupVersion.String()
@@ -38,6 +42,7 @@ var (
 
 func init() {
 	SchemeBuilder.Register(&CloudVirtualMachine{}, &CloudVirtualMachineList{})
+	SchemeBuilder.Register(&ClusterData{}, &ClusterDataList{})
 	SchemeBuilder.Register(&Keda{}, &KedaList{})
 	SchemeBuilder.Register(&KubernetesCluster{}, &KubernetesClusterList{})
 }

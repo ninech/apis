@@ -18126,6 +18126,318 @@
         }
       ]
     },
+    "ch.nine.infrastructure.v1alpha1.ClusterData": {
+      "description": "ClusterData provides cluster information of the referenced KubernetesCluster resource.",
+      "type": "object",
+      "required": [
+        "spec"
+      ],
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
+        },
+        "spec": {
+          "description": "ClusterDataSpec defines the desired state of ClusterData resource.",
+          "type": "object",
+          "required": [
+            "forProvider"
+          ],
+          "properties": {
+            "deletionPolicy": {
+              "description": "DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either \"Delete\" or \"Orphan\" the external resource. This field is planned to be deprecated in favor of the ManagementPolicies field in a future release. Currently, both could be set independently and non-default values would be honored if the feature flag is enabled. See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223",
+              "type": "string",
+              "enum": [
+                "Orphan",
+                "Delete"
+              ]
+            },
+            "forProvider": {
+              "description": "ClusterDataParameters are the configurable fields of a ClusterData resource.",
+              "type": "object",
+              "required": [
+                "clusterReference"
+              ],
+              "properties": {
+                "clusterReference": {
+                  "description": "ClusterReference selects the KubernetesCluster of which the cluster data should be exposed",
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "namespace"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "Name of the target.",
+                      "type": "string"
+                    },
+                    "namespace": {
+                      "description": "Namespace of the target.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "managementPolicies": {
+              "description": "THIS IS A BETA FIELD. It is on by default but can be opted out through a Crossplane feature flag. ManagementPolicies specify the array of actions Crossplane is allowed to take on the managed and external resources. This field is planned to replace the DeletionPolicy field in a future release. Currently, both could be set independently and non-default values would be honored if the feature flag is enabled. If both are custom, the DeletionPolicy field will be ignored. See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223 and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md",
+              "type": "array",
+              "items": {
+                "description": "A ManagementAction represents an action that the Crossplane controllers can take on an external resource.",
+                "type": "string",
+                "enum": [
+                  "Observe",
+                  "Create",
+                  "Update",
+                  "Delete",
+                  "LateInitialize",
+                  "*"
+                ]
+              }
+            },
+            "providerConfigRef": {
+              "description": "ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.",
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the referenced object.",
+                  "type": "string"
+                },
+                "policy": {
+                  "description": "Policies for referencing.",
+                  "type": "object",
+                  "properties": {
+                    "resolution": {
+                      "description": "Resolution specifies whether resolution of this reference is required. The default is 'Required', which means the reconcile will fail if the reference cannot be resolved. 'Optional' means this reference will be a no-op if it cannot be resolved.",
+                      "type": "string",
+                      "enum": [
+                        "Required",
+                        "Optional"
+                      ]
+                    },
+                    "resolve": {
+                      "description": "Resolve specifies when this reference should be resolved. The default is 'IfNotPresent', which will attempt to resolve the reference only when the corresponding field is not present. Use 'Always' to resolve the reference on every reconcile.",
+                      "type": "string",
+                      "enum": [
+                        "Always",
+                        "IfNotPresent"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "publishConnectionDetailsTo": {
+              "description": "PublishConnectionDetailsTo specifies the connection secret config which contains a name, metadata and a reference to secret store config to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.",
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "configRef": {
+                  "description": "SecretStoreConfigRef specifies which secret store config should be used for this ConnectionSecret.",
+                  "type": "object",
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "Name of the referenced object.",
+                      "type": "string"
+                    },
+                    "policy": {
+                      "description": "Policies for referencing.",
+                      "type": "object",
+                      "properties": {
+                        "resolution": {
+                          "description": "Resolution specifies whether resolution of this reference is required. The default is 'Required', which means the reconcile will fail if the reference cannot be resolved. 'Optional' means this reference will be a no-op if it cannot be resolved.",
+                          "type": "string",
+                          "enum": [
+                            "Required",
+                            "Optional"
+                          ]
+                        },
+                        "resolve": {
+                          "description": "Resolve specifies when this reference should be resolved. The default is 'IfNotPresent', which will attempt to resolve the reference only when the corresponding field is not present. Use 'Always' to resolve the reference on every reconcile.",
+                          "type": "string",
+                          "enum": [
+                            "Always",
+                            "IfNotPresent"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "metadata": {
+                  "description": "Metadata is the metadata for connection secret.",
+                  "type": "object",
+                  "properties": {
+                    "annotations": {
+                      "description": "Annotations are the annotations to be added to connection secret. - For Kubernetes secrets, this will be used as \"metadata.annotations\". - It is up to Secret Store implementation for others store types.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "labels": {
+                      "description": "Labels are the labels/tags to be added to connection secret. - For Kubernetes secrets, this will be used as \"metadata.labels\". - It is up to Secret Store implementation for others store types.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "type": {
+                      "description": "Type is the SecretType for the connection secret. - Only valid for Kubernetes Secret Stores.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "name": {
+                  "description": "Name is the name of the connection secret.",
+                  "type": "string"
+                }
+              }
+            },
+            "writeConnectionSecretToRef": {
+              "description": "WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource. This field is planned to be replaced in a future release in favor of PublishConnectionDetailsTo. Currently, both could be set independently and connection details would be published to both without affecting each other.",
+              "type": "object",
+              "required": [
+                "name",
+                "namespace"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the secret.",
+                  "type": "string"
+                },
+                "namespace": {
+                  "description": "Namespace of the secret.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "status": {
+          "description": "ClusterDataStatus represents the observed state of a ClusterData resource.",
+          "type": "object",
+          "required": [
+            "atProvider"
+          ],
+          "properties": {
+            "atProvider": {
+              "description": "ClusterDataObservation are the observable fields of a ClusterData resource.",
+              "type": "object",
+              "properties": {
+                "apiCACert": {
+                  "description": "APICACert is the base64 encoded ca certificate of the kube-apiserver",
+                  "type": "string"
+                },
+                "apiEndpoint": {
+                  "description": "APIEndpoint is the URL under which the Kubernetes API is reachable at.",
+                  "type": "string"
+                }
+              }
+            },
+            "conditions": {
+              "description": "Conditions of the resource.",
+              "type": "array",
+              "items": {
+                "description": "A Condition that may apply to a resource.",
+                "type": "object",
+                "required": [
+                  "lastTransitionTime",
+                  "reason",
+                  "status",
+                  "type"
+                ],
+                "properties": {
+                  "lastTransitionTime": {
+                    "description": "LastTransitionTime is the last time this condition transitioned from one status to another.",
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "message": {
+                    "description": "A Message containing details about this condition's last transition from one status to another, if any.",
+                    "type": "string"
+                  },
+                  "reason": {
+                    "description": "A Reason for this condition's last transition from one status to another.",
+                    "type": "string"
+                  },
+                  "status": {
+                    "description": "Status of this condition; is it currently True, False, or Unknown?",
+                    "type": "string"
+                  },
+                  "type": {
+                    "description": "Type of this condition. At most one of each condition type may apply to a resource at any point in time.",
+                    "type": "string"
+                  }
+                }
+              },
+              "x-kubernetes-list-map-keys": [
+                "type"
+              ],
+              "x-kubernetes-list-type": "map"
+            }
+          }
+        }
+      },
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "infrastructure.nine.ch",
+          "kind": "ClusterData",
+          "version": "v1alpha1"
+        }
+      ]
+    },
+    "ch.nine.infrastructure.v1alpha1.ClusterDataList": {
+      "description": "ClusterDataList is a list of ClusterData",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "items": {
+          "description": "List of clusterdata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ch.nine.infrastructure.v1alpha1.ClusterData"
+          }
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
+        }
+      },
+      "x-kubernetes-group-version-kind": [
+        {
+          "group": "infrastructure.nine.ch",
+          "kind": "ClusterDataList",
+          "version": "v1alpha1"
+        }
+      ]
+    },
     "ch.nine.infrastructure.v1alpha1.Keda": {
       "description": "Keda deploys Keda to a KubernetesCluster.",
       "type": "object",
@@ -29639,6 +29951,10 @@
       "name": "CloudVirtualMachine"
     },
     {
+      "description": "ClusterData provides cluster information of the referenced KubernetesCluster resource.",
+      "name": "ClusterData"
+    },
+    {
       "description": "ExternalSecrets deploys the ExternalSecrets controller to a cluster.",
       "name": "ExternalSecrets"
     },
@@ -29760,6 +30076,8 @@
       "tags": [
         "CloudVirtualMachine",
         "CloudVirtualMachineList",
+        "ClusterData",
+        "ClusterDataList",
         "Keda",
         "KedaList",
         "KubernetesCluster",

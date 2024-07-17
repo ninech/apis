@@ -54,6 +54,7 @@ func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	AddToMapper(mapper, iam.KubernetesClustersRoleBindingGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, iam.KubernetesServiceAccountGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, infrastructure.CloudVirtualMachineGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, infrastructure.ClusterDataGroupVersionKind, meta.RESTScopeRoot)
 	AddToMapper(mapper, infrastructure.KedaGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, infrastructure.KubernetesClusterGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, networking.IngressNginxGroupVersionKind, meta.RESTScopeNamespace)
