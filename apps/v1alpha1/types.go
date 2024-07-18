@@ -111,6 +111,7 @@ type ApplicationSpec struct {
 }
 
 // ApplicationParameters are the configurable fields of a Application.
+// +kubebuilder:validation:XValidation:rule="!(has(self.language) && self.dockerfileBuild.enabled)",message="language can't be set if dockerfile builds are enabled."
 type ApplicationParameters struct {
 	// Language specifies which kind of application/language should be
 	// used for building the application. If left empty, an automatic
