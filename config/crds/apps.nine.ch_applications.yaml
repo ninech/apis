@@ -261,6 +261,9 @@ spec:
                 - config
                 - git
                 type: object
+                x-kubernetes-validations:
+                - message: language can't be set if dockerfile builds are enabled.
+                  rule: '!(has(self.language) && self.dockerfileBuild.enabled)'
               managementPolicies:
                 default:
                 - '*'
