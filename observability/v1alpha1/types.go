@@ -1,7 +1,6 @@
 package v1alpha1
 
 import (
-	helmreleasev1beta1 "github.com/crossplane-contrib/provider-helm/apis/release/v1beta1"
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
 	"github.com/prometheus/common/model"
@@ -261,14 +260,45 @@ type PrometheusParameters struct {
 	// Alertmanagers Prometheus should send alerts to.
 	// +optional
 	Alertmanagers []meta.Reference `json:"alertmanagers,omitempty"`
-	// AllowedCIDRs specify the allowed IP addresses, connecting to Prometheus.
-	// IPs are in CIDR format, e.g. 192.168.1.1/24
-	// In addition to your IPs, we add all operational necessary IPs as well.
-	//
-	// +listType:="set"
-	// +kubebuilder:default:={"0.0.0.0/0"}
+	// Access configures the access to the Prometheus instance.
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
+	Access PrometheusAccess `json:"access"`
+}
+type PrometheusAccess struct {
+	// Internal selects from which Pods in the cluster this Promtheus
+	// instance can be accessed.
+	// +optional
+	Internal PrometheusInternalAccess `json:"internal"`
+	// NoExternalAccess removes the possibility to access this
+	// Prometheus instance from outside of the cluster. The Prometheus
+	// instance can not be used in Nine Grafana instances anymore. The
+	// Prometheus instance can still be accessed from Pods running in the
+	// cluster, if enabled.
+	// +optional
+	NoExternalAccess bool `json:"noExternalAccess"`
+}
+type PrometheusInternalAccess struct {
+	// Enabled can be used to allow selected pods (see below) to connect to
+	// the Prometheus instance by using the internal Service URL found in
+	// the connection secret and status of the Prometheus resource.
+	// If `Enabled` is set to false, no internal access will be possible,
+	// no matter what was set in the `podSelector` or `namespaceSelector`
+	// fields.
+	// +optional
+	Enabled bool `json:"enabled"`
+	// PodSelector is a label selector which selects pods permitted to
+	// connect to Prometheus. If empty, all pods are allowed to connect to
+	// Prometheus.
+	//
+	// If NamespaceSelector is also set with some value, then only pods
+	// from within the namespaces selected by it are permitted.
+	// +optional
+	PodSelector metav1.LabelSelector `json:"podSelector"`
+	// NamespaceSelector selects the namespaces from which the
+	// `PodSelector` field will select. If left empty, all namespaces will
+	// be considered.
+	// +optional
+	NamespaceSelector metav1.LabelSelector `json:"namespaceSelector"`
 }
 
 // PrometheusStatus represents the observed state of a Prometheus.
@@ -279,9 +309,17 @@ type PrometheusStatus struct {
 
 // PrometheusObservation are the observable fields of a Prometheus.
 type PrometheusObservation struct {
-	// HelmReleaseStatus is the status of the prometheus helm release
-	HelmReleaseStatus    helmreleasev1beta1.ReleaseStatus `json:"helmReleaseStatus,omitempty"`
 	meta.ReferenceStatus `json:",inline"`
+	// ExternalURL provides the URL to access this Prometheus instance from
+	// external of the cluster. The corresponding basic auth credentials
+	// are exposed in the referenced connection secret
+	// (`spec.resourceSpec.writeConnectionSecretToRef`). Access can be
+	// disabled by using `spec.forProvider.access.noExternalAccess`.
+	ExternalURL string `json:"externalURL,omitempty"`
+	// InternalURL provides the URL to access the Prometheus instance from
+	// internal of the referenced cluster. Needs to be enabled via
+	// `spec.forProvider.access.internal.enabled`.
+	InternalURL string `json:"internalURL,omitempty"`
 }
 
 // Promtail deploys Promtail to a cluster and pushes logs to the configured Loki instance.
