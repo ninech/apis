@@ -343,6 +343,9 @@ type KubernetesClusterParameters struct {
 	// by certain Prometheus instances
 	// +optional
 	ScrapeConfigurations *KubernetesClusterScrapeConfiguration `json:"scrapeConfiguration,omitempty"`
+	// AuditLog is a list of references to Loki instances. If set, this will enable
+	// and push audit logs to those instances. Only available for NKE.
+	AuditLog KubernetesClusterAuditLogging `json:"auditLog,omitempty"`
 }
 
 // NKEClusterSettings defines additional fields that a nine KubernetesCluster
@@ -438,6 +441,17 @@ type KubernetesClusterScrapeConfiguration struct {
 	// +listMapKey:="name"
 	// +optional
 	CertManager []meta.ScrapeConfig `json:"certManager,omitempty"`
+}
+type KubernetesClusterAuditLogging struct {
+	// +kubebuilder:validation:MaxItems=1
+	// +kubebuilder:validation:MinItems=0
+	// +kubebuilder:validation:Items:Type=object
+	// +kubebuilder:validation:Items:Properties:
+	// +kubebuilder:validation:Items:Properties:kind:Enum=Loki
+	Target []AuditTarget `json:"target,omitempty"`
+}
+type AuditTarget struct {
+	meta.LocalTypedReference `json:",inline"`
 }
 
 // A KubernetesClusterStatus represents the observed state of a KubernetesCluster.

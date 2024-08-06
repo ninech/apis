@@ -18977,6 +18977,37 @@
                     }
                   }
                 },
+                "auditLog": {
+                  "description": "AuditLog is a list of references to Loki instances. If set, this will enable and push audit logs to those instances. Only available for NKE.",
+                  "type": "object",
+                  "properties": {
+                    "target": {
+                      "type": "array",
+                      "maxItems": 1,
+                      "minItems": 0,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "group",
+                          "kind",
+                          "name"
+                        ],
+                        "properties": {
+                          "group": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "Name of the target.",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
                 "location": {
                   "description": "Location of the KubernetesCluster. Note that Clusters are currently only available in the location nine-es34.",
                   "type": "string",
@@ -19820,7 +19851,8 @@
                 "maxNodes": 3,
                 "machineType": "nine-standard-2"
               }
-            ]
+            ],
+            "auditLog": {}
           }
         },
         "status": {
