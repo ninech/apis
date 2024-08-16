@@ -24387,10 +24387,9 @@
               ],
               "properties": {
                 "backendVersion": {
-                  "description": "BackendVersion specifies the bucket backend version to use. While the APIs work the same, buckets with v1 are only compatible with bucketusers also on v1 and the same applies to v2.",
+                  "description": "BackendVersion specifies the bucket backend version to use. While the APIs work the same, buckets with v2 are only compatible with bucketusers also on v2.",
                   "type": "string",
                   "enum": [
-                    "v1",
                     "v2"
                   ]
                 },
@@ -25403,10 +25402,9 @@
               ],
               "properties": {
                 "backendVersion": {
-                  "description": "BackendVersion specifies the bucket backend version to use. While the APIs work the same, buckets with v1 are only compatible with bucketusers also on v1 and the same applies to v2.",
+                  "description": "BackendVersion specifies the bucket backend version to use. While the APIs work the same, buckets with v2 are only compatible with bucketusers also on v2.",
                   "type": "string",
                   "enum": [
-                    "v1",
                     "v2"
                   ]
                 },
