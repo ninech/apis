@@ -63,129 +63,6 @@ spec:
                 description: PrometheusParameters are the configurable fields of a
                   Prometheus.
                 properties:
-                  access:
-                    description: Access configures the access to the Prometheus instance.
-                    properties:
-                      internal:
-                        description: Internal selects from which Pods in the cluster
-                          this Promtheus instance can be accessed.
-                        properties:
-                          enabled:
-                            description: Enabled can be used to allow selected pods
-                              (see below) to connect to the Prometheus instance by
-                              using the internal Service URL found in the connection
-                              secret and status of the Prometheus resource. If `Enabled`
-                              is set to false, no internal access will be possible,
-                              no matter what was set in the `podSelector` or `namespaceSelector`
-                              fields.
-                            type: boolean
-                          namespaceSelector:
-                            description: NamespaceSelector selects the namespaces
-                              from which the `PodSelector` field will select. If left
-                              empty, all namespaces will be considered.
-                            properties:
-                              matchExpressions:
-                                description: matchExpressions is a list of label selector
-                                  requirements. The requirements are ANDed.
-                                items:
-                                  description: A label selector requirement is a selector
-                                    that contains values, a key, and an operator that
-                                    relates the key and values.
-                                  properties:
-                                    key:
-                                      description: key is the label key that the selector
-                                        applies to.
-                                      type: string
-                                    operator:
-                                      description: operator represents a key's relationship
-                                        to a set of values. Valid operators are In,
-                                        NotIn, Exists and DoesNotExist.
-                                      type: string
-                                    values:
-                                      description: values is an array of string values.
-                                        If the operator is In or NotIn, the values
-                                        array must be non-empty. If the operator is
-                                        Exists or DoesNotExist, the values array must
-                                        be empty. This array is replaced during a
-                                        strategic merge patch.
-                                      items:
-                                        type: string
-                                      type: array
-                                  required:
-                                  - key
-                                  - operator
-                                  type: object
-                                type: array
-                              matchLabels:
-                                additionalProperties:
-                                  type: string
-                                description: matchLabels is a map of {key,value} pairs.
-                                  A single {key,value} in the matchLabels map is equivalent
-                                  to an element of matchExpressions, whose key field
-                                  is "key", the operator is "In", and the values array
-                                  contains only "value". The requirements are ANDed.
-                                type: object
-                            type: object
-                            x-kubernetes-map-type: atomic
-                          podSelector:
-                            description: "PodSelector is a label selector which selects
-                              pods permitted to connect to Prometheus. If empty, all
-                              pods are allowed to connect to Prometheus. \n If NamespaceSelector
-                              is also set with some value, then only pods from within
-                              the namespaces selected by it are permitted."
-                            properties:
-                              matchExpressions:
-                                description: matchExpressions is a list of label selector
-                                  requirements. The requirements are ANDed.
-                                items:
-                                  description: A label selector requirement is a selector
-                                    that contains values, a key, and an operator that
-                                    relates the key and values.
-                                  properties:
-                                    key:
-                                      description: key is the label key that the selector
-                                        applies to.
-                                      type: string
-                                    operator:
-                                      description: operator represents a key's relationship
-                                        to a set of values. Valid operators are In,
-                                        NotIn, Exists and DoesNotExist.
-                                      type: string
-                                    values:
-                                      description: values is an array of string values.
-                                        If the operator is In or NotIn, the values
-                                        array must be non-empty. If the operator is
-                                        Exists or DoesNotExist, the values array must
-                                        be empty. This array is replaced during a
-                                        strategic merge patch.
-                                      items:
-                                        type: string
-                                      type: array
-                                  required:
-                                  - key
-                                  - operator
-                                  type: object
-                                type: array
-                              matchLabels:
-                                additionalProperties:
-                                  type: string
-                                description: matchLabels is a map of {key,value} pairs.
-                                  A single {key,value} in the matchLabels map is equivalent
-                                  to an element of matchExpressions, whose key field
-                                  is "key", the operator is "In", and the values array
-                                  contains only "value". The requirements are ANDed.
-                                type: object
-                            type: object
-                            x-kubernetes-map-type: atomic
-                        type: object
-                      noExternalAccess:
-                        description: NoExternalAccess removes the possibility to access
-                          this Prometheus instance from outside of the cluster. The
-                          Prometheus instance can not be used in Nine Grafana instances
-                          anymore. The Prometheus instance can still be accessed from
-                          Pods running in the cluster, if enabled.
-                        type: boolean
-                    type: object
                   alertmanagers:
                     description: Alertmanagers Prometheus should send alerts to.
                     items:
@@ -203,6 +80,19 @@ spec:
                       - namespace
                       type: object
                     type: array
+                  allowedCIDRs:
+                    default:
+                    - 0.0.0.0/0
+                    description: AllowedCIDRs specify the allowed IP addresses, connecting
+                      to Prometheus. IPs are in CIDR format, e.g. 192.168.1.1/24 In
+                      addition to your IPs, we add all operational necessary IPs as
+                      well.
+                    items:
+                      description: IPv4CIDR represents a IPv4 address in CIDR notation
+                      pattern: \A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   cluster:
                     description: Cluster specifies on which cluster prometheus should
                       be started on.
@@ -416,18 +306,68 @@ spec:
                 description: PrometheusObservation are the observable fields of a
                   Prometheus.
                 properties:
-                  externalURL:
-                    description: ExternalURL provides the URL to access this Prometheus
-                      instance from external of the cluster. The corresponding basic
-                      auth credentials are exposed in the referenced connection secret
-                      (`spec.resourceSpec.writeConnectionSecretToRef`). Access can
-                      be disabled by using `spec.forProvider.access.noExternalAccess`.
-                    type: string
-                  internalURL:
-                    description: InternalURL provides the URL to access the Prometheus
-                      instance from internal of the referenced cluster. Needs to be
-                      enabled via `spec.forProvider.access.internal.enabled`.
-                    type: string
+                  helmReleaseStatus:
+                    description: HelmReleaseStatus is the status of the prometheus
+                      helm release
+                    properties:
+                      atProvider:
+                        description: ReleaseObservation are the observable fields
+                          of a Release.
+                        properties:
+                          releaseDescription:
+                            type: string
+                          revision:
+                            type: integer
+                          state:
+                            description: Status is the status of a release
+                            type: string
+                        type: object
+                      conditions:
+                        description: Conditions of the resource.
+                        items:
+                          description: A Condition that may apply to a resource.
+                          properties:
+                            lastTransitionTime:
+                              description: LastTransitionTime is the last time this
+                                condition transitioned from one status to another.
+                              format: date-time
+                              type: string
+                            message:
+                              description: A Message containing details about this
+                                condition's last transition from one status to another,
+                                if any.
+                              type: string
+                            reason:
+                              description: A Reason for this condition's last transition
+                                from one status to another.
+                              type: string
+                            status:
+                              description: Status of this condition; is it currently
+                                True, False, or Unknown?
+                              type: string
+                            type:
+                              description: Type of this condition. At most one of
+                                each condition type may apply to a resource at any
+                                point in time.
+                              type: string
+                          required:
+                          - lastTransitionTime
+                          - reason
+                          - status
+                          - type
+                          type: object
+                        type: array
+                        x-kubernetes-list-map-keys:
+                        - type
+                        x-kubernetes-list-type: map
+                      failed:
+                        format: int32
+                        type: integer
+                      patchesSha:
+                        type: string
+                      synced:
+                        type: boolean
+                    type: object
                   referenceErrors:
                     items:
                       properties:
