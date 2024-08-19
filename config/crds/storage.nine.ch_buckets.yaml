@@ -62,13 +62,11 @@ spec:
                 description: BucketParameters are the configurable fields of a Bucket.
                 properties:
                   backendVersion:
-                    default: v1
+                    default: v2
                     description: BackendVersion specifies the bucket backend version
-                      to use. While the APIs work the same, buckets with v1 are only
-                      compatible with bucketusers also on v1 and the same applies
-                      to v2.
+                      to use. While the APIs work the same, buckets with v2 are only
+                      compatible with bucketusers also on v2.
                     enum:
-                    - v1
                     - v2
                     type: string
                   cors:

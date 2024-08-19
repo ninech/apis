@@ -160,7 +160,7 @@ type BucketParameters struct {
 	// +optional
 	CORS *CORSConfig `json:"cors,omitempty"`
 	// +optional
-	// +kubebuilder:default:="v1"
+	// +kubebuilder:default:="v2"
 	BackendVersion BucketBackendVersion `json:"backendVersion,omitempty"`
 }
 
@@ -229,9 +229,9 @@ type CORSConfig struct {
 }
 
 // BackendVersion specifies the bucket backend version to use. While the
-// APIs work the same, buckets with v1 are only compatible with
-// bucketusers also on v1 and the same applies to v2.
-// +kubebuilder:validation:Enum=v1;v2
+// APIs work the same, buckets with v2 are only compatible with
+// bucketusers also on v2.
+// +kubebuilder:validation:Enum=v2
 type BucketBackendVersion string
 
 // A BucketStatus represents the observed state of a Bucket.
@@ -291,7 +291,7 @@ type BucketUserParameters struct {
 	// Location specifies the physical location of the BucketUser.
 	Location meta.LocationName `json:"location"`
 	// +optional
-	// +kubebuilder:default:="v1"
+	// +kubebuilder:default:="v2"
 	BackendVersion BucketBackendVersion `json:"backendVersion,omitempty"`
 }
 
