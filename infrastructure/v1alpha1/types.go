@@ -45,7 +45,6 @@ const (
 	Rocky9                  OperatingSystem = "rocky9"
 	// Ubuntu LTS
 	// http://releases.ubuntu.com/
-	Ubuntu24_04 OperatingSystem = "ubuntu24.04"
 	Ubuntu22_04 OperatingSystem = "ubuntu22.04"
 	Ubuntu20_04 OperatingSystem = "ubuntu20.04"
 	Ubuntu18_04 OperatingSystem = "ubuntu18.04"
