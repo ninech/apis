@@ -17738,7 +17738,13 @@
                 },
                 "hostname": {
                   "description": "Hostname allows to set the hostname explicitly. If unset, the name of the resource will be used as the hostname. This does not affect the DNS name.",
-                  "type": "string"
+                  "type": "string",
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "Hostname is immutable after creation",
+                      "rule": "self == oldSelf"
+                    }
+                  ]
                 },
                 "location": {
                   "description": "Location specifies in which datacenter the VM will be spawned. Needs to match the available MachineTypes in that datacenter.",
@@ -17769,7 +17775,14 @@
                   "enum": [
                     "ubuntu20.04",
                     "ubuntu22.04",
+                    "ubuntu24.04",
                     "rocky9"
+                  ],
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "OS is immutable after creation",
+                      "rule": "self == oldSelf"
+                    }
                   ]
                 },
                 "powerState": {

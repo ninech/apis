@@ -53,7 +53,7 @@ const (
 
 var (
 	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
-	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Rocky9)}
+	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Rocky9)}
 	// MachineTypes is a list of all machine types.
 	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8}
 )
@@ -104,10 +104,12 @@ type CloudVirtualMachineParameters struct {
 	// of the resource will be used as the hostname. This does not affect
 	// the DNS name.
 	// +optional
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Hostname is immutable after creation"
 	Hostname string `json:"hostname,omitempty"`
 	// OS which should be used to boot the VM.
 	// +optional
-	// +kubebuilder:default:=ubuntu22.04
+	// +kubebuilder:default:=ubuntu24.04
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="OS is immutable after creation"
 	OS CloudVirtualMachineOS `json:"os,omitempty"`
 	// BootDisk that will be used to boot the VM from.
 	// +optional
@@ -147,7 +149,7 @@ type CloudVirtualMachineParameters struct {
 type MachineType string
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.
-// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;rocky9
+// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;ubuntu24.04;rocky9
 // +nine:public:definition
 type CloudVirtualMachineOS OperatingSystem
 

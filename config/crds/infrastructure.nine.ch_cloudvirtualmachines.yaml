@@ -137,6 +137,9 @@ spec:
                       unset, the name of the resource will be used as the hostname.
                       This does not affect the DNS name.
                     type: string
+                    x-kubernetes-validations:
+                    - message: Hostname is immutable after creation
+                      rule: self == oldSelf
                   location:
                     description: Location specifies in which datacenter the VM will
                       be spawned. Needs to match the available MachineTypes in that
@@ -161,13 +164,17 @@ spec:
                     - nine-highcpu-8
                     type: string
                   os:
-                    default: ubuntu22.04
+                    default: ubuntu24.04
                     description: OS which should be used to boot the VM.
                     enum:
                     - ubuntu20.04
                     - ubuntu22.04
+                    - ubuntu24.04
                     - rocky9
                     type: string
+                    x-kubernetes-validations:
+                    - message: OS is immutable after creation
+                      rule: self == oldSelf
                   powerState:
                     default: "on"
                     description: PowerState specifies the power state of the cloud
