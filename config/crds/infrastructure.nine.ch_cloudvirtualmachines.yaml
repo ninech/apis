@@ -162,6 +162,13 @@ spec:
                     - nine-highcpu-2
                     - nine-highcpu-4
                     - nine-highcpu-8
+                    - nine-db-dev-xs
+                    - nine-db-dev-s
+                    - nine-db-prod-s
+                    - nine-db-prod-m
+                    - nine-db-prod-l
+                    - nine-db-prod-xl
+                    - nine-db-prod-xxl
                     type: string
                   os:
                     default: ubuntu24.04

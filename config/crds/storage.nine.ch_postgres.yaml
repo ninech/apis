@@ -91,7 +91,7 @@ spec:
                     - nine-es34
                     type: string
                   machineType:
-                    default: nine-standard-1
+                    default: nine-db-prod-s
                     description: MachineType defines the sizing for a particular machine
                       and implicitly the provider.
                     enum:
@@ -103,6 +103,13 @@ spec:
                     - nine-highcpu-2
                     - nine-highcpu-4
                     - nine-highcpu-8
+                    - nine-db-dev-xs
+                    - nine-db-dev-s
+                    - nine-db-prod-s
+                    - nine-db-prod-m
+                    - nine-db-prod-l
+                    - nine-db-prod-xl
+                    - nine-db-prod-xxl
                     type: string
                   sshKeys:
                     description: SSHKeys contains a list of SSH public keys, allowed
@@ -125,6 +132,11 @@ spec:
                     - "16"
                     type: string
                 type: object
+                x-kubernetes-validations:
+                - message: Location is immutable and cannoth be unset
+                  rule: self.location == oldSelf.location
+                - message: Version is immutable and cannot be unset
+                  rule: self.version == oldSelf.version
               managementPolicies:
                 default:
                 - '*'
