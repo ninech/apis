@@ -38,7 +38,7 @@ const (
 	// MySQLUser is the name of the MySQL user account.
 	MySQLUser string = "dbadmin"
 	// MySQLMachineTypeDefault specifies the default machine type.
-	MySQLMachineTypeDefault = infrav1alpha1.MachineTypeNineStandard1
+	MySQLMachineTypeDefault = infrav1alpha1.MachineTypeNineDBProdS
 	// MySQLLocationDefault represents the default MySQL datacenter location.
 	// if no explicit version was specified.
 	MySQLLocationDefault = meta.LocationNineCZ41
@@ -64,13 +64,15 @@ const (
 	// PostgresVersion15 Postgres version 15
 	PostgresVersion15 PostgresVersion = "15"
 	// PostgresVersion14 Postgres version 14
+	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion14 PostgresVersion = "14"
 	// PostgresVersion13 Postgres version 13
+	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion13 PostgresVersion = "13"
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
 	// PostgresMachineTypeDefault specifies the default machine type.
-	PostgresMachineTypeDefault = infrav1alpha1.MachineTypeNineStandard1
+	PostgresMachineTypeDefault = infrav1alpha1.MachineTypeNineDBProdS
 	// PostgresLocationDefault represents the default PostgreSQL datacenter location.
 	// if no explicit version was specified.
 	PostgresLocationDefault = meta.LocationNineCZ41
@@ -87,11 +89,11 @@ var (
 	// MySQLLocationOptions is a list of available datacenter locations.
 	MySQLLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLMachineTypes is a list of available machine types.
-	MySQLMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypes
+	MySQLMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypesDB
 	// PostgresLocationOptions is a list of available datacenter locations.
 	PostgresLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// PostgresMachineTypes is a list of available machine types.
-	PostgresMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypes
+	PostgresMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypesDB
 )
 
 // Bucket is an object storage bucket. It's used to group objects, defines
@@ -532,24 +534,24 @@ type MySQLSpec struct {
 }
 
 // MySQLParameters are the configurable fields of a MySQL database.
+// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannoth be unset"
+// +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
 type MySQLParameters struct {
 	// MachineType defines the sizing for a particular machine and
 	// implicitly the provider.
 	//
 	// +optional
-	// +kubebuilder:default:="nine-standard-1"
+	// +kubebuilder:default:="nine-db-prod-s"
 	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
 	//
-	// +immutable
 	// +optional
 	// +kubebuilder:default:="nine-cz41"
 	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the MySQL version.
 	// Needs to match an available MySQL Version.
 	//
-	// +immutable
 	// +optional
 	// +kubebuilder:validation:Enum="8"
 	// +kubebuilder:default:="8"
@@ -783,21 +785,21 @@ type PostgresSpec struct {
 }
 
 // PostgresParameters are the configurable fields of a Postgres database.
+// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannoth be unset"
+// +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
 type PostgresParameters struct {
 	// MachineType defines the sizing for a particular machine and
 	// implicitly the provider.
 	// +optional
-	// +kubebuilder:default:="nine-standard-1"
+	// +kubebuilder:default:="nine-db-prod-s"
 	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
-	// +immutable
 	// +optional
 	// +kubebuilder:default:="nine-cz41"
 	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the Postgres version.
 	// Needs to match an available Postgres Version.
-	// +immutable
 	// +optional
 	// +kubebuilder:default:="16"
 	Version PostgresVersion `json:"version"`
@@ -823,6 +825,7 @@ type PostgresParameters struct {
 }
 
 // PostgresVersion Version of Postgres
+// Please use Version >=15 for new deployments.
 // +kubebuilder:validation:Enum="13";"14";"15";"16"
 type PostgresVersion string
 

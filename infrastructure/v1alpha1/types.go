@@ -41,8 +41,36 @@ const (
 	// MachineTypeHighCPU8 is a VM running on Nine Infrastructure with:
 	// 8 CPU Cores
 	// 16GB RAM
-	MachineTypeNineHighCPU8 MachineType     = "nine-highcpu-8"
-	Rocky9                  OperatingSystem = "rocky9"
+	MachineTypeNineHighCPU8 MachineType = "nine-highcpu-8"
+	// MachineTypeNineDBDevXS is a VM running on Nine Infrastructure with:
+	// 1 CPU Cores
+	// 2GB RAM
+	MachineTypeNineDBDevXS MachineType = "nine-db-dev-xs"
+	// MachineTypeNineDBDevS is a VM running on Nine Infrastructure with:
+	// 2 CPU Cores
+	// 4GB RAM
+	MachineTypeNineDBDevS MachineType = "nine-db-dev-s"
+	// MachineTypeNineDBProdS is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 8GB RAM
+	MachineTypeNineDBProdS MachineType = "nine-db-prod-s"
+	// MachineTypeNineDBProdM is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 12GB RAM
+	MachineTypeNineDBProdM MachineType = "nine-db-prod-m"
+	// MachineTypeNineDBProdL is a VM running on Nine Infrastructure with:
+	// 6 CPU Cores
+	// 16GB RAM
+	MachineTypeNineDBProdL MachineType = "nine-db-prod-l"
+	// MachineTypeNineDBProdXL is a VM running on Nine Infrastructure with:
+	// 8 CPU Cores
+	// 24GB RAM
+	MachineTypeNineDBProdXL MachineType = "nine-db-prod-xl"
+	// MachineTypeNineDBProdXXL is a VM running on Nine Infrastructure with:
+	// 10 CPU Cores
+	// 32GB RAM
+	MachineTypeNineDBProdXXL MachineType     = "nine-db-prod-xxl"
+	Rocky9                   OperatingSystem = "rocky9"
 	// Ubuntu LTS
 	// http://releases.ubuntu.com/
 	Ubuntu24_04 OperatingSystem = "ubuntu24.04"
@@ -55,7 +83,9 @@ var (
 	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
 	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Rocky9)}
 	// MachineTypes is a list of all machine types.
-	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8}
+	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineDBDevXS, MachineTypeNineDBDevS, MachineTypeNineDBProdS, MachineTypeNineDBProdM, MachineTypeNineDBProdL, MachineTypeNineDBProdXL, MachineTypeNineDBProdXXL}
+	// MachineTypesDB is a list of all database machine types.
+	MachineTypesDB = []MachineType{MachineTypeNineDBDevXS, MachineTypeNineDBDevS, MachineTypeNineDBProdS, MachineTypeNineDBProdM, MachineTypeNineDBProdL, MachineTypeNineDBProdXL, MachineTypeNineDBProdXXL}
 )
 
 // CloudVirtualMachine is a virtual machine instance providing flexible scaling and a
@@ -145,7 +175,7 @@ type CloudVirtualMachineParameters struct {
 
 // MachineType is a name for a particular machine sizing.
 // +nine:public:definition
-// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4;nine-highcpu-2;nine-highcpu-4;nine-highcpu-8
+// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4;nine-highcpu-2;nine-highcpu-4;nine-highcpu-8;nine-db-dev-xs;nine-db-dev-s;nine-db-prod-s;nine-db-prod-m;nine-db-prod-l;nine-db-prod-xl;nine-db-prod-xxl
 type MachineType string
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.

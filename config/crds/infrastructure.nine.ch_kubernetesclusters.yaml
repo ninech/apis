@@ -571,6 +571,13 @@ spec:
                           - nine-highcpu-2
                           - nine-highcpu-4
                           - nine-highcpu-8
+                          - nine-db-dev-xs
+                          - nine-db-dev-s
+                          - nine-db-prod-s
+                          - nine-db-prod-m
+                          - nine-db-prod-l
+                          - nine-db-prod-xl
+                          - nine-db-prod-xxl
                           type: string
                         maxNodes:
                           description: MinNodes describes the upper bound of nodes
@@ -1176,6 +1183,13 @@ spec:
                           - nine-highcpu-2
                           - nine-highcpu-4
                           - nine-highcpu-8
+                          - nine-db-dev-xs
+                          - nine-db-dev-s
+                          - nine-db-prod-s
+                          - nine-db-prod-m
+                          - nine-db-prod-l
+                          - nine-db-prod-xl
+                          - nine-db-prod-xxl
                           type: string
                         numNodes:
                           description: NumNodes describes the current number of nodes
