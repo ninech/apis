@@ -19010,6 +19010,38 @@
                   "description": "NKE represents a KubernetesCluster in Nine's datacentres.",
                   "type": "object",
                   "properties": {
+                    "auditLog": {
+                      "description": "AuditLog configures audit logging.",
+                      "type": "object",
+                      "properties": {
+                        "targets": {
+                          "description": "Targets to send the audit log to. The only supported target is Loki.",
+                          "type": "array",
+                          "maxItems": 1,
+                          "minItems": 0,
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "group",
+                              "kind",
+                              "name"
+                            ],
+                            "properties": {
+                              "group": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "Name of the target.",
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
                     "staticEgress": {
                       "description": "StaticEgress defines settings for the static egress feature",
                       "type": "object",
@@ -19845,7 +19877,8 @@
             "nke": {
               "staticEgress": {
                 "enabled": false
-              }
+              },
+              "auditLog": {}
             },
             "nodePools": [
               {
