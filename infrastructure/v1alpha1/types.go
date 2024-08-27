@@ -384,6 +384,9 @@ type NKEClusterSettings struct {
 	// StaticEgress defines settings for the static egress feature
 	// +optional
 	StaticEgress StaticEgress `json:"staticEgress"`
+	// AuditLog configures audit logging.
+	// +optional
+	AuditLog AuditLogConfiguration `json:"auditLog"`
 }
 type StaticEgress struct {
 	// Enabled defines if the static egress feature should be enabled or
@@ -391,6 +394,15 @@ type StaticEgress struct {
 	// +optional
 	// +kubebuilder:default:=false
 	Enabled bool `json:"enabled"`
+}
+type AuditLogConfiguration struct {
+	// Targets to send the audit log to. The only supported target is Loki.
+	// +kubebuilder:validation:MaxItems=1
+	// +kubebuilder:validation:MinItems=0
+	Targets []AuditLogTarget `json:"targets,omitempty"`
+}
+type AuditLogTarget struct {
+	meta.LocalTypedReference `json:",inline"`
 }
 
 // VClusterSettings defines additional fields that a nine KubernetesCluster
