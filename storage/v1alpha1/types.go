@@ -38,7 +38,7 @@ const (
 	// MySQLUser is the name of the MySQL user account.
 	MySQLUser string = "dbadmin"
 	// MySQLMachineTypeDefault specifies the default machine type.
-	MySQLMachineTypeDefault = infrav1alpha1.MachineTypeNineDBProdS
+	MySQLMachineTypeDefault = infrav1alpha1.MachineTypeNineDBS
 	// MySQLLocationDefault represents the default MySQL datacenter location.
 	// if no explicit version was specified.
 	MySQLLocationDefault = meta.LocationNineCZ41
@@ -72,7 +72,7 @@ const (
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
 	// PostgresMachineTypeDefault specifies the default machine type.
-	PostgresMachineTypeDefault = infrav1alpha1.MachineTypeNineDBProdS
+	PostgresMachineTypeDefault = infrav1alpha1.MachineTypeNineDBS
 	// PostgresLocationDefault represents the default PostgreSQL datacenter location.
 	// if no explicit version was specified.
 	PostgresLocationDefault = meta.LocationNineCZ41
@@ -541,7 +541,7 @@ type MySQLParameters struct {
 	// implicitly the provider.
 	//
 	// +optional
-	// +kubebuilder:default:="nine-db-prod-s"
+	// +kubebuilder:default:="nine-db-s"
 	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
@@ -791,7 +791,7 @@ type PostgresParameters struct {
 	// MachineType defines the sizing for a particular machine and
 	// implicitly the provider.
 	// +optional
-	// +kubebuilder:default:="nine-db-prod-s"
+	// +kubebuilder:default:="nine-db-s"
 	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.

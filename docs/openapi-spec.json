@@ -17767,13 +17767,12 @@
                     "nine-highcpu-2",
                     "nine-highcpu-4",
                     "nine-highcpu-8",
-                    "nine-db-dev-xs",
-                    "nine-db-dev-s",
-                    "nine-db-prod-s",
-                    "nine-db-prod-m",
-                    "nine-db-prod-l",
-                    "nine-db-prod-xl",
-                    "nine-db-prod-xxl"
+                    "nine-db-xs",
+                    "nine-db-s",
+                    "nine-db-m",
+                    "nine-db-l",
+                    "nine-db-xl",
+                    "nine-db-xxl"
                   ]
                 },
                 "os": {
@@ -19097,13 +19096,12 @@
                           "nine-highcpu-2",
                           "nine-highcpu-4",
                           "nine-highcpu-8",
-                          "nine-db-dev-xs",
-                          "nine-db-dev-s",
-                          "nine-db-prod-s",
-                          "nine-db-prod-m",
-                          "nine-db-prod-l",
-                          "nine-db-prod-xl",
-                          "nine-db-prod-xxl"
+                          "nine-db-xs",
+                          "nine-db-s",
+                          "nine-db-m",
+                          "nine-db-l",
+                          "nine-db-xl",
+                          "nine-db-xxl"
                         ]
                       },
                       "maxNodes": {
@@ -19755,13 +19753,12 @@
                           "nine-highcpu-2",
                           "nine-highcpu-4",
                           "nine-highcpu-8",
-                          "nine-db-dev-xs",
-                          "nine-db-dev-s",
-                          "nine-db-prod-s",
-                          "nine-db-prod-m",
-                          "nine-db-prod-l",
-                          "nine-db-prod-xl",
-                          "nine-db-prod-xxl"
+                          "nine-db-xs",
+                          "nine-db-s",
+                          "nine-db-m",
+                          "nine-db-l",
+                          "nine-db-xl",
+                          "nine-db-xxl"
                         ]
                       },
                       "numNodes": {
@@ -26712,13 +26709,12 @@
                     "nine-highcpu-2",
                     "nine-highcpu-4",
                     "nine-highcpu-8",
-                    "nine-db-dev-xs",
-                    "nine-db-dev-s",
-                    "nine-db-prod-s",
-                    "nine-db-prod-m",
-                    "nine-db-prod-l",
-                    "nine-db-prod-xl",
-                    "nine-db-prod-xxl"
+                    "nine-db-xs",
+                    "nine-db-s",
+                    "nine-db-m",
+                    "nine-db-l",
+                    "nine-db-xl",
+                    "nine-db-xxl"
                   ]
                 },
                 "minWordLength": {
@@ -27641,13 +27637,12 @@
                     "nine-highcpu-2",
                     "nine-highcpu-4",
                     "nine-highcpu-8",
-                    "nine-db-dev-xs",
-                    "nine-db-dev-s",
-                    "nine-db-prod-s",
-                    "nine-db-prod-m",
-                    "nine-db-prod-l",
-                    "nine-db-prod-xl",
-                    "nine-db-prod-xxl"
+                    "nine-db-xs",
+                    "nine-db-s",
+                    "nine-db-m",
+                    "nine-db-l",
+                    "nine-db-xl",
+                    "nine-db-xxl"
                   ]
                 },
                 "sshKeys": {
