@@ -518,30 +518,6 @@ spec:
                   nke:
                     description: NKE represents a KubernetesCluster in Nine's datacentres.
                     properties:
-                      auditLog:
-                        description: AuditLog configures audit logging.
-                        properties:
-                          targets:
-                            description: Targets to send the audit log to. The only
-                              supported target is Loki.
-                            items:
-                              properties:
-                                group:
-                                  type: string
-                                kind:
-                                  type: string
-                                name:
-                                  description: Name of the target.
-                                  type: string
-                              required:
-                              - group
-                              - kind
-                              - name
-                              type: object
-                            maxItems: 1
-                            minItems: 0
-                            type: array
-                        type: object
                       staticEgress:
                         description: StaticEgress defines settings for the static
                           egress feature
