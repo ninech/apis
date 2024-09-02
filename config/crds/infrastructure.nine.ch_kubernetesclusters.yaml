@@ -23,6 +23,9 @@ spec:
     - jsonPath: .status.conditions[?(@.type=='Ready')].status
       name: READY
       type: string
+    - jsonPath: .status.atProvider.apiReady
+      name: API_READY
+      type: string
     - jsonPath: .metadata.creationTimestamp
       name: AGE
       type: date
@@ -1136,6 +1139,9 @@ spec:
                     description: APIEndpoint is the URL under which the Kubernetes
                       API is reachable at.
                     type: string
+                  apiReady:
+                    description: APIReady indicates if the API is ready for consumption.
+                    type: boolean
                   childResourceErrors:
                     description: ChildResourceErrors of a managed resource.
                     items:
