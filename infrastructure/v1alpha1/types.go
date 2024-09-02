@@ -324,6 +324,7 @@ type KedaObservation struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="API_READY",type="string",JSONPath=".status.atProvider.apiReady"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Namespaced,shortName=kc
 // +kubebuilder:object:root=true
@@ -492,6 +493,9 @@ type KubernetesClusterObservation struct {
 	ClusterObservation `json:",inline"`
 	// KubernetesVersion is the version of Kubernetes that this cluster is running.
 	KubernetesVersion string `json:"kubernetesVersion,omitempty"`
+	// APIReady indicates if the API is ready for consumption.
+	// +optional
+	APIReady bool `json:"apiReady"`
 	// VCluster exposes vcluster specific status fields.
 	// +optional
 	VCluster *VClusterSpecificStatus `json:"vcluster,omitempty"`

@@ -19666,6 +19666,10 @@
                   "description": "APIEndpoint is the URL under which the Kubernetes API is reachable at.",
                   "type": "string"
                 },
+                "apiReady": {
+                  "description": "APIReady indicates if the API is ready for consumption.",
+                  "type": "boolean"
+                },
                 "childResourceErrors": {
                   "description": "ChildResourceErrors of a managed resource.",
                   "type": "array",
@@ -19888,7 +19892,9 @@
           }
         },
         "status": {
-          "atProvider": {}
+          "atProvider": {
+            "apiReady": false
+          }
         }
       }
     },
