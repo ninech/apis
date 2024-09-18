@@ -383,7 +383,7 @@ type NKEClusterSettings struct {
 	StaticEgress StaticEgress `json:"staticEgress"`
 	// AuditLog configures audit logging.
 	// +optional
-	AuditLog AuditLogConfiguration `json:"auditLog"`
+	AuditLog *AuditLogConfiguration `json:"auditLog,omitempty"`
 }
 type StaticEgress struct {
 	// Enabled defines if the static egress feature should be enabled or

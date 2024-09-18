@@ -19879,8 +19879,7 @@
             "nke": {
               "staticEgress": {
                 "enabled": false
-              },
-              "auditLog": {}
+              }
             },
             "nodePools": [
               {
