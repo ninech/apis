@@ -94,6 +94,10 @@ var (
 	PostgresLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// PostgresMachineTypes is a list of available machine types.
 	PostgresMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypesDB
+	// PostgresVersions is a list of all available PostgresVersions.
+	PostgresVersions = []PostgresVersion{PostgresVersion16, PostgresVersion15}
+	// PostgresVersionsDeprecated is a list of all deprecated PostgresVersions.
+	PostgresVersionsDeprecated = []PostgresVersion{PostgresVersion14, PostgresVersion13}
 )
 
 // Bucket is an object storage bucket. It's used to group objects, defines
@@ -802,7 +806,7 @@ type PostgresParameters struct {
 	// Needs to match an available Postgres Version.
 	// +optional
 	// +kubebuilder:default:="16"
-	Version PostgresVersion `json:"version"`
+	Version PostgresVersion `json:"version,omitempty"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
 	// Access from our Kubernetes products NKE and GKE as well as from deplo.io is already enabled.
@@ -826,7 +830,6 @@ type PostgresParameters struct {
 
 // PostgresVersion Version of Postgres
 // Please use Version >=15 for new deployments.
-// +kubebuilder:validation:Enum="13";"14";"15";"16"
 type PostgresVersion string
 
 // A PostgresStatus represents the observed state of a Postgres database.
