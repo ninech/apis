@@ -124,11 +124,6 @@ spec:
                     default: "16"
                     description: Version specifies the Postgres version. Needs to
                       match an available Postgres Version.
-                    enum:
-                    - "13"
-                    - "14"
-                    - "15"
-                    - "16"
                     type: string
                 type: object
                 x-kubernetes-validations:

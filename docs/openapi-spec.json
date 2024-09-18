@@ -27663,13 +27663,7 @@
                 },
                 "version": {
                   "description": "Version specifies the Postgres version. Needs to match an available Postgres Version.",
-                  "type": "string",
-                  "enum": [
-                    "13",
-                    "14",
-                    "15",
-                    "16"
-                  ]
+                  "type": "string"
                 }
               },
               "x-kubernetes-validations": [
