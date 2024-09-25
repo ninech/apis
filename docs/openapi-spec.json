@@ -17772,8 +17772,7 @@
                     "nine-db-m",
                     "nine-db-l",
                     "nine-db-xl",
-                    "nine-db-xxl",
-                    "nine-small-1"
+                    "nine-db-xxl"
                   ]
                 },
                 "os": {
@@ -19102,8 +19101,7 @@
                           "nine-db-m",
                           "nine-db-l",
                           "nine-db-xl",
-                          "nine-db-xxl",
-                          "nine-small-1"
+                          "nine-db-xxl"
                         ]
                       },
                       "maxNodes": {
@@ -19765,8 +19763,7 @@
                           "nine-db-m",
                           "nine-db-l",
                           "nine-db-xl",
-                          "nine-db-xxl",
-                          "nine-small-1"
+                          "nine-db-xxl"
                         ]
                       },
                       "numNodes": {
@@ -26724,8 +26721,7 @@
                     "nine-db-m",
                     "nine-db-l",
                     "nine-db-xl",
-                    "nine-db-xxl",
-                    "nine-small-1"
+                    "nine-db-xxl"
                   ]
                 },
                 "minWordLength": {
@@ -27653,8 +27649,7 @@
                     "nine-db-m",
                     "nine-db-l",
                     "nine-db-xl",
-                    "nine-db-xxl",
-                    "nine-small-1"
+                    "nine-db-xxl"
                   ]
                 },
                 "sshKeys": {

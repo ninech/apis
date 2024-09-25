@@ -504,7 +504,6 @@ spec:
                     - nine-db-l
                     - nine-db-xl
                     - nine-db-xxl
-                    - nine-small-1
                     type: string
                   minWordLength:
                     default: 3
