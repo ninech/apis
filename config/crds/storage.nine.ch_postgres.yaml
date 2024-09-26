@@ -109,6 +109,7 @@ spec:
                     - nine-db-l
                     - nine-db-xl
                     - nine-db-xxl
+                    - nine-small-1
                     type: string
                   sshKeys:
                     description: SSHKeys contains a list of SSH public keys, allowed
