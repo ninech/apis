@@ -65,8 +65,12 @@ const (
 	// MachineTypeNineDBXXL is a VM running on Nine Infrastructure with:
 	// 10 CPU Cores
 	// 32GB RAM
-	MachineTypeNineDBXXL MachineType     = "nine-db-xxl"
-	Rocky9               OperatingSystem = "rocky9"
+	MachineTypeNineDBXXL MachineType = "nine-db-xxl"
+	// MachineTypeNineSmall1 is a VM running on Nine Infrastructure with:
+	// 1 CPU Cores
+	// 2GB RAM
+	MachineTypeNineSmall1 MachineType     = "nine-small-1"
+	Rocky9                OperatingSystem = "rocky9"
 	// Ubuntu LTS
 	// http://releases.ubuntu.com/
 	Ubuntu24_04 OperatingSystem = "ubuntu24.04"
@@ -79,7 +83,7 @@ var (
 	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
 	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Rocky9)}
 	// MachineTypes is a list of all machine types.
-	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL}
+	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL, MachineTypeNineSmall1}
 	// MachineTypesDB is a list of all database machine types.
 	MachineTypesDB = []MachineType{MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL}
 )
@@ -171,7 +175,7 @@ type CloudVirtualMachineParameters struct {
 
 // MachineType is a name for a particular machine sizing.
 // +nine:public:definition
-// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4;nine-highcpu-2;nine-highcpu-4;nine-highcpu-8;nine-db-xs;nine-db-s;nine-db-m;nine-db-l;nine-db-xl;nine-db-xxl
+// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4;nine-highcpu-2;nine-highcpu-4;nine-highcpu-8;nine-db-xs;nine-db-s;nine-db-m;nine-db-l;nine-db-xl;nine-db-xxl;nine-small-1
 type MachineType string
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.
