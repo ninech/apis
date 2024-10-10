@@ -402,6 +402,7 @@ type BucketMigrationSyncStatus struct {
 type SyncStatus string
 
 // DBCount contains the number of databases.
+//
 // +kubebuilder:object:generate:=true
 type DBCount struct {
 	Value       int         `json:"value"`
@@ -680,10 +681,25 @@ type MySQLObservation struct {
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
 	// DBCount specifies the number of DBs
+	//
+	// Deprecated: Use the databases status to determine the database count.
 	// +optional
 	DBCount *DBCount `json:"dbcount,omitempty"`
+	// Databases contains the databases that exist on the instance.
+	// +optional
+	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
+}
+
+// DatabaseObservation are the observable fields of a Database.
+type DatabaseObservation struct {
+	// Size specifies the total database size.
+	// +optional
+	Size *resource.Quantity `json:"size"`
+	// Connections specifies the connection count of the database.
+	// +optional
+	Connections uint16 `json:"connections"`
 }
 
 // ObjectsBucket defines a Nutanix Objects Bucket.
@@ -847,8 +863,13 @@ type PostgresObservation struct {
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
 	// DBCount specifies the number of DBs
+	//
+	// Deprecated: Use the databases status to determine the database count.
 	// +optional
 	DBCount *DBCount `json:"dbcount,omitempty"`
+	// Databases contains the databases that exist on the instance.
+	// +optional
+	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }

@@ -15790,11 +15790,6 @@
                     }
                   }
                 },
-                "runAsUser": {
-                  "description": "RunAsUser allows the UID of the entrypoint of the container process to be overridden. If not specified, the default UID of the container image will be used.",
-                  "type": "integer",
-                  "format": "int64"
-                },
                 "timeout": {
                   "description": "Timeout of the release after it will be considered failed. This does not include the time spent waiting for the deploy job and only concerns the release rollout.",
                   "type": "string"
@@ -27015,8 +27010,27 @@
                     }
                   }
                 },
+                "databases": {
+                  "description": "Databases contains the databases that exist on the instance.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "DatabaseObservation are the observable fields of a Database.",
+                    "type": "object",
+                    "properties": {
+                      "connections": {
+                        "description": "Connections specifies the connection count of the database.",
+                        "type": "integer"
+                      },
+                      "size": {
+                        "description": "Size specifies the total database size.",
+                        "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                        "x-kubernetes-int-or-string": true
+                      }
+                    }
+                  }
+                },
                 "dbcount": {
-                  "description": "DBCount specifies the number of DBs",
+                  "description": "DBCount specifies the number of DBs \n Deprecated: Use the databases status to determine the database count.",
                   "type": "object",
                   "required": [
                     "lastUpdated",
@@ -27898,8 +27912,27 @@
                     }
                   }
                 },
+                "databases": {
+                  "description": "Databases contains the databases that exist on the instance.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "DatabaseObservation are the observable fields of a Database.",
+                    "type": "object",
+                    "properties": {
+                      "connections": {
+                        "description": "Connections specifies the connection count of the database.",
+                        "type": "integer"
+                      },
+                      "size": {
+                        "description": "Size specifies the total database size.",
+                        "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                        "x-kubernetes-int-or-string": true
+                      }
+                    }
+                  }
+                },
                 "dbcount": {
-                  "description": "DBCount specifies the number of DBs",
+                  "description": "DBCount specifies the number of DBs \n Deprecated: Use the databases status to determine the database count.",
                   "type": "object",
                   "required": [
                     "lastUpdated",
