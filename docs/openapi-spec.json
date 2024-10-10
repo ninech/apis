@@ -15790,6 +15790,11 @@
                     }
                   }
                 },
+                "runAsUser": {
+                  "description": "RunAsUser allows the UID of the entrypoint of the container process to be overridden. If not specified, the default UID of the container image will be used.",
+                  "type": "integer",
+                  "format": "int64"
+                },
                 "timeout": {
                   "description": "Timeout of the release after it will be considered failed. This does not include the time spent waiting for the deploy job and only concerns the release rollout.",
                   "type": "string"

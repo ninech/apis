@@ -638,6 +638,11 @@ type ReleaseParameters struct {
 	// DockerfileBuild indicates if the build has been built using a dockerfile.
 	// +optional
 	DockerfileBuild bool `json:"dockerfileBuild,omitempty"`
+	// RunAsUser allows the UID of the entrypoint of the container process to be
+	// overridden. If not specified, the default UID of the container image will be
+	// used.
+	// +optional
+	RunAsUser *int64 `json:"runAsUser,omitempty"`
 }
 
 // A FieldOriginConfig contains the fields of a normal config, but with an
