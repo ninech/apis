@@ -800,8 +800,32 @@ spec:
                       - type
                       type: object
                     type: array
+                  databases:
+                    additionalProperties:
+                      description: DatabaseObservation are the observable fields of
+                        a database.
+                      properties:
+                        connections:
+                          description: Connections specifies the connection count
+                            of the database.
+                          type: integer
+                        size:
+                          anyOf:
+                          - type: integer
+                          - type: string
+                          description: Size specifies the total database size.
+                          pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          x-kubernetes-int-or-string: true
+                      required:
+                      - connections
+                      - size
+                      type: object
+                    description: Databases contains the databases that exist on the
+                      instance.
+                    type: object
                   dbcount:
-                    description: DBCount specifies the number of DBs
+                    description: "DBCount specifies the number of databases. \n Deprecated:
+                      Use the databases status to determine the database count."
                     properties:
                       lastUpdated:
                         format: date-time
@@ -820,7 +844,7 @@ spec:
                     anyOf:
                     - type: integer
                     - type: string
-                    description: Size specifies the total disk size
+                    description: Size specifies the total disk size.
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     x-kubernetes-int-or-string: true
                 type: object
