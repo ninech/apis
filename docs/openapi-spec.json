@@ -27015,8 +27015,31 @@
                     }
                   }
                 },
+                "databases": {
+                  "description": "Databases contains the databases that exist on the instance.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "DatabaseObservation are the observable fields of a database.",
+                    "type": "object",
+                    "required": [
+                      "connections",
+                      "size"
+                    ],
+                    "properties": {
+                      "connections": {
+                        "description": "Connections specifies the connection count of the database.",
+                        "type": "integer"
+                      },
+                      "size": {
+                        "description": "Size specifies the total database size.",
+                        "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                        "x-kubernetes-int-or-string": true
+                      }
+                    }
+                  }
+                },
                 "dbcount": {
-                  "description": "DBCount specifies the number of DBs",
+                  "description": "DBCount specifies the number of databases. \n Deprecated: Use the databases status to determine the database count.",
                   "type": "object",
                   "required": [
                     "lastUpdated",
@@ -27037,7 +27060,7 @@
                   "type": "string"
                 },
                 "size": {
-                  "description": "Size specifies the total disk size",
+                  "description": "Size specifies the total disk size.",
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
                 }
@@ -27898,8 +27921,31 @@
                     }
                   }
                 },
+                "databases": {
+                  "description": "Databases contains the databases that exist on the instance.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "DatabaseObservation are the observable fields of a database.",
+                    "type": "object",
+                    "required": [
+                      "connections",
+                      "size"
+                    ],
+                    "properties": {
+                      "connections": {
+                        "description": "Connections specifies the connection count of the database.",
+                        "type": "integer"
+                      },
+                      "size": {
+                        "description": "Size specifies the total database size.",
+                        "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                        "x-kubernetes-int-or-string": true
+                      }
+                    }
+                  }
+                },
                 "dbcount": {
-                  "description": "DBCount specifies the number of DBs",
+                  "description": "DBCount specifies the number of DBs \n Deprecated: Use the databases status to determine the database count.",
                   "type": "object",
                   "required": [
                     "lastUpdated",

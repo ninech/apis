@@ -27,9 +27,9 @@ const (
 	SyncStatusFailed SyncStatus = "failed"
 	// SyncStatusUnknown indicates the status is unknown.
 	SyncStatusUnknown SyncStatus = "unknown"
-	// DBLocationDefault is the default location for DBs.
+	// DBLocationDefault is the default location for database instances.
 	DBLocationDefault = meta.LocationNineCZ41
-	// DBDailyBackupsDefault is the default unmber of daily database backups to keep.
+	// DBDailyBackupsDefault is the default number of daily database backups to keep.
 	DBKeepDailyBackupsDefault int = 10
 	// KeyValueStoreUser is the name of the KeyValueStore user account.
 	KeyValueStoreUser string = "default"
@@ -401,13 +401,6 @@ type BucketMigrationSyncStatus struct {
 // SyncStatus represents the sync job status
 type SyncStatus string
 
-// DBCount contains the number of databases.
-// +kubebuilder:object:generate:=true
-type DBCount struct {
-	Value       int         `json:"value"`
-	LastUpdated metav1.Time `json:"lastUpdated"`
-}
-
 // KeyValueStore deploys an on-demand KeyValueStore instance.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="MEMORYSIZE",type="string",JSONPath=".spec.forProvider.memorySize"
@@ -523,7 +516,7 @@ type MySQL struct {
 	Status            MySQLStatus `json:"status,omitempty"`
 }
 
-// MySQLList contains a list of MySQL database
+// MySQLList contains a list of MySQL database.
 // +kubebuilder:object:root=true
 type MySQLList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -676,14 +669,33 @@ type MySQLObservation struct {
 	// FQDN is the fully qualified domain name, at which the database is reachable at.
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
-	// Size specifies the total disk size
+	// Size specifies the total disk size.
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
-	// DBCount specifies the number of DBs
+	// DBCount specifies the number of databases.
+	//
+	// Deprecated: Use the databases status to determine the database count.
 	// +optional
 	DBCount *DBCount `json:"dbcount,omitempty"`
+	// Databases contains the databases that exist on the instance.
+	// +optional
+	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
+}
+
+// DBCount contains the number of databases.
+type DBCount struct {
+	Value       int         `json:"value"`
+	LastUpdated metav1.Time `json:"lastUpdated"`
+}
+
+// DatabaseObservation are the observable fields of a database.
+type DatabaseObservation struct {
+	// Size specifies the total database size.
+	Size *resource.Quantity `json:"size"`
+	// Connections specifies the connection count of the database.
+	Connections uint16 `json:"connections"`
 }
 
 // ObjectsBucket defines a Nutanix Objects Bucket.
@@ -847,8 +859,13 @@ type PostgresObservation struct {
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
 	// DBCount specifies the number of DBs
+	//
+	// Deprecated: Use the databases status to determine the database count.
 	// +optional
 	DBCount *DBCount `json:"dbcount,omitempty"`
+	// Databases contains the databases that exist on the instance.
+	// +optional
+	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
