@@ -112,7 +112,7 @@ type IngressNginxParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	DisableSnippetAnnotations bool `json:"disableSnippetAnnotations,omitempty"`
-	// AnnotationValueWordBlocklist is a list of comma seperated words
+	// AnnotationValueWordBlocklist is a list of comma separated words
 	// which, if found in snippet annotations, will block the acceptance of
 	// the ingress resource. This allows to block nginx configuration stanzas
 	// which are potentially dangerous in a multitenant use case of the
