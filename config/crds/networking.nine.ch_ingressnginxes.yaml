@@ -65,7 +65,7 @@ spec:
                 properties:
                   annotationValueWordBlocklist:
                     description: "AnnotationValueWordBlocklist is a list of comma
-                      seperated words which, if found in snippet annotations, will
+                      separated words which, if found in snippet annotations, will
                       block the acceptance of the ingress resource. This allows to
                       block nginx configuration stanzas which are potentially dangerous
                       in a multitenant use case of the ingress controller while still

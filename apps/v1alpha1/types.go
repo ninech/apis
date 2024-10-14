@@ -463,7 +463,7 @@ type EnvVar struct {
 type GitExploreResponse struct {
 	// Warnings contains optional warning messages
 	Warnings []string `json:"warnings,omitempty"`
-	// Error contains an optional occured error during the exploration of a
+	// Error contains an optional occurred error during the exploration of a
 	// Git repository.
 	Error string `json:"error,omitempty"`
 	// RepositoryInfo contains the explored items of a Git repository.
