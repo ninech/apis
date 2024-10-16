@@ -26694,7 +26694,7 @@
                   }
                 },
                 "keepDailyBackups": {
-                  "description": "Number of daily database backups to keep. Note, that setting this to 0, backup will be disabled and existing dumps deleted immediately.",
+                  "description": "Number of daily database backups to keep. Note, that setting this to 0, the backup will be disabled and existing dumps will be deleted immediately.",
                   "type": "integer",
                   "maximum": 365,
                   "minimum": 0
@@ -27027,40 +27027,23 @@
                     ],
                     "properties": {
                       "connections": {
-                        "description": "Connections specifies the connection count of the database.",
+                        "description": "Connections indicates the number of connections on a database.",
                         "type": "integer"
                       },
                       "size": {
-                        "description": "Size specifies the total database size.",
+                        "description": "Size indicates the total size of the database.",
                         "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                         "x-kubernetes-int-or-string": true
                       }
                     }
                   }
                 },
-                "dbcount": {
-                  "description": "DBCount specifies the number of databases. \n Deprecated: Use the databases status to determine the database count.",
-                  "type": "object",
-                  "required": [
-                    "lastUpdated",
-                    "value"
-                  ],
-                  "properties": {
-                    "lastUpdated": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "value": {
-                      "type": "integer"
-                    }
-                  }
-                },
                 "fqdn": {
-                  "description": "FQDN is the fully qualified domain name, at which the database is reachable at.",
+                  "description": "FQDN is the fully qualified domain name at which the database is accessible.",
                   "type": "string"
                 },
                 "size": {
-                  "description": "Size specifies the total disk size.",
+                  "description": "Size indicates the total size of the disk.",
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
                 }
@@ -27650,7 +27633,7 @@
                   "x-kubernetes-list-type": "set"
                 },
                 "keepDailyBackups": {
-                  "description": "Number of daily database backups to keep. Note, that setting this to 0, backup will be disabled and existing dumps deleted immediately.",
+                  "description": "Number of daily database backups to keep. Note, that setting this to 0, the backup will be disabled and existing dumps will be deleted immediately.",
                   "type": "integer",
                   "maximum": 365,
                   "minimum": 0
@@ -27933,40 +27916,23 @@
                     ],
                     "properties": {
                       "connections": {
-                        "description": "Connections specifies the connection count of the database.",
+                        "description": "Connections indicates the number of connections on a database.",
                         "type": "integer"
                       },
                       "size": {
-                        "description": "Size specifies the total database size.",
+                        "description": "Size indicates the total size of the database.",
                         "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                         "x-kubernetes-int-or-string": true
                       }
                     }
                   }
                 },
-                "dbcount": {
-                  "description": "DBCount specifies the number of DBs \n Deprecated: Use the databases status to determine the database count.",
-                  "type": "object",
-                  "required": [
-                    "lastUpdated",
-                    "value"
-                  ],
-                  "properties": {
-                    "lastUpdated": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "value": {
-                      "type": "integer"
-                    }
-                  }
-                },
                 "fqdn": {
-                  "description": "FQDN is the fully qualified domain name, at which the database is reachable at.",
+                  "description": "FQDN is the fully qualified domain name at which the database is accessible.",
                   "type": "string"
                 },
                 "size": {
-                  "description": "Size specifies the total disk size",
+                  "description": "Size indicates the total size of the disk.",
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
                 }
