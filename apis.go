@@ -58,6 +58,8 @@ func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	AddToMapper(mapper, infrastructure.KedaGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, infrastructure.KubernetesClusterGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, networking.IngressNginxGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, networking.PolicyGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, networking.ServiceConnectionGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, networking.StaticEgressGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.BucketGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, storage.BucketUserGroupVersionKind, meta.RESTScopeNamespace)
