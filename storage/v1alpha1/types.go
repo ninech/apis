@@ -599,8 +599,9 @@ type MySQLParameters struct {
 	// +optional
 	// +kubebuilder:default="REPEATABLE-READ"
 	TransactionIsolation MySQLTransactionCharacteristic `json:"transactionIsolation,omitempty"`
-	// Number of daily database backups to keep. Note, that setting this
-	// to 0, backup will be disabled and existing dumps deleted immediately.
+	// Number of daily database backups to keep.
+	// Note, that setting this to 0,
+	// the backup will be disabled and existing dumps will be deleted immediately.
 	//
 	// +optional
 	// +kubebuilder:default=10
@@ -666,35 +667,24 @@ type MySQLStatus struct {
 
 // MySQLObservation are the observable fields of a MySQL database.
 type MySQLObservation struct {
-	// FQDN is the fully qualified domain name, at which the database is reachable at.
+	// FQDN is the fully qualified domain name at which the database is accessible.
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
-	// Size specifies the total disk size.
+	// Size indicates the total size of the disk.
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
-	// DBCount specifies the number of databases.
-	//
-	// Deprecated: Use the databases status to determine the database count.
-	// +optional
-	DBCount *DBCount `json:"dbcount,omitempty"`
 	// Databases contains the databases that exist on the instance.
 	// +optional
 	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
-	// Status of all our child resources.
+	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
-}
-
-// DBCount contains the number of databases.
-type DBCount struct {
-	Value       int         `json:"value"`
-	LastUpdated metav1.Time `json:"lastUpdated"`
 }
 
 // DatabaseObservation are the observable fields of a database.
 type DatabaseObservation struct {
-	// Size specifies the total database size.
+	// Size indicates the total size of the database.
 	Size *resource.Quantity `json:"size"`
-	// Connections specifies the connection count of the database.
+	// Connections indicates the number of connections on a database.
 	Connections uint16 `json:"connections"`
 }
 
@@ -831,8 +821,9 @@ type PostgresParameters struct {
 	// db server, in order to up-/download and directly restore database backups.
 	// +optional
 	SSHKeys []SSHKey `json:"sshKeys"`
-	// Number of daily database backups to keep. Note, that setting this
-	// to 0, backup will be disabled and existing dumps deleted immediately.
+	// Number of daily database backups to keep.
+	// Note, that setting this to 0,
+	// the backup will be disabled and existing dumps will be deleted immediately.
 	// +optional
 	// +kubebuilder:default=10
 	// +kubebuilder:validation:Minimum=0
@@ -852,21 +843,16 @@ type PostgresStatus struct {
 
 // PostgresObservation are the observable fields of a Postgres database.
 type PostgresObservation struct {
-	// FQDN is the fully qualified domain name, at which the database is reachable at.
+	// FQDN is the fully qualified domain name at which the database is accessible.
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
-	// Size specifies the total disk size
+	// Size indicates the total size of the disk.
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
-	// DBCount specifies the number of DBs
-	//
-	// Deprecated: Use the databases status to determine the database count.
-	// +optional
-	DBCount *DBCount `json:"dbcount,omitempty"`
 	// Databases contains the databases that exist on the instance.
 	// +optional
 	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
-	// Status of all our child resources.
+	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
 
