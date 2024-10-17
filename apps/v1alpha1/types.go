@@ -58,6 +58,8 @@ const (
 	// ReplicaStatusWaiting describes a state where a replica is waiting for
 	// an event to happen. For example a currently running deploy job.
 	ReplicaStatusWaiting ReplicaStatus = "waiting"
+	// ReplicaStatusTerminating describes a state where a replica is terminating.
+	ReplicaStatusTerminating ReplicaStatus = "terminating"
 	// DeployJobProcessStatusSucceeded indicates that the deploy job has
 	// succeeded.
 	DeployJobProcessStatusSucceeded DeployJobProcessStatus = "succeeded"
@@ -222,6 +224,13 @@ type Config struct {
 	// +optional
 	// +nullable
 	DeployJob *DeployJob `json:"deployJob,omitempty"`
+	// +optional
+	// +nullable
+	// +listType:="map"
+	// +listMapKey:="name"
+	// WorkerJob defines a list of WorkerJob. See WorkerJob definition for a
+	// description.
+	WorkerJobs []WorkerJob `json:"workerJobs,omitempty"`
 }
 
 // ApplicationSize defines the size of an application and the resources that
@@ -260,6 +269,17 @@ type FiniteJob struct {
 	// +kubebuilder:validation:Type=string
 	// +kubebuilder:validation:Format=duration
 	Timeout *metav1.Duration `json:"timeout,omitempty"`
+}
+
+// WorkerJob defines a command which is executed before a new release gets
+// deployed. The deployment will only continue if the job finished
+// successfully.
+type WorkerJob struct {
+	Job `json:",inline"`
+	// Size defines the amount of CPU and memory which this job can make use of
+	// +optional
+	// +kubebuilder:default:="micro"
+	Size *ApplicationSize `json:"size,omitempty" yaml:"size,omitempty"`
 }
 type DockerfileBuild struct {
 	// Enabled defines if the Dockerfile build should be enabled
@@ -667,6 +687,8 @@ type FieldOriginConfig struct {
 	EnableBasicAuth *OriginBool `json:"enableBasicAuth,omitempty"`
 	// +optional
 	DeployJob *OriginDeployJob `json:"deployJob,omitempty"`
+	// +optional
+	WorkerJobs []OriginWorkerJob `json:"workerJobs,omitempty"`
 }
 type OriginApplicationSize struct {
 	// +optional
@@ -687,6 +709,10 @@ type OriginDeployJob struct {
 	Value  DeployJob    `json:"value"`
 	Origin ConfigOrigin `json:"origin"`
 }
+type OriginWorkerJob struct {
+	Value  WorkerJob    `json:"value"`
+	Origin ConfigOrigin `json:"origin"`
+}
 
 // An ReleaseStatus represents the observed Release state
 type ReleaseStatus struct {
@@ -705,6 +731,11 @@ type ReleaseObservation struct {
 	// DeployJobStatus describes the status of the deploy job of a release
 	// +optional
 	DeployJobStatus *DeployJobStatus `json:"deployJobStatus,omitempty"`
+	// WorkerJobStatus describes the status of all workerjobs
+	// +optional
+	// +listType:="map"
+	// +listMapKey:="name"
+	WorkerJobStatus []WorkerJobStatus `json:"workerJobStatus,omitempty"`
 	// CustomHostsCertificateStatus represents the latest Certificate status for
 	// the custom hosts where the app is available.
 	// +optional
@@ -756,3 +787,7 @@ type DeployJobStatus struct {
 // DeployJobProcessStatus represents the deploy job status
 type DeployJobProcessStatus string
 type DeployJobProcessReason string
+type WorkerJobStatus struct {
+	Name               string               `json:"name"`
+	ReplicaObservation []ReplicaObservation `json:"replicaObservation"`
+}
