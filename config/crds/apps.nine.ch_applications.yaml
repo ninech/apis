@@ -155,6 +155,43 @@ spec:
                         - standard-1
                         - standard-2
                         type: string
+                      workerJobs:
+                        description: WorkerJob defines a list of WorkerJob. See WorkerJob
+                          definition for a description.
+                        items:
+                          description: WorkerJob is a separate process which uses
+                            the same image as the application, but a different entry
+                            point. One common use-case is to start a task scheduler
+                            which executes tasks on a regular base.
+                          properties:
+                            command:
+                              description: Command to execute. This command will be
+                                executed by a bash shell which gets started by the
+                                cloud native buildpacks launcher binary.
+                              type: string
+                            name:
+                              description: Name of the Job.
+                              type: string
+                            size:
+                              default: micro
+                              description: Size defines the amount of CPU and memory
+                                which this job can make use of
+                              enum:
+                              - ""
+                              - micro
+                              - mini
+                              - standard-1
+                              - standard-2
+                              type: string
+                          required:
+                          - command
+                          - name
+                          type: object
+                        nullable: true
+                        type: array
+                        x-kubernetes-list-map-keys:
+                        - name
+                        x-kubernetes-list-type: map
                     type: object
                   dockerfileBuild:
                     description: DockerfileBuild contains settings for building with
@@ -542,6 +579,27 @@ spec:
                     description: TXTRecordContent specifies the content of the DNS
                       TXT record which will be used for host validation
                     type: string
+                  workerJobs:
+                    description: WorkerJobs shows the currently running workers.
+                    items:
+                      properties:
+                        name:
+                          type: string
+                        size:
+                          description: ApplicationSize defines the size of an application
+                            and the resources that will be allocated for it.
+                          enum:
+                          - ""
+                          - micro
+                          - mini
+                          - standard-1
+                          - standard-2
+                          type: string
+                      required:
+                      - name
+                      - size
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

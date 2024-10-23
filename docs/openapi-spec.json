@@ -14139,6 +14139,13 @@
                         "standard-1",
                         "standard-2"
                       ]
+                    },
+                    "workerJobs": {
+                      "description": "WorkerJob defines a list of WorkerJob. See WorkerJob definition for a description.",
+                      "x-kubernetes-list-map-keys": [
+                        "name"
+                      ],
+                      "x-kubernetes-list-type": "map"
                     }
                   }
                 },
@@ -14535,6 +14542,33 @@
                 "txtRecordContent": {
                   "description": "TXTRecordContent specifies the content of the DNS TXT record which will be used for host validation",
                   "type": "string"
+                },
+                "workerJobs": {
+                  "description": "WorkerJobs shows the currently running workers.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "size"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "size": {
+                        "description": "ApplicationSize defines the size of an application and the resources that will be allocated for it.",
+                        "type": "string",
+                        "enum": [
+                          "",
+                          "micro",
+                          "mini",
+                          "standard-1",
+                          "standard-2"
+                        ]
+                      }
+                    }
+                  }
                 }
               }
             },
@@ -14765,6 +14799,13 @@
                         "standard-1",
                         "standard-2"
                       ]
+                    },
+                    "workerJobs": {
+                      "description": "WorkerJob defines a list of WorkerJob. See WorkerJob definition for a description.",
+                      "x-kubernetes-list-map-keys": [
+                        "name"
+                      ],
+                      "x-kubernetes-list-type": "map"
                     }
                   }
                 },
@@ -15225,6 +15266,13 @@
                         "standard-1",
                         "standard-2"
                       ]
+                    },
+                    "workerJobs": {
+                      "description": "WorkerJob defines a list of WorkerJob. See WorkerJob definition for a description.",
+                      "x-kubernetes-list-map-keys": [
+                        "name"
+                      ],
+                      "x-kubernetes-list-type": "map"
                     }
                   }
                 }
@@ -15590,6 +15638,13 @@
                         "standard-1",
                         "standard-2"
                       ]
+                    },
+                    "workerJobs": {
+                      "description": "WorkerJob defines a list of WorkerJob. See WorkerJob definition for a description.",
+                      "x-kubernetes-list-map-keys": [
+                        "name"
+                      ],
+                      "x-kubernetes-list-type": "map"
                     }
                   }
                 },
@@ -15744,6 +15799,51 @@
                             "standard-1",
                             "standard-2"
                           ]
+                        }
+                      }
+                    },
+                    "workerJobs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "origin",
+                          "value"
+                        ],
+                        "properties": {
+                          "origin": {
+                            "description": "ConfigOrigin describes the origin of a config",
+                            "type": "string"
+                          },
+                          "value": {
+                            "description": "WorkerJob is a separate process which uses the same image as the application, but a different entry point. One common use-case is to start a task scheduler which executes tasks on a regular base.",
+                            "type": "object",
+                            "required": [
+                              "command",
+                              "name"
+                            ],
+                            "properties": {
+                              "command": {
+                                "description": "Command to execute. This command will be executed by a bash shell which gets started by the cloud native buildpacks launcher binary.",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "Name of the Job.",
+                                "type": "string"
+                              },
+                              "size": {
+                                "description": "Size defines the amount of CPU and memory which this job can make use of",
+                                "type": "string",
+                                "enum": [
+                                  "",
+                                  "micro",
+                                  "mini",
+                                  "standard-1",
+                                  "standard-2"
+                                ]
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -16034,6 +16134,53 @@
                   "description": "Replicas describes the amount of rolled out replicas, ie. for the underlying Deployment, it shows number of non-terminated pods targeted by this Release.",
                   "type": "integer",
                   "format": "int32"
+                },
+                "workerJobStatus": {
+                  "description": "WorkerJobStatus describes the status of all workerjobs",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "replicaObservation"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "replicaObservation": {
+                        "type": "array",
+                        "items": {
+                          "description": "ReplicaObservation describes a replica",
+                          "type": "object",
+                          "properties": {
+                            "lastExitCode": {
+                              "description": "LastExitCode shows the last exit code of the replica.",
+                              "type": "integer",
+                              "format": "int32"
+                            },
+                            "replicaName": {
+                              "description": "ReplicaName is the name of the replica.",
+                              "type": "string"
+                            },
+                            "restartCount": {
+                              "description": "RestartCount indicates how often the replica was already restarted.",
+                              "type": "integer",
+                              "format": "int32"
+                            },
+                            "status": {
+                              "description": "Status describes the status of the replica.",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "x-kubernetes-list-map-keys": [
+                    "name"
+                  ],
+                  "x-kubernetes-list-type": "map"
                 }
               }
             },
