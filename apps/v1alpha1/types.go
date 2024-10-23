@@ -10,6 +10,18 @@ import (
 )
 
 const (
+	// LogLabelApplication is attached to all logs belonging to an app.
+	LogLabelApplication = "app"
+	// LogLabelRelease is attached to all logs belonging to a release.
+	LogLabelRelease = "release"
+	// LogLabelReplica is attached to all logs belonging to a replica.
+	LogLabelReplica = "replica"
+	// LogLabelProject attached to all logs belonging to a project.
+	LogLabelProject = "project"
+	// LogLabelWorkerJob is attached to all logs belonging to a worker job.
+	LogLabelWorkerJob = "worker_job"
+	// LogLabelDeployJob is attached to all logs belonging to a deploy job.
+	LogLabelDeployJob = "deploy_job"
 	// BuildProcessStatusError represents an unknown build status
 	BuildProcessStatusUnknown BuildProcessStatus = "unknown"
 	// BuildProcessStatusError represents the status of a failed build
@@ -20,6 +32,8 @@ const (
 	BuildProcessStatusRunning BuildProcessStatus = "running"
 	// BuildProcessStatusSuccess represents the status of a successful/finished build
 	BuildProcessStatusSuccess BuildProcessStatus = "success"
+	// LogLabelBuild is attached to all logs belonging to a build.
+	LogLabelBuild = "build"
 	// The following config origins describe all possible sources where a
 	// configuration can be given
 	ConfigOriginDefault      = "default"
@@ -58,6 +72,8 @@ const (
 	// ReplicaStatusWaiting describes a state where a replica is waiting for
 	// an event to happen. For example a currently running deploy job.
 	ReplicaStatusWaiting ReplicaStatus = "waiting"
+	// ReplicaStatusTerminating describes a state where a replica is terminating.
+	ReplicaStatusTerminating ReplicaStatus = "terminating"
 	// DeployJobProcessStatusSucceeded indicates that the deploy job has
 	// succeeded.
 	DeployJobProcessStatusSucceeded DeployJobProcessStatus = "succeeded"
@@ -222,6 +238,13 @@ type Config struct {
 	// +optional
 	// +nullable
 	DeployJob *DeployJob `json:"deployJob,omitempty"`
+	// +optional
+	// +nullable
+	// +listType:="map"
+	// +listMapKey:="name"
+	// WorkerJob defines a list of WorkerJob. See WorkerJob definition for a
+	// description.
+	WorkerJobs []WorkerJob `json:"workerJobs,omitempty"`
 }
 
 // ApplicationSize defines the size of an application and the resources that
@@ -260,6 +283,17 @@ type FiniteJob struct {
 	// +kubebuilder:validation:Type=string
 	// +kubebuilder:validation:Format=duration
 	Timeout *metav1.Duration `json:"timeout,omitempty"`
+}
+
+// WorkerJob is a separate process which uses the same image as the application,
+// but a different entry point. One common use-case is to start a task scheduler
+// which executes tasks on a regular base.
+type WorkerJob struct {
+	Job `json:",inline"`
+	// Size defines the amount of CPU and memory which this job can make use of
+	// +optional
+	// +kubebuilder:default:="micro"
+	Size *ApplicationSize `json:"size,omitempty" yaml:"size,omitempty"`
 }
 type DockerfileBuild struct {
 	// Enabled defines if the Dockerfile build should be enabled
@@ -321,6 +355,9 @@ type ApplicationObservation struct {
 	// deployed
 	// +optional
 	Replicas *int32 `json:"replicas,omitempty"`
+	// WorkerJobs shows the currently running workers.
+	// +optional
+	WorkerJobs []ApplicationWorkerJobStatus `json:"workerJobs,omitempty"`
 	// BasicAuthSecret references the secret which contains the basic auth
 	// credentials
 	// +optional
@@ -353,6 +390,10 @@ type VerificationError struct {
 
 // CertificateStatus represents the Certificate status
 type CertificateStatus string
+type ApplicationWorkerJobStatus struct {
+	Name string          `json:"name"`
+	Size ApplicationSize `json:"size"`
+}
 
 // BuildpackMetadata describes the binary that was used in the build phase.
 // Copied from https://github.com/buildpacks-community/kpack/blob/v0.10.0/pkg/apis/core/v1alpha1/buildpack_metadata.go
@@ -667,6 +708,8 @@ type FieldOriginConfig struct {
 	EnableBasicAuth *OriginBool `json:"enableBasicAuth,omitempty"`
 	// +optional
 	DeployJob *OriginDeployJob `json:"deployJob,omitempty"`
+	// +optional
+	WorkerJobs []OriginWorkerJob `json:"workerJobs,omitempty"`
 }
 type OriginApplicationSize struct {
 	// +optional
@@ -687,6 +730,10 @@ type OriginDeployJob struct {
 	Value  DeployJob    `json:"value"`
 	Origin ConfigOrigin `json:"origin"`
 }
+type OriginWorkerJob struct {
+	Value  WorkerJob    `json:"value"`
+	Origin ConfigOrigin `json:"origin"`
+}
 
 // An ReleaseStatus represents the observed Release state
 type ReleaseStatus struct {
@@ -705,6 +752,11 @@ type ReleaseObservation struct {
 	// DeployJobStatus describes the status of the deploy job of a release
 	// +optional
 	DeployJobStatus *DeployJobStatus `json:"deployJobStatus,omitempty"`
+	// WorkerJobStatus describes the status of all workerjobs
+	// +optional
+	// +listType:="map"
+	// +listMapKey:="name"
+	WorkerJobStatus []WorkerJobStatus `json:"workerJobStatus,omitempty"`
 	// CustomHostsCertificateStatus represents the latest Certificate status for
 	// the custom hosts where the app is available.
 	// +optional
@@ -756,3 +808,7 @@ type DeployJobStatus struct {
 // DeployJobProcessStatus represents the deploy job status
 type DeployJobProcessStatus string
 type DeployJobProcessReason string
+type WorkerJobStatus struct {
+	Name               string               `json:"name"`
+	ReplicaObservation []ReplicaObservation `json:"replicaObservation"`
+}

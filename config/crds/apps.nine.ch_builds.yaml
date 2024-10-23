@@ -174,6 +174,43 @@ spec:
                         - standard-1
                         - standard-2
                         type: string
+                      workerJobs:
+                        description: WorkerJob defines a list of WorkerJob. See WorkerJob
+                          definition for a description.
+                        items:
+                          description: WorkerJob is a separate process which uses
+                            the same image as the application, but a different entry
+                            point. One common use-case is to start a task scheduler
+                            which executes tasks on a regular base.
+                          properties:
+                            command:
+                              description: Command to execute. This command will be
+                                executed by a bash shell which gets started by the
+                                cloud native buildpacks launcher binary.
+                              type: string
+                            name:
+                              description: Name of the Job.
+                              type: string
+                            size:
+                              default: micro
+                              description: Size defines the amount of CPU and memory
+                                which this job can make use of
+                              enum:
+                              - ""
+                              - micro
+                              - mini
+                              - standard-1
+                              - standard-2
+                              type: string
+                          required:
+                          - command
+                          - name
+                          type: object
+                        nullable: true
+                        type: array
+                        x-kubernetes-list-map-keys:
+                        - name
+                        x-kubernetes-list-type: map
                     type: object
                   env:
                     description: Env variables used at the build time
