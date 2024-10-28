@@ -77,10 +77,6 @@ const (
 	Ubuntu22_04 OperatingSystem = "ubuntu22.04"
 	Ubuntu20_04 OperatingSystem = "ubuntu20.04"
 	Ubuntu18_04 OperatingSystem = "ubuntu18.04"
-	// Debian
-	// https://www.debian.org/releases/
-	Debian12 OperatingSystem = "debian12"
-	Debian11 OperatingSystem = "debian11"
 )
 
 var (
