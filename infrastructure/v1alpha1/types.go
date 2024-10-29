@@ -85,7 +85,7 @@ const (
 
 var (
 	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
-	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Rocky9)}
+	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Rocky9), CloudVirtualMachineOS(Debian12)}
 	// MachineTypes is a list of all machine types.
 	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL, MachineTypeNineSmall1}
 	// MachineTypesDB is a list of all database machine types.
@@ -183,7 +183,7 @@ type CloudVirtualMachineParameters struct {
 type MachineType string
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.
-// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;ubuntu24.04;rocky9
+// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;ubuntu24.04;rocky9;debian12
 // +nine:public:definition
 type CloudVirtualMachineOS OperatingSystem
 

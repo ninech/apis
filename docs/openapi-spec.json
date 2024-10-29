@@ -18869,7 +18869,8 @@
                     "ubuntu20.04",
                     "ubuntu22.04",
                     "ubuntu24.04",
-                    "rocky9"
+                    "rocky9",
+                    "debian12"
                   ],
                   "x-kubernetes-validations": [
                     {
