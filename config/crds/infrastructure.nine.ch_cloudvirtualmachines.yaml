@@ -178,6 +178,7 @@ spec:
                     - ubuntu22.04
                     - ubuntu24.04
                     - rocky9
+                    - debian12
                     type: string
                     x-kubernetes-validations:
                     - message: OS is immutable after creation
