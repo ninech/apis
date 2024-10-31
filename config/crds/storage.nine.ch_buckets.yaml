@@ -27,18 +27,24 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Bucket is an object storage bucket. It's used to group objects,
-          defines who can access them and how they are stored.
+        description: |-
+          Bucket is an object storage bucket. It's used to group objects, defines
+          who can access them and how they are stored.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -47,13 +53,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -63,34 +70,38 @@ spec:
                 properties:
                   backendVersion:
                     default: v2
-                    description: BackendVersion specifies the bucket backend version
-                      to use. While the APIs work the same, buckets with v2 are only
-                      compatible with bucketusers also on v2.
+                    description: |-
+                      BackendVersion specifies the bucket backend version to use. While the
+                      APIs work the same, buckets with v2 are only compatible with
+                      bucketusers also on v2.
                     enum:
                     - v2
                     type: string
                   cors:
-                    description: CORS settings for this bucket. CORS is a mechanism
-                      to allow code running in a browser to make requests to a domain
-                      other than the one from where it originated.
+                    description: |-
+                      CORS settings for this bucket. CORS is a mechanism to allow code
+                      running in a browser to make requests to a domain other than the
+                      one from where it originated.
                     properties:
                       maxAge:
                         default: 3600
-                        description: MaxAge is the maximum time for the origin to
-                          hold the preflight results, in seconds. Also known as the
-                          cache-expiry time, it defines the duration in which the
-                          browser is allowed to make requests before it must repeat
-                          the preflight request.
+                        description: |-
+                          MaxAge is the maximum time for the origin to hold the preflight
+                          results, in seconds. Also known as the cache-expiry time, it
+                          defines the duration in which the browser is allowed to make
+                          requests before it must repeat the preflight request.
                         type: integer
                       origins:
-                        description: Origins specifies the origins that should be
-                          allowed for CORS.
+                        description: |-
+                          Origins specifies the origins that should be allowed for
+                          CORS.
                         items:
                           type: string
                         type: array
                       responseHeaders:
-                        description: ResponseHeaders specifies which headers should
-                          be allowed for CORS.
+                        description: |-
+                          ResponseHeaders specifies which headers should be allowed
+                          for CORS.
                         items:
                           type: string
                         type: array
@@ -98,43 +109,45 @@ spec:
                     - origins
                     type: object
                   encryption:
-                    description: 'Encryption enables encryption at rest for this Bucket.
-                      This is only relevant for Buckets which use the v1 storage backend.
-                      Buckets with a backend of v2 are always encrypted at rest. Deprecated:
-                      Only affects v1 Buckets and will be removed in the future.'
+                    description: |-
+                      Encryption enables encryption at rest for this Bucket. This is only
+                      relevant for Buckets which use the v1 storage backend. Buckets with a
+                      backend of v2 are always encrypted at rest.
+                      Deprecated: Only affects v1 Buckets and will be removed in the future.
                     type: boolean
                   lifecyclePolicies:
-                    description: LifecyclePolicies allows to define automatic expiry
-                      (deletion) of objects using certain rules.
+                    description: |-
+                      LifecyclePolicies allows to define automatic expiry (deletion) of
+                      objects using certain rules.
                     items:
                       description: BucketLifecyclePolicy defines a lifecycle policy
                         of bucket objects.
                       properties:
                         expireAfter:
-                          description: ExpireAfter defines the time after an object
-                            will be expired (deleted). Note that this is not minute-accurate
-                            and an object might exist for a bit longer than specified
-                            until it is cleaned up. Usually it can take around 30
-                            minutes. This field will only be used by Buckets with
-                            backend version 'v1'.
+                          description: |-
+                            ExpireAfter defines the time after an object will be expired (deleted).
+                            Note that this is not minute-accurate and an object might exist for a
+                            bit longer than specified until it is cleaned up. Usually it can take
+                            around 30 minutes.
+                            This field will only be used by Buckets with backend version 'v1'.
                           type: string
                         expireAfterDays:
-                          description: ExpireAfterDays defines the amount of days
-                            after an object will be expired (deleted). This field
-                            will only be used by Buckets with backend version 'v2'.
+                          description: |-
+                            ExpireAfterDays defines the amount of days after an object will be expired (deleted).
+                            This field will only be used by Buckets with backend version 'v2'.
                           format: int32
                           type: integer
                         isLive:
                           default: true
-                          description: IsLive specifies if this policy applies to
-                            live objects. If false, this policy only applies to archived
-                            objects, so this is only useful when the bucket has versioning
-                            enabled.
+                          description: |-
+                            IsLive specifies if this policy applies to live objects. If false, this
+                            policy only applies to archived objects, so this is only useful when
+                            the bucket has versioning enabled.
                           type: boolean
                         prefix:
-                          description: Prefix can be used to only expire objects with
-                            a certain prefix. Do not specify if all objects should
-                            be expired.
+                          description: |-
+                            Prefix can be used to only expire objects with a certain prefix. Do not
+                            specify if all objects should be expired.
                           type: string
                       type: object
                     type: array
@@ -149,8 +162,9 @@ spec:
                     description: Permissions configures user access to the objects
                       in this Bucket.
                     items:
-                      description: BucketPermission defines a role and users to assign
-                        permissions on a Bucket.
+                      description: |-
+                        BucketPermission defines a role and users to assign permissions on a
+                        Bucket.
                       properties:
                         role:
                           description: Role that this permission will be assigned.
@@ -201,19 +215,21 @@ spec:
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -226,9 +242,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -238,21 +255,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -262,17 +279,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -282,21 +301,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -311,21 +330,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -336,14 +356,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -372,8 +393,9 @@ spec:
                   childResourceErrors:
                     description: ChildResourceErrors of a managed resource.
                     items:
-                      description: ChildResourceError is an error that occurred on
-                        a child resource of a managed resource.
+                      description: |-
+                        ChildResourceError is an error that occurred on a child resource of
+                        a managed resource.
                       properties:
                         message:
                           description: Message that describes why the resource failed.
@@ -436,14 +458,23 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
                     reason:
                       description: A Reason for this condition's last transition from
                         one status to another.
@@ -453,8 +484,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime
@@ -466,6 +498,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
             type: object
         required:
         - spec
