@@ -35,14 +35,19 @@ spec:
         description: KubernetesCluster is a fully managed Kubernetes cluster.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -51,13 +56,14 @@ spec:
             properties:
               deletionPolicy:
                 default: Delete
-                description: 'DeletionPolicy specifies what will happen to the underlying
-                  external when this managed resource is deleted - either "Delete"
-                  or "Orphan" the external resource. This field is planned to be deprecated
-                  in favor of the ManagementPolicies field in a future release. Currently,
-                  both could be set independently and non-default values would be
-                  honored if the feature flag is enabled. See the design doc for more
-                  information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223'
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
                 enum:
                 - Orphan
                 - Delete
@@ -67,18 +73,18 @@ spec:
                   of a KubernetesCluster.
                 properties:
                   additionalBackupSchedules:
-                    description: AdditionalBackupSchedules allows custom backup schedules
-                      to be setup. The daily full cluster backup won't be affected
-                      by this.
+                    description: |-
+                      AdditionalBackupSchedules allows custom backup schedules to be setup.
+                      The daily full cluster backup won't be affected by this.
                     items:
                       description: VeleroSchedule defines a Velero backup schedule.
                       properties:
                         cronExpression:
-                          description: 'CronExpression is a POSIX cron expression
-                            defining when to run the backup. For example every night
-                            at 3 am UTC: "0 3 * * *". Note that it does not allow
-                            to configure a backup to run every minute, meaning the
-                            first term of the expression (minute) has to be a number.'
+                          description: |-
+                            CronExpression is a POSIX cron expression defining when to run the
+                            backup. For example every night at 3 am UTC: "0 3 * * *". Note that it
+                            does not allow to configure a backup to run every minute, meaning the
+                            first term of the expression (minute) has to be a number.
                           pattern: ^(\d+)(\d+)?(\s+(\d+|\*)(\d+)?){4}$
                           type: string
                         name:
@@ -89,35 +95,37 @@ spec:
                             retain it
                           properties:
                             csiSnapshotTimeout:
-                              description: CSISnapshotTimeout specifies the time used
-                                to wait for CSI VolumeSnapshot status turns to ReadyToUse
-                                during creation, before returning error as timeout.
+                              description: |-
+                                CSISnapshotTimeout specifies the time used to wait for CSI VolumeSnapshot status turns to
+                                ReadyToUse during creation, before returning error as timeout.
                                 The default value is 10 minute.
                               type: string
                             defaultVolumesToFsBackup:
-                              description: DefaultVolumesToFsBackup specifies whether
-                                pod volume file system backup should be used for all
-                                volumes by default.
+                              description: |-
+                                DefaultVolumesToFsBackup specifies whether pod volume file system backup should be used
+                                for all volumes by default.
                               nullable: true
                               type: boolean
                             defaultVolumesToRestic:
-                              description: "DefaultVolumesToRestic specifies whether
-                                restic should be used to take a backup of all pod
-                                volumes by default. \n Deprecated: this field is no
-                                longer used and will be removed entirely in future.
-                                Use DefaultVolumesToFsBackup instead."
+                              description: |-
+                                DefaultVolumesToRestic specifies whether restic should be used to take a
+                                backup of all pod volumes by default.
+
+                                Deprecated: this field is no longer used and will be removed entirely in future. Use DefaultVolumesToFsBackup instead.
                               nullable: true
                               type: boolean
                             excludedNamespaces:
-                              description: ExcludedNamespaces contains a list of namespaces
-                                that are not included in the backup.
+                              description: |-
+                                ExcludedNamespaces contains a list of namespaces that are not
+                                included in the backup.
                               items:
                                 type: string
                               nullable: true
                               type: array
                             excludedResources:
-                              description: ExcludedResources is a slice of resource
-                                names that are not included in the backup.
+                              description: |-
+                                ExcludedResources is a slice of resource names that are not
+                                included in the backup.
                               items:
                                 type: string
                               nullable: true
@@ -131,10 +139,9 @@ spec:
                                     executed when backing up individual instances
                                     of a resource.
                                   items:
-                                    description: BackupResourceHookSpec defines one
-                                      or more BackupResourceHooks that should be executed
-                                      based on the rules defined for namespaces, resources,
-                                      and label selector.
+                                    description: |-
+                                      BackupResourceHookSpec defines one or more BackupResourceHooks that should be executed based on
+                                      the rules defined for namespaces, resources, and label selector.
                                     properties:
                                       excludedNamespaces:
                                         description: ExcludedNamespaces specifies
@@ -153,17 +160,17 @@ spec:
                                         nullable: true
                                         type: array
                                       includedNamespaces:
-                                        description: IncludedNamespaces specifies
-                                          the namespaces to which this hook spec applies.
-                                          If empty, it applies to all namespaces.
+                                        description: |-
+                                          IncludedNamespaces specifies the namespaces to which this hook spec applies. If empty, it applies
+                                          to all namespaces.
                                         items:
                                           type: string
                                         nullable: true
                                         type: array
                                       includedResources:
-                                        description: IncludedResources specifies the
-                                          resources to which this hook spec applies.
-                                          If empty, it applies to all resources.
+                                        description: |-
+                                          IncludedResources specifies the resources to which this hook spec applies. If empty, it applies
+                                          to all resources.
                                         items:
                                           type: string
                                         nullable: true
@@ -179,47 +186,42 @@ spec:
                                               of label selector requirements. The
                                               requirements are ANDed.
                                             items:
-                                              description: A label selector requirement
-                                                is a selector that contains values,
-                                                a key, and an operator that relates
-                                                the key and values.
+                                              description: |-
+                                                A label selector requirement is a selector that contains values, a key, and an operator that
+                                                relates the key and values.
                                               properties:
                                                 key:
                                                   description: key is the label key
                                                     that the selector applies to.
                                                   type: string
                                                 operator:
-                                                  description: operator represents
-                                                    a key's relationship to a set
-                                                    of values. Valid operators are
-                                                    In, NotIn, Exists and DoesNotExist.
+                                                  description: |-
+                                                    operator represents a key's relationship to a set of values.
+                                                    Valid operators are In, NotIn, Exists and DoesNotExist.
                                                   type: string
                                                 values:
-                                                  description: values is an array
-                                                    of string values. If the operator
-                                                    is In or NotIn, the values array
-                                                    must be non-empty. If the operator
-                                                    is Exists or DoesNotExist, the
-                                                    values array must be empty. This
-                                                    array is replaced during a strategic
+                                                  description: |-
+                                                    values is an array of string values. If the operator is In or NotIn,
+                                                    the values array must be non-empty. If the operator is Exists or DoesNotExist,
+                                                    the values array must be empty. This array is replaced during a strategic
                                                     merge patch.
                                                   items:
                                                     type: string
                                                   type: array
+                                                  x-kubernetes-list-type: atomic
                                               required:
                                               - key
                                               - operator
                                               type: object
                                             type: array
+                                            x-kubernetes-list-type: atomic
                                           matchLabels:
                                             additionalProperties:
                                               type: string
-                                            description: matchLabels is a map of {key,value}
-                                              pairs. A single {key,value} in the matchLabels
-                                              map is equivalent to an element of matchExpressions,
-                                              whose key field is "key", the operator
-                                              is "In", and the values array contains
-                                              only "value". The requirements are ANDed.
+                                            description: |-
+                                              matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                                              map is equivalent to an element of matchExpressions, whose key field is "key", the
+                                              operator is "In", and the values array contains only "value". The requirements are ANDed.
                                             type: object
                                         type: object
                                         x-kubernetes-map-type: atomic
@@ -227,10 +229,9 @@ spec:
                                         description: Name is the name of this hook.
                                         type: string
                                       post:
-                                        description: PostHooks is a list of BackupResourceHooks
-                                          to execute after storing the item in the
-                                          backup. These are executed after all "additional
-                                          items" from item actions are processed.
+                                        description: |-
+                                          PostHooks is a list of BackupResourceHooks to execute after storing the item in the backup.
+                                          These are executed after all "additional items" from item actions are processed.
                                         items:
                                           description: BackupResourceHook defines
                                             a hook for a resource.
@@ -246,9 +247,8 @@ spec:
                                                   minItems: 1
                                                   type: array
                                                 container:
-                                                  description: Container is the container
-                                                    in the pod where the command should
-                                                    be executed. If not specified,
+                                                  description: |-
+                                                    Container is the container in the pod where the command should be executed. If not specified,
                                                     the pod's first container is used.
                                                   type: string
                                                 onError:
@@ -260,11 +260,9 @@ spec:
                                                   - Fail
                                                   type: string
                                                 timeout:
-                                                  description: Timeout defines the
-                                                    maximum amount of time Velero
-                                                    should wait for the hook to complete
-                                                    before considering the execution
-                                                    a failure.
+                                                  description: |-
+                                                    Timeout defines the maximum amount of time Velero should wait for the hook to complete before
+                                                    considering the execution a failure.
                                                   type: string
                                               required:
                                               - command
@@ -274,11 +272,9 @@ spec:
                                           type: object
                                         type: array
                                       pre:
-                                        description: PreHooks is a list of BackupResourceHooks
-                                          to execute prior to storing the item in
-                                          the backup. These are executed before any
-                                          "additional items" from item actions are
-                                          processed.
+                                        description: |-
+                                          PreHooks is a list of BackupResourceHooks to execute prior to storing the item in the backup.
+                                          These are executed before any "additional items" from item actions are processed.
                                         items:
                                           description: BackupResourceHook defines
                                             a hook for a resource.
@@ -294,9 +290,8 @@ spec:
                                                   minItems: 1
                                                   type: array
                                                 container:
-                                                  description: Container is the container
-                                                    in the pod where the command should
-                                                    be executed. If not specified,
+                                                  description: |-
+                                                    Container is the container in the pod where the command should be executed. If not specified,
                                                     the pod's first container is used.
                                                   type: string
                                                 onError:
@@ -308,11 +303,9 @@ spec:
                                                   - Fail
                                                   type: string
                                                 timeout:
-                                                  description: Timeout defines the
-                                                    maximum amount of time Velero
-                                                    should wait for the hook to complete
-                                                    before considering the execution
-                                                    a failure.
+                                                  description: |-
+                                                    Timeout defines the maximum amount of time Velero should wait for the hook to complete before
+                                                    considering the execution a failure.
                                                   type: string
                                               required:
                                               - command
@@ -328,75 +321,74 @@ spec:
                                   type: array
                               type: object
                             includeClusterResources:
-                              description: IncludeClusterResources specifies whether
-                                cluster-scoped resources should be included for consideration
-                                in the backup.
+                              description: |-
+                                IncludeClusterResources specifies whether cluster-scoped resources
+                                should be included for consideration in the backup.
                               nullable: true
                               type: boolean
                             includedNamespaces:
-                              description: IncludedNamespaces is a slice of namespace
-                                names to include objects from. If empty, all namespaces
-                                are included.
+                              description: |-
+                                IncludedNamespaces is a slice of namespace names to include objects
+                                from. If empty, all namespaces are included.
                               items:
                                 type: string
                               nullable: true
                               type: array
                             includedResources:
-                              description: IncludedResources is a slice of resource
-                                names to include in the backup. If empty, all resources
-                                are included.
+                              description: |-
+                                IncludedResources is a slice of resource names to include
+                                in the backup. If empty, all resources are included.
                               items:
                                 type: string
                               nullable: true
                               type: array
                             labelSelector:
-                              description: LabelSelector is a metav1.LabelSelector
-                                to filter with when adding individual objects to the
-                                backup. If empty or nil, all objects are included.
-                                Optional.
+                              description: |-
+                                LabelSelector is a metav1.LabelSelector to filter with
+                                when adding individual objects to the backup. If empty
+                                or nil, all objects are included. Optional.
                               nullable: true
                               properties:
                                 matchExpressions:
                                   description: matchExpressions is a list of label
                                     selector requirements. The requirements are ANDed.
                                   items:
-                                    description: A label selector requirement is a
-                                      selector that contains values, a key, and an
-                                      operator that relates the key and values.
+                                    description: |-
+                                      A label selector requirement is a selector that contains values, a key, and an operator that
+                                      relates the key and values.
                                     properties:
                                       key:
                                         description: key is the label key that the
                                           selector applies to.
                                         type: string
                                       operator:
-                                        description: operator represents a key's relationship
-                                          to a set of values. Valid operators are
-                                          In, NotIn, Exists and DoesNotExist.
+                                        description: |-
+                                          operator represents a key's relationship to a set of values.
+                                          Valid operators are In, NotIn, Exists and DoesNotExist.
                                         type: string
                                       values:
-                                        description: values is an array of string
-                                          values. If the operator is In or NotIn,
-                                          the values array must be non-empty. If the
-                                          operator is Exists or DoesNotExist, the
-                                          values array must be empty. This array is
-                                          replaced during a strategic merge patch.
+                                        description: |-
+                                          values is an array of string values. If the operator is In or NotIn,
+                                          the values array must be non-empty. If the operator is Exists or DoesNotExist,
+                                          the values array must be empty. This array is replaced during a strategic
+                                          merge patch.
                                         items:
                                           type: string
                                         type: array
+                                        x-kubernetes-list-type: atomic
                                     required:
                                     - key
                                     - operator
                                     type: object
                                   type: array
+                                  x-kubernetes-list-type: atomic
                                 matchLabels:
                                   additionalProperties:
                                     type: string
-                                  description: matchLabels is a map of {key,value}
-                                    pairs. A single {key,value} in the matchLabels
-                                    map is equivalent to an element of matchExpressions,
-                                    whose key field is "key", the operator is "In",
-                                    and the values array contains only "value". The
-                                    requirements are ANDed.
+                                  description: |-
+                                    matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                                    map is equivalent to an element of matchExpressions, whose key field is "key", the
+                                    operator is "In", and the values array contains only "value". The requirements are ANDed.
                                   type: object
                               type: object
                               x-kubernetes-map-type: atomic
@@ -408,61 +400,59 @@ spec:
                                   type: object
                               type: object
                             orLabelSelectors:
-                              description: OrLabelSelectors is list of metav1.LabelSelector
-                                to filter with when adding individual objects to the
-                                backup. If multiple provided they will be joined by
-                                the OR operator. LabelSelector as well as OrLabelSelectors
-                                cannot co-exist in backup request, only one of them
+                              description: |-
+                                OrLabelSelectors is list of metav1.LabelSelector to filter with
+                                when adding individual objects to the backup. If multiple provided
+                                they will be joined by the OR operator. LabelSelector as well as
+                                OrLabelSelectors cannot co-exist in backup request, only one of them
                                 can be used.
                               items:
-                                description: A label selector is a label query over
-                                  a set of resources. The result of matchLabels and
-                                  matchExpressions are ANDed. An empty label selector
-                                  matches all objects. A null label selector matches
-                                  no objects.
+                                description: |-
+                                  A label selector is a label query over a set of resources. The result of matchLabels and
+                                  matchExpressions are ANDed. An empty label selector matches all objects. A null
+                                  label selector matches no objects.
                                 properties:
                                   matchExpressions:
                                     description: matchExpressions is a list of label
                                       selector requirements. The requirements are
                                       ANDed.
                                     items:
-                                      description: A label selector requirement is
-                                        a selector that contains values, a key, and
-                                        an operator that relates the key and values.
+                                      description: |-
+                                        A label selector requirement is a selector that contains values, a key, and an operator that
+                                        relates the key and values.
                                       properties:
                                         key:
                                           description: key is the label key that the
                                             selector applies to.
                                           type: string
                                         operator:
-                                          description: operator represents a key's
-                                            relationship to a set of values. Valid
-                                            operators are In, NotIn, Exists and DoesNotExist.
+                                          description: |-
+                                            operator represents a key's relationship to a set of values.
+                                            Valid operators are In, NotIn, Exists and DoesNotExist.
                                           type: string
                                         values:
-                                          description: values is an array of string
-                                            values. If the operator is In or NotIn,
-                                            the values array must be non-empty. If
-                                            the operator is Exists or DoesNotExist,
-                                            the values array must be empty. This array
-                                            is replaced during a strategic merge patch.
+                                          description: |-
+                                            values is an array of string values. If the operator is In or NotIn,
+                                            the values array must be non-empty. If the operator is Exists or DoesNotExist,
+                                            the values array must be empty. This array is replaced during a strategic
+                                            merge patch.
                                           items:
                                             type: string
                                           type: array
+                                          x-kubernetes-list-type: atomic
                                       required:
                                       - key
                                       - operator
                                       type: object
                                     type: array
+                                    x-kubernetes-list-type: atomic
                                   matchLabels:
                                     additionalProperties:
                                       type: string
-                                    description: matchLabels is a map of {key,value}
-                                      pairs. A single {key,value} in the matchLabels
-                                      map is equivalent to an element of matchExpressions,
-                                      whose key field is "key", the operator is "In",
-                                      and the values array contains only "value".
-                                      The requirements are ANDed.
+                                    description: |-
+                                      matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                                      map is equivalent to an element of matchExpressions, whose key field is "key", the
+                                      operator is "In", and the values array contains only "value". The requirements are ANDed.
                                     type: object
                                 type: object
                                 x-kubernetes-map-type: atomic
@@ -471,18 +461,17 @@ spec:
                             orderedResources:
                               additionalProperties:
                                 type: string
-                              description: OrderedResources specifies the backup order
-                                of resources of specific Kind. The map key is the
-                                resource name and value is a list of object names
-                                separated by commas. Each resource name has format
-                                "namespace/objectname".  For cluster resources, simply
-                                use "objectname".
+                              description: |-
+                                OrderedResources specifies the backup order of resources of specific Kind.
+                                The map key is the resource name and value is a list of object names separated by commas.
+                                Each resource name has format "namespace/objectname".  For cluster resources, simply use "objectname".
                               nullable: true
                               type: object
                             snapshotVolumes:
-                              description: SnapshotVolumes specifies whether to take
-                                cloud snapshots of any PV's referenced in the set
-                                of objects included in the Backup.
+                              description: |-
+                                SnapshotVolumes specifies whether to take cloud snapshots
+                                of any PV's referenced in the set of objects included
+                                in the Backup.
                               nullable: true
                               type: boolean
                             storageLocation:
@@ -491,9 +480,9 @@ spec:
                                 should be stored.
                               type: string
                             ttl:
-                              description: TTL is a time.Duration-parseable string
-                                describing how long the Backup should be retained
-                                for.
+                              description: |-
+                                TTL is a time.Duration-parseable string describing how long
+                                the Backup should be retained for.
                               type: string
                             volumeSnapshotLocations:
                               description: VolumeSnapshotLocations is a list containing
@@ -511,8 +500,9 @@ spec:
                     maxItems: 3
                     type: array
                   location:
-                    description: Location of the KubernetesCluster. Note that Clusters
-                      are currently only available in the location nine-es34.
+                    description: |-
+                      Location of the KubernetesCluster. Note that Clusters are currently
+                      only available in the location nine-es34.
                     enum:
                     - nine-cz41
                     - nine-cz42
@@ -551,8 +541,9 @@ spec:
                         properties:
                           enabled:
                             default: false
-                            description: Enabled defines if the static egress feature
-                              should be enabled or disabled
+                            description: |-
+                              Enabled defines if the static egress feature should be enabled or
+                              disabled
                             type: boolean
                         type: object
                     type: object
@@ -564,31 +555,32 @@ spec:
                         annotations:
                           additionalProperties:
                             type: string
-                          description: Annotations specifies the node annotations.
-                            Changing this results in a new rollout of all nodes in
-                            the pool.
+                          description: |-
+                            Annotations specifies the node annotations. Changing this results in a
+                            new rollout of all nodes in the pool.
                           type: object
                         diskSize:
                           anyOf:
                           - type: integer
                           - type: string
                           default: 20Gi
-                          description: DiskSize specifies the size of the disk for
-                            the nodes in this pool. Changing this results in a new
-                            rollout of all nodes in the pool. Allowed range is 20Gi
-                            - 100Gi.
+                          description: |-
+                            DiskSize specifies the size of the disk for the nodes in this pool.
+                            Changing this results in a new rollout of all nodes in the pool.
+                            Allowed range is 20Gi - 100Gi.
                           pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                           x-kubernetes-int-or-string: true
                         labels:
                           additionalProperties:
                             type: string
-                          description: Labels specifies the node labels. Changing
-                            this results in a new rollout of all nodes in the pool.
+                          description: |-
+                            Labels specifies the node labels. Changing this results in a new
+                            rollout of all nodes in the pool.
                           type: object
                         machineType:
-                          description: MachineType identifies the machine sizing.
-                            Changing this results in a new rollout of all nodes in
-                            the pool.
+                          description: |-
+                            MachineType identifies the machine sizing. Changing this results in a
+                            new rollout of all nodes in the pool.
                           enum:
                           - nine-standard-1
                           - nine-standard-2
@@ -607,41 +599,45 @@ spec:
                           - nine-small-1
                           type: string
                         maxNodes:
-                          description: MinNodes describes the upper bound of nodes
-                            in this pool. If MinNodes == MaxNodes, autoscaling is
-                            disabled.
+                          description: |-
+                            MinNodes describes the upper bound of nodes in this pool. If MinNodes
+                            == MaxNodes, autoscaling is disabled.
                           minimum: 1
                           type: integer
                         minNodes:
-                          description: MinNodes describes the lower bound of nodes
-                            in this pool. If MinNodes == MaxNodes, autoscaling is
-                            disabled.
+                          description: |-
+                            MinNodes describes the lower bound of nodes in this pool. If MinNodes
+                            == MaxNodes, autoscaling is disabled.
                           minimum: 0
                           type: integer
                         name:
-                          description: Name of the node pool. Changing this results
-                            in a new rollout of all nodes in the pool.
+                          description: |-
+                            Name of the node pool. Changing this results in a new rollout of all
+                            nodes in the pool.
                           type: string
                         taints:
-                          description: Taints specifies the node taints. Changing
-                            this results in a new rollout of all nodes in the pool.
+                          description: |-
+                            Taints specifies the node taints. Changing this results in a new
+                            rollout of all nodes in the pool.
                           items:
-                            description: The node this Taint is attached to has the
-                              "effect" on any pod that does not tolerate the Taint.
+                            description: |-
+                              The node this Taint is attached to has the "effect" on
+                              any pod that does not tolerate the Taint.
                             properties:
                               effect:
-                                description: Required. The effect of the taint on
-                                  pods that do not tolerate the taint. Valid effects
-                                  are NoSchedule, PreferNoSchedule and NoExecute.
+                                description: |-
+                                  Required. The effect of the taint on pods
+                                  that do not tolerate the taint.
+                                  Valid effects are NoSchedule, PreferNoSchedule and NoExecute.
                                 type: string
                               key:
                                 description: Required. The taint key to be applied
                                   to a node.
                                 type: string
                               timeAdded:
-                                description: TimeAdded represents the time at which
-                                  the taint was added. It is only written for NoExecute
-                                  taints.
+                                description: |-
+                                  TimeAdded represents the time at which the taint was added.
+                                  It is only written for NoExecute taints.
                                 format: date-time
                                 type: string
                               value:
@@ -664,35 +660,41 @@ spec:
                     - name
                     x-kubernetes-list-type: map
                   scrapeConfiguration:
-                    description: ScrapeConfigurations allows to overwrite which metrics
-                      of this cluster are scraped by certain Prometheus instances
+                    description: |-
+                      ScrapeConfigurations allows to overwrite which metrics of this cluster are scraped
+                      by certain Prometheus instances
                     properties:
                       certManager:
                         items:
                           description: ScrapeConfig configures a metrics scrape config.
                           properties:
                             additionalMetrics:
-                              description: AdditionalMetrics specifies which additional
+                              description: |-
+                                AdditionalMetrics specifies which additional
                                 metrics should be scraped from this exporter
                               items:
                                 type: string
                               type: array
                             allMetrics:
                               default: false
-                              description: AllMetrics specifies that all metrics of
-                                this specific component should be scraped
+                              description: |-
+                                AllMetrics specifies that all metrics of this
+                                specific component should be scraped
                               type: boolean
                             enabled:
                               default: true
-                              description: Enabled specifies if metrics of a corresponding
-                                exporter should be scraped by certain Prometheus instances
+                              description: |-
+                                Enabled specifies if metrics of a corresponding
+                                exporter should be scraped by certain Prometheus
+                                instances
                               type: boolean
                             name:
                               description: Name uniquely identifies an ExporterScrapeConfig.
                               type: string
                             scrapedBy:
-                              description: ScrapedBy defines which prometheus instances
-                                will target this scrape config.
+                              description: |-
+                                ScrapedBy defines which prometheus instances will
+                                target this scrape config.
                               items:
                                 description: LocalReference references another object
                                   in the same namespace.
@@ -716,27 +718,32 @@ spec:
                           description: ScrapeConfig configures a metrics scrape config.
                           properties:
                             additionalMetrics:
-                              description: AdditionalMetrics specifies which additional
+                              description: |-
+                                AdditionalMetrics specifies which additional
                                 metrics should be scraped from this exporter
                               items:
                                 type: string
                               type: array
                             allMetrics:
                               default: false
-                              description: AllMetrics specifies that all metrics of
-                                this specific component should be scraped
+                              description: |-
+                                AllMetrics specifies that all metrics of this
+                                specific component should be scraped
                               type: boolean
                             enabled:
                               default: true
-                              description: Enabled specifies if metrics of a corresponding
-                                exporter should be scraped by certain Prometheus instances
+                              description: |-
+                                Enabled specifies if metrics of a corresponding
+                                exporter should be scraped by certain Prometheus
+                                instances
                               type: boolean
                             name:
                               description: Name uniquely identifies an ExporterScrapeConfig.
                               type: string
                             scrapedBy:
-                              description: ScrapedBy defines which prometheus instances
-                                will target this scrape config.
+                              description: |-
+                                ScrapedBy defines which prometheus instances will
+                                target this scrape config.
                               items:
                                 description: LocalReference references another object
                                   in the same namespace.
@@ -760,27 +767,32 @@ spec:
                           description: ScrapeConfig configures a metrics scrape config.
                           properties:
                             additionalMetrics:
-                              description: AdditionalMetrics specifies which additional
+                              description: |-
+                                AdditionalMetrics specifies which additional
                                 metrics should be scraped from this exporter
                               items:
                                 type: string
                               type: array
                             allMetrics:
                               default: false
-                              description: AllMetrics specifies that all metrics of
-                                this specific component should be scraped
+                              description: |-
+                                AllMetrics specifies that all metrics of this
+                                specific component should be scraped
                               type: boolean
                             enabled:
                               default: true
-                              description: Enabled specifies if metrics of a corresponding
-                                exporter should be scraped by certain Prometheus instances
+                              description: |-
+                                Enabled specifies if metrics of a corresponding
+                                exporter should be scraped by certain Prometheus
+                                instances
                               type: boolean
                             name:
                               description: Name uniquely identifies an ExporterScrapeConfig.
                               type: string
                             scrapedBy:
-                              description: ScrapedBy defines which prometheus instances
-                                will target this scrape config.
+                              description: |-
+                                ScrapedBy defines which prometheus instances will
+                                target this scrape config.
                               items:
                                 description: LocalReference references another object
                                   in the same namespace.
@@ -804,27 +816,32 @@ spec:
                           description: ScrapeConfig configures a metrics scrape config.
                           properties:
                             additionalMetrics:
-                              description: AdditionalMetrics specifies which additional
+                              description: |-
+                                AdditionalMetrics specifies which additional
                                 metrics should be scraped from this exporter
                               items:
                                 type: string
                               type: array
                             allMetrics:
                               default: false
-                              description: AllMetrics specifies that all metrics of
-                                this specific component should be scraped
+                              description: |-
+                                AllMetrics specifies that all metrics of this
+                                specific component should be scraped
                               type: boolean
                             enabled:
                               default: true
-                              description: Enabled specifies if metrics of a corresponding
-                                exporter should be scraped by certain Prometheus instances
+                              description: |-
+                                Enabled specifies if metrics of a corresponding
+                                exporter should be scraped by certain Prometheus
+                                instances
                               type: boolean
                             name:
                               description: Name uniquely identifies an ExporterScrapeConfig.
                               type: string
                             scrapedBy:
-                              description: ScrapedBy defines which prometheus instances
-                                will target this scrape config.
+                              description: |-
+                                ScrapedBy defines which prometheus instances will
+                                target this scrape config.
                               items:
                                 description: LocalReference references another object
                                   in the same namespace.
@@ -848,27 +865,32 @@ spec:
                           description: ScrapeConfig configures a metrics scrape config.
                           properties:
                             additionalMetrics:
-                              description: AdditionalMetrics specifies which additional
+                              description: |-
+                                AdditionalMetrics specifies which additional
                                 metrics should be scraped from this exporter
                               items:
                                 type: string
                               type: array
                             allMetrics:
                               default: false
-                              description: AllMetrics specifies that all metrics of
-                                this specific component should be scraped
+                              description: |-
+                                AllMetrics specifies that all metrics of this
+                                specific component should be scraped
                               type: boolean
                             enabled:
                               default: true
-                              description: Enabled specifies if metrics of a corresponding
-                                exporter should be scraped by certain Prometheus instances
+                              description: |-
+                                Enabled specifies if metrics of a corresponding
+                                exporter should be scraped by certain Prometheus
+                                instances
                               type: boolean
                             name:
                               description: Name uniquely identifies an ExporterScrapeConfig.
                               type: string
                             scrapedBy:
-                              description: ScrapedBy defines which prometheus instances
-                                will target this scrape config.
+                              description: |-
+                                ScrapedBy defines which prometheus instances will
+                                target this scrape config.
                               items:
                                 description: LocalReference references another object
                                   in the same namespace.
@@ -892,27 +914,32 @@ spec:
                           description: ScrapeConfig configures a metrics scrape config.
                           properties:
                             additionalMetrics:
-                              description: AdditionalMetrics specifies which additional
+                              description: |-
+                                AdditionalMetrics specifies which additional
                                 metrics should be scraped from this exporter
                               items:
                                 type: string
                               type: array
                             allMetrics:
                               default: false
-                              description: AllMetrics specifies that all metrics of
-                                this specific component should be scraped
+                              description: |-
+                                AllMetrics specifies that all metrics of this
+                                specific component should be scraped
                               type: boolean
                             enabled:
                               default: true
-                              description: Enabled specifies if metrics of a corresponding
-                                exporter should be scraped by certain Prometheus instances
+                              description: |-
+                                Enabled specifies if metrics of a corresponding
+                                exporter should be scraped by certain Prometheus
+                                instances
                               type: boolean
                             name:
                               description: Name uniquely identifies an ExporterScrapeConfig.
                               type: string
                             scrapedBy:
-                              description: ScrapedBy defines which prometheus instances
-                                will target this scrape config.
+                              description: |-
+                                ScrapedBy defines which prometheus instances will
+                                target this scrape config.
                               items:
                                 description: LocalReference references another object
                                   in the same namespace.
@@ -933,20 +960,21 @@ spec:
                         x-kubernetes-list-type: map
                     type: object
                   vcluster:
-                    description: VCluster is a virtual KubernetesCluster running on
-                      top of NKE. Experimental and should only be used for development
-                      and testing.
+                    description: |-
+                      VCluster is a virtual KubernetesCluster running on top of NKE.
+                      Experimental and should only be used for development and testing.
                     properties:
                       certManager:
-                        description: CertManager enables cert-manager on the vcluster.
-                          Currently just Certificate resources are supported.
+                        description: |-
+                          CertManager enables cert-manager on the vcluster. Currently just
+                          Certificate resources are supported.
                         type: boolean
                       version:
                         default: "1.30"
-                        description: Version specifies the Kubernetes version that
-                          will be used for this cluster, e.g. "1.26". The patch version
-                          cannot be specified and the latest supported one will be
-                          used.
+                        description: |-
+                          Version specifies the Kubernetes version that will be used for this
+                          cluster, e.g. "1.26". The patch version cannot be specified and the
+                          latest supported one will be used.
                         enum:
                         - "1.26"
                         - "1.27"
@@ -968,19 +996,21 @@ spec:
               managementPolicies:
                 default:
                 - '*'
-                description: 'THIS IS A BETA FIELD. It is on by default but can be
-                  opted out through a Crossplane feature flag. ManagementPolicies
-                  specify the array of actions Crossplane is allowed to take on the
-                  managed and external resources. This field is planned to replace
-                  the DeletionPolicy field in a future release. Currently, both could
-                  be set independently and non-default values would be honored if
-                  the feature flag is enabled. If both are custom, the DeletionPolicy
-                  field will be ignored. See the design doc for more information:
-                  https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
-                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
                 items:
-                  description: A ManagementAction represents an action that the Crossplane
-                    controllers can take on an external resource.
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
                   enum:
                   - Observe
                   - Create
@@ -993,9 +1023,10 @@ spec:
               providerConfigRef:
                 default:
                   name: default
-                description: ProviderConfigReference specifies how the provider that
-                  will be used to create, observe, update, and delete this managed
-                  resource should be configured.
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -1005,21 +1036,21 @@ spec:
                     properties:
                       resolution:
                         default: Required
-                        description: Resolution specifies whether resolution of this
-                          reference is required. The default is 'Required', which
-                          means the reconcile will fail if the reference cannot be
-                          resolved. 'Optional' means this reference will be a no-op
-                          if it cannot be resolved.
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
                         enum:
                         - Required
                         - Optional
                         type: string
                       resolve:
-                        description: Resolve specifies when this reference should
-                          be resolved. The default is 'IfNotPresent', which will attempt
-                          to resolve the reference only when the corresponding field
-                          is not present. Use 'Always' to resolve the reference on
-                          every reconcile.
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
                         enum:
                         - Always
                         - IfNotPresent
@@ -1029,17 +1060,19 @@ spec:
                 - name
                 type: object
               publishConnectionDetailsTo:
-                description: PublishConnectionDetailsTo specifies the connection secret
-                  config which contains a name, metadata and a reference to secret
-                  store config to which any connection details for this managed resource
-                  should be written. Connection details frequently include the endpoint,
-                  username, and password required to connect to the managed resource.
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
                 properties:
                   configRef:
                     default:
                       name: default
-                    description: SecretStoreConfigRef specifies which secret store
-                      config should be used for this ConnectionSecret.
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -1049,21 +1082,21 @@ spec:
                         properties:
                           resolution:
                             default: Required
-                            description: Resolution specifies whether resolution of
-                              this reference is required. The default is 'Required',
-                              which means the reconcile will fail if the reference
-                              cannot be resolved. 'Optional' means this reference
-                              will be a no-op if it cannot be resolved.
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
                             enum:
                             - Required
                             - Optional
                             type: string
                           resolve:
-                            description: Resolve specifies when this reference should
-                              be resolved. The default is 'IfNotPresent', which will
-                              attempt to resolve the reference only when the corresponding
-                              field is not present. Use 'Always' to resolve the reference
-                              on every reconcile.
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
                             enum:
                             - Always
                             - IfNotPresent
@@ -1078,21 +1111,22 @@ spec:
                       annotations:
                         additionalProperties:
                           type: string
-                        description: Annotations are the annotations to be added to
-                          connection secret. - For Kubernetes secrets, this will be
-                          used as "metadata.annotations". - It is up to Secret Store
-                          implementation for others store types.
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       labels:
                         additionalProperties:
                           type: string
-                        description: Labels are the labels/tags to be added to connection
-                          secret. - For Kubernetes secrets, this will be used as "metadata.labels".
-                          - It is up to Secret Store implementation for others store
-                          types.
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
                         type: object
                       type:
-                        description: Type is the SecretType for the connection secret.
+                        description: |-
+                          Type is the SecretType for the connection secret.
                           - Only valid for Kubernetes Secret Stores.
                         type: string
                     type: object
@@ -1103,14 +1137,15 @@ spec:
                 - name
                 type: object
               writeConnectionSecretToRef:
-                description: WriteConnectionSecretToReference specifies the namespace
-                  and name of a Secret to which any connection details for this managed
-                  resource should be written. Connection details frequently include
-                  the endpoint, username, and password required to connect to the
-                  managed resource. This field is planned to be replaced in a future
-                  release in favor of PublishConnectionDetailsTo. Currently, both
-                  could be set independently and connection details would be published
-                  to both without affecting each other.
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
                 properties:
                   name:
                     description: Name of the secret.
@@ -1147,8 +1182,9 @@ spec:
                   childResourceErrors:
                     description: ChildResourceErrors of a managed resource.
                     items:
-                      description: ChildResourceError is an error that occurred on
-                        a child resource of a managed resource.
+                      description: |-
+                        ChildResourceError is an error that occurred on a child resource of
+                        a managed resource.
                       properties:
                         message:
                           description: Message that describes why the resource failed.
@@ -1248,12 +1284,14 @@ spec:
                           vcluster can use.
                         properties:
                           class:
-                            description: Class is the name of the IngressClass that
-                              can be referenced within an Ingress resource.
+                            description: |-
+                              Class is the name of the IngressClass that can be referenced within an
+                              Ingress resource.
                             type: string
                           host:
-                            description: Host is the fully qualified hostname that
-                              points to the Ingress Loadbalancer.
+                            description: |-
+                              Host is the fully qualified hostname that points to the Ingress
+                              Loadbalancer.
                             type: string
                         required:
                         - class
@@ -1269,14 +1307,23 @@ spec:
                   description: A Condition that may apply to a resource.
                   properties:
                     lastTransitionTime:
-                      description: LastTransitionTime is the last time this condition
-                        transitioned from one status to another.
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
                       format: date-time
                       type: string
                     message:
-                      description: A Message containing details about this condition's
-                        last transition from one status to another, if any.
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
                       type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
                     reason:
                       description: A Reason for this condition's last transition from
                         one status to another.
@@ -1286,8 +1333,9 @@ spec:
                         False, or Unknown?
                       type: string
                     type:
-                      description: Type of this condition. At most one of each condition
-                        type may apply to a resource at any point in time.
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
                       type: string
                   required:
                   - lastTransitionTime
@@ -1299,6 +1347,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
             type: object
         required:
         - spec
