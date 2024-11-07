@@ -81,6 +81,9 @@ const (
 	// https://www.debian.org/releases/
 	Debian12 OperatingSystem = "debian12"
 	Debian11 OperatingSystem = "debian11"
+	// Alpine
+	// https://alpinelinux.org/releases/
+	AlpineStable OperatingSystem = "alpine-stable"
 )
 
 var (
