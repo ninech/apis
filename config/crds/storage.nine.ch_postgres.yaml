@@ -367,6 +367,7 @@ spec:
                         a database.
                       properties:
                         connections:
+                          default: 0
                           description: Connections indicates the number of connections
                             on a database.
                           type: integer
@@ -374,6 +375,7 @@ spec:
                           anyOf:
                           - type: integer
                           - type: string
+                          default: 0
                           description: Size indicates the total size of the database.
                           pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                           x-kubernetes-int-or-string: true
