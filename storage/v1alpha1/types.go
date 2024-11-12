@@ -531,7 +531,7 @@ type MySQLSpec struct {
 }
 
 // MySQLParameters are the configurable fields of a MySQL database.
-// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannoth be unset"
+// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
 type MySQLParameters struct {
 	// MachineType defines the sizing for a particular machine and
@@ -683,8 +683,10 @@ type MySQLObservation struct {
 // DatabaseObservation are the observable fields of a database.
 type DatabaseObservation struct {
 	// Size indicates the total size of the database.
+	// +kubebuilder:default=0
 	Size *resource.Quantity `json:"size"`
 	// Connections indicates the number of connections on a database.
+	// +kubebuilder:default=0
 	Connections uint16 `json:"connections"`
 }
 
