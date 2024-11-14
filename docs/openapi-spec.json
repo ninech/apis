@@ -27217,7 +27217,7 @@
               },
               "x-kubernetes-validations": [
                 {
-                  "message": "Location is immutable and cannot be unset",
+                  "message": "Location is immutable and cannoth be unset",
                   "rule": "self.location == oldSelf.location"
                 },
                 {
