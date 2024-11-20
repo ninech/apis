@@ -6,6 +6,15 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+const (
+	// ConnectionStatusStatusError represents an unknown connection status
+	ConnectionStatusStatusUnknown ConnectionStatus = "unknown"
+	// ConnectionStatusStatusError represents the status of a failed connection
+	ConnectionStatusStatusError ConnectionStatus = "error"
+	// ConnectionStatusStatusUp represents the status of a healthy connection
+	ConnectionStatusStatusUp ConnectionStatus = "up"
+)
+
 // IngressNginx deploys an NGINX ingress controller to a cluster.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -215,6 +224,129 @@ type IngressNginxObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 	meta.ReferenceStatus     `json:",inline"`
 }
+
+// Policy contains all needed information to create an entry in the policy file
+// of Headscale
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced,shortName=pol
+// +kubebuilder:object:root=true
+type Policy struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              PolicySpec   `json:"spec"`
+	Status            PolicyStatus `json:"status,omitempty"`
+}
+
+// PolicyList contains a list of Policy.
+// +kubebuilder:object:root=true
+type PolicyList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []Policy `json:"items"`
+}
+
+// PolicySpec defines the desired state of an Policy.
+type PolicySpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            PolicyParameters `json:"forProvider"`
+}
+
+// PolicyParameters are the configurable fields of a Policy.
+type PolicyParameters struct {
+	// ACL are the ACLs of the ServiceConnections
+	ACL ACL `json:"source"`
+	// Tag is the tag used for the connection. It starts with a 'tag:' prefix
+	// and only lowercase letters, numbers and hyphens are allowed.
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:Pattern=`^tag:[a-z0-9\-]+$`
+	Tag string `json:"destination"`
+}
+type ACL struct {
+	// Action is always "accept":
+	// https://tailscale.com/kb/1337/acl-syntax#action
+	// // +kubebuilder:validation:Enum=accept
+	// +kubebuilder:default="accept"
+	Action string `json:"action"`
+	// Src is a list of sources: https://tailscale.com/kb/1337/acl-syntax#src
+	Src []string `json:"src"`
+	// Proto specifies the protocol:
+	// https://tailscale.com/kb/1337/acl-syntax#proto
+	// +kubebuilder:default="tcp"
+	Proto string `json:"proto"`
+	// Dst is a list of destinations:
+	// https://tailscale.com/kb/1337/acl-syntax#dst
+	Dst string `json:"dst"`
+}
+
+// PolicyStatus represents the observed state of an Policy.
+type PolicyStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+}
+
+// ServiceConnection connects a source to destination securely.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced,shortName=sc
+// +kubebuilder:object:root=true
+type ServiceConnection struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ServiceConnectionSpec   `json:"spec"`
+	Status            ServiceConnectionStatus `json:"status,omitempty"`
+}
+
+// ServiceConnectionList contains a list of ServiceConnection.
+// +kubebuilder:object:root=true
+type ServiceConnectionList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ServiceConnection `json:"items"`
+}
+
+// ServiceConnectionSpec defines the desired state of an ServiceConnection.
+type ServiceConnectionSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            ServiceConnectionParameters `json:"forProvider"`
+}
+
+// ServiceConnectionParameters are the configurable fields of a ServiceConnection.
+type ServiceConnectionParameters struct {
+	// Source is the source of the connection
+	Source Source `json:"source"`
+	// Destination is a refernce to the destination of the connection
+	Destination meta.TypedReference `json:"destination"`
+}
+type Source struct {
+	// Reference is a refernce to the source of the connection
+	Reference meta.TypedReference `json:"reference"`
+	// KubernetesCluster needs to be set when the source is a KubernetesCluster
+	// +optional
+	KubernetesCluster *KubernetesCluster `json:"k8s,omitempty"`
+}
+type KubernetesCluster struct {
+	// LabelSelector is used to select pods which need to connect to the destination
+	LabelSelector metav1.LabelSelector `json:"labelSelector"`
+}
+
+// ServiceConnectionStatus represents the observed state of an ServiceConnection.
+type ServiceConnectionStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               ServiceConnectionObservation `json:"atProvider"`
+}
+
+// ServiceConnectionObservation are the observable fields of an ServiceConnection.
+type ServiceConnectionObservation struct {
+	// +optional
+	ConnectionStatus ConnectionStatus `json:"connectionStatus,omitempty"`
+	// ReferenceStatus contains errors for wrongly referenced resources
+	meta.ReferenceStatus `json:",inline"`
+}
+type ConnectionStatus string
 
 // StaticEgress describes a static egress configuration
 // +kubebuilder:subresource:status
