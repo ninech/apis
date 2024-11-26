@@ -425,10 +425,6 @@ type VClusterSettings struct {
 	// +kubebuilder:validation:XValidation:message="downgrade is not allowed",rule="double(self) >= double(oldSelf)"
 	// +kubebuilder:validation:XValidation:message="only one minor upgrade is allowed",rule="double(self) - double(oldSelf) < 0.02"
 	Version string `json:"version,omitempty"`
-	// CertManager enables cert-manager on the vcluster. Currently just
-	// Certificate resources are supported.
-	// +optional
-	CertManager bool `json:"certManager,omitempty"`
 }
 
 // NodePool configures a pool of nodes which are added to the cluster.

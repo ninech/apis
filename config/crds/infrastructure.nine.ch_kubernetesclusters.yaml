@@ -964,11 +964,6 @@ spec:
                       VCluster is a virtual KubernetesCluster running on top of NKE.
                       Experimental and should only be used for development and testing.
                     properties:
-                      certManager:
-                        description: |-
-                          CertManager enables cert-manager on the vcluster. Currently just
-                          Certificate resources are supported.
-                        type: boolean
                       version:
                         default: "1.30"
                         description: |-

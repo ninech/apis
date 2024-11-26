@@ -19743,10 +19743,6 @@
                   "description": "VCluster is a virtual KubernetesCluster running on top of NKE.\nExperimental and should only be used for development and testing.",
                   "type": "object",
                   "properties": {
-                    "certManager": {
-                      "description": "CertManager enables cert-manager on the vcluster. Currently just\nCertificate resources are supported.",
-                      "type": "boolean"
-                    },
                     "version": {
                       "description": "Version specifies the Kubernetes version that will be used for this\ncluster, e.g. \"1.26\". The patch version cannot be specified and the\nlatest supported one will be used.",
                       "type": "string",
