@@ -4,7 +4,7 @@ import (
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	backup "github.com/ninech/apis/backup/v1alpha1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
-	corev1 "k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -451,7 +451,7 @@ type NodePool struct {
 	// Taints specifies the node taints. Changing this results in a new
 	// rollout of all nodes in the pool.
 	// +optional
-	Taints []corev1.Taint `json:"taints,omitempty"`
+	Taints []v1.Taint `json:"taints,omitempty"`
 	// MachineType identifies the machine sizing. Changing this results in a
 	// new rollout of all nodes in the pool.
 	MachineType MachineType `json:"machineType"`
