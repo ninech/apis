@@ -669,6 +669,10 @@ spec:
                     - name
                     - status
                     type: object
+                  owning:
+                    description: Owning indicates if this release is currently owning
+                      all resources.
+                    type: boolean
                   releaseStatus:
                     description: ReleaseStatus describes the status of the Release
                     type: string
