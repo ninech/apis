@@ -766,6 +766,9 @@ type ReleaseObservation struct {
 	// this Release.
 	// +optional
 	Replicas int32 `json:"replicas,omitempty"`
+	// Owning indicates if this release is currently owning all resources.
+	// +optional
+	Owning bool `json:"owning"`
 }
 
 // ReleaseProcessStatus represents the Release status
