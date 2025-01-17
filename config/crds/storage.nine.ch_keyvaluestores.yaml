@@ -300,8 +300,8 @@ spec:
                 properties:
                   caCert:
                     description: |-
-                      CACert is the base64 certificate of the CA that signed the certificates of KeyValueStore.
-                      The value is base64 a encoded PEM.
+                      CACert is the certificate of the CA that is used by the service.
+                      The value is a base64 encoded PEM.
                     type: string
                   childResourceErrors:
                     description: ChildResourceErrors of a managed resource.

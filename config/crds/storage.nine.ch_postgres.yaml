@@ -317,6 +317,11 @@ spec:
                 description: PostgresObservation are the observable fields of a Postgres
                   database.
                 properties:
+                  caCert:
+                    description: |-
+                      CACert is the certificate of the CA that is used by the service.
+                      The value is a base64 encoded PEM.
+                    type: string
                   childResourceErrors:
                     description: ChildResourceErrors of a managed resource.
                     items:
