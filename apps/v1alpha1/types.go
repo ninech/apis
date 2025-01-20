@@ -152,6 +152,13 @@ type ApplicationParameters struct {
 	// Dockerfile
 	// +optional
 	DockerfileBuild DockerfileBuild `json:"dockerfileBuild"`
+	// BasicAuthPasswordChange can be used to create a new basic auth
+	// password. If a password change should be done, the field needs to be
+	// set to the current or a future timestamp. Once that time is reached,
+	// the password will be changed to a new one. The timestamp need to be
+	// in RFC3339 format (e.g. 2006-01-02T15:04:05Z).
+	// +optional
+	BasicAuthPasswordChange *metav1.Time `json:"basicAuthPasswordChange,omitempty"`
 }
 
 // Language specifies which kind of application/language should be used
@@ -362,6 +369,10 @@ type ApplicationObservation struct {
 	// credentials
 	// +optional
 	BasicAuthSecret *meta.LocalReference `json:"basicAuthSecret,omitempty"`
+	// LastBasicAuthPasswordUpdate shows when the basic auth credentials have been
+	// updated the last time.
+	// +optional
+	LastBasicAuthPasswordUpdate *metav1.Time `json:"lastBasicAuthPasswordUpdate,omitempty"`
 	// ReferenceStatus contains errors for wrongly referenced resources
 	meta.ReferenceStatus `json:",inline"`
 }

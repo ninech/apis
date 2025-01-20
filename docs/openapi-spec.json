@@ -14069,6 +14069,11 @@
                 "git"
               ],
               "properties": {
+                "basicAuthPasswordChange": {
+                  "description": "BasicAuthPasswordChange can be used to create a new basic auth\npassword. If a password change should be done, the field needs to be\nset to the current or a future timestamp. Once that time is reached,\nthe password will be changed to a new one. The timestamp need to be\nin RFC3339 format (e.g. 2006-01-02T15:04:05Z).",
+                  "type": "string",
+                  "format": "date-time"
+                },
                 "buildEnv": {
                   "description": "Env variables which are passed to configure env variables required during\nthe build process.",
                   "type": "array",
@@ -14486,6 +14491,11 @@
                       }
                     }
                   }
+                },
+                "lastBasicAuthPasswordUpdate": {
+                  "description": "LastBasicAuthPasswordUpdate shows when the basic auth credentials have been\nupdated the last time.",
+                  "type": "string",
+                  "format": "date-time"
                 },
                 "latestBuild": {
                   "description": "LatestBuild shows the latest build for this application",
