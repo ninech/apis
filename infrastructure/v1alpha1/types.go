@@ -136,14 +136,12 @@ type CloudVirtualMachineParameters struct {
 	MachineType MachineType `json:"machineType,omitempty"`
 	// Location specifies in which datacenter the VM will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Location is immutable after creation"
 	Location meta.LocationName `json:"location"`
 	// Hostname allows to set the hostname explicitly. If unset, the name
 	// of the resource will be used as the hostname. This does not affect
 	// the DNS name.
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Hostname is immutable after creation"
-	// +kubebuilder:default:=""
 	// +optional
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Hostname is immutable after creation"
 	Hostname string `json:"hostname,omitempty"`
 	// OS which should be used to boot the VM.
 	// +optional
@@ -170,13 +168,11 @@ type CloudVirtualMachineParameters struct {
 	// the VM as root. The keys are expected to be in SSH format as defined in
 	// RFC4253.
 	// +optional
-	// +kubebuilder:default:={}
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Public Key is immutable after creation"
 	PublicKeys []string `json:"publicKeys,omitempty"`
 	// CloudConfig allows to pass custom cloud config data (https://cloudinit.readthedocs.io/en/latest/topics/format.html#cloud-config-data)
 	// to the cloud VM. If a CloudConfig is passed, the PublicKey parameter is ignored.
 	// +optional
-	// +kubebuilder:default:=""
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Cloud Config is immutable after creation"
 	CloudConfig string `json:"cloudConfig,omitempty"`
 	// Rescue configures booting into a rescue live-OS for fixing a VM that is
