@@ -17999,6 +17999,12 @@
                     "nine-cz41",
                     "nine-cz42",
                     "nine-es34"
+                  ],
+                  "x-kubernetes-validations": [
+                    {
+                      "message": "Location is immutable after creation",
+                      "rule": "self == oldSelf"
+                    }
                   ]
                 },
                 "machineType": {
