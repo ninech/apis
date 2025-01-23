@@ -99,7 +99,7 @@ spec:
                     - name
                     type: object
                   enableApplicationSets:
-                    default: false
+                    default: true
                     description: |-
                       EnableApplicationSets specifies if Argo CD should support
                       ApplicationSet CRDs
