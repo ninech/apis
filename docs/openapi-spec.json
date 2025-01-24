@@ -26535,7 +26535,7 @@
               "type": "object",
               "properties": {
                 "caCert": {
-                  "description": "CACert is the base64 certificate of the CA that signed the certificates of KeyValueStore.\nThe value is base64 a encoded PEM.",
+                  "description": "CACert is the certificate of the CA that is used by the service.\nThe value is a base64 encoded PEM.",
                   "type": "string"
                 },
                 "childResourceErrors": {
@@ -27396,6 +27396,10 @@
               "description": "MySQLObservation are the observable fields of a MySQL database.",
               "type": "object",
               "properties": {
+                "caCert": {
+                  "description": "CACert is the certificate of the CA that is used by the service.\nThe value is a base64 encoded PEM.",
+                  "type": "string"
+                },
                 "childResourceErrors": {
                   "description": "ChildResourceErrors of a managed resource.",
                   "type": "array",
@@ -28305,6 +28309,10 @@
               "description": "PostgresObservation are the observable fields of a Postgres database.",
               "type": "object",
               "properties": {
+                "caCert": {
+                  "description": "CACert is the certificate of the CA that is used by the service.\nThe value is a base64 encoded PEM.",
+                  "type": "string"
+                },
                 "childResourceErrors": {
                   "description": "ChildResourceErrors of a managed resource.",
                   "type": "array",

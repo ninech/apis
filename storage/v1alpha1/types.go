@@ -494,8 +494,8 @@ type KeyValueStoreObservation struct {
 	// on the configured MemorySize.
 	// +optional
 	DiskSize *resource.Quantity `json:"diskSize,omitempty"`
-	// CACert is the base64 certificate of the CA that signed the certificates of KeyValueStore.
-	// The value is base64 a encoded PEM.
+	// CACert is the certificate of the CA that is used by the service.
+	// The value is a base64 encoded PEM.
 	CACert string `json:"caCert,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
@@ -676,6 +676,9 @@ type MySQLObservation struct {
 	// Databases contains the databases that exist on the instance.
 	// +optional
 	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
+	// CACert is the certificate of the CA that is used by the service.
+	// The value is a base64 encoded PEM.
+	CACert string `json:"caCert,omitempty"`
 	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
@@ -854,6 +857,9 @@ type PostgresObservation struct {
 	// Databases contains the databases that exist on the instance.
 	// +optional
 	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
+	// CACert is the certificate of the CA that is used by the service.
+	// The value is a base64 encoded PEM.
+	CACert string `json:"caCert,omitempty"`
 	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
