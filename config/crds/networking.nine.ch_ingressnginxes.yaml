@@ -203,10 +203,6 @@ spec:
                           default backend.
                         type: integer
                     type: object
-                  disableHTTP2:
-                    default: false
-                    description: DisableHTTP2 disables HTTP2 for all hosts.
-                    type: boolean
                   disableSnippetAnnotations:
                     default: false
                     description: |-

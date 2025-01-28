@@ -20697,10 +20697,6 @@
                     }
                   }
                 },
-                "disableHTTP2": {
-                  "description": "DisableHTTP2 disables HTTP2 for all hosts.",
-                  "type": "boolean"
-                },
                 "disableSnippetAnnotations": {
                   "description": "DisableSnippetAnnotations disables all \"*-snippet\" annotations (like\n\"configuration-snippet\" or \"server-snippet\") on ingress resources.\nThese annotations are potentially dangerous in an environment where\nyou do not trust all your users (multitenant environments). For\nexample, it might allow to see the generated nginx.conf file.",
                   "type": "boolean"
@@ -21139,8 +21135,7 @@
             "cluster": {
               "name": "example-resource"
             },
-            "isDefaultIngressClass": true,
-            "disableHTTP2": false
+            "isDefaultIngressClass": true
           }
         },
         "status": {

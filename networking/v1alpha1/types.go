@@ -143,10 +143,6 @@ type IngressNginxParameters struct {
 	// HSTS allows to configure settings for the "HTTP Strict Transport
 	// Security" (HSTS) headers
 	HSTS *HSTSConfiguration `json:"hsts,omitempty"`
-	// DisableHTTP2 disables HTTP2 for all hosts.
-	// +optional
-	// +kubebuilder:default:=false
-	DisableHTTP2 bool `json:"disableHTTP2"`
 }
 
 // IngressNginxCache uses the nginx settings `proxy_cache_<x>` to cache
