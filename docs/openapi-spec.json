@@ -26376,6 +26376,14 @@
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
                 },
+                "privateNetworkingEnabled": {
+                  "description": "PrivateNetworkingEnabled configures a destination for a service connection.",
+                  "type": "boolean"
+                },
+                "publicNetworkingEnabled": {
+                  "description": "PublicNetworkingEnabled specifies if the service should be available without service connection.",
+                  "type": "boolean"
+                },
                 "version": {
                   "description": "Version specifies the KeyValueStore version.\nNeeds to match an available KeyValueStore Version.",
                   "type": "string",
@@ -26607,6 +26615,10 @@
                 },
                 "fqdn": {
                   "description": "FQDN is the fully qualified domain name, at which the instance is reachable at.",
+                  "type": "string"
+                },
+                "privateNetworkingDNS": {
+                  "description": "PrivateNetworkingDNS is the magic DNS name of a service connection destination.",
                   "type": "string"
                 }
               }
