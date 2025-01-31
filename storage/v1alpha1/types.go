@@ -767,6 +767,138 @@ type ObjectsBucketObservation struct {
 	ObjectCount int64 `json:"objectCount"`
 }
 
+// OpenSearch deploys an on-demand OpenSearch instance.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="MEMORYSIZE",type="string",JSONPath=".spec.forProvider.memorySize"
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced,shortName=os
+// +kubebuilder:object:root=true
+type OpenSearch struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              OpenSearchSpec   `json:"spec"`
+	Status            OpenSearchStatus `json:"status,omitempty"`
+}
+
+// OpenSearchList contains a list of OpenSearch instances.
+// +kubebuilder:object:root=true
+type OpenSearchList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []OpenSearch `json:"items"`
+}
+
+// A OpenSearchSpec defines the desired state of an OpenSearch instance.
+type OpenSearchSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            OpenSearchParameters `json:"forProvider"`
+}
+
+// OpenSearchParameters are the configurable fields of an OpenSearch cluster.
+// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
+type OpenSearchParameters struct {
+	// Location specifies in which Datacenter the in-memory data store will be spawned.
+	// +immutable
+	Location meta.LocationName `json:"location"`
+	// Version specifies the OpenSearch version.
+	// Needs to match an available OpenSearch Version.
+	// +immutable
+	// +optional
+	// +kubebuilder:default:="2"
+	Version OpenSearchVersion `json:"version,omitempty"`
+	// ClusterType specifies the type of OpenSearch cluster.
+	// A cluster can be upgraded from single-node to multi-node, but not vice versa.
+	// +optional
+	// +kubebuilder:validation:Enum="single";"multi"
+	// +kubebuilder:default:="single"
+	ClusterType string `json:"clusterType"`
+	// MemorySize configures OpenSearch container to have.
+	// The JVM heap size will be set to the 50% of the memory size.
+	// +optional
+	// +kubebuilder:default:="1Gi"
+	MemorySize *OpenSearchMemorySize `json:"memorySize,omitempty"`
+	// AllowedCIDRs specify the allowed IP addresses, connecting to the instance.
+	// IPs are in CIDR format, e.g. 192.168.1.1/24
+	// +listType:="set"
+	// +optional
+	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
+	// SnapshotBucketReference is a reference to the object storage bucket used for snapshots.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="SnapshotBucketReference is immutable"
+	// +immutable
+	// +optional
+	SnapshotBucketReference *meta.Reference `json:"snapshotBucketRef,omitempty"`
+}
+
+// OpenSearchVersion defines the Major OpenSearch version to be used.
+// +kubebuilder:validation:Enum="2"
+type OpenSearchVersion string
+
+// OpenSearchMemorySize configures the memory allowed to use by the OpenSearch pods.
+// +kubebuilder:validation:Type=string
+// +kubebuilder:validation:XIntOrString
+// +kubebuilder:validation:Pattern=`^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$`
+type OpenSearchMemorySize struct {
+	resource.Quantity `json:",inline"`
+}
+
+// A OpenSearchStatus represents the observed state of an OpenSearch instance.
+type OpenSearchStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               OpenSearchObservation `json:"atProvider"`
+}
+
+// OpenSearchObservation are the observable fields of an OpenSearch cluster.
+type OpenSearchObservation struct {
+	// FQDN is the fully qualified domain name, at which the instance is reachable at.
+	// +optional
+	FQDN string `json:"fqdn,omitempty"`
+	// DiskSize specifies the total disk size used for persistence.
+	// Note that the disk size cannot be decreased.
+	// +optional
+	DiskSize *resource.Quantity `json:"diskSize,omitempty"`
+	// CACert is the base64 certificate of the CA that signed the certificates of OpenSearch.
+	// The value is base64 a encoded PEM.
+	CACert string `json:"caCert,omitempty"`
+	// OpenSearchClusterHealth holds a basic overview over the health of the cluster.
+	ClusterHealth OpenSearchClusterHealth `json:"clusterHealth,omitempty"`
+	// Status of all the child resources.
+	meta.ChildResourceStatus `json:",inline"`
+}
+
+// OpenSearchClusterHealth holds a basic overview over the health of the cluster.
+// https://opensearch.org/docs/latest/api-reference/cluster-api/cluster-health/
+type OpenSearchClusterHealth struct {
+	// ClusterName, the name of the cluster.
+	ClusterName string `json:"cluster_name,omitempty"`
+	// Status is the cluster's health status,
+	// which represents the state of shard allocation in the cluster.
+	Status OpenSearchHealthStatus `json:"status,omitempty"`
+	// NumberOfNodes is the count of cluster nodes.
+	NumberOfNodes int `json:"number_of_nodes,omitempty"`
+	// Indices is a map of all indices on the cluster.
+	Indices map[string]Index `json:"indices,omitempty"`
+}
+
+// OpenSearchHealthStatus expresses health in three colors: green, yellow, and red.
+// A green status means all primary shards and their replicas are allocated to nodes.
+// A yellow status means all primary shards are allocated to nodes, but some replicas aren’t.
+// A red status means at least one primary shard is not allocated to any node.
+// +kubebuilder:validation:Enum="green";"yellow";"red"
+type OpenSearchHealthStatus string
+
+// Index holds information about an OpenSearch index health status.
+type Index struct {
+	// Status is the index's health status,
+	// which represents the state of shard allocation in the cluster.
+	Status OpenSearchHealthStatus `json:"status,omitempty"`
+	// Size indicates the total size of the index.
+	// +kubebuilder:default=0
+	Size *resource.Quantity `json:"size"`
+}
+
 // Postgres deploys a Self Service Postgres instance.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -46,6 +46,10 @@ var (
 	ObjectsBucketGroupKind        = schema.GroupKind{Group: Group, Kind: ObjectsBucketKind}.String()
 	ObjectsBucketKindAPIVersion   = ObjectsBucketKind + "." + SchemeGroupVersion.String()
 	ObjectsBucketGroupVersionKind = SchemeGroupVersion.WithKind(ObjectsBucketKind)
+	OpenSearchKind             = reflect.TypeOf(OpenSearch{}).Name()
+	OpenSearchGroupKind        = schema.GroupKind{Group: Group, Kind: OpenSearchKind}.String()
+	OpenSearchKindAPIVersion   = OpenSearchKind + "." + SchemeGroupVersion.String()
+	OpenSearchGroupVersionKind = SchemeGroupVersion.WithKind(OpenSearchKind)
 	PostgresKind             = reflect.TypeOf(Postgres{}).Name()
 	PostgresGroupKind        = schema.GroupKind{Group: Group, Kind: PostgresKind}.String()
 	PostgresKindAPIVersion   = PostgresKind + "." + SchemeGroupVersion.String()
@@ -63,6 +67,7 @@ func init() {
 	SchemeBuilder.Register(&KeyValueStore{}, &KeyValueStoreList{})
 	SchemeBuilder.Register(&MySQL{}, &MySQLList{})
 	SchemeBuilder.Register(&ObjectsBucket{}, &ObjectsBucketList{})
+	SchemeBuilder.Register(&OpenSearch{}, &OpenSearchList{})
 	SchemeBuilder.Register(&Postgres{}, &PostgresList{})
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})
 }
