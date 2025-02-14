@@ -382,7 +382,7 @@ type VerificationStatus struct {
 	// CheckType describes which kind of DNS check this entry is about
 	// (CNAME or TXT)
 	// +optional
-	CheckType dnsCheckType `json:"checkType,omitempty"`
+	CheckType DNSCheckType `json:"checkType,omitempty"`
 	// LatestSuccess specifies when this host was last verified successfully
 	// +optional
 	LatestSuccess *metav1.Time `json:"latestSuccess,omitempty"`
@@ -391,7 +391,7 @@ type VerificationStatus struct {
 	// +optional
 	Error *VerificationError `json:"error,omitempty"`
 }
-type dnsCheckType string
+type DNSCheckType string
 type VerificationError struct {
 	// Message refers to the error message
 	Message string `json:"message"`
