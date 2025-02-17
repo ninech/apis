@@ -424,40 +424,33 @@ type KeyValueStoreList struct {
 	Items           []KeyValueStore `json:"items"`
 }
 
-// A KeyValueStoreSpec defines the desired state of a Key-Value document store.
+// A KeyValueStoreSpec defines the desired state of a Key-Value in-memory data store.
 type KeyValueStoreSpec struct {
 	runtimev1.ResourceSpec `json:",inline"`
 	ForProvider            KeyValueStoreParameters `json:"forProvider"`
 }
 
-// KeyValueStoreParameters are the configurable fields of a Key-Value document store.
-// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
-// +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
+// KeyValueStoreParameters are the configurable fields of a Key-Value in-memory data store.
 type KeyValueStoreParameters struct {
-	// Location specifies in which Datacenter the document store will be created.
-	//
-	// +optional
-	// +kubebuilder:default:="nine-es34"
+	// Location specifies in which Datacenter the in-memory data store will be spawned.
+	// +immutable
 	Location meta.LocationName `json:"location"`
 	// Version specifies the KeyValueStore version.
 	// Needs to match an available KeyValueStore Version.
-	//
+	// +immutable
 	// +optional
 	// +kubebuilder:default:="7"
 	Version KeyValueStoreVersion `json:"version,omitempty"`
 	// MemorySize configures KeyValueStore to use a specified amount of memory for the data set.
-	//
 	// +optional
 	// +kubebuilder:default:="1Gi"
 	MemorySize *KeyValueStoreMemorySize `json:"memorySize,omitempty"`
 	// MaxMemoryPolicy specifies the exact behavior KeyValueStore follows when the maxmemory limit is reached.
-	//
 	// +optional
 	// +kubebuilder:default:="allkeys-lru"
 	MaxMemoryPolicy KeyValueStoreMaxMemoryPolicy `json:"maxMemoryPolicy,omitempty"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the instance.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
-	//
 	// +listType:="set"
 	// +optional
 	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
@@ -485,28 +478,24 @@ type KeyValueStoreMemorySize struct {
 // +kubebuilder:validation:Enum="noeviction";"allkeys-lru";"allkeys-lfu";"volatile-lru";"volatile-lfu";"allkeys-random";"volatile-random";"volatile-ttl"
 type KeyValueStoreMaxMemoryPolicy string
 
-// A KeyValueStoreStatus represents the observed state of a Key-Value document store.
+// A KeyValueStoreStatus represents the observed state of a Key-Value in-memory data store.
 type KeyValueStoreStatus struct {
 	runtimev1.ResourceStatus `json:",inline"`
 	AtProvider               KeyValueStoreObservation `json:"atProvider"`
 }
 
-// KeyValueStoreObservation are the observable fields of a Key-Value document store.
+// KeyValueStoreObservation are the observable fields of a Key-Value in-memory data store.
 type KeyValueStoreObservation struct {
 	// FQDN is the fully qualified domain name, at which the instance is reachable at.
-	//
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
 	// DiskSize specifies the total disk size used for persistence.
 	// Note that the disk size cannot be decreased and is based
 	// on the configured MemorySize.
-	//
 	// +optional
 	DiskSize *resource.Quantity `json:"diskSize,omitempty"`
-	// CACert is the certificate of the CA that is used by the service.
-	// The value is a base64 encoded PEM.
-	//
-	// +optional
+	// CACert is the base64 certificate of the CA that signed the certificates of KeyValueStore.
+	// The value is base64 a encoded PEM.
 	CACert string `json:"caCert,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
@@ -687,9 +676,6 @@ type MySQLObservation struct {
 	// Databases contains the databases that exist on the instance.
 	// +optional
 	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
-	// CACert is the certificate of the CA that is used by the service.
-	// The value is a base64 encoded PEM.
-	CACert string `json:"caCert,omitempty"`
 	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
@@ -868,9 +854,6 @@ type PostgresObservation struct {
 	// Databases contains the databases that exist on the instance.
 	// +optional
 	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
-	// CACert is the certificate of the CA that is used by the service.
-	// The value is a base64 encoded PEM.
-	CACert string `json:"caCert,omitempty"`
 	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }

@@ -71,15 +71,6 @@ spec:
                 description: ApplicationParameters are the configurable fields of
                   a Application.
                 properties:
-                  basicAuthPasswordChange:
-                    description: |-
-                      BasicAuthPasswordChange can be used to create a new basic auth
-                      password. If a password change should be done, the field needs to be
-                      set to the current or a future timestamp. Once that time is reached,
-                      the password will be changed to a new one. The timestamp need to be
-                      in RFC3339 format (e.g. 2006-01-02T15:04:05Z).
-                    format: date-time
-                    type: string
                   buildEnv:
                     description: |-
                       Env variables which are passed to configure env variables required during
@@ -583,12 +574,6 @@ spec:
                       - name
                       type: object
                     type: array
-                  lastBasicAuthPasswordUpdate:
-                    description: |-
-                      LastBasicAuthPasswordUpdate shows when the basic auth credentials have been
-                      updated the last time.
-                    format: date-time
-                    type: string
                   latestBuild:
                     description: LatestBuild shows the latest build for this application
                     type: string

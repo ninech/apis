@@ -43,7 +43,7 @@ type ArgoCDParameters struct {
 	// EnableApplicationSets specifies if Argo CD should support
 	// ApplicationSet CRDs
 	// +optional
-	// +kubebuilder:default:=true
+	// +kubebuilder:default:=false
 	EnableApplicationSets bool `json:"enableApplicationSets"`
 	// CustomSecrets allows to pass secrets to ArgoCD which can then be
 	// used (e.g. in ApplicationSets)

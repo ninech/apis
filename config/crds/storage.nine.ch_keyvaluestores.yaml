@@ -53,7 +53,7 @@ spec:
             type: object
           spec:
             description: A KeyValueStoreSpec defines the desired state of a Key-Value
-              document store.
+              in-memory data store.
             properties:
               deletionPolicy:
                 default: Delete
@@ -71,7 +71,7 @@ spec:
                 type: string
               forProvider:
                 description: KeyValueStoreParameters are the configurable fields of
-                  a Key-Value document store.
+                  a Key-Value in-memory data store.
                 properties:
                   allowedCIDRs:
                     description: |-
@@ -84,9 +84,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   location:
-                    default: nine-es34
-                    description: Location specifies in which Datacenter the document
-                      store will be created.
+                    description: Location specifies in which Datacenter the in-memory
+                      data store will be spawned.
                     enum:
                     - nine-cz41
                     - nine-cz42
@@ -121,12 +120,9 @@ spec:
                     enum:
                     - "7"
                     type: string
+                required:
+                - location
                 type: object
-                x-kubernetes-validations:
-                - message: Location is immutable and cannot be unset
-                  rule: self.location == oldSelf.location
-                - message: Version is immutable and cannot be unset
-                  rule: self.version == oldSelf.version
               managementPolicies:
                 default:
                 - '*'
@@ -296,16 +292,16 @@ spec:
             type: object
           status:
             description: A KeyValueStoreStatus represents the observed state of a
-              Key-Value document store.
+              Key-Value in-memory data store.
             properties:
               atProvider:
                 description: KeyValueStoreObservation are the observable fields of
-                  a Key-Value document store.
+                  a Key-Value in-memory data store.
                 properties:
                   caCert:
                     description: |-
-                      CACert is the certificate of the CA that is used by the service.
-                      The value is a base64 encoded PEM.
+                      CACert is the base64 certificate of the CA that signed the certificates of KeyValueStore.
+                      The value is base64 a encoded PEM.
                     type: string
                   childResourceErrors:
                     description: ChildResourceErrors of a managed resource.
