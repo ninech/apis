@@ -20705,8 +20705,16 @@
                   "description": "DisableSnippetAnnotations disables all \"*-snippet\" annotations (like\n\"configuration-snippet\" or \"server-snippet\") on ingress resources.\nThese annotations are potentially dangerous in an environment where\nyou do not trust all your users (multitenant environments). For\nexample, it might allow to see the generated nginx.conf file.",
                   "type": "boolean"
                 },
+                "enableInvalidHeaders": {
+                  "description": "EnableInvalidHeaders allows invalid header names.",
+                  "type": "boolean"
+                },
                 "enableModSecurity": {
                   "description": "EnableModSecurity enables the owasp-modsecurity. Note this will enable\nit for all paths, and each path must be disabled manually. ModSecurity\nwill run in \"Detection-Only\" mode using the recommended configuration.\nYou can enable the OWASP Core Rule Set by setting the following\nannotation:\n\nnginx.ingress.kubernetes.io/enable-owasp-core-rules: \"true\"\n\nhttps://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity",
+                  "type": "boolean"
+                },
+                "enableUnderscoresInHeaders": {
+                  "description": "EnableUnderscoresInHeaders allows headers with underscores in the name.",
                   "type": "boolean"
                 },
                 "hsts": {
@@ -20756,6 +20764,10 @@
                 "isDefaultIngressClass": {
                   "description": "IsDefaultIngressClass specifies if the IngressClass of this controller\nshould be the default IngressClass in the target cluster.",
                   "type": "boolean"
+                },
+                "rateLimitStatusCode": {
+                  "description": "RateLimitStatusCode configures the status code nginx will return when\nrate limits are hit.\nhttps://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#limit-req-status-code",
+                  "type": "integer"
                 },
                 "scrapeConfigurations": {
                   "description": "ScrapeConfigurations allows to overwrite which metrics of the ingress-nginx\ninstance are scraped by certain Prometheus instances.",
@@ -21140,7 +21152,9 @@
               "name": "example-resource"
             },
             "isDefaultIngressClass": true,
-            "disableHTTP2": false
+            "disableHTTP2": false,
+            "enableUnderscoresInHeaders": false,
+            "enableInvalidHeaders": false
           }
         },
         "status": {
