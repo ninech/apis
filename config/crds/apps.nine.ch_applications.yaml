@@ -162,6 +162,60 @@ spec:
                         format: int32
                         nullable: true
                         type: integer
+                      scheduledJobs:
+                        description: |-
+                          ScheduledJobs defines a list of ScheduledJob. See ScheduledJob definition for a
+                          description.
+                        items:
+                          description: |-
+                            ScheduledJob is a separate process that runs periodically which uses the same
+                            image as the application, but a different entry point.
+                          properties:
+                            command:
+                              description: |-
+                                Command to execute. This command will be executed by a bash shell which
+                                gets started by the cloud native buildpacks launcher binary.
+                              type: string
+                            name:
+                              description: Name of the Job.
+                              type: string
+                            retries:
+                              default: 0
+                              description: Retries defines how many times the job
+                                will be restarted on failure.
+                              format: int32
+                              type: integer
+                            schedule:
+                              description: Schedule defines the schedule in crontab
+                                syntax
+                              type: string
+                            size:
+                              default: micro
+                              description: Size defines the amount of CPU and memory
+                                which this job can make use of
+                              enum:
+                              - ""
+                              - micro
+                              - mini
+                              - standard-1
+                              - standard-2
+                              type: string
+                            timeout:
+                              default: 5m
+                              description: Timeout of the job. Minimum is 1 minute
+                                and maximum is 30 minutes.
+                              format: duration
+                              type: string
+                          required:
+                          - command
+                          - name
+                          - schedule
+                          type: object
+                        nullable: true
+                        type: array
+                        x-kubernetes-list-map-keys:
+                        - name
+                        x-kubernetes-list-type: map
                       size:
                         default: ""
                         description: |-
@@ -621,6 +675,31 @@ spec:
                       deployed
                     format: int32
                     type: integer
+                  scheduledJobs:
+                    description: ScheduledJobs shows the currently running ScheduledJobs.
+                    items:
+                      properties:
+                        name:
+                          type: string
+                        schedule:
+                          type: string
+                        size:
+                          description: |-
+                            ApplicationSize defines the size of an application and the resources that
+                            will be allocated for it.
+                          enum:
+                          - ""
+                          - micro
+                          - mini
+                          - standard-1
+                          - standard-2
+                          type: string
+                      required:
+                      - name
+                      - schedule
+                      - size
+                      type: object
+                    type: array
                   size:
                     description: Size shows the effective application size which is
                       currently in use
