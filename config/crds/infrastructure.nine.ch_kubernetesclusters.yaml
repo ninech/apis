@@ -581,22 +581,6 @@ spec:
                           description: |-
                             MachineType identifies the machine sizing. Changing this results in a
                             new rollout of all nodes in the pool.
-                          enum:
-                          - nine-standard-1
-                          - nine-standard-2
-                          - nine-standard-4
-                          - nine-highmem-2
-                          - nine-highmem-4
-                          - nine-highcpu-2
-                          - nine-highcpu-4
-                          - nine-highcpu-8
-                          - nine-db-xs
-                          - nine-db-s
-                          - nine-db-m
-                          - nine-db-l
-                          - nine-db-xl
-                          - nine-db-xxl
-                          - nine-small-1
                           type: string
                         maxNodes:
                           description: |-
@@ -1236,22 +1220,6 @@ spec:
                         machineType:
                           description: MachineType shows the current machine type
                             of the node pool.
-                          enum:
-                          - nine-standard-1
-                          - nine-standard-2
-                          - nine-standard-4
-                          - nine-highmem-2
-                          - nine-highmem-4
-                          - nine-highcpu-2
-                          - nine-highcpu-4
-                          - nine-highcpu-8
-                          - nine-db-xs
-                          - nine-db-s
-                          - nine-db-m
-                          - nine-db-l
-                          - nine-db-xl
-                          - nine-db-xxl
-                          - nine-small-1
                           type: string
                         numNodes:
                           description: NumNodes describes the current number of nodes
