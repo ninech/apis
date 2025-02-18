@@ -216,6 +216,10 @@ spec:
                       you do not trust all your users (multitenant environments). For
                       example, it might allow to see the generated nginx.conf file.
                     type: boolean
+                  enableInvalidHeaders:
+                    default: false
+                    description: EnableInvalidHeaders allows invalid header names.
+                    type: boolean
                   enableModSecurity:
                     default: false
                     description: |-
@@ -228,6 +232,11 @@ spec:
                       nginx.ingress.kubernetes.io/enable-owasp-core-rules: "true"
 
                       https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
+                    type: boolean
+                  enableUnderscoresInHeaders:
+                    default: false
+                    description: EnableUnderscoresInHeaders allows headers with underscores
+                      in the name.
                     type: boolean
                   hsts:
                     description: |-
@@ -285,6 +294,13 @@ spec:
                       IsDefaultIngressClass specifies if the IngressClass of this controller
                       should be the default IngressClass in the target cluster.
                     type: boolean
+                  rateLimitStatusCode:
+                    default: 503
+                    description: |-
+                      RateLimitStatusCode configures the status code nginx will return when
+                      rate limits are hit.
+                      https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#limit-req-status-code
+                    type: integer
                   scrapeConfigurations:
                     description: |-
                       ScrapeConfigurations allows to overwrite which metrics of the ingress-nginx

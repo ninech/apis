@@ -147,6 +147,20 @@ type IngressNginxParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	DisableHTTP2 bool `json:"disableHTTP2"`
+	// RateLimitStatusCode configures the status code nginx will return when
+	// rate limits are hit.
+	// https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#limit-req-status-code
+	// +optional
+	// +kubebuilder:default:=503
+	RateLimitStatusCode int `json:"rateLimitStatusCode,omitempty"`
+	// EnableUnderscoresInHeaders allows headers with underscores in the name.
+	// +optional
+	// +kubebuilder:default:=false
+	EnableUnderscoresInHeaders bool `json:"enableUnderscoresInHeaders"`
+	// EnableInvalidHeaders allows invalid header names.
+	// +optional
+	// +kubebuilder:default:=false
+	EnableInvalidHeaders bool `json:"enableInvalidHeaders"`
 }
 
 // IngressNginxCache uses the nginx settings `proxy_cache_<x>` to cache
