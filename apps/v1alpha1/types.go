@@ -725,6 +725,10 @@ type ReleaseParameters struct {
 	// DockerfileBuild indicates if the build has been built using a dockerfile.
 	// +optional
 	DockerfileBuild bool `json:"dockerfileBuild,omitempty"`
+	// AdditionalResources specifies extra resource requests and limits
+	// that are factored into the Application Deployment's resource requirements.
+	// +optional
+	AdditionalResources corev1.ResourceList `json:"additionalResources,omitempty"`
 	// RunAsUser allows the UID of the entrypoint of the container process to be
 	// overridden. If not specified, the default UID of the container image will be
 	// used.
