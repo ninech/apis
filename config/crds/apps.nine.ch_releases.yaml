@@ -178,60 +178,6 @@ spec:
                         format: int32
                         nullable: true
                         type: integer
-                      scheduledJobs:
-                        description: |-
-                          ScheduledJobs defines a list of ScheduledJob. See ScheduledJob definition for a
-                          description.
-                        items:
-                          description: |-
-                            ScheduledJob is a separate process that runs periodically which uses the same
-                            image as the application, but a different entry point.
-                          properties:
-                            command:
-                              description: |-
-                                Command to execute. This command will be executed by a bash shell which
-                                gets started by the cloud native buildpacks launcher binary.
-                              type: string
-                            name:
-                              description: Name of the Job.
-                              type: string
-                            retries:
-                              default: 0
-                              description: Retries defines how many times the job
-                                will be restarted on failure.
-                              format: int32
-                              type: integer
-                            schedule:
-                              description: Schedule defines the schedule in crontab
-                                syntax
-                              type: string
-                            size:
-                              default: micro
-                              description: Size defines the amount of CPU and memory
-                                which this job can make use of
-                              enum:
-                              - ""
-                              - micro
-                              - mini
-                              - standard-1
-                              - standard-2
-                              type: string
-                            timeout:
-                              default: 5m
-                              description: Timeout of the job. Minimum is 1 minute
-                                and maximum is 30 minutes.
-                              format: duration
-                              type: string
-                          required:
-                          - command
-                          - name
-                          - schedule
-                          type: object
-                        nullable: true
-                        type: array
-                        x-kubernetes-list-map-keys:
-                        - name
-                        x-kubernetes-list-type: map
                       size:
                         default: ""
                         description: |-
@@ -391,63 +337,6 @@ spec:
                         - origin
                         - value
                         type: object
-                      scheduledJobs:
-                        items:
-                          properties:
-                            origin:
-                              description: ConfigOrigin describes the origin of a
-                                config
-                              type: string
-                            value:
-                              description: |-
-                                ScheduledJob is a separate process that runs periodically which uses the same
-                                image as the application, but a different entry point.
-                              properties:
-                                command:
-                                  description: |-
-                                    Command to execute. This command will be executed by a bash shell which
-                                    gets started by the cloud native buildpacks launcher binary.
-                                  type: string
-                                name:
-                                  description: Name of the Job.
-                                  type: string
-                                retries:
-                                  default: 0
-                                  description: Retries defines how many times the
-                                    job will be restarted on failure.
-                                  format: int32
-                                  type: integer
-                                schedule:
-                                  description: Schedule defines the schedule in crontab
-                                    syntax
-                                  type: string
-                                size:
-                                  default: micro
-                                  description: Size defines the amount of CPU and
-                                    memory which this job can make use of
-                                  enum:
-                                  - ""
-                                  - micro
-                                  - mini
-                                  - standard-1
-                                  - standard-2
-                                  type: string
-                                timeout:
-                                  default: 5m
-                                  description: Timeout of the job. Minimum is 1 minute
-                                    and maximum is 30 minutes.
-                                  format: duration
-                                  type: string
-                              required:
-                              - command
-                              - name
-                              - schedule
-                              type: object
-                          required:
-                          - origin
-                          - value
-                          type: object
-                        type: array
                       size:
                         description: Size describes the CPU and memory requirements
                           of the application
@@ -818,42 +707,6 @@ spec:
                       this Release.
                     format: int32
                     type: integer
-                  scheduledJobStatus:
-                    description: ScheduledJobStatus describes the status of all workerjobs
-                    items:
-                      properties:
-                        name:
-                          type: string
-                        replicaObservation:
-                          items:
-                            description: ReplicaObservation describes a replica
-                            properties:
-                              lastExitCode:
-                                description: LastExitCode shows the last exit code
-                                  of the replica.
-                                format: int32
-                                type: integer
-                              replicaName:
-                                description: ReplicaName is the name of the replica.
-                                type: string
-                              restartCount:
-                                description: RestartCount indicates how often the
-                                  replica was already restarted.
-                                format: int32
-                                type: integer
-                              status:
-                                description: Status describes the status of the replica.
-                                type: string
-                            type: object
-                          type: array
-                      required:
-                      - name
-                      - replicaObservation
-                      type: object
-                    type: array
-                    x-kubernetes-list-map-keys:
-                    - name
-                    x-kubernetes-list-type: map
                   workerJobStatus:
                     description: WorkerJobStatus describes the status of all workerjobs
                     items:
