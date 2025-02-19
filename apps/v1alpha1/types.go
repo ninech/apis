@@ -20,6 +20,8 @@ const (
 	LogLabelProject = "project"
 	// LogLabelWorkerJob is attached to all logs belonging to a worker job.
 	LogLabelWorkerJob = "worker_job"
+	// LogLabelScheduledJob is attached to all logs belonging to a scheduled job.
+	LogLabelScheduledJob = "scheduled_job"
 	// LogLabelDeployJob is attached to all logs belonging to a deploy job.
 	LogLabelDeployJob = "deploy_job"
 	// BuildProcessStatusError represents an unknown build status
@@ -63,6 +65,8 @@ const (
 	ReleaseProcessStatusFailure ReleaseProcessStatus = "failure"
 	// ReplicaStatusReady is the status for a ready running replica.
 	ReplicaStatusReady ReplicaStatus = "ready"
+	// ReplicaStatusSucceeded is the status for a succeeded running replica.
+	ReplicaStatusSucceeded ReplicaStatus = "succeeded"
 	// RepicaStatusProgressing is the status for a currently progressing
 	// replica.
 	ReplicaStatusProgressing ReplicaStatus = "progressing"
@@ -252,6 +256,13 @@ type Config struct {
 	// WorkerJob defines a list of WorkerJob. See WorkerJob definition for a
 	// description.
 	WorkerJobs []WorkerJob `json:"workerJobs,omitempty"`
+	// +optional
+	// +nullable
+	// +listType:="map"
+	// +listMapKey:="name"
+	// ScheduledJobs defines a list of ScheduledJob. See ScheduledJob definition for a
+	// description.
+	ScheduledJobs []ScheduledJob `json:"scheduledJobs,omitempty"`
 }
 
 // ApplicationSize defines the size of an application and the resources that
@@ -297,6 +308,19 @@ type FiniteJob struct {
 // which executes tasks on a regular base.
 type WorkerJob struct {
 	Job `json:",inline"`
+	// Size defines the amount of CPU and memory which this job can make use of
+	// +optional
+	// +kubebuilder:default:="micro"
+	Size *ApplicationSize `json:"size,omitempty" yaml:"size,omitempty"`
+}
+
+// ScheduledJob is a separate process that runs periodically which uses the same
+// image as the application, but a different entry point.
+type ScheduledJob struct {
+	Job       `json:",inline"`
+	FiniteJob `json:",inline"`
+	// Schedule defines the schedule in crontab syntax
+	Schedule string `json:"schedule"`
 	// Size defines the amount of CPU and memory which this job can make use of
 	// +optional
 	// +kubebuilder:default:="micro"
@@ -365,6 +389,9 @@ type ApplicationObservation struct {
 	// WorkerJobs shows the currently running workers.
 	// +optional
 	WorkerJobs []ApplicationWorkerJobStatus `json:"workerJobs,omitempty"`
+	// ScheduledJobs shows the currently running ScheduledJobs.
+	// +optional
+	ScheduledJobs []ApplicationScheduledJobStatus `json:"scheduledJobs,omitempty"`
 	// BasicAuthSecret references the secret which contains the basic auth
 	// credentials
 	// +optional
@@ -404,6 +431,11 @@ type CertificateStatus string
 type ApplicationWorkerJobStatus struct {
 	Name string          `json:"name"`
 	Size ApplicationSize `json:"size"`
+}
+type ApplicationScheduledJobStatus struct {
+	Name     string          `json:"name"`
+	Size     ApplicationSize `json:"size"`
+	Schedule string          `json:"schedule"`
 }
 
 // BuildpackMetadata describes the binary that was used in the build phase.
@@ -721,6 +753,8 @@ type FieldOriginConfig struct {
 	DeployJob *OriginDeployJob `json:"deployJob,omitempty"`
 	// +optional
 	WorkerJobs []OriginWorkerJob `json:"workerJobs,omitempty"`
+	// +optional
+	ScheduledJobs []OriginScheduledJob `json:"scheduledJobs,omitempty"`
 }
 type OriginApplicationSize struct {
 	// +optional
@@ -743,6 +777,10 @@ type OriginDeployJob struct {
 }
 type OriginWorkerJob struct {
 	Value  WorkerJob    `json:"value"`
+	Origin ConfigOrigin `json:"origin"`
+}
+type OriginScheduledJob struct {
+	Value  ScheduledJob `json:"value"`
 	Origin ConfigOrigin `json:"origin"`
 }
 
@@ -768,6 +806,11 @@ type ReleaseObservation struct {
 	// +listType:="map"
 	// +listMapKey:="name"
 	WorkerJobStatus []WorkerJobStatus `json:"workerJobStatus,omitempty"`
+	// ScheduledJobStatus describes the status of all workerjobs
+	// +optional
+	// +listType:="map"
+	// +listMapKey:="name"
+	ScheduledJobStatus []ScheduledJobStatus `json:"scheduledJobStatus,omitempty"`
 	// CustomHostsCertificateStatus represents the latest Certificate status for
 	// the custom hosts where the app is available.
 	// +optional
@@ -823,6 +866,10 @@ type DeployJobStatus struct {
 type DeployJobProcessStatus string
 type DeployJobProcessReason string
 type WorkerJobStatus struct {
+	Name               string               `json:"name"`
+	ReplicaObservation []ReplicaObservation `json:"replicaObservation"`
+}
+type ScheduledJobStatus struct {
 	Name               string               `json:"name"`
 	ReplicaObservation []ReplicaObservation `json:"replicaObservation"`
 }
