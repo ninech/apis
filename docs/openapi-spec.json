@@ -14134,13 +14134,6 @@
                       "description": "Replicas sets the amount of replicas of the running app. If this is\nincreased, make sure your application can cope with running multiple\nreplicas and all state required is shared in some way.",
                       "format": "int32"
                     },
-                    "scheduledJobs": {
-                      "description": "ScheduledJobs defines a list of ScheduledJob. See ScheduledJob definition for a\ndescription.",
-                      "x-kubernetes-list-map-keys": [
-                        "name"
-                      ],
-                      "x-kubernetes-list-type": "map"
-                    },
                     "size": {
                       "description": "ApplicationSize defines the size of an application and the resources that\nwill be allocated for it.",
                       "type": "string",
@@ -14545,37 +14538,6 @@
                   "type": "integer",
                   "format": "int32"
                 },
-                "scheduledJobs": {
-                  "description": "ScheduledJobs shows the currently running ScheduledJobs.",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "required": [
-                      "name",
-                      "schedule",
-                      "size"
-                    ],
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "schedule": {
-                        "type": "string"
-                      },
-                      "size": {
-                        "description": "ApplicationSize defines the size of an application and the resources that\nwill be allocated for it.",
-                        "type": "string",
-                        "enum": [
-                          "",
-                          "micro",
-                          "mini",
-                          "standard-1",
-                          "standard-2"
-                        ]
-                      }
-                    }
-                  }
-                },
                 "size": {
                   "description": "Size shows the effective application size which is currently in use",
                   "type": "string",
@@ -14846,13 +14808,6 @@
                     "replicas": {
                       "description": "Replicas sets the amount of replicas of the running app. If this is\nincreased, make sure your application can cope with running multiple\nreplicas and all state required is shared in some way.",
                       "format": "int32"
-                    },
-                    "scheduledJobs": {
-                      "description": "ScheduledJobs defines a list of ScheduledJob. See ScheduledJob definition for a\ndescription.",
-                      "x-kubernetes-list-map-keys": [
-                        "name"
-                      ],
-                      "x-kubernetes-list-type": "map"
                     },
                     "size": {
                       "description": "ApplicationSize defines the size of an application and the resources that\nwill be allocated for it.",
@@ -15331,13 +15286,6 @@
                       "description": "Replicas sets the amount of replicas of the running app. If this is\nincreased, make sure your application can cope with running multiple\nreplicas and all state required is shared in some way.",
                       "format": "int32"
                     },
-                    "scheduledJobs": {
-                      "description": "ScheduledJobs defines a list of ScheduledJob. See ScheduledJob definition for a\ndescription.",
-                      "x-kubernetes-list-map-keys": [
-                        "name"
-                      ],
-                      "x-kubernetes-list-type": "map"
-                    },
                     "size": {
                       "description": "ApplicationSize defines the size of an application and the resources that\nwill be allocated for it.",
                       "type": "string",
@@ -15720,13 +15668,6 @@
                       "description": "Replicas sets the amount of replicas of the running app. If this is\nincreased, make sure your application can cope with running multiple\nreplicas and all state required is shared in some way.",
                       "format": "int32"
                     },
-                    "scheduledJobs": {
-                      "description": "ScheduledJobs defines a list of ScheduledJob. See ScheduledJob definition for a\ndescription.",
-                      "x-kubernetes-list-map-keys": [
-                        "name"
-                      ],
-                      "x-kubernetes-list-type": "map"
-                    },
                     "size": {
                       "description": "ApplicationSize defines the size of an application and the resources that\nwill be allocated for it.",
                       "type": "string",
@@ -15874,66 +15815,6 @@
                         "value": {
                           "type": "integer",
                           "format": "int32"
-                        }
-                      }
-                    },
-                    "scheduledJobs": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "required": [
-                          "origin",
-                          "value"
-                        ],
-                        "properties": {
-                          "origin": {
-                            "description": "ConfigOrigin describes the origin of a config",
-                            "type": "string"
-                          },
-                          "value": {
-                            "description": "ScheduledJob is a separate process that runs periodically which uses the same\nimage as the application, but a different entry point.",
-                            "type": "object",
-                            "required": [
-                              "command",
-                              "name",
-                              "schedule"
-                            ],
-                            "properties": {
-                              "command": {
-                                "description": "Command to execute. This command will be executed by a bash shell which\ngets started by the cloud native buildpacks launcher binary.",
-                                "type": "string"
-                              },
-                              "name": {
-                                "description": "Name of the Job.",
-                                "type": "string"
-                              },
-                              "retries": {
-                                "description": "Retries defines how many times the job will be restarted on failure.",
-                                "type": "integer",
-                                "format": "int32"
-                              },
-                              "schedule": {
-                                "description": "Schedule defines the schedule in crontab syntax",
-                                "type": "string"
-                              },
-                              "size": {
-                                "description": "Size defines the amount of CPU and memory which this job can make use of",
-                                "type": "string",
-                                "enum": [
-                                  "",
-                                  "micro",
-                                  "mini",
-                                  "standard-1",
-                                  "standard-2"
-                                ]
-                              },
-                              "timeout": {
-                                "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
-                                "type": "string",
-                                "format": "duration"
-                              }
-                            }
-                          }
                         }
                       }
                     },
@@ -16297,53 +16178,6 @@
                   "description": "Replicas describes the amount of rolled out replicas, ie. for the\nunderlying Deployment, it shows number of non-terminated pods targeted by\nthis Release.",
                   "type": "integer",
                   "format": "int32"
-                },
-                "scheduledJobStatus": {
-                  "description": "ScheduledJobStatus describes the status of all workerjobs",
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "required": [
-                      "name",
-                      "replicaObservation"
-                    ],
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "replicaObservation": {
-                        "type": "array",
-                        "items": {
-                          "description": "ReplicaObservation describes a replica",
-                          "type": "object",
-                          "properties": {
-                            "lastExitCode": {
-                              "description": "LastExitCode shows the last exit code of the replica.",
-                              "type": "integer",
-                              "format": "int32"
-                            },
-                            "replicaName": {
-                              "description": "ReplicaName is the name of the replica.",
-                              "type": "string"
-                            },
-                            "restartCount": {
-                              "description": "RestartCount indicates how often the replica was already restarted.",
-                              "type": "integer",
-                              "format": "int32"
-                            },
-                            "status": {
-                              "description": "Status describes the status of the replica.",
-                              "type": "string"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "x-kubernetes-list-map-keys": [
-                    "name"
-                  ],
-                  "x-kubernetes-list-type": "map"
                 },
                 "workerJobStatus": {
                   "description": "WorkerJobStatus describes the status of all workerjobs",
