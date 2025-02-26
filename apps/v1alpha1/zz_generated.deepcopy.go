@@ -22,6 +22,7 @@ package v1alpha1
 
 import (
 	metav1alpha1 "github.com/ninech/apis/meta/v1alpha1"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
@@ -1086,6 +1087,13 @@ func (in *ReleaseParameters) DeepCopyInto(out *ReleaseParameters) {
 		in, out := &in.Timeout, &out.Timeout
 		*out = new(v1.Duration)
 		**out = **in
+	}
+	if in.AdditionalResources != nil {
+		in, out := &in.AdditionalResources, &out.AdditionalResources
+		*out = make(corev1.ResourceList, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val.DeepCopy()
+		}
 	}
 	if in.RunAsUser != nil {
 		in, out := &in.RunAsUser, &out.RunAsUser
