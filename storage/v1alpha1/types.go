@@ -571,12 +571,12 @@ type MySQLParameters struct {
 	//
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
+	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
 	// SSHKeys contains a list of SSH public keys, allowed to connect to the
 	// db server, in order to up-/download and directly restore database backups.
 	//
 	// +optional
-	SSHKeys []SSHKey `json:"sshKeys"`
+	SSHKeys []SSHKey `json:"sshKeys,omitempty"`
 	// SQLMode configures the sql_mode setting.
 	// Modes affect the SQL syntax MySQL supports and the data validation checks it performs.
 	//
@@ -832,11 +832,11 @@ type PostgresParameters struct {
 	//
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
+	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
 	// SSHKeys contains a list of SSH public keys, allowed to connect to the
 	// db server, in order to up-/download and directly restore database backups.
 	// +optional
-	SSHKeys []SSHKey `json:"sshKeys"`
+	SSHKeys []SSHKey `json:"sshKeys,omitempty"`
 	// Number of daily database backups to keep.
 	// Note, that setting this to 0,
 	// the backup will be disabled and existing dumps will be deleted immediately.
