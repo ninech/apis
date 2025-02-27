@@ -381,7 +381,6 @@ spec:
                     - golang
                     - nodejs
                     - static
-                    - ruby-heroku
                     type: string
                 required:
                 - config
