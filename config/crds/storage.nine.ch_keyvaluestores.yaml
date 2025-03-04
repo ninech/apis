@@ -113,6 +113,16 @@ spec:
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     type: string
                     x-kubernetes-int-or-string: true
+                  privateNetworkingEnabled:
+                    default: false
+                    description: PrivateNetworkingEnabled configures a destination
+                      for a service connection.
+                    type: boolean
+                  publicNetworkingEnabled:
+                    default: true
+                    description: PublicNetworkingEnabled specifies if the service
+                      should be available without service connection.
+                    type: boolean
                   version:
                     default: "7"
                     description: |-
@@ -364,6 +374,10 @@ spec:
                   fqdn:
                     description: FQDN is the fully qualified domain name, at which
                       the instance is reachable at.
+                    type: string
+                  privateNetworkingFQDN:
+                    description: PrivateNetworkingFQDN is the magic DNS name of a
+                      service connection destination.
                     type: string
                 type: object
               conditions:
