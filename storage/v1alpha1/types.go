@@ -461,6 +461,14 @@ type KeyValueStoreParameters struct {
 	// +listType:="set"
 	// +optional
 	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
+	// PrivateNetworkingEnabled configures a destination for a service connection.
+	// +optional
+	// +kubebuilder:default:=false
+	PrivateNetworkingEnabled bool `json:"privateNetworkingEnabled"`
+	// PublicNetworkingEnabled specifies if the service should be available without service connection.
+	// +optional
+	// +kubebuilder:default:=true
+	PublicNetworkingEnabled bool `json:"publicNetworkingEnabled"`
 }
 
 // KeyValueStoreVersion defines the KeyValueStore version to be used.
@@ -510,6 +518,9 @@ type KeyValueStoreObservation struct {
 	CACert string `json:"caCert,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
+	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
+	// +optional
+	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 }
 
 // MySQL deploys a Self Service MySQL instance.
