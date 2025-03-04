@@ -59,6 +59,8 @@ const (
 	MySQLTransactionIsolationDefault MySQLTransactionCharacteristic = "REPEATABLE-READ"
 	// MySQLBackupRetentionDays is the number of days to retain backups by default.
 	MySQLBackupRetentionDaysDefault int = 10
+	// OpenSearchUser is the name of the OpenSearch user account.
+	OpenSearchUser string = "admin"
 	// PostgresVersion16 Postgres version 16
 	PostgresVersion16 PostgresVersion = "16"
 	// PostgresVersion15 Postgres version 15
@@ -461,14 +463,6 @@ type KeyValueStoreParameters struct {
 	// +listType:="set"
 	// +optional
 	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
-	// PrivateNetworkingEnabled configures a destination for a service connection.
-	// +optional
-	// +kubebuilder:default:=false
-	PrivateNetworkingEnabled bool `json:"privateNetworkingEnabled"`
-	// PublicNetworkingEnabled specifies if the service should be available without service connection.
-	// +optional
-	// +kubebuilder:default:=true
-	PublicNetworkingEnabled bool `json:"publicNetworkingEnabled"`
 }
 
 // KeyValueStoreVersion defines the KeyValueStore version to be used.
@@ -518,9 +512,6 @@ type KeyValueStoreObservation struct {
 	CACert string `json:"caCert,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
-	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
-	// +optional
-	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 }
 
 // MySQL deploys a Self Service MySQL instance.
@@ -582,12 +573,12 @@ type MySQLParameters struct {
 	//
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
+	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
 	// SSHKeys contains a list of SSH public keys, allowed to connect to the
 	// db server, in order to up-/download and directly restore database backups.
 	//
 	// +optional
-	SSHKeys []SSHKey `json:"sshKeys,omitempty"`
+	SSHKeys []SSHKey `json:"sshKeys"`
 	// SQLMode configures the sql_mode setting.
 	// Modes affect the SQL syntax MySQL supports and the data validation checks it performs.
 	//
@@ -843,11 +834,11 @@ type PostgresParameters struct {
 	//
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
+	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
 	// SSHKeys contains a list of SSH public keys, allowed to connect to the
 	// db server, in order to up-/download and directly restore database backups.
 	// +optional
-	SSHKeys []SSHKey `json:"sshKeys,omitempty"`
+	SSHKeys []SSHKey `json:"sshKeys"`
 	// Number of daily database backups to keep.
 	// Note, that setting this to 0,
 	// the backup will be disabled and existing dumps will be deleted immediately.
