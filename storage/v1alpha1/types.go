@@ -2,7 +2,7 @@ package v1alpha1
 
 import (
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	infrastructure "github.com/ninech/apis/infrastructure/v1alpha1"
+	infrav1alpha1 "github.com/ninech/apis/infrastructure/v1alpha1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -37,6 +37,8 @@ const (
 	MySQLVersion8 MySQLVersion = "8"
 	// MySQLUser is the name of the MySQL user account.
 	MySQLUser string = "dbadmin"
+	// MySQLMachineTypeDefault specifies the default machine type.
+	MySQLMachineTypeDefault = infrav1alpha1.MachineTypeNineDBS
 	// MySQLLocationDefault represents the default MySQL datacenter location.
 	// if no explicit version was specified.
 	MySQLLocationDefault = meta.LocationNineCZ41
@@ -69,6 +71,8 @@ const (
 	PostgresVersion13 PostgresVersion = "13"
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
+	// PostgresMachineTypeDefault specifies the default machine type.
+	PostgresMachineTypeDefault = infrav1alpha1.MachineTypeNineDBS
 	// PostgresLocationDefault represents the default PostgreSQL datacenter location.
 	// if no explicit version was specified.
 	PostgresLocationDefault = meta.LocationNineCZ41
@@ -80,20 +84,16 @@ const (
 )
 
 var (
-	// MySQLMachineTypeDefault specifies the default machine type.
-	MySQLMachineTypeDefault = infrastructure.MachineTypeNineDBS
 	// MySQLModeDefault is the list of enabled SQL modes.
 	MySQLModeDefault = []string{"ONLY_FULL_GROUP_BY", "STRICT_TRANS_TABLES", "NO_ZERO_IN_DATE", "NO_ZERO_DATE", "ERROR_FOR_DIVISION_BY_ZERO", "NO_ENGINE_SUBSTITUTION"}
 	// MySQLLocationOptions is a list of available datacenter locations.
 	MySQLLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLMachineTypes is a list of available machine types.
-	MySQLMachineTypes []infrastructure.MachineType = infrastructure.MachineTypesDB
-	// PostgresMachineTypeDefault specifies the default machine type.
-	PostgresMachineTypeDefault = infrastructure.MachineTypeNineDBS
+	MySQLMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypesDB
 	// PostgresLocationOptions is a list of available datacenter locations.
 	PostgresLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// PostgresMachineTypes is a list of available machine types.
-	PostgresMachineTypes []infrastructure.MachineType = infrastructure.MachineTypesDB
+	PostgresMachineTypes []infrav1alpha1.MachineType = infrav1alpha1.MachineTypesDB
 	// PostgresVersions is a list of all available PostgresVersions.
 	PostgresVersions = []PostgresVersion{PostgresVersion16, PostgresVersion15}
 	// PostgresVersionsDeprecated is a list of all deprecated PostgresVersions.
@@ -461,14 +461,6 @@ type KeyValueStoreParameters struct {
 	// +listType:="set"
 	// +optional
 	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
-	// PrivateNetworkingEnabled configures a destination for a service connection.
-	// +optional
-	// +kubebuilder:default:=false
-	PrivateNetworkingEnabled bool `json:"privateNetworkingEnabled"`
-	// PublicNetworkingEnabled specifies if the service should be available without service connection.
-	// +optional
-	// +kubebuilder:default:=true
-	PublicNetworkingEnabled bool `json:"publicNetworkingEnabled"`
 }
 
 // KeyValueStoreVersion defines the KeyValueStore version to be used.
@@ -518,9 +510,6 @@ type KeyValueStoreObservation struct {
 	CACert string `json:"caCert,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
-	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
-	// +optional
-	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 }
 
 // MySQL deploys a Self Service MySQL instance.
@@ -561,7 +550,7 @@ type MySQLParameters struct {
 	//
 	// +optional
 	// +kubebuilder:default:="nine-db-s"
-	MachineType infrastructure.MachineType `json:"machineType,omitempty"`
+	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
 	//
@@ -582,12 +571,12 @@ type MySQLParameters struct {
 	//
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
+	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
 	// SSHKeys contains a list of SSH public keys, allowed to connect to the
 	// db server, in order to up-/download and directly restore database backups.
 	//
 	// +optional
-	SSHKeys []SSHKey `json:"sshKeys,omitempty"`
+	SSHKeys []SSHKey `json:"sshKeys"`
 	// SQLMode configures the sql_mode setting.
 	// Modes affect the SQL syntax MySQL supports and the data validation checks it performs.
 	//
@@ -825,7 +814,7 @@ type PostgresParameters struct {
 	// implicitly the provider.
 	// +optional
 	// +kubebuilder:default:="nine-db-s"
-	MachineType infrastructure.MachineType `json:"machineType,omitempty"`
+	MachineType infrav1alpha1.MachineType `json:"machineType,omitempty"`
 	// Location specifies in which Datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
 	// +optional
@@ -843,11 +832,11 @@ type PostgresParameters struct {
 	//
 	// +listType:="set"
 	// +optional
-	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
+	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs"`
 	// SSHKeys contains a list of SSH public keys, allowed to connect to the
 	// db server, in order to up-/download and directly restore database backups.
 	// +optional
-	SSHKeys []SSHKey `json:"sshKeys,omitempty"`
+	SSHKeys []SSHKey `json:"sshKeys"`
 	// Number of daily database backups to keep.
 	// Note, that setting this to 0,
 	// the backup will be disabled and existing dumps will be deleted immediately.

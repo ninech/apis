@@ -18175,7 +18175,24 @@
                 },
                 "machineType": {
                   "description": "MachineType defines the sizing for a particular cloud vm.",
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "nine-standard-1",
+                    "nine-standard-2",
+                    "nine-standard-4",
+                    "nine-highmem-2",
+                    "nine-highmem-4",
+                    "nine-highcpu-2",
+                    "nine-highcpu-4",
+                    "nine-highcpu-8",
+                    "nine-db-xs",
+                    "nine-db-s",
+                    "nine-db-m",
+                    "nine-db-l",
+                    "nine-db-xl",
+                    "nine-db-xxl",
+                    "nine-small-1"
+                  ]
                 },
                 "os": {
                   "description": "OS which should be used to boot the VM.",
@@ -19519,7 +19536,24 @@
                       },
                       "machineType": {
                         "description": "MachineType identifies the machine sizing. Changing this results in a\nnew rollout of all nodes in the pool.",
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                          "nine-standard-1",
+                          "nine-standard-2",
+                          "nine-standard-4",
+                          "nine-highmem-2",
+                          "nine-highmem-4",
+                          "nine-highcpu-2",
+                          "nine-highcpu-4",
+                          "nine-highcpu-8",
+                          "nine-db-xs",
+                          "nine-db-s",
+                          "nine-db-m",
+                          "nine-db-l",
+                          "nine-db-xl",
+                          "nine-db-xxl",
+                          "nine-small-1"
+                        ]
                       },
                       "maxNodes": {
                         "description": "MinNodes describes the upper bound of nodes in this pool. If MinNodes\n== MaxNodes, autoscaling is disabled.",
@@ -20161,7 +20195,24 @@
                       },
                       "machineType": {
                         "description": "MachineType shows the current machine type of the node pool.",
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                          "nine-standard-1",
+                          "nine-standard-2",
+                          "nine-standard-4",
+                          "nine-highmem-2",
+                          "nine-highmem-4",
+                          "nine-highcpu-2",
+                          "nine-highcpu-4",
+                          "nine-highcpu-8",
+                          "nine-db-xs",
+                          "nine-db-s",
+                          "nine-db-m",
+                          "nine-db-l",
+                          "nine-db-xl",
+                          "nine-db-xxl",
+                          "nine-small-1"
+                        ]
                       },
                       "numNodes": {
                         "description": "NumNodes describes the current number of nodes in the node pool.",
@@ -26502,14 +26553,6 @@
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
                 },
-                "privateNetworkingEnabled": {
-                  "description": "PrivateNetworkingEnabled configures a destination for a service connection.",
-                  "type": "boolean"
-                },
-                "publicNetworkingEnabled": {
-                  "description": "PublicNetworkingEnabled specifies if the service should be available without service connection.",
-                  "type": "boolean"
-                },
                 "version": {
                   "description": "Version specifies the KeyValueStore version.\nNeeds to match an available KeyValueStore Version.",
                   "type": "string",
@@ -26751,10 +26794,6 @@
                 },
                 "fqdn": {
                   "description": "FQDN is the fully qualified domain name, at which the instance is reachable at.",
-                  "type": "string"
-                },
-                "privateNetworkingFQDN": {
-                  "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.",
                   "type": "string"
                 }
               }
@@ -27305,7 +27344,24 @@
                 },
                 "machineType": {
                   "description": "MachineType defines the sizing for a particular machine and\nimplicitly the provider.",
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "nine-standard-1",
+                    "nine-standard-2",
+                    "nine-standard-4",
+                    "nine-highmem-2",
+                    "nine-highmem-4",
+                    "nine-highcpu-2",
+                    "nine-highcpu-4",
+                    "nine-highcpu-8",
+                    "nine-db-xs",
+                    "nine-db-s",
+                    "nine-db-m",
+                    "nine-db-l",
+                    "nine-db-xl",
+                    "nine-db-xxl",
+                    "nine-small-1"
+                  ]
                 },
                 "minWordLength": {
                   "description": "MinWordLength configures the`ft_min_word_len` and `innodb_ft_min_token_size` variables.\nMinimum length of words that are stored in an InnoDB or MyISAM FULLTEXT index.",
@@ -28247,7 +28303,24 @@
                 },
                 "machineType": {
                   "description": "MachineType defines the sizing for a particular machine and\nimplicitly the provider.",
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "nine-standard-1",
+                    "nine-standard-2",
+                    "nine-standard-4",
+                    "nine-highmem-2",
+                    "nine-highmem-4",
+                    "nine-highcpu-2",
+                    "nine-highcpu-4",
+                    "nine-highcpu-8",
+                    "nine-db-xs",
+                    "nine-db-s",
+                    "nine-db-m",
+                    "nine-db-l",
+                    "nine-db-xl",
+                    "nine-db-xxl",
+                    "nine-small-1"
+                  ]
                 },
                 "sshKeys": {
                   "description": "SSHKeys contains a list of SSH public keys, allowed to connect to the\ndb server, in order to up-/download and directly restore database backups.",
