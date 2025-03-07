@@ -10,7 +10,67 @@ import (
 )
 
 const (
-	Rocky9 OperatingSystem = "rocky9"
+	// MachineTypeNineStandard1 is a VM running on Nine Infrastructure with:
+	// 1 CPU Cores
+	// 4GB RAM
+	MachineTypeNineStandard1 MachineType = "nine-standard-1"
+	// MachineTypeNineStandard2 is a VM running on Nine Infrastructure with:
+	// 2 CPU Cores
+	// 8GB RAM
+	MachineTypeNineStandard2 MachineType = "nine-standard-2"
+	// MachineTypeNineStandard4 is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 16GB RAM
+	MachineTypeNineStandard4 MachineType = "nine-standard-4"
+	// MachineTypeHighMem2 is a VM running on Nine Infrastructure with:
+	// 2 CPU Cores
+	// 16GB RAM
+	MachineTypeNineHighMem2 MachineType = "nine-highmem-2"
+	// MachineTypeHighMem4 is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 32GB RAM
+	MachineTypeNineHighMem4 MachineType = "nine-highmem-4"
+	// MachineTypeHighCPU2 is a VM running on Nine Infrastructure with:
+	// 2 CPU Cores
+	// 4GB RAM
+	MachineTypeNineHighCPU2 MachineType = "nine-highcpu-2"
+	// MachineTypeHighCPU4 is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 8GB RAM
+	MachineTypeNineHighCPU4 MachineType = "nine-highcpu-4"
+	// MachineTypeHighCPU8 is a VM running on Nine Infrastructure with:
+	// 8 CPU Cores
+	// 16GB RAM
+	MachineTypeNineHighCPU8 MachineType = "nine-highcpu-8"
+	// MachineTypeNineDBXS is a VM running on Nine Infrastructure with:
+	// 2 CPU Cores
+	// 4GB RAM
+	MachineTypeNineDBXS MachineType = "nine-db-xs"
+	// MachineTypeNineDBS is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 8GB RAM
+	MachineTypeNineDBS MachineType = "nine-db-s"
+	// MachineTypeNineDBM is a VM running on Nine Infrastructure with:
+	// 4 CPU Cores
+	// 12GB RAM
+	MachineTypeNineDBM MachineType = "nine-db-m"
+	// MachineTypeNineDBL is a VM running on Nine Infrastructure with:
+	// 6 CPU Cores
+	// 16GB RAM
+	MachineTypeNineDBL MachineType = "nine-db-l"
+	// MachineTypeNineDBXL is a VM running on Nine Infrastructure with:
+	// 8 CPU Cores
+	// 24GB RAM
+	MachineTypeNineDBXL MachineType = "nine-db-xl"
+	// MachineTypeNineDBXXL is a VM running on Nine Infrastructure with:
+	// 10 CPU Cores
+	// 32GB RAM
+	MachineTypeNineDBXXL MachineType = "nine-db-xxl"
+	// MachineTypeNineSmall1 is a VM running on Nine Infrastructure with:
+	// 1 CPU Cores
+	// 2GB RAM
+	MachineTypeNineSmall1 MachineType     = "nine-small-1"
+	Rocky9                OperatingSystem = "rocky9"
 	// Ubuntu LTS
 	// http://releases.ubuntu.com/
 	Ubuntu24_04 OperatingSystem = "ubuntu24.04"
@@ -29,73 +89,10 @@ const (
 var (
 	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
 	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Rocky9), CloudVirtualMachineOS(Debian12)}
-	// MachineTypeNineStandard1 is a VM running on Nine Infrastructure with:
-	// 1 CPU Cores
-	// 4GB RAM
-	MachineTypeNineStandard1 = MachineType{name: "nine-standard-1", cpu: 1, memory: resource.MustParse("4Gi")}
-	// MachineTypeNineStandard2 is a VM running on Nine Infrastructure with:
-	// 2 CPU Cores
-	// 8GB RAM
-	MachineTypeNineStandard2 = MachineType{name: "nine-standard-2", cpu: 2, memory: resource.MustParse("8Gi")}
-	// MachineTypeNineStandard4 is a VM running on Nine Infrastructure with:
-	// 4 CPU Cores
-	// 16GB RAM
-	MachineTypeNineStandard4 = MachineType{name: "nine-standard-4", cpu: 4, memory: resource.MustParse("16Gi")}
-	// MachineTypeHighMem2 is a VM running on Nine Infrastructure with:
-	// 2 CPU Cores
-	// 16GB RAM
-	MachineTypeNineHighMem2 = MachineType{name: "nine-highmem-2", cpu: 2, memory: resource.MustParse("16Gi")}
-	// MachineTypeHighMem4 is a VM running on Nine Infrastructure with:
-	// 4 CPU Cores
-	// 32GB RAM
-	MachineTypeNineHighMem4 = MachineType{name: "nine-highmem-4", cpu: 4, memory: resource.MustParse("32Gi")}
-	// MachineTypeHighCPU2 is a VM running on Nine Infrastructure with:
-	// 2 CPU Cores
-	// 4GB RAM
-	MachineTypeNineHighCPU2 = MachineType{name: "nine-highcpu-2", cpu: 2, memory: resource.MustParse("4Gi")}
-	// MachineTypeHighCPU4 is a VM running on Nine Infrastructure with:
-	// 4 CPU Cores
-	// 8GB RAM
-	MachineTypeNineHighCPU4 = MachineType{name: "nine-highcpu-4", cpu: 4, memory: resource.MustParse("8Gi")}
-	// MachineTypeHighCPU8 is a VM running on Nine Infrastructure with:
-	// 8 CPU Cores
-	// 16GB RAM
-	MachineTypeNineHighCPU8 = MachineType{name: "nine-highcpu-8", cpu: 8, memory: resource.MustParse("16Gi")}
-	// MachineTypeNineDBXS is a VM running on Nine Infrastructure with:
-	// 2 CPU Cores
-	// 4GB RAM
-	MachineTypeNineDBXS = MachineType{name: "nine-db-xs", cpu: 2, memory: resource.MustParse("4Gi")}
-	// MachineTypeNineDBS is a VM running on Nine Infrastructure with:
-	// 4 CPU Cores
-	// 8GB RAM
-	MachineTypeNineDBS = MachineType{name: "nine-db-s", cpu: 4, memory: resource.MustParse("8Gi")}
-	// MachineTypeNineDBM is a VM running on Nine Infrastructure with:
-	// 4 CPU Cores
-	// 12GB RAM
-	MachineTypeNineDBM = MachineType{name: "nine-db-m", cpu: 4, memory: resource.MustParse("12Gi")}
-	// MachineTypeNineDBL is a VM running on Nine Infrastructure with:
-	// 6 CPU Cores
-	// 16GB RAM
-	MachineTypeNineDBL = MachineType{name: "nine-db-l", cpu: 6, memory: resource.MustParse("16Gi")}
-	// MachineTypeNineDBXL is a VM running on Nine Infrastructure with:
-	// 8 CPU Cores
-	// 24GB RAM
-	MachineTypeNineDBXL = MachineType{name: "nine-db-xl", cpu: 8, memory: resource.MustParse("24Gi")}
-	// MachineTypeNineDBXXL is a VM running on Nine Infrastructure with:
-	// 10 CPU Cores
-	// 32GB RAM
-	MachineTypeNineDBXXL = MachineType{name: "nine-db-xxl", cpu: 10, memory: resource.MustParse("32Gi")}
-	// MachineTypeNineSmall1 is a VM running on Nine Infrastructure with:
-	// 1 CPU Cores
-	// 2GB RAM
-	MachineTypeNineSmall1 = MachineType{name: "nine-small-1", cpu: 1, memory: resource.MustParse("2Gi")}
 	// MachineTypes is a list of all machine types.
-	MachineTypes = append([]MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineSmall1}, MachineTypesDB...)
+	MachineTypes = []MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL, MachineTypeNineSmall1}
 	// MachineTypesDB is a list of all database machine types.
 	MachineTypesDB = []MachineType{MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL}
-	// DefaultMachineTypeBounds are the default bounds in which all machine
-	// types must fit.
-	DefaultMachineTypeBounds = MachineTypeBounds{MinCPU: resource.MustParse("1"), MaxCPU: resource.MustParse("12"), MinMemory: resource.MustParse("2Gi"), MaxMemory: resource.MustParse("32Gi"), MinMemCPURatio: 2.0, MaxMemCPURatio: 8.0}
 )
 
 // CloudVirtualMachine is a virtual machine instance providing flexible scaling and a
@@ -189,13 +186,8 @@ type CloudVirtualMachineParameters struct {
 
 // MachineType is a name for a particular machine sizing.
 // +nine:public:definition
-// +kubebuilder:validation:Type:=string
-type MachineType struct {
-	name   string
-	custom bool
-	cpu    uint16
-	memory resource.Quantity
-}
+// +kubebuilder:validation:Enum=nine-standard-1;nine-standard-2;nine-standard-4;nine-highmem-2;nine-highmem-4;nine-highcpu-2;nine-highcpu-4;nine-highcpu-8;nine-db-xs;nine-db-s;nine-db-m;nine-db-l;nine-db-xl;nine-db-xxl;nine-small-1
+type MachineType string
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.
 // +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;ubuntu24.04;rocky9;debian12
@@ -556,15 +548,6 @@ type VClusterIngress struct {
 	// Class is the name of the IngressClass that can be referenced within an
 	// Ingress resource.
 	Class string `json:"class"`
-}
-
-// MachineTypeBounds can be used to limit the min/max and ratio of
-// cpu/memory of a custom machine type.
-// +kubebuilder:object:generate=false
-type MachineTypeBounds struct {
-	MinCPU, MaxCPU                 resource.Quantity
-	MinMemory, MaxMemory           resource.Quantity
-	MinMemCPURatio, MaxMemCPURatio float64
 }
 
 // OperatingSystem is an Operating System for a VM.
