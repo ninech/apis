@@ -57,6 +57,8 @@ const (
 	MySQLTransactionIsolationDefault MySQLTransactionCharacteristic = "REPEATABLE-READ"
 	// MySQLBackupRetentionDays is the number of days to retain backups by default.
 	MySQLBackupRetentionDaysDefault int = 10
+	// OpenSearchUser is the name of the OpenSearch user account.
+	OpenSearchUser string = "admin"
 	// PostgresVersion16 Postgres version 16
 	PostgresVersion16 PostgresVersion = "16"
 	// PostgresVersion15 Postgres version 15
