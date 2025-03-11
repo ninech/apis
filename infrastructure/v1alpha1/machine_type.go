@@ -5,3 +5,7 @@ package v1alpha1
 func NewMachineType(name string) MachineType {
 	return MachineType{name: name}
 }
+
+func (mt MachineType) String() string {
+	return mt.name
+}
