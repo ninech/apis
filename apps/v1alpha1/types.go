@@ -167,7 +167,7 @@ type ApplicationParameters struct {
 
 // Language specifies which kind of application/language should be used
 // for building the application. It influences the buildpack used.
-// +kubebuilder:validation:Enum:="";ruby;php;python;golang;nodejs;static
+// +kubebuilder:validation:Enum:="";ruby;php;python;golang;nodejs;static;ruby-heroku
 type Language string
 
 // ApplicationGitConfig configures the git repo to connect to.
