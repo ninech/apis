@@ -32,7 +32,6 @@ const (
 	// DBDailyBackupsDefault is the default number of daily database backups to keep.
 	DBKeepDailyBackupsDefault int = 10
 	// KeyValueStoreUser is the name of the KeyValueStore user account.
-	//
 	KeyValueStoreUser string = "default"
 	// MySQLVersion8 MySQL version 8
 	MySQLVersion8 MySQLVersion = "8"
@@ -58,14 +57,6 @@ const (
 	MySQLTransactionIsolationDefault MySQLTransactionCharacteristic = "REPEATABLE-READ"
 	// MySQLBackupRetentionDays is the number of days to retain backups by default.
 	MySQLBackupRetentionDaysDefault int = 10
-	// OpenSearchUser is the name of the OpenSearch user account.
-	OpenSearchUser string = "admin"
-	// OpenSearchMemorySizeDefault is the default memory size for OpenSearch.
-	OpenSearchMemorySizeDefault = "2Gi"
-	// OpenSearchMemorySizeMin is the minimum memory size for OpenSearch.
-	OpenSearchMemorySizeMin = "1Gi"
-	// OpenSearchMemorySizeMax is the maximum memory size for OpenSearch.
-	OpenSearchMemorySizeMax = "16Gi"
 	// PostgresVersion16 Postgres version 16
 	PostgresVersion16 PostgresVersion = "16"
 	// PostgresVersion15 Postgres version 15
@@ -471,19 +462,16 @@ type KeyValueStoreParameters struct {
 	// +optional
 	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
 	// PrivateNetworkingEnabled configures a destination for a service connection.
-	//
 	// +optional
 	// +kubebuilder:default:=false
 	PrivateNetworkingEnabled bool `json:"privateNetworkingEnabled"`
 	// PublicNetworkingEnabled specifies if the service should be available without service connection.
-	//
 	// +optional
 	// +kubebuilder:default:=true
 	PublicNetworkingEnabled bool `json:"publicNetworkingEnabled"`
 }
 
 // KeyValueStoreVersion defines the KeyValueStore version to be used.
-//
 // +kubebuilder:validation:Enum="7"
 type KeyValueStoreVersion string
 
@@ -531,7 +519,6 @@ type KeyValueStoreObservation struct {
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
 	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
-	//
 	// +optional
 	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 }
