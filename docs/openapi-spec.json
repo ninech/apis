@@ -15652,6 +15652,14 @@
                 "image"
               ],
               "properties": {
+                "additionalResources": {
+                  "description": "AdditionalResources specifies extra resource requests and limits\nthat are factored into the Application Deployment's resource requirements.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                    "x-kubernetes-int-or-string": true
+                  }
+                },
                 "basicAuthSecret": {
                   "description": "BasicAuthSecret references a local secret which contains the basic\nauth credentials",
                   "type": "object",
