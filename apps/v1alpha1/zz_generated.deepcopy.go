@@ -1062,7 +1062,6 @@ func (in *ReleaseParameters) DeepCopyInto(out *ReleaseParameters) {
 	*out = *in
 	out.Build = in.Build
 	out.Image = in.Image
-	in.Config.DeepCopyInto(&out.Config)
 	if in.DefaultHosts != nil {
 		in, out := &in.DefaultHosts, &out.DefaultHosts
 		*out = make([]string, len(*in))
@@ -1078,11 +1077,7 @@ func (in *ReleaseParameters) DeepCopyInto(out *ReleaseParameters) {
 		*out = new(metav1alpha1.LocalReference)
 		**out = **in
 	}
-	if in.Configuration != nil {
-		in, out := &in.Configuration, &out.Configuration
-		*out = new(FieldOriginConfig)
-		(*in).DeepCopyInto(*out)
-	}
+	in.Configuration.DeepCopyInto(&out.Configuration)
 	if in.Timeout != nil {
 		in, out := &in.Timeout, &out.Timeout
 		*out = new(v1.Duration)

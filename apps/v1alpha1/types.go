@@ -698,9 +698,6 @@ type ReleaseParameters struct {
 	Build meta.LocalReference `json:"build"`
 	// Image defines the image spec of the built image
 	Image meta.Image `json:"image"`
-	// Config contains all configurations from the various configuration
-	// sources (project level, application level, etc) merged into one.
-	Config Config `json:"config"`
 	// DefaultHosts are the URLs at which the application is available.
 	// +optional
 	DefaultHosts []string `json:"defaultHosts"`
@@ -715,7 +712,7 @@ type ReleaseParameters struct {
 	// Configuration contains all configurations from the various configuration
 	// sources (project level, application level, etc) merged into one.
 	// +optional
-	Configuration *FieldOriginConfig `json:"configuration,omitempty"`
+	Configuration FieldOriginConfig `json:"configuration,omitempty"`
 	// Timeout of the release after it will be considered failed. This does
 	// not include the time spent waiting for the deploy job and only concerns
 	// the release rollout.
