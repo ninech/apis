@@ -133,8 +133,7 @@ type CloudVirtualMachineSpec struct {
 
 // CloudVirtualMachineParameters are the configurable fields of a CloudVirtualMachine.
 type CloudVirtualMachineParameters struct {
-	// MachineType defines the sizing of the Cloud VM. Cannot be changed while
-	// the VM is running unless allowStoppingForUpdate is set.
+	// MachineType defines the sizing for a particular cloud vm.
 	// +optional
 	// +kubebuilder:default:=nine-standard-1
 	MachineType MachineType `json:"machineType,omitempty"`
@@ -186,11 +185,6 @@ type CloudVirtualMachineParameters struct {
 	// Rescue configures booting into a rescue live-OS for fixing a VM that is
 	// in an unbootable state.
 	Rescue *CloudVirtualMachineRescue `json:"rescue,omitempty"`
-	// AllowStoppingForUpdate allows the VM to be automatically stopped when a
-	// change requires stopping such as changing the machineType.
-	// +optional
-	// +kubebuilder:default:=false
-	AllowStoppingForUpdate bool `json:"allowStoppingForUpdate"`
 }
 
 // MachineType is a name for a particular machine sizing.

@@ -18099,10 +18099,6 @@
                 "location"
               ],
               "properties": {
-                "allowStoppingForUpdate": {
-                  "description": "AllowStoppingForUpdate allows the VM to be automatically stopped when a\nchange requires stopping such as changing the machineType.",
-                  "type": "boolean"
-                },
                 "bootDisk": {
                   "description": "BootDisk that will be used to boot the VM from.",
                   "type": "object",
@@ -18185,7 +18181,7 @@
                   ]
                 },
                 "machineType": {
-                  "description": "MachineType defines the sizing of the Cloud VM. Cannot be changed while\nthe VM is running unless allowStoppingForUpdate is set.",
+                  "description": "MachineType defines the sizing for a particular cloud vm.",
                   "type": "string"
                 },
                 "os": {

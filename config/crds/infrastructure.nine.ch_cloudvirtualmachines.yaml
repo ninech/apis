@@ -81,12 +81,6 @@ spec:
                 description: CloudVirtualMachineParameters are the configurable fields
                   of a CloudVirtualMachine.
                 properties:
-                  allowStoppingForUpdate:
-                    default: false
-                    description: |-
-                      AllowStoppingForUpdate allows the VM to be automatically stopped when a
-                      change requires stopping such as changing the machineType.
-                    type: boolean
                   bootDisk:
                     default:
                       name: root
@@ -171,9 +165,8 @@ spec:
                       rule: self == oldSelf
                   machineType:
                     default: nine-standard-1
-                    description: |-
-                      MachineType defines the sizing of the Cloud VM. Cannot be changed while
-                      the VM is running unless allowStoppingForUpdate is set.
+                    description: MachineType defines the sizing for a particular cloud
+                      vm.
                     type: string
                   os:
                     default: ubuntu24.04
