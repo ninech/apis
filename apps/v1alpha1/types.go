@@ -163,6 +163,10 @@ type ApplicationParameters struct {
 	// in RFC3339 format (e.g. 2006-01-02T15:04:05Z).
 	// +optional
 	BasicAuthPasswordChange *metav1.Time `json:"basicAuthPasswordChange,omitempty"`
+	// IsPaused pauses the release by stopping billing and disabling all runtime
+	// workloads.
+	// +optional
+	IsPaused bool `json:"isPaused"`
 }
 
 // Language specifies which kind of application/language should be used
@@ -734,6 +738,10 @@ type ReleaseParameters struct {
 	// used.
 	// +optional
 	RunAsUser *int64 `json:"runAsUser,omitempty"`
+	// IsPaused pauses the release by stopping billing and disabling all runtime
+	// workloads.
+	// +optional
+	IsPaused bool `json:"isPaused"`
 }
 
 // A FieldOriginConfig contains the fields of a normal config, but with an

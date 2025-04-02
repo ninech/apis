@@ -368,6 +368,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  isPaused:
+                    description: |-
+                      IsPaused pauses the release by stopping billing and disabling all runtime
+                      workloads.
+                    type: boolean
                   language:
                     description: |-
                       Language specifies which kind of application/language should be
