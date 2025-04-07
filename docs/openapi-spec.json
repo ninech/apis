@@ -17033,7 +17033,9 @@
                   "type": "string",
                   "enum": [
                     "admin",
-                    "viewer"
+                    "viewer",
+                    "metrics-admin",
+                    "internal-metrics"
                   ]
                 }
               }
