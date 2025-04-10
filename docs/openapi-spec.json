@@ -15648,7 +15648,7 @@
               "type": "object",
               "required": [
                 "build",
-                "config",
+                "configuration",
                 "image"
               ],
               "properties": {
@@ -15687,7 +15687,7 @@
                   }
                 },
                 "config": {
-                  "description": "Config contains all configurations from the various configuration\nsources (project level, application level, etc) merged into one.",
+                  "description": "Deprecated:\nConfig contains all configurations from the various configuration\nsources (project level, application level, etc) merged into one.\nThis field was replaced by the `Configuration` field and will be\nremoved in the future.",
                   "type": "object",
                   "properties": {
                     "deployJob": {
