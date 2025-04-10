@@ -195,22 +195,8 @@ type GitTarget struct {
 	Revision string `json:"revision"`
 }
 type GitAuth struct {
-	// Username is the username to use when connecting to the git repository
-	// over HTTPS.
-	// +optional
-	Username string `json:"username,omitempty"`
-	// Password is the password to use when connecting to the git repository
-	// over HTTPS. In case of GitHub or GitLab, this can also be an access
-	// token.
-	// +optional
-	Password string `json:"password,omitempty"`
-	// SSHPrivateKey is a private key in PEM format to connect to the git
-	// repository via SSH.
-	// +optional
-	SSHPrivateKey string `json:"sshPrivateKey,omitempty"`
-	// FromSecret is a reference to a Secret to read the credentials from
-	// instead of using the inline fields. Should contain the following keys
-	// depending on the protocol used.
+	// FromSecret is a reference to a Secret from which to read the credentials.
+	// Should contain the following keys depending on the protocol used.
 	//
 	// HTTPS:
 	// data:

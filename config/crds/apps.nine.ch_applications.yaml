@@ -303,9 +303,8 @@ spec:
                         properties:
                           fromSecret:
                             description: |-
-                              FromSecret is a reference to a Secret to read the credentials from
-                              instead of using the inline fields. Should contain the following keys
-                              depending on the protocol used.
+                              FromSecret is a reference to a Secret from which to read the credentials.
+                              Should contain the following keys depending on the protocol used.
 
                               HTTPS:
                               data:
@@ -321,22 +320,6 @@ spec:
                             required:
                             - name
                             type: object
-                          password:
-                            description: |-
-                              Password is the password to use when connecting to the git repository
-                              over HTTPS. In case of GitHub or GitLab, this can also be an access
-                              token.
-                            type: string
-                          sshPrivateKey:
-                            description: |-
-                              SSHPrivateKey is a private key in PEM format to connect to the git
-                              repository via SSH.
-                            type: string
-                          username:
-                            description: |-
-                              Username is the username to use when connecting to the git repository
-                              over HTTPS.
-                            type: string
                         type: object
                       revision:
                         description: |-
