@@ -123,8 +123,11 @@ spec:
                     type: object
                   config:
                     description: |-
+                      Deprecated:
                       Config contains all configurations from the various configuration
                       sources (project level, application level, etc) merged into one.
+                      This field was replaced by the `Configuration` field and will be
+                      removed in the future.
                     properties:
                       deployJob:
                         description: |-
@@ -584,7 +587,7 @@ spec:
                     type: array
                 required:
                 - build
-                - config
+                - configuration
                 - image
                 type: object
               managementPolicies:
