@@ -161,6 +161,9 @@ type IngressNginxParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	EnableInvalidHeaders bool `json:"enableInvalidHeaders"`
+	// TLSProtocols to use.
+	// +optional
+	TLSProtocols IngressNginxTLSProtocols `json:"tlsProtocols,omitempty"`
 }
 
 // IngressNginxCache uses the nginx settings `proxy_cache_<x>` to cache
@@ -213,6 +216,9 @@ type HSTSConfiguration struct {
 	Preload *bool `json:"preload,omitempty"`
 }
 
+// +kubebuilder:default={TLSv1.2,TLSv1.3}
+type IngressNginxTLSProtocols []IngressNginxTLSProtocol
+
 // IngressNginxStatus represents the observed state of an IngressNginx.
 type IngressNginxStatus struct {
 	runtimev1.ResourceStatus `json:",inline"`
@@ -233,6 +239,10 @@ type IngressNginxObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 	meta.ReferenceStatus     `json:",inline"`
 }
+
+// IngressNginxTLSProtocol is a SSL/TLS protocol that nginx can use.
+// +kubebuilder:validation:Enum=TLSv1.2;TLSv1.3
+type IngressNginxTLSProtocol string
 
 // StaticEgress describes a static egress configuration
 // +kubebuilder:subresource:status
