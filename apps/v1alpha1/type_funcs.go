@@ -36,3 +36,62 @@ func (o OriginEnvVarList) WithoutOrigin() EnvVars {
 	}
 	return result
 }
+
+// WithOrigin turns the config into a FieldOriginConfig by annotating the
+// fields with the given origin
+func (c Config) WithOrigin(origin ConfigOrigin) FieldOriginConfig {
+	result := FieldOriginConfig{
+		Size: OriginApplicationSize{
+			Value:  c.Size,
+			Origin: origin,
+		},
+		Env: c.Env.WithOrigin(origin),
+	}
+	if c.Port != nil {
+		result.Port = &OriginInt32{
+			Value:  *c.Port,
+			Origin: origin,
+		}
+	}
+	if c.Replicas != nil {
+		result.Replicas = &OriginInt32{
+			Value:  *c.Replicas,
+			Origin: origin,
+		}
+	}
+	if c.EnableBasicAuth != nil {
+		result.EnableBasicAuth = &OriginBool{
+			Value:  *c.EnableBasicAuth,
+			Origin: origin,
+		}
+	}
+	if c.DeployJob != nil {
+		result.DeployJob = &OriginDeployJob{
+			Value:  *c.DeployJob,
+			Origin: origin,
+		}
+	}
+	for _, job := range c.WorkerJobs {
+		result.WorkerJobs = append(result.WorkerJobs, OriginWorkerJob{Value: job, Origin: origin})
+	}
+	for _, job := range c.ScheduledJobs {
+		result.ScheduledJobs = append(result.ScheduledJobs, OriginScheduledJob{Value: job, Origin: origin})
+	}
+	return result
+}
+
+// WithOrigin creates a list of env variables annotated with the given origin
+func (envs EnvVars) WithOrigin(origin ConfigOrigin) OriginEnvVarList {
+	if envs == nil {
+		return nil
+	}
+
+	result := make(OriginEnvVarList, len(envs))
+	for i, envVar := range envs {
+		result[i] = OriginEnvVar{
+			Value:  envVar,
+			Origin: origin,
+		}
+	}
+	return result
+}
