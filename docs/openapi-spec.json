@@ -14198,7 +14198,7 @@
                       "type": "object",
                       "properties": {
                         "fromSecret": {
-                          "description": "FromSecret is a reference to a Secret to read the credentials from\ninstead of using the inline fields. Should contain the following keys\ndepending on the protocol used.\n\nHTTPS:\ndata:\n  username: \u003cusername\u003e\n  password: \u003cpassword\u003e\nSSH:\ndata:\n  privatekey: \u003cpem-private-key\u003e",
+                          "description": "FromSecret is a reference to a Secret from which to read the credentials.\nShould contain the following keys depending on the protocol used.\n\nHTTPS:\ndata:\n  username: \u003cusername\u003e\n  password: \u003cpassword\u003e\nSSH:\ndata:\n  privatekey: \u003cpem-private-key\u003e",
                           "type": "object",
                           "required": [
                             "name"
@@ -14209,18 +14209,6 @@
                               "type": "string"
                             }
                           }
-                        },
-                        "password": {
-                          "description": "Password is the password to use when connecting to the git repository\nover HTTPS. In case of GitHub or GitLab, this can also be an access\ntoken.",
-                          "type": "string"
-                        },
-                        "sshPrivateKey": {
-                          "description": "SSHPrivateKey is a private key in PEM format to connect to the git\nrepository via SSH.",
-                          "type": "string"
-                        },
-                        "username": {
-                          "description": "Username is the username to use when connecting to the git repository\nover HTTPS.",
-                          "type": "string"
                         }
                       }
                     },
