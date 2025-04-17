@@ -42,7 +42,7 @@ type APIServiceAccountParameters struct {
 	Role APIServiceAccountRole `json:"role,omitempty"`
 }
 
-// +kubebuilder:validation:Enum:=admin;viewer;metrics-admin;internal-metrics
+// +kubebuilder:validation:Enum:=admin;viewer
 type APIServiceAccountRole string
 
 // APIServiceAccountStatus represents the observed state of a APIServiceAccount.

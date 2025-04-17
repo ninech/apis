@@ -17021,9 +17021,7 @@
                   "type": "string",
                   "enum": [
                     "admin",
-                    "viewer",
-                    "metrics-admin",
-                    "internal-metrics"
+                    "viewer"
                   ]
                 }
               }
