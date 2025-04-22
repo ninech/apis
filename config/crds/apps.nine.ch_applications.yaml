@@ -365,11 +365,6 @@ spec:
                     - nodejs
                     - static
                     type: string
-                  paused:
-                    description: |-
-                      Paused pauses the release by stopping billing and disabling all runtime
-                      workloads.
-                    type: boolean
                 required:
                 - config
                 - git

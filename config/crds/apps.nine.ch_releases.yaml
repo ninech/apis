@@ -564,11 +564,6 @@ spec:
                         description: Tag specifies the image tag to use
                         type: string
                     type: object
-                  paused:
-                    description: |-
-                      Paused pauses the release by stopping billing and disabling all runtime
-                      workloads.
-                    type: boolean
                   runAsUser:
                     description: |-
                       RunAsUser allows the UID of the entrypoint of the container process to be
