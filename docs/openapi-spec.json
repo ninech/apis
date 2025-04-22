@@ -14247,6 +14247,10 @@
                     "nodejs",
                     "static"
                   ]
+                },
+                "paused": {
+                  "description": "Paused pauses the release by stopping billing and disabling all runtime\nworkloads.",
+                  "type": "boolean"
                 }
               },
               "x-kubernetes-validations": [
@@ -16043,6 +16047,10 @@
                       "type": "string"
                     }
                   }
+                },
+                "paused": {
+                  "description": "Paused pauses the release by stopping billing and disabling all runtime\nworkloads.",
+                  "type": "boolean"
                 },
                 "runAsUser": {
                   "description": "RunAsUser allows the UID of the entrypoint of the container process to be\noverridden. If not specified, the default UID of the container image will be\nused.",
