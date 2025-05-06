@@ -360,16 +360,6 @@ spec:
                       to a local TCP proxy. This bypasses NGINX completely and introduces a
                       non-negligible performance penalty.
                     type: boolean
-                  tlsProtocols:
-                    description: TLSProtocols to use.
-                    items:
-                      description: IngressNginxTLSProtocol is a SSL/TLS protocol that
-                        nginx can use.
-                      enum:
-                      - TLSv1.2
-                      - TLSv1.3
-                      type: string
-                    type: array
                 required:
                 - cluster
                 type: object

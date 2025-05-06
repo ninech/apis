@@ -20945,18 +20945,6 @@
                 "sslPassthrough": {
                   "description": "SSLPassthrough flag enables the SSL Passthrough feature, which is\ndisabled by default. This is required to enable passthrough backends in\ningress objects. This feature is implemented by intercepting all\ntraffic on the configured HTTPS port (default: 443) and handing it over\nto a local TCP proxy. This bypasses NGINX completely and introduces a\nnon-negligible performance penalty.",
                   "type": "boolean"
-                },
-                "tlsProtocols": {
-                  "description": "TLSProtocols to use.",
-                  "type": "array",
-                  "items": {
-                    "description": "IngressNginxTLSProtocol is a SSL/TLS protocol that nginx can use.",
-                    "type": "string",
-                    "enum": [
-                      "TLSv1.2",
-                      "TLSv1.3"
-                    ]
-                  }
                 }
               }
             },
