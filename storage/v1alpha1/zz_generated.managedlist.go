@@ -46,24 +46,6 @@ func (l *BucketUserList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this DatabaseBackupList.
-func (l *DatabaseBackupList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
-// GetItems of this DatabaseBackupScheduleList.
-func (l *DatabaseBackupScheduleList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this KeyValueStoreList.
 func (l *KeyValueStoreList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
