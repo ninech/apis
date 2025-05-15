@@ -651,12 +651,12 @@ type KeyValueStoreParameters struct {
 	//
 	// +optional
 	// +kubebuilder:default:=false
-	PrivateNetworkingEnabled bool `json:"privateNetworkingEnabled"`
+	PrivateNetworkingEnabled *bool `json:"privateNetworkingEnabled,omitempty"`
 	// PublicNetworkingEnabled specifies if the service should be available without service connection.
 	//
 	// +optional
 	// +kubebuilder:default:=true
-	PublicNetworkingEnabled bool `json:"publicNetworkingEnabled"`
+	PublicNetworkingEnabled *bool `json:"publicNetworkingEnabled,omitempty"`
 }
 
 // KeyValueStoreVersion defines the KeyValueStore version to be used.
