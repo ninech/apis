@@ -438,8 +438,8 @@ type VClusterSettings struct {
 	// cluster, e.g. "1.26". The patch version cannot be specified and the
 	// latest supported one will be used.
 	// +optional
-	// +kubebuilder:default:="1.30"
-	// +kubebuilder:validation:Enum:="1.26";"1.27";"1.28";"1.29";"1.30";"1.31"
+	// +kubebuilder:default:="1.32"
+	// +kubebuilder:validation:Enum:="1.26";"1.27";"1.28";"1.29";"1.30";"1.31";"1.32";"1.33"
 	// +kubebuilder:validation:XValidation:message="downgrade is not allowed",rule="double(self) >= double(oldSelf)"
 	// +kubebuilder:validation:XValidation:message="only one minor upgrade is allowed",rule="double(self) - double(oldSelf) < 0.02"
 	Version string `json:"version,omitempty"`
