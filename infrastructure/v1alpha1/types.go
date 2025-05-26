@@ -413,6 +413,13 @@ type NKEClusterSettings struct {
 	// AuditLog configures audit logging.
 	// +optional
 	AuditLog AuditLogConfiguration `json:"auditLog"`
+	// ContainerRegistries can be used to preconfigure the referenced
+	// Registries in the NKE cluster. Pulling images from these registries
+	// will then work without using image pull secrets.
+	// +optional
+	// +kubebuilder:validation:cel:rule="self.map(r, r.name + '/' + r.namespace + '/' + r.group + '/' + r.kind).distinct().size() == self.size()"
+	// +kubebuilder:validation:cel:message="each referenced container registry must be unique."
+	ContainerRegistries []meta.TypedReference `json:"containerRegistries"`
 }
 type StaticEgress struct {
 	// Enabled defines if the static egress feature should be enabled or
@@ -524,6 +531,8 @@ type KubernetesClusterObservation struct {
 	// VCluster exposes vcluster specific status fields.
 	// +optional
 	VCluster *VClusterSpecificStatus `json:"vcluster,omitempty"`
+	// ReferenceStatus contains reference errors
+	meta.ReferenceStatus `json:",inline"`
 }
 
 // ClusterObservation are the observable fields of a Cluster.
