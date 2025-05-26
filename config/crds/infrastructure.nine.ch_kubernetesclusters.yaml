@@ -949,7 +949,7 @@ spec:
                       Experimental and should only be used for development and testing.
                     properties:
                       version:
-                        default: "1.32"
+                        default: "1.30"
                         description: |-
                           Version specifies the Kubernetes version that will be used for this
                           cluster, e.g. "1.26". The patch version cannot be specified and the
@@ -961,8 +961,6 @@ spec:
                         - "1.29"
                         - "1.30"
                         - "1.31"
-                        - "1.32"
-                        - "1.33"
                         type: string
                         x-kubernetes-validations:
                         - message: downgrade is not allowed
