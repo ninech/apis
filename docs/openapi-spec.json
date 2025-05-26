@@ -20417,6 +20417,35 @@
                         }
                       }
                     },
+                    "containerRegistries": {
+                      "description": "ContainerRegistries can be used to preconfigure the referenced\nRegistries in the NKE cluster. Pulling images from these registries\nwill then work without using image pull secrets.",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "group",
+                          "kind",
+                          "name",
+                          "namespace"
+                        ],
+                        "properties": {
+                          "group": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "Name of the target.",
+                            "type": "string"
+                          },
+                          "namespace": {
+                            "description": "Namespace of the target.",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
                     "staticEgress": {
                       "description": "StaticEgress defines settings for the static egress feature",
                       "type": "object",
@@ -21123,6 +21152,34 @@
                   "description": "OIDCIssuerURL is the issuer URL for the OIDC login flow to this cluster.",
                   "type": "string"
                 },
+                "referenceErrors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "kind",
+                      "message",
+                      "name",
+                      "namespace"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "type": "string"
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "Name of the target.",
+                        "type": "string"
+                      },
+                      "namespace": {
+                        "description": "Namespace of the target.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
                 "vcluster": {
                   "description": "VCluster exposes vcluster specific status fields.",
                   "type": "object",
@@ -21232,7 +21289,8 @@
               "staticEgress": {
                 "enabled": false
               },
-              "auditLog": {}
+              "auditLog": {},
+              "containerRegistries": null
             },
             "nodePools": [
               {
