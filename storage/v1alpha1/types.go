@@ -45,9 +45,16 @@ const (
 	DatabaseBackupScheduleCalendarDisabled DatabaseBackupScheduleCalendar = "disabled"
 	// DatabaseBackupScheduleCalendarDaily sets up daily backups for a database.
 	DatabaseBackupScheduleCalendarDaily DatabaseBackupScheduleCalendar = "daily"
+	// KeyValueStoreVersion7 KeyValueStore version 7
+	KeyValueStoreVersion7 KeyValueStoreVersion = "7"
 	// KeyValueStoreUser is the name of the KeyValueStore user account.
-	//
 	KeyValueStoreUser string = "default"
+	// KeyValueStoreMemorySizeDefault is the default memory size for a KeyValueStor.
+	KeyValueStoreMemorySizeDefault = "1Gi"
+	// KeyValueStoreMemorySizeMin is the minimum memory size for a KeyValueStore.
+	KeyValueStoreMemorySizeMin = "256Mi"
+	// KeyValueStoreMemorySizeMax is the maximum memory size for a KeyValueStore.
+	KeyValueStoreMemorySizeMax = "4Gi"
 	// MySQLVersion8 MySQL version 8
 	MySQLVersion8 MySQLVersion = "8"
 	// MySQLUser is the name of the MySQL user account.
@@ -74,6 +81,8 @@ const (
 	MySQLBackupRetentionDaysDefault int = 10
 	// OpenSearchUser is the name of the OpenSearch user account.
 	OpenSearchUser string = "admin"
+	// OpenSearchPort is the network port used by OpenSearch.
+	OpenSearchHTTPPort int32 = 9200
 	// OpenSearchMemorySizeDefault is the default memory size for OpenSearch.
 	OpenSearchMemorySizeDefault = "2Gi"
 	// OpenSearchMemorySizeMin is the minimum memory size for OpenSearch.

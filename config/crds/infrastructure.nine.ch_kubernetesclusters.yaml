@@ -535,30 +535,6 @@ spec:
                             minItems: 0
                             type: array
                         type: object
-                      containerRegistries:
-                        description: |-
-                          ContainerRegistries can be used to preconfigure the referenced
-                          Registries in the NKE cluster. Pulling images from these registries
-                          will then work without using image pull secrets.
-                        items:
-                          properties:
-                            group:
-                              type: string
-                            kind:
-                              type: string
-                            name:
-                              description: Name of the target.
-                              type: string
-                            namespace:
-                              description: Namespace of the target.
-                              type: string
-                          required:
-                          - group
-                          - kind
-                          - name
-                          - namespace
-                          type: object
-                        type: array
                       staticEgress:
                         description: StaticEgress defines settings for the static
                           egress feature
@@ -1265,26 +1241,6 @@ spec:
                     description: OIDCIssuerURL is the issuer URL for the OIDC login
                       flow to this cluster.
                     type: string
-                  referenceErrors:
-                    items:
-                      properties:
-                        kind:
-                          type: string
-                        message:
-                          type: string
-                        name:
-                          description: Name of the target.
-                          type: string
-                        namespace:
-                          description: Namespace of the target.
-                          type: string
-                      required:
-                      - kind
-                      - message
-                      - name
-                      - namespace
-                      type: object
-                    type: array
                   vcluster:
                     description: VCluster exposes vcluster specific status fields.
                     properties:
