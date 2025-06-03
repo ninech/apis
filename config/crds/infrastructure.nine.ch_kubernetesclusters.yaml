@@ -535,30 +535,6 @@ spec:
                             minItems: 0
                             type: array
                         type: object
-                      containerRegistries:
-                        description: |-
-                          ContainerRegistries can be used to preconfigure the referenced
-                          Registries in the NKE cluster. Pulling images from these registries
-                          will then work without using image pull secrets.
-                        items:
-                          properties:
-                            group:
-                              type: string
-                            kind:
-                              type: string
-                            name:
-                              description: Name of the target.
-                              type: string
-                            namespace:
-                              description: Namespace of the target.
-                              type: string
-                          required:
-                          - group
-                          - kind
-                          - name
-                          - namespace
-                          type: object
-                        type: array
                       staticEgress:
                         description: StaticEgress defines settings for the static
                           egress feature
@@ -973,7 +949,7 @@ spec:
                       Experimental and should only be used for development and testing.
                     properties:
                       version:
-                        default: "1.32"
+                        default: "1.30"
                         description: |-
                           Version specifies the Kubernetes version that will be used for this
                           cluster, e.g. "1.26". The patch version cannot be specified and the
@@ -985,8 +961,6 @@ spec:
                         - "1.29"
                         - "1.30"
                         - "1.31"
-                        - "1.32"
-                        - "1.33"
                         type: string
                         x-kubernetes-validations:
                         - message: downgrade is not allowed
@@ -1265,26 +1239,6 @@ spec:
                     description: OIDCIssuerURL is the issuer URL for the OIDC login
                       flow to this cluster.
                     type: string
-                  referenceErrors:
-                    items:
-                      properties:
-                        kind:
-                          type: string
-                        message:
-                          type: string
-                        name:
-                          description: Name of the target.
-                          type: string
-                        namespace:
-                          description: Namespace of the target.
-                          type: string
-                      required:
-                      - kind
-                      - message
-                      - name
-                      - namespace
-                      type: object
-                    type: array
                   vcluster:
                     description: VCluster exposes vcluster specific status fields.
                     properties:

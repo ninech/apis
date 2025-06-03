@@ -413,13 +413,6 @@ type NKEClusterSettings struct {
 	// AuditLog configures audit logging.
 	// +optional
 	AuditLog AuditLogConfiguration `json:"auditLog"`
-	// ContainerRegistries can be used to preconfigure the referenced
-	// Registries in the NKE cluster. Pulling images from these registries
-	// will then work without using image pull secrets.
-	// +optional
-	// +kubebuilder:validation:cel:rule="self.map(r, r.name + '/' + r.namespace + '/' + r.group + '/' + r.kind).distinct().size() == self.size()"
-	// +kubebuilder:validation:cel:message="each referenced container registry must be unique."
-	ContainerRegistries []meta.TypedReference `json:"containerRegistries"`
 }
 type StaticEgress struct {
 	// Enabled defines if the static egress feature should be enabled or
@@ -445,8 +438,8 @@ type VClusterSettings struct {
 	// cluster, e.g. "1.26". The patch version cannot be specified and the
 	// latest supported one will be used.
 	// +optional
-	// +kubebuilder:default:="1.32"
-	// +kubebuilder:validation:Enum:="1.26";"1.27";"1.28";"1.29";"1.30";"1.31";"1.32";"1.33"
+	// +kubebuilder:default:="1.30"
+	// +kubebuilder:validation:Enum:="1.26";"1.27";"1.28";"1.29";"1.30";"1.31"
 	// +kubebuilder:validation:XValidation:message="downgrade is not allowed",rule="double(self) >= double(oldSelf)"
 	// +kubebuilder:validation:XValidation:message="only one minor upgrade is allowed",rule="double(self) - double(oldSelf) < 0.02"
 	Version string `json:"version,omitempty"`
@@ -531,8 +524,6 @@ type KubernetesClusterObservation struct {
 	// VCluster exposes vcluster specific status fields.
 	// +optional
 	VCluster *VClusterSpecificStatus `json:"vcluster,omitempty"`
-	// ReferenceStatus contains reference errors
-	meta.ReferenceStatus `json:",inline"`
 }
 
 // ClusterObservation are the observable fields of a Cluster.
