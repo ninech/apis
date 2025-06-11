@@ -115,7 +115,7 @@ spec:
                       type: string
                     type: array
                   version:
-                    default: "16"
+                    default: "17"
                     description: |-
                       Version specifies the Postgres version.
                       Needs to match an available Postgres Version.
