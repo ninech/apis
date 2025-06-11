@@ -59,7 +59,7 @@ const (
 	MySQLVersion8 MySQLVersion = "8"
 	// MySQLUser is the name of the MySQL user account.
 	MySQLUser string = "dbadmin"
-	// MySQLLocationDefault represents the default MySQL location
+	// MySQLLocationDefault represents the default MySQL datacenter location.
 	// if no explicit version was specified.
 	MySQLLocationDefault = meta.LocationNineCZ41
 	// MySQLVersionDefault represents the default MySQL version used
@@ -79,9 +79,6 @@ const (
 	MySQLTransactionIsolationDefault MySQLTransactionCharacteristic = "REPEATABLE-READ"
 	// MySQLBackupRetentionDays is the number of days to retain backups by default.
 	MySQLBackupRetentionDaysDefault int = 10
-	// MySQLDatabaseLocationDefault represents the default MySQL database location,
-	// if no explicit location was specified.
-	MySQLDatabaseLocationDefault = meta.LocationNineES34
 	// OpenSearchUser is the name of the OpenSearch user account.
 	OpenSearchUser string = "admin"
 	// OpenSearchPort is the network port used by OpenSearch.
@@ -92,8 +89,6 @@ const (
 	OpenSearchMemorySizeMin = "1Gi"
 	// OpenSearchMemorySizeMax is the maximum memory size for OpenSearch.
 	OpenSearchMemorySizeMax = "16Gi"
-	// PostgresVersion17 Postgres version 17
-	PostgresVersion17 PostgresVersion = "17"
 	// PostgresVersion16 Postgres version 16
 	PostgresVersion16 PostgresVersion = "16"
 	// PostgresVersion15 Postgres version 15
@@ -111,12 +106,9 @@ const (
 	PostgresLocationDefault = meta.LocationNineCZ41
 	// PostgresVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
-	PostgresVersionDefault PostgresVersion = PostgresVersion17
+	PostgresVersionDefault PostgresVersion = PostgresVersion16
 	// PostgresBackupRetentionDaysDefault is the number of days to retain backups by default.
 	PostgresBackupRetentionDaysDefault int = 10
-	// PostgresDatabaseLocationDefault represents the default Postgres database location,
-	// if no explicit location was specified.
-	PostgresDatabaseLocationDefault = meta.LocationNineES34
 )
 
 var (
@@ -135,7 +127,7 @@ var (
 	// PostgresMachineTypes is a list of available machine types.
 	PostgresMachineTypes []infrastructure.MachineType = infrastructure.MachineTypesDB
 	// PostgresVersions is a list of all available PostgresVersions.
-	PostgresVersions = []PostgresVersion{PostgresVersion17, PostgresVersion16, PostgresVersion15}
+	PostgresVersions = []PostgresVersion{PostgresVersion16, PostgresVersion15}
 	// PostgresVersionsDeprecated is a list of all deprecated PostgresVersions.
 	PostgresVersionsDeprecated = []PostgresVersion{PostgresVersion14, PostgresVersion13}
 )
@@ -1041,7 +1033,7 @@ type PostgresParameters struct {
 	// Version specifies the Postgres version.
 	// Needs to match an available Postgres Version.
 	// +optional
-	// +kubebuilder:default:="17"
+	// +kubebuilder:default:="16"
 	Version PostgresVersion `json:"version,omitempty"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
@@ -1067,7 +1059,6 @@ type PostgresParameters struct {
 
 // PostgresVersion Version of Postgres
 // Please use Version >=15 for new deployments.
-// https://www.postgresql.org/support/versioning/
 type PostgresVersion string
 
 // A PostgresStatus represents the observed state of a Postgres database.
