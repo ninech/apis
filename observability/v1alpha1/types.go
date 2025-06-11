@@ -239,7 +239,7 @@ type PrometheusParameters struct {
 	// in front of the prometheus instances.
 	// +kubebuilder:default:=1
 	// +optional
-	Replicas int `json:"replicas"`
+	Replicas int `json:"replicas,omitempty"`
 	// EnableDefaultMetrics specifies if this Prometheus will scrape
 	// default metrics.
 	// +optional
