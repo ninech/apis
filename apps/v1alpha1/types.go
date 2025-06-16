@@ -690,6 +690,13 @@ type ReleaseParameters struct {
 	Build meta.LocalReference `json:"build"`
 	// Image defines the image spec of the built image
 	Image meta.Image `json:"image"`
+	// Deprecated:
+	// Config contains all configurations from the various configuration
+	// sources (project level, application level, etc) merged into one.
+	// This field was replaced by the `Configuration` field and will be
+	// removed in the future.
+	// +optional
+	Config Config `json:"config"`
 	// DefaultHosts are the URLs at which the application is available.
 	// +optional
 	DefaultHosts []string `json:"defaultHosts"`
