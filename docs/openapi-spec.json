@@ -28220,10 +28220,6 @@
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
                 },
-                "privateNetworkingEnabled": {
-                  "description": "PrivateNetworkingEnabled configures a destination for a service connection.",
-                  "type": "boolean"
-                },
                 "publicNetworkingEnabled": {
                   "description": "PublicNetworkingEnabled specifies if the service should be available without service connection.",
                   "type": "boolean"
