@@ -664,11 +664,6 @@ type KeyValueStoreParameters struct {
 	// +listType:="set"
 	// +optional
 	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
-	// PrivateNetworkingEnabled configures a destination for a service connection.
-	//
-	// +optional
-	// +kubebuilder:default:=false
-	PrivateNetworkingEnabled *bool `json:"privateNetworkingEnabled,omitempty"`
 	// PublicNetworkingEnabled specifies if the service should be available without service connection.
 	//
 	// +optional
