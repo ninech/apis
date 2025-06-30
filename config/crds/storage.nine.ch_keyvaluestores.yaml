@@ -113,6 +113,11 @@ spec:
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     type: string
                     x-kubernetes-int-or-string: true
+                  privateNetworkingEnabled:
+                    default: false
+                    description: PrivateNetworkingEnabled configures a destination
+                      for a service connection.
+                    type: boolean
                   publicNetworkingEnabled:
                     default: true
                     description: PublicNetworkingEnabled specifies if the service
