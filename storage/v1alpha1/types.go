@@ -475,7 +475,7 @@ type DatabaseBackupParameters struct {
 	// create the database backup from.
 	Source meta.LocalTypedReference `json:"source"`
 	// Name is the name of the database to be backed up. This is required for
-	// MySQL and Posgres types as there can be multiple databases on these servers.
+	// MySQL and Postgres types as there can be multiple databases on these servers.
 	// For shared databases like MySQLDatabase this field is ignored, as
 	// the database is defined in the object.
 	// +optional
@@ -664,6 +664,11 @@ type KeyValueStoreParameters struct {
 	// +listType:="set"
 	// +optional
 	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
+	// PrivateNetworkingEnabled configures a destination for a service connection.
+	//
+	// +optional
+	// +kubebuilder:default:=false
+	PrivateNetworkingEnabled *bool `json:"privateNetworkingEnabled,omitempty"`
 	// PublicNetworkingEnabled specifies if the service should be available without service connection.
 	//
 	// +optional

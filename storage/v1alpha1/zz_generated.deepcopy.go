@@ -916,6 +916,11 @@ func (in *KeyValueStoreParameters) DeepCopyInto(out *KeyValueStoreParameters) {
 		*out = make([]metav1alpha1.IPv4CIDR, len(*in))
 		copy(*out, *in)
 	}
+	if in.PrivateNetworkingEnabled != nil {
+		in, out := &in.PrivateNetworkingEnabled, &out.PrivateNetworkingEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.PublicNetworkingEnabled != nil {
 		in, out := &in.PublicNetworkingEnabled, &out.PublicNetworkingEnabled
 		*out = new(bool)

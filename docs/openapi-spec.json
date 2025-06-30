@@ -27448,7 +27448,7 @@
                   "format": "date-time"
                 },
                 "name": {
-                  "description": "Name is the name of the database to be backed up. This is required for\nMySQL and Posgres types as there can be multiple databases on these servers.\nFor shared databases like MySQLDatabase this field is ignored, as\nthe database is defined in the object.",
+                  "description": "Name is the name of the database to be backed up. This is required for\nMySQL and Postgres types as there can be multiple databases on these servers.\nFor shared databases like MySQLDatabase this field is ignored, as\nthe database is defined in the object.",
                   "type": "string"
                 },
                 "source": {
@@ -28219,6 +28219,10 @@
                   "type": "string",
                   "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
                   "x-kubernetes-int-or-string": true
+                },
+                "privateNetworkingEnabled": {
+                  "description": "PrivateNetworkingEnabled configures a destination for a service connection.",
+                  "type": "boolean"
                 },
                 "publicNetworkingEnabled": {
                   "description": "PublicNetworkingEnabled specifies if the service should be available without service connection.",
