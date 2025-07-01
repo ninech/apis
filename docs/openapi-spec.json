@@ -27448,7 +27448,7 @@
                   "format": "date-time"
                 },
                 "name": {
-                  "description": "Name is the name of the database to be backed up. This is required for\nMySQL and Posgres types as there can be multiple databases on these servers.\nFor shared databases like MySQLDatabase this field is ignored, as\nthe database is defined in the object.",
+                  "description": "Name is the name of the database to be backed up. This is required for\nMySQL and Postgres types as there can be multiple databases on these servers.\nFor shared databases like MySQLDatabase this field is ignored, as\nthe database is defined in the object.",
                   "type": "string"
                 },
                 "source": {

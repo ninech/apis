@@ -475,7 +475,7 @@ type DatabaseBackupParameters struct {
 	// create the database backup from.
 	Source meta.LocalTypedReference `json:"source"`
 	// Name is the name of the database to be backed up. This is required for
-	// MySQL and Posgres types as there can be multiple databases on these servers.
+	// MySQL and Postgres types as there can be multiple databases on these servers.
 	// For shared databases like MySQLDatabase this field is ignored, as
 	// the database is defined in the object.
 	// +optional
