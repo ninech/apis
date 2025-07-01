@@ -244,6 +244,82 @@ type IngressNginxObservation struct {
 // +kubebuilder:validation:Enum=TLSv1.2;TLSv1.3
 type IngressNginxTLSProtocol string
 
+// ServiceConnection connects a source to destination securely.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced,shortName=sc
+// +kubebuilder:object:root=true
+type ServiceConnection struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ServiceConnectionSpec   `json:"spec"`
+	Status            ServiceConnectionStatus `json:"status,omitempty"`
+}
+
+// ServiceConnectionList contains a list of ServiceConnection.
+// +kubebuilder:object:root=true
+type ServiceConnectionList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ServiceConnection `json:"items"`
+}
+
+// ServiceConnectionSpec defines the desired state of an ServiceConnection.
+type ServiceConnectionSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            ServiceConnectionParameters `json:"forProvider"`
+}
+
+// ServiceConnectionParameters are the configurable fields of a ServiceConnection.
+type ServiceConnectionParameters struct {
+	// Source is the source of the connection
+	Source Source `json:"source"`
+	// Destination is a reference to the destination of the connection
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="destination is immutable after creation"
+	Destination meta.TypedReference `json:"destination"`
+}
+type Source struct {
+	// Reference is a reference to the source of the connection
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="source reference is immutable after creation"
+	Reference meta.TypedReference `json:"reference"`
+	// KubernetesClusterOptions can only be set when the source is a
+	// KubernetesCluster. They allow for more configuration.
+	// +optional
+	KubernetesClusterOptions *KubernetesClusterOptions `json:"kubernetesClusterOptions,omitempty"`
+}
+type KubernetesClusterOptions struct {
+	// PodSelector can be used to restrict which pods of the
+	// KubernetesCluster can connect to the service connection destination.
+	// If left empty, all pods are allowed. If namespaceSelector is also
+	// set, then the podSelector as a whole selects the pods matching
+	// podSelector in the namespaces selected by namespaceSelector.
+	// +optional
+	PodSelector metav1.LabelSelector `json:"podSelector"`
+	// NamespaceSelector selects namespaces using labels set on namespaces.
+	// If left empty, it selects all namespaces. It can be used to further
+	// restrict the pods selected by the PodSelector.
+	// +optional
+	NamespaceSelector metav1.LabelSelector `json:"namespaceSelector"`
+}
+
+// ServiceConnectionStatus represents the observed state of an ServiceConnection.
+type ServiceConnectionStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               ServiceConnectionObservation `json:"atProvider"`
+}
+
+// ServiceConnectionObservation are the observable fields of an ServiceConnection.
+type ServiceConnectionObservation struct {
+	// +optional
+	// DestinationDNS is the DNS to which this ServiceConnection resource
+	// allows to connect.
+	DestinationDNS string `json:"destinationDNS,omitempty"`
+	// ReferenceStatus contains errors for wrongly referenced resources
+	meta.ReferenceStatus `json:",inline"`
+}
+
 // StaticEgress describes a static egress configuration
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
