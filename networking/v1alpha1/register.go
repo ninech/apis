@@ -26,6 +26,10 @@ var (
 	IngressNginxGroupKind        = schema.GroupKind{Group: Group, Kind: IngressNginxKind}.String()
 	IngressNginxKindAPIVersion   = IngressNginxKind + "." + SchemeGroupVersion.String()
 	IngressNginxGroupVersionKind = SchemeGroupVersion.WithKind(IngressNginxKind)
+	ServiceConnectionKind             = reflect.TypeOf(ServiceConnection{}).Name()
+	ServiceConnectionGroupKind        = schema.GroupKind{Group: Group, Kind: ServiceConnectionKind}.String()
+	ServiceConnectionKindAPIVersion   = ServiceConnectionKind + "." + SchemeGroupVersion.String()
+	ServiceConnectionGroupVersionKind = SchemeGroupVersion.WithKind(ServiceConnectionKind)
 	StaticEgressKind             = reflect.TypeOf(StaticEgress{}).Name()
 	StaticEgressGroupKind        = schema.GroupKind{Group: Group, Kind: StaticEgressKind}.String()
 	StaticEgressKindAPIVersion   = StaticEgressKind + "." + SchemeGroupVersion.String()
@@ -34,5 +38,6 @@ var (
 
 func init() {
 	SchemeBuilder.Register(&IngressNginx{}, &IngressNginxList{})
+	SchemeBuilder.Register(&ServiceConnection{}, &ServiceConnectionList{})
 	SchemeBuilder.Register(&StaticEgress{}, &StaticEgressList{})
 }
