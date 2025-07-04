@@ -23,6 +23,41 @@ const (
 	NineOwnedLabelValue = "nine"
 )
 
+// DNSCheckType describes the type of a DNS check.
+// +kubebuilder:object:generate=true
+type DNSCheckType string
+
+// DNSVerificationStatusEntries is a list of DNSVerificationStatusEntry with added functions.
+// +kubebuilder:object:generate=true
+type DNSVerificationStatusEntries []DNSVerificationStatusEntry
+
+// DNSVerificationStatusEntry is a single entry used in the status of the DNSVerification.
+// +kubebuilder:object:generate=true
+type DNSVerificationStatusEntry struct {
+	// the hostname of the verification entry
+	Name string `json:"name"`
+	// CheckType describes which kind of DNS check this entry is about.
+	// +optional
+	CheckType DNSCheckType `json:"checkType,omitempty"`
+	// LatestSuccess specifies when this host was last verified
+	// successfully.
+	// +optional
+	LatestSuccess *metav1.Time `json:"latestSuccess,omitempty"`
+	// Error displays a potential error which happened during the
+	// verification.
+	// +optional
+	Error *VerificationError `json:"error,omitempty"`
+}
+
+// VerificationError describes a verification error.
+// +kubebuilder:object:generate=true
+type VerificationError struct {
+	// Message refers to the error message.
+	Message string `json:"message"`
+	// Timestamp refers to the time when this error happened.
+	Timestamp metav1.Time `json:"timestamp"`
+}
+
 // ChildResourceStatus reflects observed errors from child resources
 // of a managed resource.
 // +kubebuilder:object:generate=true

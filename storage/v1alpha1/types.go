@@ -208,6 +208,11 @@ type BucketParameters struct {
 	// +optional
 	// +kubebuilder:default:="v2"
 	BackendVersion BucketBackendVersion `json:"backendVersion,omitempty"`
+	// CustomHostnames are DNS entries under which the bucket should be
+	// accessible. This can be used to serve public objects via an own
+	// domain name.
+	// +optional
+	CustomHostnames []string `json:"customHostnames,omitempty"`
 }
 
 // BucketStorageType defines the backing storage for a Bucket.
@@ -296,6 +301,9 @@ type BucketObservation struct {
 	BytesUsed int64 `json:"bytesUsed"`
 	// ObjectCount shows the amount of objects a bucket has.
 	ObjectCount int64 `json:"objectCount"`
+	// CustomHostnamesVerification shows the DNS verification status of all
+	// custom hostnames.
+	CustomHostnamesVerification meta.DNSVerificationStatusEntries `json:"customHostnamesVerification,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }

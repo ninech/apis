@@ -108,6 +108,14 @@ spec:
                     required:
                     - origins
                     type: object
+                  customHostnames:
+                    description: |-
+                      CustomHostnames are DNS entries under which the bucket should be
+                      accessible. This can be used to serve public objects via an own
+                      domain name.
+                    items:
+                      type: string
+                    type: array
                   encryption:
                     description: |-
                       Encryption enables encryption at rest for this Bucket. This is only
@@ -432,6 +440,48 @@ spec:
                       - message
                       - resource
                       - type
+                      type: object
+                    type: array
+                  customHostnamesVerification:
+                    description: |-
+                      CustomHostnamesVerification shows the DNS verification status of all
+                      custom hostnames.
+                    items:
+                      description: DNSVerificationStatusEntry is a single entry used
+                        in the status of the DNSVerification.
+                      properties:
+                        checkType:
+                          description: CheckType describes which kind of DNS check
+                            this entry is about.
+                          type: string
+                        error:
+                          description: |-
+                            Error displays a potential error which happened during the
+                            verification.
+                          properties:
+                            message:
+                              description: Message refers to the error message.
+                              type: string
+                            timestamp:
+                              description: Timestamp refers to the time when this
+                                error happened.
+                              format: date-time
+                              type: string
+                          required:
+                          - message
+                          - timestamp
+                          type: object
+                        latestSuccess:
+                          description: |-
+                            LatestSuccess specifies when this host was last verified
+                            successfully.
+                          format: date-time
+                          type: string
+                        name:
+                          description: the hostname of the verification entry
+                          type: string
+                      required:
+                      - name
                       type: object
                     type: array
                   endpoint:
