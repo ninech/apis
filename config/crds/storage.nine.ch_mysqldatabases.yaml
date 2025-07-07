@@ -1,0 +1,812 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: (unknown)
+  name: mysqldatabases.storage.nine.ch
+spec:
+  group: storage.nine.ch
+  names:
+    kind: MySQLDatabase
+    listKind: MySQLDatabaseList
+    plural: mysqldatabases
+    singular: mysqldatabase
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: MySQLDatabase deploys a MySQL database.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A MySQLDatabaseSpec defines the desired state of a MySQLDatabase.
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: MySQLDatabaseParameters are the configurable fields of
+                  a MySQLDatabase.
+                properties:
+                  characterSet:
+                    description: CharacterSet configures the `character_set_server`
+                      and collation_server` variables.
+                    properties:
+                      collation:
+                        default: utf8mb4_unicode_ci
+                        description: |-
+                          Collation configures the `collation_server` variable.
+                          The server's default collation.
+                          See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+                          This should be aligned with the configured character set.
+                        enum:
+                        - armscii8_bin
+                        - armscii8_general_ci
+                        - armscii8_general_nopad_ci
+                        - armscii8_nopad_bin
+                        - ascii_bin
+                        - ascii_general_ci
+                        - ascii_general_nopad_ci
+                        - ascii_nopad_bin
+                        - big5_bin
+                        - big5_chinese_ci
+                        - big5_chinese_nopad_ci
+                        - big5_nopad_bin
+                        - binary
+                        - cp1250_bin
+                        - cp1250_croatian_ci
+                        - cp1250_czech_cs
+                        - cp1250_general_ci
+                        - cp1250_general_nopad_ci
+                        - cp1250_nopad_bin
+                        - cp1250_polish_ci
+                        - cp1251_bin
+                        - cp1251_bulgarian_ci
+                        - cp1251_general_ci
+                        - cp1251_general_cs
+                        - cp1251_general_nopad_ci
+                        - cp1251_nopad_bin
+                        - cp1251_ukrainian_ci
+                        - cp1256_bin
+                        - cp1256_general_ci
+                        - cp1256_general_nopad_ci
+                        - cp1256_nopad_bin
+                        - cp1257_bin
+                        - cp1257_general_ci
+                        - cp1257_general_nopad_ci
+                        - cp1257_lithuanian_ci
+                        - cp1257_nopad_bin
+                        - cp850_bin
+                        - cp850_general_ci
+                        - cp850_general_nopad_ci
+                        - cp850_nopad_bin
+                        - cp852_bin
+                        - cp852_general_ci
+                        - cp852_general_nopad_ci
+                        - cp852_nopad_bin
+                        - cp866_bin
+                        - cp866_general_ci
+                        - cp866_general_nopad_ci
+                        - cp866_nopad_bin
+                        - cp932_bin
+                        - cp932_japanese_ci
+                        - cp932_japanese_nopad_ci
+                        - cp932_nopad_bin
+                        - dec8_bin
+                        - dec8_nopad_bin
+                        - dec8_swedish_ci
+                        - dec8_swedish_nopad_ci
+                        - eucjpms_bin
+                        - eucjpms_japanese_ci
+                        - eucjpms_japanese_nopad_ci
+                        - eucjpms_nopad_bin
+                        - euckr_bin
+                        - euckr_korean_ci
+                        - euckr_korean_nopad_ci
+                        - euckr_nopad_bin
+                        - gb2312_bin
+                        - gb2312_chinese_ci
+                        - gb2312_chinese_nopad_ci
+                        - gb2312_nopad_bin
+                        - gbk_bin
+                        - gbk_chinese_ci
+                        - gbk_chinese_nopad_ci
+                        - gbk_nopad_bin
+                        - geostd8_bin
+                        - geostd8_general_ci
+                        - geostd8_general_nopad_ci
+                        - geostd8_nopad_bin
+                        - greek_bin
+                        - greek_general_ci
+                        - greek_general_nopad_ci
+                        - greek_nopad_bin
+                        - hebrew_bin
+                        - hebrew_general_ci
+                        - hebrew_general_nopad_ci
+                        - hebrew_nopad_bin
+                        - hp8_bin
+                        - hp8_english_ci
+                        - hp8_english_nopad_ci
+                        - hp8_nopad_bin
+                        - keybcs2_bin
+                        - keybcs2_general_ci
+                        - keybcs2_general_nopad_ci
+                        - keybcs2_nopad_bin
+                        - koi8r_bin
+                        - koi8r_general_ci
+                        - koi8r_general_nopad_ci
+                        - koi8r_nopad_bin
+                        - koi8u_bin
+                        - koi8u_general_ci
+                        - koi8u_general_nopad_ci
+                        - koi8u_nopad_bin
+                        - latin1_bin
+                        - latin1_danish_ci
+                        - latin1_general_ci
+                        - latin1_general_cs
+                        - latin1_german1_ci
+                        - latin1_german2_ci
+                        - latin1_nopad_bin
+                        - latin1_spanish_ci
+                        - latin1_swedish_ci
+                        - latin1_swedish_nopad_ci
+                        - latin2_bin
+                        - latin2_croatian_ci
+                        - latin2_czech_cs
+                        - latin2_general_ci
+                        - latin2_general_nopad_ci
+                        - latin2_hungarian_ci
+                        - latin2_nopad_bin
+                        - latin5_bin
+                        - latin5_nopad_bin
+                        - latin5_turkish_ci
+                        - latin5_turkish_nopad_ci
+                        - latin7_bin
+                        - latin7_estonian_cs
+                        - latin7_general_ci
+                        - latin7_general_cs
+                        - latin7_general_nopad_ci
+                        - latin7_nopad_bin
+                        - macce_bin
+                        - macce_general_ci
+                        - macce_general_nopad_ci
+                        - macce_nopad_bin
+                        - macroman_bin
+                        - macroman_general_ci
+                        - macroman_general_nopad_ci
+                        - macroman_nopad_bin
+                        - sjis_bin
+                        - sjis_japanese_ci
+                        - sjis_japanese_nopad_ci
+                        - sjis_nopad_bin
+                        - swe7_bin
+                        - swe7_nopad_bin
+                        - swe7_swedish_ci
+                        - swe7_swedish_nopad_ci
+                        - tis620_bin
+                        - tis620_nopad_bin
+                        - tis620_thai_ci
+                        - tis620_thai_nopad_ci
+                        - ucs2_bin
+                        - ucs2_croatian_ci
+                        - ucs2_croatian_mysql561_ci
+                        - ucs2_czech_ci
+                        - ucs2_danish_ci
+                        - ucs2_esperanto_ci
+                        - ucs2_estonian_ci
+                        - ucs2_general_ci
+                        - ucs2_general_mysql500_ci
+                        - ucs2_general_nopad_ci
+                        - ucs2_german2_ci
+                        - ucs2_hungarian_ci
+                        - ucs2_icelandic_ci
+                        - ucs2_latvian_ci
+                        - ucs2_lithuanian_ci
+                        - ucs2_myanmar_ci
+                        - ucs2_nopad_bin
+                        - ucs2_persian_ci
+                        - ucs2_polish_ci
+                        - ucs2_roman_ci
+                        - ucs2_romanian_ci
+                        - ucs2_sinhala_ci
+                        - ucs2_slovak_ci
+                        - ucs2_slovenian_ci
+                        - ucs2_spanish2_ci
+                        - ucs2_spanish_ci
+                        - ucs2_swedish_ci
+                        - ucs2_thai_520_w2
+                        - ucs2_turkish_ci
+                        - ucs2_unicode_520_ci
+                        - ucs2_unicode_520_nopad_ci
+                        - ucs2_unicode_ci
+                        - ucs2_unicode_nopad_ci
+                        - ucs2_vietnamese_ci
+                        - ujis_bin
+                        - ujis_japanese_ci
+                        - ujis_japanese_nopad_ci
+                        - ujis_nopad_bin
+                        - utf16_bin
+                        - utf16_croatian_ci
+                        - utf16_croatian_mysql561_ci
+                        - utf16_czech_ci
+                        - utf16_danish_ci
+                        - utf16_esperanto_ci
+                        - utf16_estonian_ci
+                        - utf16_general_ci
+                        - utf16_general_nopad_ci
+                        - utf16_german2_ci
+                        - utf16_hungarian_ci
+                        - utf16_icelandic_ci
+                        - utf16_latvian_ci
+                        - utf16le_bin
+                        - utf16le_general_ci
+                        - utf16le_general_nopad_ci
+                        - utf16le_nopad_bin
+                        - utf16_lithuanian_ci
+                        - utf16_myanmar_ci
+                        - utf16_nopad_bin
+                        - utf16_persian_ci
+                        - utf16_polish_ci
+                        - utf16_roman_ci
+                        - utf16_romanian_ci
+                        - utf16_sinhala_ci
+                        - utf16_slovak_ci
+                        - utf16_slovenian_ci
+                        - utf16_spanish2_ci
+                        - utf16_spanish_ci
+                        - utf16_swedish_ci
+                        - utf16_thai_520_w2
+                        - utf16_turkish_ci
+                        - utf16_unicode_520_ci
+                        - utf16_unicode_520_nopad_ci
+                        - utf16_unicode_ci
+                        - utf16_unicode_nopad_ci
+                        - utf16_vietnamese_ci
+                        - utf32_bin
+                        - utf32_croatian_ci
+                        - utf32_croatian_mysql561_ci
+                        - utf32_czech_ci
+                        - utf32_danish_ci
+                        - utf32_esperanto_ci
+                        - utf32_estonian_ci
+                        - utf32_general_ci
+                        - utf32_general_nopad_ci
+                        - utf32_german2_ci
+                        - utf32_hungarian_ci
+                        - utf32_icelandic_ci
+                        - utf32_latvian_ci
+                        - utf32_lithuanian_ci
+                        - utf32_myanmar_ci
+                        - utf32_nopad_bin
+                        - utf32_persian_ci
+                        - utf32_polish_ci
+                        - utf32_roman_ci
+                        - utf32_romanian_ci
+                        - utf32_sinhala_ci
+                        - utf32_slovak_ci
+                        - utf32_slovenian_ci
+                        - utf32_spanish2_ci
+                        - utf32_spanish_ci
+                        - utf32_swedish_ci
+                        - utf32_thai_520_w2
+                        - utf32_turkish_ci
+                        - utf32_unicode_520_ci
+                        - utf32_unicode_520_nopad_ci
+                        - utf32_unicode_ci
+                        - utf32_unicode_nopad_ci
+                        - utf32_vietnamese_ci
+                        - utf8mb3_bin
+                        - utf8mb3_croatian_ci
+                        - utf8mb3_croatian_mysql561_ci
+                        - utf8mb3_czech_ci
+                        - utf8mb3_danish_ci
+                        - utf8mb3_esperanto_ci
+                        - utf8mb3_estonian_ci
+                        - utf8mb3_general_ci
+                        - utf8mb3_general_mysql500_ci
+                        - utf8mb3_general_nopad_ci
+                        - utf8mb3_german2_ci
+                        - utf8mb3_hungarian_ci
+                        - utf8mb3_icelandic_ci
+                        - utf8mb3_latvian_ci
+                        - utf8mb3_lithuanian_ci
+                        - utf8mb3_myanmar_ci
+                        - utf8mb3_nopad_bin
+                        - utf8mb3_persian_ci
+                        - utf8mb3_polish_ci
+                        - utf8mb3_roman_ci
+                        - utf8mb3_romanian_ci
+                        - utf8mb3_sinhala_ci
+                        - utf8mb3_slovak_ci
+                        - utf8mb3_slovenian_ci
+                        - utf8mb3_spanish2_ci
+                        - utf8mb3_spanish_ci
+                        - utf8mb3_swedish_ci
+                        - utf8mb3_thai_520_w2
+                        - utf8mb3_turkish_ci
+                        - utf8mb3_unicode_520_ci
+                        - utf8mb3_unicode_520_nopad_ci
+                        - utf8mb3_unicode_ci
+                        - utf8mb3_unicode_nopad_ci
+                        - utf8mb3_vietnamese_ci
+                        - utf8mb4_bin
+                        - utf8mb4_croatian_ci
+                        - utf8mb4_croatian_mysql561_ci
+                        - utf8mb4_czech_ci
+                        - utf8mb4_danish_ci
+                        - utf8mb4_esperanto_ci
+                        - utf8mb4_estonian_ci
+                        - utf8mb4_general_ci
+                        - utf8mb4_general_nopad_ci
+                        - utf8mb4_german2_ci
+                        - utf8mb4_hungarian_ci
+                        - utf8mb4_icelandic_ci
+                        - utf8mb4_latvian_ci
+                        - utf8mb4_lithuanian_ci
+                        - utf8mb4_myanmar_ci
+                        - utf8mb4_nopad_bin
+                        - utf8mb4_persian_ci
+                        - utf8mb4_polish_ci
+                        - utf8mb4_roman_ci
+                        - utf8mb4_romanian_ci
+                        - utf8mb4_sinhala_ci
+                        - utf8mb4_slovak_ci
+                        - utf8mb4_slovenian_ci
+                        - utf8mb4_spanish2_ci
+                        - utf8mb4_spanish_ci
+                        - utf8mb4_swedish_ci
+                        - utf8mb4_thai_520_w2
+                        - utf8mb4_turkish_ci
+                        - utf8mb4_unicode_520_ci
+                        - utf8mb4_unicode_520_nopad_ci
+                        - utf8mb4_unicode_ci
+                        - utf8mb4_unicode_nopad_ci
+                        - utf8mb4_vietnamese_ci
+                        type: string
+                      name:
+                        default: utf8mb4
+                        description: |-
+                          Name configures the `character_set_server` variable.
+                          The servers default character set.
+                          See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+                          If you set this variable, you should also set collation_server to specify the collation for the character set.
+                        enum:
+                        - armscii8
+                        - ascii
+                        - big5
+                        - binary
+                        - cp1250
+                        - cp1251
+                        - cp1256
+                        - cp1257
+                        - cp850
+                        - cp852
+                        - cp866
+                        - cp932
+                        - dec8
+                        - eucjpms
+                        - euckr
+                        - gb2312
+                        - gbk
+                        - geostd8
+                        - greek
+                        - hebrew
+                        - hp8
+                        - keybcs2
+                        - koi8r
+                        - koi8u
+                        - latin1
+                        - latin2
+                        - latin5
+                        - latin7
+                        - macce
+                        - macroman
+                        - sjis
+                        - swe7
+                        - tis620
+                        - ucs2
+                        - ujis
+                        - utf16
+                        - utf16le
+                        - utf32
+                        - utf8mb3
+                        - utf8mb4
+                        type: string
+                    type: object
+                    x-kubernetes-validations:
+                    - message: CharacterSet is immutable
+                      rule: self == oldSelf
+                  instanceRef:
+                    description: |-
+                      InstanceRef is the instance that contains the database.
+                      It is not possible to configure this value manually.
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                      namespace:
+                        description: Namespace of the target.
+                        type: string
+                    required:
+                    - name
+                    - namespace
+                    type: object
+                    x-kubernetes-validations:
+                    - message: InstanceReference is immutable
+                      rule: self == oldSelf
+                  location:
+                    default: nine-es34
+                    description: Location specifies in which data center the database
+                      will be spawned.
+                    enum:
+                    - nine-cz41
+                    - nine-cz42
+                    - nine-es34
+                    type: string
+                  version:
+                    default: "8"
+                    description: |-
+                      Version specifies the MySQL version.
+                      Needs to match an available MySQL Version.
+                    enum:
+                    - "8"
+                    type: string
+                type: object
+                x-kubernetes-validations:
+                - message: Location is immutable and cannot be unset
+                  rule: self.location == oldSelf.location
+                - message: Version is immutable and cannot be unset
+                  rule: self.version == oldSelf.version
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: A MySQLDatabaseStatus represents the observed state of a
+              MySQLDatabase.
+            properties:
+              atProvider:
+                description: MySQLDatabaseObservation are the observable fields of
+                  a MySQLDatabase.
+                properties:
+                  caCert:
+                    description: |-
+                      CACert is the certificate of the CA that is used by the service.
+                      The value is a base64 encoded PEM.
+                    type: string
+                  childResourceErrors:
+                    description: ChildResourceErrors of a managed resource.
+                    items:
+                      description: |-
+                        ChildResourceError is an error that occurred on a child resource of
+                        a managed resource.
+                      properties:
+                        message:
+                          description: Message that describes why the resource failed.
+                          type: string
+                        resource:
+                          description: Resource references the child resource that
+                            errored.
+                          properties:
+                            name:
+                              description: Name of the target.
+                              type: string
+                            namespace:
+                              description: Namespace of the target.
+                              type: string
+                          required:
+                          - name
+                          - namespace
+                          type: object
+                        type:
+                          description: Type specifies the type of the resource.
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                            version:
+                              type: string
+                          required:
+                          - group
+                          - kind
+                          - version
+                          type: object
+                      required:
+                      - message
+                      - resource
+                      - type
+                      type: object
+                    type: array
+                  connections:
+                    default: 0
+                    description: Connections indicates the number of connections on
+                      a database.
+                    type: integer
+                  fqdn:
+                    description: FQDN is the fully qualified domain name at which
+                      the database is accessible.
+                    type: string
+                  locked:
+                    description: Locked reports why a database has been locked.
+                    type: string
+                  name:
+                    description: Name of the database and user.
+                    type: string
+                  size:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    default: 0
+                    description: Size indicates the total size of the database.
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
+                required:
+                - connections
+                - size
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            required:
+            - atProvider
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
