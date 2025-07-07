@@ -28238,46 +28238,60 @@
                 },
                 "customHostnamesVerification": {
                   "description": "CustomHostnamesVerification shows the DNS verification status of all\ncustom hostnames.",
-                  "type": "array",
-                  "items": {
-                    "description": "DNSVerificationStatusEntry is a single entry used in the status of the DNSVerification.",
-                    "type": "object",
-                    "required": [
-                      "name"
-                    ],
-                    "properties": {
-                      "checkType": {
-                        "description": "CheckType describes which kind of DNS check this entry is about.",
-                        "type": "string"
-                      },
-                      "error": {
-                        "description": "Error displays a potential error which happened during the\nverification.",
+                  "type": "object",
+                  "properties": {
+                    "cnameTarget": {
+                      "description": "CNAMETarget shows to which target the CNAME entry should point to\nfor the DNS CNAME verification method to succeed.",
+                      "type": "string"
+                    },
+                    "statusEntries": {
+                      "description": "StatusEntries show the status of the DNS verification methods.",
+                      "type": "array",
+                      "items": {
+                        "description": "DNSVerificationStatusEntry is a single entry used in the status of the DNSVerification.",
                         "type": "object",
                         "required": [
-                          "message",
-                          "timestamp"
+                          "name"
                         ],
                         "properties": {
-                          "message": {
-                            "description": "Message refers to the error message.",
+                          "checkType": {
+                            "description": "CheckType describes which kind of DNS check this entry is about.",
                             "type": "string"
                           },
-                          "timestamp": {
-                            "description": "Timestamp refers to the time when this error happened.",
+                          "error": {
+                            "description": "Error displays a potential error which happened during the\nverification.",
+                            "type": "object",
+                            "required": [
+                              "message",
+                              "timestamp"
+                            ],
+                            "properties": {
+                              "message": {
+                                "description": "Message refers to the error message.",
+                                "type": "string"
+                              },
+                              "timestamp": {
+                                "description": "Timestamp refers to the time when this error happened.",
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          },
+                          "latestSuccess": {
+                            "description": "LatestSuccess specifies when this host was last verified\nsuccessfully.",
                             "type": "string",
                             "format": "date-time"
+                          },
+                          "name": {
+                            "description": "the hostname of the verification entry",
+                            "type": "string"
                           }
                         }
-                      },
-                      "latestSuccess": {
-                        "description": "LatestSuccess specifies when this host was last verified\nsuccessfully.",
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "name": {
-                        "description": "the hostname of the verification entry",
-                        "type": "string"
                       }
+                    },
+                    "txtRecordValue": {
+                      "description": "TXTRecordValue shows which TXT DNS record value needs to be created\nfor the DNS TXT verification method to succeed.",
+                      "type": "string"
                     }
                   }
                 },
@@ -28388,7 +28402,8 @@
             "endpoint": "",
             "publicURL": "",
             "bytesUsed": 0,
-            "objectCount": 0
+            "objectCount": 0,
+            "customHostnamesVerification": {}
           }
         }
       }
