@@ -26977,6 +26977,13 @@
                     }
                   }
                 },
+                "customHostnames": {
+                  "description": "CustomHostnames are DNS entries under which the bucket should be\naccessible. This can be used to serve public objects via an own\ndomain name.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "encryption": {
                   "description": "Encryption enables encryption at rest for this Bucket. This is only\nrelevant for Buckets which use the v1 storage backend. Buckets with a\nbackend of v2 are always encrypted at rest.\nDeprecated: Only affects v1 Buckets and will be removed in the future.",
                   "type": "boolean"
@@ -27291,6 +27298,51 @@
                             "type": "string"
                           }
                         }
+                      }
+                    }
+                  }
+                },
+                "customHostnamesVerification": {
+                  "description": "CustomHostnamesVerification shows the DNS verification status of all\ncustom hostnames.",
+                  "type": "array",
+                  "items": {
+                    "description": "DNSVerificationStatusEntry is a single entry used in the status of the DNSVerification.",
+                    "type": "object",
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "checkType": {
+                        "description": "CheckType describes which kind of DNS check this entry is about.",
+                        "type": "string"
+                      },
+                      "error": {
+                        "description": "Error displays a potential error which happened during the\nverification.",
+                        "type": "object",
+                        "required": [
+                          "message",
+                          "timestamp"
+                        ],
+                        "properties": {
+                          "message": {
+                            "description": "Message refers to the error message.",
+                            "type": "string"
+                          },
+                          "timestamp": {
+                            "description": "Timestamp refers to the time when this error happened.",
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      },
+                      "latestSuccess": {
+                        "description": "LatestSuccess specifies when this host was last verified\nsuccessfully.",
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "name": {
+                        "description": "the hostname of the verification entry",
+                        "type": "string"
                       }
                     }
                   }
