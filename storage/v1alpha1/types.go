@@ -325,7 +325,7 @@ type BucketObservation struct {
 	ObjectCount int64 `json:"objectCount"`
 	// CustomHostnamesVerification shows the DNS verification status of all
 	// custom hostnames.
-	CustomHostnamesVerification meta.DNSVerificationStatusEntries `json:"customHostnamesVerification,omitempty"`
+	CustomHostnamesVerification meta.DNSVerificationStatus `json:"customHostnamesVerification,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
