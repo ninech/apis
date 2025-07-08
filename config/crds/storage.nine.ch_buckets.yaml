@@ -446,59 +446,44 @@ spec:
                     description: |-
                       CustomHostnamesVerification shows the DNS verification status of all
                       custom hostnames.
-                    properties:
-                      cnameTarget:
-                        description: |-
-                          CNAMETarget shows to which target the CNAME entry should point to
-                          for the DNS CNAME verification method to succeed.
-                        type: string
-                      statusEntries:
-                        description: StatusEntries show the status of the DNS verification
-                          methods.
-                        items:
-                          description: DNSVerificationStatusEntry is a single entry
-                            used in the status of the DNSVerification.
+                    items:
+                      description: DNSVerificationStatusEntry is a single entry used
+                        in the status of the DNSVerification.
+                      properties:
+                        checkType:
+                          description: CheckType describes which kind of DNS check
+                            this entry is about.
+                          type: string
+                        error:
+                          description: |-
+                            Error displays a potential error which happened during the
+                            verification.
                           properties:
-                            checkType:
-                              description: CheckType describes which kind of DNS check
-                                this entry is about.
+                            message:
+                              description: Message refers to the error message.
                               type: string
-                            error:
-                              description: |-
-                                Error displays a potential error which happened during the
-                                verification.
-                              properties:
-                                message:
-                                  description: Message refers to the error message.
-                                  type: string
-                                timestamp:
-                                  description: Timestamp refers to the time when this
-                                    error happened.
-                                  format: date-time
-                                  type: string
-                              required:
-                              - message
-                              - timestamp
-                              type: object
-                            latestSuccess:
-                              description: |-
-                                LatestSuccess specifies when this host was last verified
-                                successfully.
+                            timestamp:
+                              description: Timestamp refers to the time when this
+                                error happened.
                               format: date-time
                               type: string
-                            name:
-                              description: the hostname of the verification entry
-                              type: string
                           required:
-                          - name
+                          - message
+                          - timestamp
                           type: object
-                        type: array
-                      txtRecordValue:
-                        description: |-
-                          TXTRecordValue shows which TXT DNS record value needs to be created
-                          for the DNS TXT verification method to succeed.
-                        type: string
-                    type: object
+                        latestSuccess:
+                          description: |-
+                            LatestSuccess specifies when this host was last verified
+                            successfully.
+                          format: date-time
+                          type: string
+                        name:
+                          description: the hostname of the verification entry
+                          type: string
+                      required:
+                      - name
+                      type: object
+                    type: array
                   endpoint:
                     description: API endpoint to use with S3 compatible clients.
                     type: string

@@ -31,22 +31,6 @@ type DNSCheckType string
 // +kubebuilder:object:generate=true
 type DNSVerificationStatusEntries []DNSVerificationStatusEntry
 
-// DNSVerificationStatus reflects the DNS verification status.
-// +kubebuilder:object:generate=true
-type DNSVerificationStatus struct {
-	// CNAMETarget shows to which target the CNAME entry should point to
-	// for the DNS CNAME verification method to succeed.
-	// +optional
-	CNAMETarget string `json:"cnameTarget,omitempty"`
-	// TXTRecordValue shows which TXT DNS record value needs to be created
-	// for the DNS TXT verification method to succeed.
-	// +optional
-	TXTRecordValue string `json:"txtRecordValue,omitempty"`
-	// StatusEntries show the status of the DNS verification methods.
-	// +optional
-	StatusEntries DNSVerificationStatusEntries `json:"statusEntries,omitempty"`
-}
-
 // DNSVerificationStatusEntry is a single entry used in the status of the DNSVerification.
 // +kubebuilder:object:generate=true
 type DNSVerificationStatusEntry struct {
