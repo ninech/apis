@@ -49,10 +49,6 @@ var (
 	// 4 CPU Cores
 	// 32GB RAM
 	MachineTypeNineHighMem4 = MachineType{name: "nine-highmem-4", cpu: 4, memory: resource.MustParse("32Gi")}
-	// MachineTypeNineHighMem8 is a VM running on Nine Infrastructure with:
-	// 8 CPU Cores
-	// 64GB RAM
-	MachineTypeNineHighMem8 = MachineType{name: "nine-highmem-8", cpu: 8, memory: resource.MustParse("64Gi")}
 	// MachineTypeHighCPU2 is a VM running on Nine Infrastructure with:
 	// 2 CPU Cores
 	// 4GB RAM
@@ -94,12 +90,12 @@ var (
 	// 2GB RAM
 	MachineTypeNineSmall1 = MachineType{name: "nine-small-1", cpu: 1, memory: resource.MustParse("2Gi")}
 	// MachineTypes is a list of all machine types.
-	MachineTypes = append([]MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighMem8, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineSmall1}, MachineTypesDB...)
+	MachineTypes = append([]MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineSmall1}, MachineTypesDB...)
 	// MachineTypesDB is a list of all database machine types.
 	MachineTypesDB = []MachineType{MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL}
 	// DefaultMachineTypeBounds are the default bounds in which all machine
 	// types must fit.
-	DefaultMachineTypeBounds = MachineTypeBounds{MinCPU: resource.MustParse("1"), MaxCPU: resource.MustParse("12"), MinMemory: resource.MustParse("2Gi"), MaxMemory: resource.MustParse("64Gi"), MinMemCPURatio: 2.0, MaxMemCPURatio: 8.0}
+	DefaultMachineTypeBounds = MachineTypeBounds{MinCPU: resource.MustParse("1"), MaxCPU: resource.MustParse("12"), MinMemory: resource.MustParse("2Gi"), MaxMemory: resource.MustParse("32Gi"), MinMemCPURatio: 2.0, MaxMemCPURatio: 8.0}
 )
 
 // CloudVirtualMachine is a virtual machine instance providing flexible scaling and a

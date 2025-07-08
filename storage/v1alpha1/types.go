@@ -79,16 +79,9 @@ const (
 	MySQLTransactionIsolationDefault MySQLTransactionCharacteristic = "REPEATABLE-READ"
 	// MySQLBackupRetentionDays is the number of days to retain backups by default.
 	MySQLBackupRetentionDaysDefault int = 10
-	// MySQLDatabaseSizeMax is the maximum size of a [MySQLDatabase].
-	// After reaching [MySQLDatabaseSizeMax], the permissions to writing additional
-	// data to the database will be revoked.
-	MySQLDatabaseSizeMax = "10Gi"
 	// MySQLDatabaseLocationDefault represents the default MySQL database location,
 	// if no explicit location was specified.
 	MySQLDatabaseLocationDefault = meta.LocationNineES34
-	// MySQLDatabaseVersionDefault represents the default MySQL version used
-	// if no explicit version was specified.
-	MySQLDatabaseVersionDefault MySQLVersion = MySQLVersionDefault
 	// OpenSearchUser is the name of the OpenSearch user account.
 	OpenSearchUser string = "admin"
 	// OpenSearchPort is the network port used by OpenSearch.
@@ -121,16 +114,9 @@ const (
 	PostgresVersionDefault PostgresVersion = PostgresVersion17
 	// PostgresBackupRetentionDaysDefault is the number of days to retain backups by default.
 	PostgresBackupRetentionDaysDefault int = 10
-	// PostgresDatabaseSizeMax is the maximum size of a PostgresDatabase.
-	// After reaching [PostgresDatabaseSizeMax], the permissions to writing additional
-	// data to the database will be revoked.
-	PostgresDatabaseSizeMax = MySQLDatabaseSizeMax
 	// PostgresDatabaseLocationDefault represents the default Postgres database location,
 	// if no explicit location was specified.
 	PostgresDatabaseLocationDefault = meta.LocationNineES34
-	// PostgresDatabaseVersionDefault represents the default PostgreSQL version used
-	// if no explicit version was specified.
-	PostgresDatabaseVersionDefault PostgresVersion = PostgresVersionDefault
 )
 
 var (
@@ -142,10 +128,6 @@ var (
 	MySQLLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLMachineTypes is a list of available machine types.
 	MySQLMachineTypes []infrastructure.MachineType = infrastructure.MachineTypesDB
-	// MySQLDatabaseLocationOptions is a list of available datacenter locations.
-	MySQLDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
-	// MySQLDatabaseVersions is a list of all available MySQLVersions.
-	MySQLDatabaseVersions = []MySQLVersion{MySQLDatabaseVersionDefault}
 	// PostgresMachineTypeDefault specifies the default machine type.
 	PostgresMachineTypeDefault = infrastructure.MachineTypeNineDBS
 	// PostgresLocationOptions is a list of available datacenter locations.
@@ -156,10 +138,6 @@ var (
 	PostgresVersions = []PostgresVersion{PostgresVersion17, PostgresVersion16, PostgresVersion15}
 	// PostgresVersionsDeprecated is a list of all deprecated PostgresVersions.
 	PostgresVersionsDeprecated = []PostgresVersion{PostgresVersion14, PostgresVersion13}
-	// PostgresDatabaseLocationOptions is a list of available datacenter locations.
-	PostgresDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
-	// PostgresDatabaseVersions is a list of all available PostgresVersions.
-	PostgresDatabaseVersions = []PostgresVersion{PostgresDatabaseVersionDefault}
 )
 
 // Bucket is an object storage bucket. It's used to group objects, defines
@@ -230,11 +208,6 @@ type BucketParameters struct {
 	// +optional
 	// +kubebuilder:default:="v2"
 	BackendVersion BucketBackendVersion `json:"backendVersion,omitempty"`
-	// CustomHostnames are DNS entries under which the bucket should be
-	// accessible. This can be used to serve public objects via an own
-	// domain name.
-	// +optional
-	CustomHostnames []string `json:"customHostnames,omitempty"`
 }
 
 // BucketStorageType defines the backing storage for a Bucket.
@@ -323,9 +296,6 @@ type BucketObservation struct {
 	BytesUsed int64 `json:"bytesUsed"`
 	// ObjectCount shows the amount of objects a bucket has.
 	ObjectCount int64 `json:"objectCount"`
-	// CustomHostnamesVerification shows the DNS verification status of all
-	// custom hostnames.
-	CustomHostnamesVerification meta.DNSVerificationStatus `json:"customHostnamesVerification,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
@@ -947,86 +917,6 @@ type DatabaseObservation struct {
 	Connections uint16 `json:"connections"`
 }
 
-// MySQLDatabase deploys a MySQL database.
-//
-// +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
-// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Namespaced
-// +kubebuilder:object:root=true
-type MySQLDatabase struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              MySQLDatabaseSpec   `json:"spec"`
-	Status            MySQLDatabaseStatus `json:"status,omitempty"`
-}
-
-// MySQLList contains a list of MySQL database
-// +kubebuilder:object:root=true
-type MySQLDatabaseList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []MySQLDatabase `json:"items"`
-}
-
-// A MySQLDatabaseSpec defines the desired state of a MySQLDatabase.
-type MySQLDatabaseSpec struct {
-	runtimev1.ResourceSpec `json:",inline"`
-	ForProvider            MySQLDatabaseParameters `json:"forProvider"`
-}
-
-// MySQLDatabaseParameters are the configurable fields of a MySQLDatabase.
-// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
-// +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
-type MySQLDatabaseParameters struct {
-	// Location specifies in which data center the database will be spawned.
-	// +optional
-	// +kubebuilder:default:="nine-es34"
-	Location meta.LocationName `json:"location,omitempty"`
-	// Version specifies the MySQL version.
-	// Needs to match an available MySQL Version.
-	// +immutable
-	// +optional
-	// +kubebuilder:default:="8"
-	Version MySQLVersion `json:"version,omitempty"`
-	// CharacterSet configures the `character_set_server` and collation_server` variables.
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="CharacterSet is immutable"
-	// +optional
-	CharacterSet MySQLCharacterSet `json:"characterSet"`
-	// InstanceRef is the instance that contains the database.
-	// It is not possible to configure this value manually.
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="InstanceReference is immutable"
-	// +optional
-	InstanceReference *meta.Reference `json:"instanceRef,omitempty"`
-}
-
-// A MySQLDatabaseStatus represents the observed state of a MySQLDatabase.
-type MySQLDatabaseStatus struct {
-	runtimev1.ResourceStatus `json:",inline"`
-	AtProvider               MySQLDatabaseObservation `json:"atProvider"`
-}
-
-// MySQLDatabaseObservation are the observable fields of a MySQLDatabase.
-type MySQLDatabaseObservation struct {
-	// FQDN is the fully qualified domain name at which the database is accessible.
-	// +optional
-	FQDN string `json:"fqdn,omitempty"`
-	// Name of the database and user.
-	// +optional
-	Name string `json:"name,omitempty"`
-	// Locked reports why a database has been locked.
-	// +optional
-	Locked string `json:"locked,omitempty"`
-	// Database details
-	DatabaseObservation `json:",inline"`
-	// CACert is the certificate of the CA that is used by the service.
-	// The value is a base64 encoded PEM.
-	CACert string `json:"caCert,omitempty"`
-	// Status of all child resources.
-	meta.ChildResourceStatus `json:",inline"`
-}
-
 // ObjectsBucket defines a Nutanix Objects Bucket.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -1192,81 +1082,6 @@ type PostgresObservation struct {
 	// Databases contains the databases that exist on the instance.
 	// +optional
 	Databases map[string]DatabaseObservation `json:"databases,omitempty"`
-	// CACert is the certificate of the CA that is used by the service.
-	// The value is a base64 encoded PEM.
-	CACert string `json:"caCert,omitempty"`
-	// Status of all child resources.
-	meta.ChildResourceStatus `json:",inline"`
-}
-
-// PostgresDatabase deploys a Postgres database.
-//
-// +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
-// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
-// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Namespaced
-// +kubebuilder:object:root=true
-type PostgresDatabase struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PostgresDatabaseSpec   `json:"spec"`
-	Status            PostgresDatabaseStatus `json:"status,omitempty"`
-}
-
-// PostgresDatabaseList contains a list of Postgres database
-// +kubebuilder:object:root=true
-type PostgresDatabaseList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []PostgresDatabase `json:"items"`
-}
-
-// A PostgresDatabaseSpec defines the desired state of a PostgresDatabase.
-type PostgresDatabaseSpec struct {
-	runtimev1.ResourceSpec `json:",inline"`
-	ForProvider            PostgresDatabaseParameters `json:"forProvider"`
-}
-
-// PostgresDatabaseParameters are the configurable fields of a PostgresDatabase.
-// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
-// +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
-type PostgresDatabaseParameters struct {
-	// Location specifies in which data center the database will be spawned.
-	// +optional
-	// +kubebuilder:default:="nine-es34"
-	Location meta.LocationName `json:"location"`
-	// Version specifies the Postgres version.
-	// Needs to match an available Postgres Version.
-	// +optional
-	// +kubebuilder:default:="17"
-	Version PostgresVersion `json:"version,omitempty"`
-	// InstanceRef is the instance that contains the database.
-	// It is not possible to configure this value manually.
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="InstanceReference is immutable"
-	// +optional
-	InstanceReference *meta.Reference `json:"instanceRef,omitempty"`
-}
-
-// A PostgresDatabaseStatus represents the observed state of a PostgresDatabase.
-type PostgresDatabaseStatus struct {
-	runtimev1.ResourceStatus `json:",inline"`
-	AtProvider               PostgresDatabaseObservation `json:"atProvider"`
-}
-
-// PostgresDatabaseObservation are the observable fields of a PostgresDatabase.
-type PostgresDatabaseObservation struct {
-	// FQDN is the fully qualified domain name at which the database is accessible.
-	// +optional
-	FQDN string `json:"fqdn,omitempty"`
-	// Name of the database and user.
-	// +optional
-	Name string `json:"name,omitempty"`
-	// Locked reports why a database has been locked.
-	// +optional
-	Locked string `json:"locked,omitempty"`
-	// Database details
-	DatabaseObservation `json:",inline"`
 	// CACert is the certificate of the CA that is used by the service.
 	// The value is a base64 encoded PEM.
 	CACert string `json:"caCert,omitempty"`
