@@ -278,7 +278,7 @@ type ServiceConnectionParameters struct {
 	Source Source `json:"source"`
 	// Destination is a reference to the destination of the connection
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="destination is immutable after creation"
-	Destination meta.TypedReference `json:"destination"`
+	Destination Destination `json:"destination"`
 }
 type Source struct {
 	// Reference is a reference to the source of the connection
@@ -303,6 +303,7 @@ type KubernetesClusterOptions struct {
 	// +optional
 	NamespaceSelector metav1.LabelSelector `json:"namespaceSelector"`
 }
+type Destination meta.TypedReference
 
 // ServiceConnectionStatus represents the observed state of an ServiceConnection.
 type ServiceConnectionStatus struct {
