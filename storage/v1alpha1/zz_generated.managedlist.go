@@ -100,6 +100,15 @@ func (l *ObjectsBucketList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this OpenSearchList.
+func (l *OpenSearchList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this PostgresDatabaseList.
 func (l *PostgresDatabaseList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
