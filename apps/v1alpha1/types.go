@@ -356,7 +356,7 @@ type ApplicationObservation struct {
 	// Hosts represents the latest status of the verification of each
 	// custom host.
 	// +optional
-	Hosts meta.DNSVerificationStatusEntries `json:"hosts,omitempty"`
+	Hosts []VerificationStatus `json:"hosts,omitempty"`
 	// DefaultHostsCertificateStatus represents the latest Certificate status for the
 	// default URLs where the app is available.
 	// +optional
@@ -394,6 +394,28 @@ type ApplicationObservation struct {
 	LastBasicAuthPasswordUpdate *metav1.Time `json:"lastBasicAuthPasswordUpdate,omitempty"`
 	// ReferenceStatus contains errors for wrongly referenced resources
 	meta.ReferenceStatus `json:",inline"`
+}
+type VerificationStatus struct {
+	// the hostname of the verification entry
+	Name string `json:"name"`
+	// CheckType describes which kind of DNS check this entry is about
+	// (CNAME or TXT)
+	// +optional
+	CheckType DNSCheckType `json:"checkType,omitempty"`
+	// LatestSuccess specifies when this host was last verified successfully
+	// +optional
+	LatestSuccess *metav1.Time `json:"latestSuccess,omitempty"`
+	// Error displays a potential error which happened during the
+	// verification
+	// +optional
+	Error *VerificationError `json:"error,omitempty"`
+}
+type DNSCheckType string
+type VerificationError struct {
+	// Message refers to the error message
+	Message string `json:"message"`
+	// Timestamp refers to the time when this error happened
+	Timestamp metav1.Time `json:"timestamp"`
 }
 
 // CertificateStatus represents the Certificate status
