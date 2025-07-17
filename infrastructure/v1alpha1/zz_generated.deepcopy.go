@@ -21,7 +21,6 @@ limitations under the License.
 package v1alpha1
 
 import (
-	backupv1alpha1 "github.com/ninech/apis/backup/v1alpha1"
 	metav1alpha1 "github.com/ninech/apis/meta/v1alpha1"
 	"k8s.io/api/core/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -616,13 +615,6 @@ func (in *KubernetesClusterParameters) DeepCopyInto(out *KubernetesClusterParame
 	if in.NodePools != nil {
 		in, out := &in.NodePools, &out.NodePools
 		*out = make([]NodePool, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.AdditionalBackupSchedules != nil {
-		in, out := &in.AdditionalBackupSchedules, &out.AdditionalBackupSchedules
-		*out = make([]backupv1alpha1.VeleroSchedule, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}

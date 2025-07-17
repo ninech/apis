@@ -3,6 +3,9 @@ package v1alpha1
 import velerov1 "github.com/vmware-tanzu/velero/pkg/apis/velero/v1"
 
 // VeleroSchedule defines a Velero backup schedule.
+// Deprecated: This struct is scheduled for removal. The AdditionalSchedules
+// field in the KubernetesCluster resource will be phased out, so this public
+// type will no longer be needed.
 // +kubebuilder:object:generate=true
 type VeleroSchedule struct {
 	// Name of the backup schedule
