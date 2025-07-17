@@ -16785,17 +16785,18 @@
                   "description": "Hosts represents the latest status of the verification of each\ncustom host.",
                   "type": "array",
                   "items": {
+                    "description": "DNSVerificationStatusEntry is a single entry used in the status of the DNSVerification.",
                     "type": "object",
                     "required": [
                       "name"
                     ],
                     "properties": {
                       "checkType": {
-                        "description": "CheckType describes which kind of DNS check this entry is about\n(CNAME or TXT)",
+                        "description": "CheckType describes which kind of DNS check this entry is about.",
                         "type": "string"
                       },
                       "error": {
-                        "description": "Error displays a potential error which happened during the\nverification",
+                        "description": "Error displays a potential error which happened during the\nverification.",
                         "type": "object",
                         "required": [
                           "message",
@@ -16803,18 +16804,18 @@
                         ],
                         "properties": {
                           "message": {
-                            "description": "Message refers to the error message",
+                            "description": "Message refers to the error message.",
                             "type": "string"
                           },
                           "timestamp": {
-                            "description": "Timestamp refers to the time when this error happened",
+                            "description": "Timestamp refers to the time when this error happened.",
                             "type": "string",
                             "format": "date-time"
                           }
                         }
                       },
                       "latestSuccess": {
-                        "description": "LatestSuccess specifies when this host was last verified successfully",
+                        "description": "LatestSuccess specifies when this host was last verified\nsuccessfully.",
                         "type": "string",
                         "format": "date-time"
                       },
