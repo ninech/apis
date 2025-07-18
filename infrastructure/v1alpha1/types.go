@@ -7,6 +7,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"slices"
 )
 
 const (
@@ -89,12 +90,37 @@ var (
 	// 10 CPU Cores
 	// 32GB RAM
 	MachineTypeNineDBXXL = MachineType{name: "nine-db-xxl", cpu: 10, memory: resource.MustParse("32Gi")}
+	// MachineTypeNineSearchXS is a machine with:
+	// 2 CPU Cores
+	// 2GB RAM
+	// 10GB Storage
+	MachineTypeNineSearchXS = MachineType{name: "nine-search-xs", cpu: 2, memory: resource.MustParse("2Gi"), storage: resource.MustParse("10Gi"), disableBoundsCheck: true}
+	// MachineTypeNineSearchS is a machine with:
+	// 2 CPU Cores
+	// 4GB RAM
+	// 20GB Storage
+	MachineTypeNineSearchS = MachineType{name: "nine-search-s", cpu: 2, memory: resource.MustParse("4Gi"), storage: resource.MustParse("20Gi")}
+	// MachineTypeNineSearchM is a machine with:
+	// 4 CPU Cores
+	// 8GB RAM
+	// 60GB Storage
+	MachineTypeNineSearchM = MachineType{name: "nine-search-m", cpu: 4, memory: resource.MustParse("8Gi"), storage: resource.MustParse("60Gi")}
+	// MachineTypeNineSearchL is a machine with:
+	// 4 CPU Cores
+	// 16GB RAM
+	// 120GB Storage
+	MachineTypeNineSearchL = MachineType{name: "nine-search-l", cpu: 4, memory: resource.MustParse("16Gi"), storage: resource.MustParse("120Gi")}
+	// MachineTypeNineSearchXL is a machine with:
+	// 8 CPU Cores
+	// 32GB RAM
+	// 200GB Storage
+	MachineTypeNineSearchXL = MachineType{name: "nine-search-xl", cpu: 8, memory: resource.MustParse("32Gi"), storage: resource.MustParse("200Gi")}
 	// MachineTypeNineSmall1 is a VM running on Nine Infrastructure with:
 	// 1 CPU Cores
 	// 2GB RAM
 	MachineTypeNineSmall1 = MachineType{name: "nine-small-1", cpu: 1, memory: resource.MustParse("2Gi")}
 	// MachineTypes is a list of all machine types.
-	MachineTypes = append([]MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighMem8, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineSmall1}, MachineTypesDB...)
+	MachineTypes = slices.Concat([]MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighMem8, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineSmall1}, MachineTypesDB, []MachineType{MachineTypeNineSearchXS, MachineTypeNineSearchS, MachineTypeNineSearchM, MachineTypeNineSearchL, MachineTypeNineSearchXL})
 	// MachineTypesDB is a list of all database machine types.
 	MachineTypesDB = []MachineType{MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL}
 	// DefaultMachineTypeBounds are the default bounds in which all machine
@@ -198,13 +224,14 @@ type CloudVirtualMachineParameters struct {
 }
 
 // MachineType is a name for a particular machine sizing.
-// +nine:public:definition
 // +kubebuilder:validation:Type:=string
 type MachineType struct {
-	name   string
-	custom bool
-	cpu    uint16
-	memory resource.Quantity
+	name               string
+	custom             bool
+	cpu                uint16
+	memory             resource.Quantity
+	storage            resource.Quantity
+	disableBoundsCheck bool
 }
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.
