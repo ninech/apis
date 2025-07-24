@@ -2,7 +2,6 @@ package v1alpha1
 
 import (
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	backup "github.com/ninech/apis/backup/v1alpha1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -424,11 +423,6 @@ type KubernetesClusterParameters struct {
 	// +listType:="map"
 	// +listMapKey:="name"
 	NodePools []NodePool `json:"nodePools"`
-	// AdditionalBackupSchedules allows custom backup schedules to be setup.
-	// The daily full cluster backup won't be affected by this.
-	// +kubebuilder:validation:MaxItems:=3
-	// +optional
-	AdditionalBackupSchedules []backup.VeleroSchedule `json:"additionalBackupSchedules,omitempty"`
 	// ScrapeConfigurations allows to overwrite which metrics of this cluster are scraped
 	// by certain Prometheus instances
 	// +optional
