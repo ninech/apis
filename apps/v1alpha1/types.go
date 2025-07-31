@@ -228,6 +228,17 @@ type Config struct {
 	// +optional
 	// +nullable
 	Port *int32 `json:"port"`
+	// Periodic custom probe of app liveness.
+	// App will be restarted if the probe fails.
+	// +optional
+	// +nullable
+	LivenessProbe *corev1.Probe `json:"livenessProbe,omitempty"`
+	// Periodic probe of app service readiness.
+	// TODO: rephrase comment (too technical):
+	// App will be removed from service endpoints if the probe fails.
+	// +optional
+	// +nullable
+	ReadinessProbe *corev1.Probe `json:"readinessProbe,omitempty"`
 	// Replicas sets the amount of replicas of the running app. If this is
 	// increased, make sure your application can cope with running multiple
 	// replicas and all state required is shared in some way.
@@ -717,6 +728,15 @@ type FieldOriginConfig struct {
 	// Port the app is listening on.
 	// +optional
 	Port *OriginInt32 `json:"port,omitempty"`
+	// Periodic custom probe of app liveness.
+	// App will be restarted if the probe fails.
+	// +optional
+	LivenessProbe *OriginProbe `json:"livenessProbe,omitempty"`
+	// Periodic probe of app service readiness.
+	// TODO: rephrase comment (too technical):
+	// App will be removed from service endpoints if the probe fails.
+	// +optional
+	ReadinessProbe *OriginProbe `json:"readinessProbe,omitempty"`
 	// Replicas sets the amount of replicas of the running app.
 	// +optional
 	Replicas *OriginInt32 `json:"replicas,omitempty"`
@@ -739,6 +759,12 @@ type OriginApplicationSize struct {
 type OriginEnvVarList []OriginEnvVar
 type OriginInt32 struct {
 	Value  int32        `json:"value"`
+	Origin ConfigOrigin `json:"origin"`
+}
+
+// TODO: probably merging logic is needed here as well.
+type OriginProbe struct {
+	Value  corev1.Probe `json:"value"`
 	Origin ConfigOrigin `json:"origin"`
 }
 type OriginBool struct {
