@@ -89,10 +89,24 @@ const (
 	// MySQLDatabaseVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
 	MySQLDatabaseVersionDefault MySQLVersion = MySQLVersionDefault
+	// OpenSearchVersion2 OpenSearch version 2
+	OpenSearchVersion2 OpenSearchVersion = "2"
 	// OpenSearchUser is the name of the OpenSearch user account.
 	OpenSearchUser string = "admin"
 	// OpenSearchPort is the network port used by OpenSearch.
 	OpenSearchHTTPPort int32 = 9200
+	// OpenSearchClusterTypeSingle represents a single node cluster.
+	OpenSearchClusterTypeSingle OpenSearchClusterType = "single"
+	// OpenSearchClusterTypeMulti represents a multi node cluster.
+	OpenSearchClusterTypeMulti OpenSearchClusterType = "multi"
+	// OpenSearchClusterTypeDefault represents the default cluster type.
+	OpenSearchClusterTypeDefault = OpenSearchClusterTypeMulti
+	// OpenSearchHealthStatusGreen means all primary shards and their replicas are allocated to nodes.
+	OpenSearchHealthStatusGreen OpenSearchHealthStatus = "green"
+	// OpenSearchHealthStatusYellow means all primary shards are allocated to nodes, but some replicas aren’t.
+	OpenSearchHealthStatusYellow OpenSearchHealthStatus = "yellow"
+	// OpenSearchHealthStatusRed means at least one primary shard is not allocated to any node.
+	OpenSearchHealthStatusRed OpenSearchHealthStatus = "red"
 	// PostgresVersion17 Postgres version 17
 	PostgresVersion17 PostgresVersion = "17"
 	// PostgresVersion16 Postgres version 16
@@ -140,6 +154,12 @@ var (
 	MySQLDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLDatabaseVersions is a list of all available MySQLVersions.
 	MySQLDatabaseVersions = []MySQLVersion{MySQLDatabaseVersionDefault}
+	// OpenSearchClusterTypes represents the available cluster types.
+	OpenSearchClusterTypes = []OpenSearchClusterType{OpenSearchClusterTypeSingle, OpenSearchClusterTypeMulti}
+	// OpenSearchMachineTypes represents the available machine types.
+	OpenSearchMachineTypes = []infra.MachineType{infra.MachineTypeNineSearchXS, infra.MachineTypeNineSearchS, infra.MachineTypeNineSearchM, infra.MachineTypeNineSearchL, infra.MachineTypeNineSearchXL}
+	// OpenSearchClusterMachineTypes represents the available machine types for multi node clusters.
+	OpenSearchMachineTypesMulti = []infra.MachineType{infra.MachineTypeNineSearchS, infra.MachineTypeNineSearchM, infra.MachineTypeNineSearchL, infra.MachineTypeNineSearchXL}
 	// PostgresMachineTypeDefault specifies the default machine type.
 	PostgresMachineTypeDefault = infra.MachineTypeNineDBS
 	// PostgresLocationOptions is a list of available datacenter locations.
