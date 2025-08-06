@@ -29961,6 +29961,11 @@
                   "description": "Path is the object key name of the backup in the object store bucket.",
                   "type": "string"
                 },
+                "size": {
+                  "description": "Size is the size of the backup uncompressed.",
+                  "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                  "x-kubernetes-int-or-string": true
+                },
                 "start": {
                   "description": "Start is the time when the backup operation started.",
                   "type": "string",
@@ -29985,6 +29990,20 @@
                     "postgres",
                     "unknown"
                   ]
+                },
+                "version": {
+                  "description": "Version contains the version information of the backup.",
+                  "type": "object",
+                  "properties": {
+                    "database": {
+                      "description": "Database is version of the database instance.",
+                      "type": "string"
+                    },
+                    "utility": {
+                      "description": "Utility is version of the utility used to create the backup.",
+                      "type": "string"
+                    }
+                  }
                 }
               }
             },
