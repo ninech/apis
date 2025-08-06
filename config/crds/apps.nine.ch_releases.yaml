@@ -191,6 +191,8 @@ spec:
                               properties:
                                 name:
                                   type: string
+                                sensitive:
+                                  type: boolean
                                 value:
                                   type: string
                               required:

@@ -511,8 +511,9 @@ type OriginEnvVar struct {
 	Origin ConfigOrigin `json:"origin"`
 }
 type EnvVar struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
+	Name      string `json:"name"`
+	Value     string `json:"value"`
+	Sensitive *bool  `json:"sensitive,omitempty"`
 }
 
 // GitExploreResponse describes the response to a GitExploreRequest.
