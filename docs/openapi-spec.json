@@ -374,9 +374,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -842,9 +839,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -1314,9 +1308,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -1782,9 +1773,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -2254,9 +2242,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -2722,9 +2707,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -3194,9 +3176,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -3662,9 +3641,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -4134,9 +4110,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -4602,9 +4575,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -5074,9 +5044,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -5542,9 +5509,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -6014,9 +5978,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -6482,9 +6443,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -6954,9 +6912,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -7422,9 +7377,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -7894,9 +7846,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -8362,9 +8311,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -8834,9 +8780,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -9302,9 +9245,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -9774,9 +9714,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -10242,9 +10179,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -10714,9 +10648,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -11182,9 +11113,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -11654,9 +11582,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -12122,9 +12047,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -12594,9 +12516,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -13062,9 +12981,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -13534,9 +13450,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -14002,9 +13915,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -14474,9 +14384,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -14942,9 +14849,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -15414,9 +15318,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -15882,9 +15783,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -16354,9 +16252,6 @@
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
           },
           {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
-          },
-          {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
           },
           {
@@ -16822,9 +16717,6 @@
           },
           {
             "$ref": "#/parameters/gracePeriodSeconds--K5HaBOS"
-          },
-          {
-            "$ref": "#/parameters/ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj"
           },
           {
             "$ref": "#/parameters/orphanDependents-uRB25kX5"
@@ -19874,7 +19766,6 @@
                     "admin",
                     "viewer",
                     "metrics-admin",
-                    "metrics-viewer",
                     "internal-metrics"
                   ]
                 }
@@ -35154,10 +35045,6 @@
           "type": "integer",
           "format": "int64"
         },
-        "ignoreStoreReadErrorWithClusterBreakingPotential": {
-          "description": "if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it",
-          "type": "boolean"
-        },
         "kind": {
           "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
           "type": "string"
@@ -35319,11 +35206,6 @@
         {
           "group": "coordination.k8s.io",
           "kind": "DeleteOptions",
-          "version": "v1alpha2"
-        },
-        {
-          "group": "coordination.k8s.io",
-          "kind": "DeleteOptions",
           "version": "v1beta1"
         },
         {
@@ -35439,17 +35321,7 @@
         {
           "group": "resource.k8s.io",
           "kind": "DeleteOptions",
-          "version": "v1alpha3"
-        },
-        {
-          "group": "resource.k8s.io",
-          "kind": "DeleteOptions",
-          "version": "v1beta1"
-        },
-        {
-          "group": "resource.k8s.io",
-          "kind": "DeleteOptions",
-          "version": "v1beta2"
+          "version": "v1alpha2"
         },
         {
           "group": "scheduling.k8s.io",
@@ -35487,32 +35359,6 @@
           "version": "v1alpha1"
         }
       ]
-    },
-    "io.k8s.apimachinery.pkg.apis.meta.v1.FieldSelectorRequirement": {
-      "description": "FieldSelectorRequirement is a selector that contains values, a key, and an operator that relates the key and values.",
-      "type": "object",
-      "required": [
-        "key",
-        "operator"
-      ],
-      "properties": {
-        "key": {
-          "description": "key is the field selector key that the requirement applies to.",
-          "type": "string"
-        },
-        "operator": {
-          "description": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. The list of operators may grow in the future.",
-          "type": "string"
-        },
-        "values": {
-          "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "x-kubernetes-list-type": "atomic"
-        }
-      }
     },
     "io.k8s.apimachinery.pkg.apis.meta.v1.FieldsV1": {
       "description": "FieldsV1 stores a set of fields in a data structure like a Trie, in JSON format.\n\nEach key is either a '.' representing the field itself, and will always map to an empty set, or a string representing a sub-field or item. The string will follow one of these four formats: 'f:\u003cname\u003e', where \u003cname\u003e is the name of a field in a struct, or key in a map 'v:\u003cvalue\u003e', where \u003cvalue\u003e is the exact json formatted value of a list item 'i:\u003cindex\u003e', where \u003cindex\u003e is position of a item in a list 'k:\u003ckeys\u003e', where \u003ckeys\u003e is a map of  a list item's key fields to their unique values If a key maps to an empty Fields value, the field that key represents is part of the set.\n\nThe exact format is defined in sigs.k8s.io/structured-merge-diff",
@@ -35855,6 +35701,11 @@
           "group": "",
           "kind": "Status",
           "version": "v1"
+        },
+        {
+          "group": "resource.k8s.io",
+          "kind": "Status",
+          "version": "v1alpha2"
         }
       ]
     },
@@ -36076,11 +35927,6 @@
         {
           "group": "coordination.k8s.io",
           "kind": "WatchEvent",
-          "version": "v1alpha2"
-        },
-        {
-          "group": "coordination.k8s.io",
-          "kind": "WatchEvent",
           "version": "v1beta1"
         },
         {
@@ -36196,17 +36042,7 @@
         {
           "group": "resource.k8s.io",
           "kind": "WatchEvent",
-          "version": "v1alpha3"
-        },
-        {
-          "group": "resource.k8s.io",
-          "kind": "WatchEvent",
-          "version": "v1beta1"
-        },
-        {
-          "group": "resource.k8s.io",
-          "kind": "WatchEvent",
-          "version": "v1beta2"
+          "version": "v1alpha2"
         },
         {
           "group": "scheduling.k8s.io",
@@ -36275,14 +36111,6 @@
         "compiler": {
           "type": "string"
         },
-        "emulationMajor": {
-          "description": "EmulationMajor is the major version of the emulation version",
-          "type": "string"
-        },
-        "emulationMinor": {
-          "description": "EmulationMinor is the minor version of the emulation version",
-          "type": "string"
-        },
         "gitCommit": {
           "type": "string"
         },
@@ -36296,19 +36124,9 @@
           "type": "string"
         },
         "major": {
-          "description": "Major is the major version of the binary version",
-          "type": "string"
-        },
-        "minCompatibilityMajor": {
-          "description": "MinCompatibilityMajor is the major version of the minimum compatibility version",
-          "type": "string"
-        },
-        "minCompatibilityMinor": {
-          "description": "MinCompatibilityMinor is the minor version of the minimum compatibility version",
           "type": "string"
         },
         "minor": {
-          "description": "Minor is the minor version of the binary version",
           "type": "string"
         },
         "platform": {
@@ -36417,13 +36235,6 @@
       "name": "gracePeriodSeconds",
       "in": "query"
     },
-    "ignoreStoreReadErrorWithClusterBreakingPotential-QbNkfIqj": {
-      "uniqueItems": true,
-      "type": "boolean",
-      "description": "if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it",
-      "name": "ignoreStoreReadErrorWithClusterBreakingPotential",
-      "in": "query"
-    },
     "insecureSkipTLSVerifyBackend-gM00jVbe": {
       "uniqueItems": true,
       "type": "boolean",
@@ -36451,6 +36262,14 @@
       "description": "If set, the number of bytes to read from the server before terminating the log output. This may not display a complete final line of logging, and may return slightly more or slightly less than the specified limit.",
       "name": "limitBytes",
       "in": "query"
+    },
+    "logpath-Noq7euwC": {
+      "uniqueItems": true,
+      "type": "string",
+      "description": "path to the log",
+      "name": "logpath",
+      "in": "path",
+      "required": true
     },
     "namespace-vgWSWtn3": {
       "uniqueItems": true,
@@ -36594,17 +36413,10 @@
       "name": "stdout",
       "in": "query"
     },
-    "stream-l-48cgXv": {
-      "uniqueItems": true,
-      "type": "string",
-      "description": "Specify which container log stream to return to the client. Acceptable values are \"All\", \"Stdout\" and \"Stderr\". If not specified, \"All\" is used, and both stdout and stderr are returned interleaved. Note that when \"TailLines\" is specified, \"Stream\" can only be set to nil or \"All\".",
-      "name": "stream",
-      "in": "query"
-    },
-    "tailLines-9xQLWHMV": {
+    "tailLines-2fRTNzbP": {
       "uniqueItems": true,
       "type": "integer",
-      "description": "If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime. Note that when \"TailLines\" is specified, \"Stream\" can only be set to nil or \"All\".",
+      "description": "If set, the number of lines from the end of the logs to show. If not specified, logs are shown from the creation of the container or sinceSeconds or sinceTime",
       "name": "tailLines",
       "in": "query"
     },
