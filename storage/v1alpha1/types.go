@@ -557,12 +557,6 @@ type DatabaseBackupObservation struct {
 	// End is the time when the backup operation ended.
 	// +optional
 	End metav1.Time `json:"end,omitempty"`
-	// Size is the size of the backup uncompressed.
-	// +optional
-	Size *resource.Quantity `json:"size,omitempty"`
-	// Version contains the version information of the backup.
-	// +optional
-	Version DatabaseBackupVersion `json:"version,omitempty"`
 }
 
 // DatabaseBackupType represents the database management system a database backup is made from.
@@ -573,16 +567,6 @@ type DatabaseBackupType string
 // DatabaseBackupState represents the backup state.
 // +kubebuilder:validation:Enum=pending;succeeded;running;failed;unknown
 type DatabaseBackupState string
-
-// DatabaseBackupVersion contains the version information of the backup.
-type DatabaseBackupVersion struct {
-	// Database is version of the database instance.
-	// +optional
-	Database string `json:"database,omitempty"`
-	// Utility is version of the utility used to create the backup.
-	// +optional
-	Utility string `json:"utility,omitempty"`
-}
 
 // DatabaseBackupSchedule creates a single backup in an object storage bucket.
 // +kubebuilder:subresource:status
