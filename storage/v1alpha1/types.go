@@ -624,7 +624,7 @@ type DatabaseBackupScheduleParameters struct {
 	// BucketUsers is a list of bucket users that will gain read access to the
 	// target bucket containing the database backups.
 	// +optional
-	BucketUsers []meta.Reference `json:"bucketUsers,omitempty"`
+	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 	// Name is the name of the database to be backed up. This is required for
 	// MySQL and Posgres types as there can be multiple databases on these servers.
 	// For shared databases like MySQLDatabase this field is ignored, as

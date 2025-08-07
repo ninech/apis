@@ -715,7 +715,7 @@ func (in *DatabaseBackupScheduleParameters) DeepCopyInto(out *DatabaseBackupSche
 	out.TTL = in.TTL
 	if in.BucketUsers != nil {
 		in, out := &in.BucketUsers, &out.BucketUsers
-		*out = make([]metav1alpha1.Reference, len(*in))
+		*out = make([]metav1alpha1.LocalReference, len(*in))
 		copy(*out, *in)
 	}
 	out.Source = in.Source
