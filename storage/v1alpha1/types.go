@@ -1205,6 +1205,10 @@ type OpenSearchParameters struct {
 	// +optional
 	// +kubebuilder:default:=true
 	PublicNetworkingEnabled *bool `json:"publicNetworkingEnabled,omitempty"`
+	// BucketUsers is a list of bucket users that will gain read access to the
+	// target bucket containing the OpenSearch snapshots.
+	// +optional
+	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 }
 
 // OpenSearchVersion defines the Major OpenSearch version to be used.
@@ -1242,6 +1246,9 @@ type OpenSearchObservation struct {
 	//
 	// +optional
 	ClusterHealth OpenSearchClusterHealth `json:"clusterHealth,omitempty"`
+	// SnapshotBucket is the object bucket into which backups are created.
+	// +optional
+	SnapshotBucket meta.LocalReference `json:"snapshotBucket,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
