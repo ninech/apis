@@ -16997,9 +16997,6 @@
                       "name": {
                         "type": "string"
                       },
-                      "sensitive": {
-                        "type": "boolean"
-                      },
                       "value": {
                         "type": "string"
                       }
@@ -17032,9 +17029,6 @@
                         "properties": {
                           "name": {
                             "type": "string"
-                          },
-                          "sensitive": {
-                            "type": "boolean"
                           },
                           "value": {
                             "type": "string"
@@ -17741,9 +17735,6 @@
                           "name": {
                             "type": "string"
                           },
-                          "sensitive": {
-                            "type": "boolean"
-                          },
                           "value": {
                             "type": "string"
                           }
@@ -17797,9 +17788,6 @@
                     "properties": {
                       "name": {
                         "type": "string"
-                      },
-                      "sensitive": {
-                        "type": "boolean"
                       },
                       "value": {
                         "type": "string"
@@ -18230,9 +18218,6 @@
                         "properties": {
                           "name": {
                             "type": "string"
-                          },
-                          "sensitive": {
-                            "type": "boolean"
                           },
                           "value": {
                             "type": "string"
@@ -18689,9 +18674,6 @@
                             "properties": {
                               "name": {
                                 "type": "string"
-                              },
-                              "sensitive": {
-                                "type": "boolean"
                               },
                               "value": {
                                 "type": "string"
