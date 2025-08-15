@@ -6,6 +6,7 @@ import (
 	meta "github.com/ninech/apis/meta/v1alpha1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"time"
 )
 
 const (
@@ -45,6 +46,12 @@ const (
 	DatabaseBackupScheduleCalendarDisabled DatabaseBackupScheduleCalendar = "disabled"
 	// DatabaseBackupScheduleCalendarDaily sets up daily backups for a database.
 	DatabaseBackupScheduleCalendarDaily DatabaseBackupScheduleCalendar = "daily"
+	// DatabaseBackupScheduleTTLMin is the minimum duration after the backups creation until it can be deleted.
+	DatabaseBackupScheduleTTLMin = 24 * time.Hour
+	// DatabaseBackupScheduleTTLMax is the maximum duration after the backups creation until it can be deleted.
+	DatabaseBackupScheduleTTLMax = 365 * 24 * time.Hour
+	// DatabaseBackupMinimumInterval is the minimum interval between two backups.
+	DatabaseBackupMinimumInterval = 1 * time.Hour
 	// KeyValueStoreVersion7 KeyValueStore version 7
 	KeyValueStoreVersion7 KeyValueStoreVersion = "7"
 	// KeyValueStoreUser is the name of the KeyValueStore user account.
@@ -620,11 +627,11 @@ type DatabaseBackupScheduleParameters struct {
 	Schedule DatabaseBackupScheduleCalendar `json:"schedule,omitempty"`
 	// TTL is the duration after the backups creation until it can be deleted.
 	// +kubebuilder:default:="240h"
-	TTL metav1.Duration `json:"ttl"`
+	TTL *metav1.Duration `json:"ttl"`
 	// BucketUsers is a list of bucket users that will gain read access to the
 	// target bucket containing the database backups.
 	// +optional
-	BucketUsers []meta.Reference `json:"bucketUsers,omitempty"`
+	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 	// Name is the name of the database to be backed up. This is required for
 	// MySQL and Posgres types as there can be multiple databases on these servers.
 	// For shared databases like MySQLDatabase this field is ignored, as

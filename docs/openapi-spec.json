@@ -30277,19 +30277,14 @@
                   "description": "BucketUsers is a list of bucket users that will gain read access to the\ntarget bucket containing the database backups.",
                   "type": "array",
                   "items": {
-                    "description": "Reference references another object in a specific namespace.",
+                    "description": "LocalReference references another object in the same namespace.",
                     "type": "object",
                     "required": [
-                      "name",
-                      "namespace"
+                      "name"
                     ],
                     "properties": {
                       "name": {
                         "description": "Name of the target.",
-                        "type": "string"
-                      },
-                      "namespace": {
-                        "description": "Namespace of the target.",
                         "type": "string"
                       }
                     }
