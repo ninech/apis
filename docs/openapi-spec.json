@@ -30664,7 +30664,7 @@
                   "x-kubernetes-list-type": "set"
                 },
                 "location": {
-                  "description": "Location specifies in which Datacenter the document store will be created.",
+                  "description": "Location specifies in which datacenter the in-memory data store will be spawned.",
                   "type": "string",
                   "enum": [
                     "nine-cz41",
@@ -31477,7 +31477,7 @@
                   "minimum": 0
                 },
                 "location": {
-                  "description": "Location specifies in which Datacenter the database will be spawned.\nNeeds to match the available MachineTypes in that datacenter.",
+                  "description": "Location specifies in which datacenter the database will be spawned.\nNeeds to match the available MachineTypes in that datacenter.",
                   "type": "string",
                   "enum": [
                     "nine-cz41",
@@ -33231,6 +33231,23 @@
                   },
                   "x-kubernetes-list-type": "set"
                 },
+                "bucketUsers": {
+                  "description": "BucketUsers is a list of bucket users that will gain read access to the\nSnapshotsBucket containing the OpenSearch snapshots.",
+                  "type": "array",
+                  "items": {
+                    "description": "LocalReference references another object in the same namespace.",
+                    "type": "object",
+                    "required": [
+                      "name"
+                    ],
+                    "properties": {
+                      "name": {
+                        "description": "Name of the target.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
                 "clusterType": {
                   "description": "ClusterType specifies the type of OpenSearch cluster.\nA cluster can be upgraded from single-node to multi-node, but not vice versa.",
                   "type": "string",
@@ -33240,7 +33257,7 @@
                   ]
                 },
                 "location": {
-                  "description": "Location specifies in which Datacenter the in-memory data store will be spawned.",
+                  "description": "Location specifies in which datacenter the document store will be spawned.",
                   "type": "string",
                   "enum": [
                     "nine-cz41",
@@ -33547,6 +33564,19 @@
                 "fqdn": {
                   "description": "FQDN is the fully qualified domain name, at which the instance is reachable at.",
                   "type": "string"
+                },
+                "snapshotsBucket": {
+                  "description": "SnapshotsBucket is the object bucket into which index snapshots are created.",
+                  "type": "object",
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "Name of the target.",
+                      "type": "string"
+                    }
+                  }
                 }
               }
             },
@@ -33702,7 +33732,7 @@
                   "minimum": 0
                 },
                 "location": {
-                  "description": "Location specifies in which Datacenter the database will be spawned.\nNeeds to match the available MachineTypes in that datacenter.",
+                  "description": "Location specifies in which datacenter the database will be spawned.\nNeeds to match the available MachineTypes in that datacenter.",
                   "type": "string",
                   "enum": [
                     "nine-cz41",

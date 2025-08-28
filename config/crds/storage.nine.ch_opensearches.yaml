@@ -86,6 +86,21 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  bucketUsers:
+                    description: |-
+                      BucketUsers is a list of bucket users that will gain read access to the
+                      SnapshotsBucket containing the OpenSearch snapshots.
+                    items:
+                      description: LocalReference references another object in the
+                        same namespace.
+                      properties:
+                        name:
+                          description: Name of the target.
+                          type: string
+                      required:
+                      - name
+                      type: object
+                    type: array
                   clusterType:
                     default: multi
                     description: |-
@@ -97,8 +112,8 @@ spec:
                     type: string
                   location:
                     default: nine-es34
-                    description: Location specifies in which Datacenter the in-memory
-                      data store will be spawned.
+                    description: Location specifies in which datacenter the document
+                      store will be spawned.
                     enum:
                     - nine-cz41
                     - nine-cz42
@@ -411,6 +426,16 @@ spec:
                     description: FQDN is the fully qualified domain name, at which
                       the instance is reachable at.
                     type: string
+                  snapshotsBucket:
+                    description: SnapshotsBucket is the object bucket into which index
+                      snapshots are created.
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                    required:
+                    - name
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -704,7 +704,7 @@ type KeyValueStoreSpec struct {
 // +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
 type KeyValueStoreParameters struct {
-	// Location specifies in which Datacenter the document store will be created.
+	// Location specifies in which datacenter the in-memory data store will be spawned.
 	//
 	// +optional
 	// +kubebuilder:default:="nine-es34"
@@ -831,7 +831,7 @@ type MySQLParameters struct {
 	// +optional
 	// +kubebuilder:default:="nine-db-s"
 	MachineType infra.MachineType `json:"machineType,omitempty"`
-	// Location specifies in which Datacenter the database will be spawned.
+	// Location specifies in which datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
 	//
 	// +optional
@@ -1174,7 +1174,7 @@ type OpenSearchSpec struct {
 // +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.clusterType == oldSelf.clusterType",message="Cluster type is immutable and cannot be unset"
 type OpenSearchParameters struct {
-	// Location specifies in which Datacenter the in-memory data store will be spawned.
+	// Location specifies in which datacenter the document store will be spawned.
 	//
 	// +optional
 	// +kubebuilder:default:="nine-es34"
@@ -1212,6 +1212,10 @@ type OpenSearchParameters struct {
 	// +optional
 	// +kubebuilder:default:=true
 	PublicNetworkingEnabled *bool `json:"publicNetworkingEnabled,omitempty"`
+	// BucketUsers is a list of bucket users that will gain read access to the
+	// SnapshotsBucket containing the OpenSearch snapshots.
+	// +optional
+	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 }
 
 // OpenSearchVersion defines the Major OpenSearch version to be used.
@@ -1249,6 +1253,9 @@ type OpenSearchObservation struct {
 	//
 	// +optional
 	ClusterHealth OpenSearchClusterHealth `json:"clusterHealth,omitempty"`
+	// SnapshotsBucket is the object bucket into which index snapshots are created.
+	// +optional
+	SnapshotsBucket meta.LocalReference `json:"snapshotsBucket,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
@@ -1328,7 +1335,7 @@ type PostgresParameters struct {
 	// +optional
 	// +kubebuilder:default:="nine-db-s"
 	MachineType infra.MachineType `json:"machineType,omitempty"`
-	// Location specifies in which Datacenter the database will be spawned.
+	// Location specifies in which datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
 	// +optional
 	// +kubebuilder:default:="nine-cz41"
