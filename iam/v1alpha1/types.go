@@ -40,6 +40,13 @@ type APIServiceAccountParameters struct {
 	// +optional
 	// +kubebuilder:default:="admin"
 	Role APIServiceAccountRole `json:"role,omitempty"`
+	// OrganizationAccess defines if the APIServiceAccount should have
+	// access to all created projects with the defined role. This is only
+	// possible for APIServiceAccounts which have been created in the
+	// organizations default project.
+	// +optional
+	// +kubebuilder:default:=false
+	OrganizationAccess bool `json:"organizationAccess"`
 }
 
 // +kubebuilder:validation:Enum:=admin;viewer;metrics-admin;metrics-viewer;internal-metrics

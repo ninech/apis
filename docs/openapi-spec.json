@@ -19885,6 +19885,10 @@
               "description": "APIServiceAccountParameters are the configurable fields of an APIServiceAccount.",
               "type": "object",
               "properties": {
+                "organizationAccess": {
+                  "description": "OrganizationAccess defines if the APIServiceAccount should have\naccess to all created projects with the defined role. This is only\npossible for APIServiceAccounts which have been created in the\norganizations default project.",
+                  "type": "boolean"
+                },
                 "role": {
                   "description": "A predefined Role the service account will get.",
                   "type": "string",
