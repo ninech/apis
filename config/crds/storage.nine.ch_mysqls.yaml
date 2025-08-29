@@ -476,7 +476,7 @@ spec:
                   location:
                     default: nine-cz41
                     description: |-
-                      Location specifies in which Datacenter the database will be spawned.
+                      Location specifies in which datacenter the database will be spawned.
                       Needs to match the available MachineTypes in that datacenter.
                     enum:
                     - nine-cz41

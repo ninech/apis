@@ -1573,6 +1573,7 @@ func (in *OpenSearchObservation) DeepCopyInto(out *OpenSearchObservation) {
 		*out = &x
 	}
 	in.ClusterHealth.DeepCopyInto(&out.ClusterHealth)
+	out.SnapshotsBucket = in.SnapshotsBucket
 	in.ChildResourceStatus.DeepCopyInto(&out.ChildResourceStatus)
 }
 
@@ -1599,6 +1600,11 @@ func (in *OpenSearchParameters) DeepCopyInto(out *OpenSearchParameters) {
 		in, out := &in.PublicNetworkingEnabled, &out.PublicNetworkingEnabled
 		*out = new(bool)
 		**out = **in
+	}
+	if in.BucketUsers != nil {
+		in, out := &in.BucketUsers, &out.BucketUsers
+		*out = make([]metav1alpha1.LocalReference, len(*in))
+		copy(*out, *in)
 	}
 }
 
