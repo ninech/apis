@@ -85,8 +85,8 @@ spec:
                     x-kubernetes-list-type: set
                   location:
                     default: nine-es34
-                    description: Location specifies in which datacenter the in-memory
-                      data store will be spawned.
+                    description: Location specifies in which Datacenter the document
+                      store will be created.
                     enum:
                     - nine-cz41
                     - nine-cz42
