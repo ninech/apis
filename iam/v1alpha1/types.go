@@ -6,22 +6,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-const (
-	APIServiceAccountTokenKey      = "token"
-	APIServiceAccountURLKey        = "url"
-	APIServiceAccountKubeconfigKey = "kubeconfig"
-	APIServiceAccountIDKey         = "client_id"
-	APIServiceAccountSecretKey     = "client_secret"
-	APIServiceAccountTokenURLKey   = "token_url"
-	// APIServiceAccountV1 creates a service account based on Kubernetes service
-	// account tokens. This is deprecated as all v1 service accounts will expire
-	// on the 01.12.2025.
-	APIServiceAccountV1 APIServiceAccountVersion = "v1"
-	// APIServiceAccountV2 creates a service account based on oauth2 client
-	// credentials.
-	APIServiceAccountV2 APIServiceAccountVersion = "v2"
-)
-
 // APIServiceAccount is a service account to access the API.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -63,31 +47,14 @@ type APIServiceAccountParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	OrganizationAccess bool `json:"organizationAccess"`
-	// Version of the APIServiceAccount.
-	// +optional
-	// +kubebuilder:default:="v1"
-	// +kubebuilder:validation:XValidation:message="downgrade from v2 to v1 is not allowed",rule="!(self == 'v1' && oldSelf == 'v2')"
-	Version APIServiceAccountVersion `json:"version,omitempty"`
 }
 
 // +kubebuilder:validation:Enum:=admin;viewer;metrics-admin;metrics-viewer;internal-metrics
 type APIServiceAccountRole string
 
-// +kubebuilder:validation:Enum:=v1;v2
-type APIServiceAccountVersion string
-
-// APIServiceAccountStatus represents the observed state of an APIServiceAccount.
+// APIServiceAccountStatus represents the observed state of a APIServiceAccount.
 type APIServiceAccountStatus struct {
-	AtProvider               APIServiceAccountObservation `json:"atProvider"`
 	runtimev1.ResourceStatus `json:",inline"`
-}
-
-// APIServiceAccountObservation are the observable fields of an APIServiceAccount.
-type APIServiceAccountObservation struct {
-	// Email assigned to this service account. Not a real email address but it's
-	// used to identify this service account in RBAC.
-	// +optional
-	Email string `json:"email,omitempty"`
 }
 
 // KubernetesClustersRoleBinding binds a role to subjects and KubernetesClusters.
