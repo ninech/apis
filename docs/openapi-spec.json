@@ -19899,20 +19899,6 @@
                     "metrics-viewer",
                     "internal-metrics"
                   ]
-                },
-                "version": {
-                  "description": "Version of the APIServiceAccount.",
-                  "type": "string",
-                  "enum": [
-                    "v1",
-                    "v2"
-                  ],
-                  "x-kubernetes-validations": [
-                    {
-                      "message": "downgrade from v2 to v1 is not allowed",
-                      "rule": "!(self == 'v1' \u0026\u0026 oldSelf == 'v2')"
-                    }
-                  ]
                 }
               }
             },
@@ -20060,22 +20046,9 @@
           }
         },
         "status": {
-          "description": "APIServiceAccountStatus represents the observed state of an APIServiceAccount.",
+          "description": "APIServiceAccountStatus represents the observed state of a APIServiceAccount.",
           "type": "object",
-          "required": [
-            "atProvider"
-          ],
           "properties": {
-            "atProvider": {
-              "description": "APIServiceAccountObservation are the observable fields of an APIServiceAccount.",
-              "type": "object",
-              "properties": {
-                "email": {
-                  "description": "Email assigned to this service account. Not a real email address but it's\nused to identify this service account in RBAC.",
-                  "type": "string"
-                }
-              }
-            },
             "conditions": {
               "description": "Conditions of the resource.",
               "type": "array",
