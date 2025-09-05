@@ -17042,6 +17042,28 @@
                         }
                       }
                     },
+                    "healthProbe": {
+                      "description": "Defines the periodic, health check configuration for the app.\nApp will be restarted if the probe fails.",
+                      "type": "object",
+                      "properties": {
+                        "httpGet": {
+                          "description": "HTTPGet specifies an HTTP GET request to perform.",
+                          "type": "object",
+                          "properties": {
+                            "path": {
+                              "description": "Path to access on the HTTP server.",
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "periodSeconds": {
+                          "description": "How often (in seconds) to perform the probe.\nDefaults to 10 seconds. Minimum value is 1.",
+                          "type": "integer",
+                          "format": "int32",
+                          "minimum": 1
+                        }
+                      }
+                    },
                     "port": {
                       "description": "Port the app is listening on.",
                       "format": "int32"
@@ -17750,6 +17772,28 @@
                         }
                       }
                     },
+                    "healthProbe": {
+                      "description": "Defines the periodic, health check configuration for the app.\nApp will be restarted if the probe fails.",
+                      "type": "object",
+                      "properties": {
+                        "httpGet": {
+                          "description": "HTTPGet specifies an HTTP GET request to perform.",
+                          "type": "object",
+                          "properties": {
+                            "path": {
+                              "description": "Path to access on the HTTP server.",
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "periodSeconds": {
+                          "description": "How often (in seconds) to perform the probe.\nDefaults to 10 seconds. Minimum value is 1.",
+                          "type": "integer",
+                          "format": "int32",
+                          "minimum": 1
+                        }
+                      }
+                    },
                     "port": {
                       "description": "Port the app is listening on.",
                       "format": "int32"
@@ -18240,6 +18284,28 @@
                         }
                       }
                     },
+                    "healthProbe": {
+                      "description": "Defines the periodic, health check configuration for the app.\nApp will be restarted if the probe fails.",
+                      "type": "object",
+                      "properties": {
+                        "httpGet": {
+                          "description": "HTTPGet specifies an HTTP GET request to perform.",
+                          "type": "object",
+                          "properties": {
+                            "path": {
+                              "description": "Path to access on the HTTP server.",
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "periodSeconds": {
+                          "description": "How often (in seconds) to perform the probe.\nDefaults to 10 seconds. Minimum value is 1.",
+                          "type": "integer",
+                          "format": "int32",
+                          "minimum": 1
+                        }
+                      }
+                    },
                     "port": {
                       "description": "Port the app is listening on.",
                       "format": "int32"
@@ -18701,6 +18767,41 @@
                         }
                       }
                     },
+                    "healthProbe": {
+                      "type": "object",
+                      "required": [
+                        "origin",
+                        "value"
+                      ],
+                      "properties": {
+                        "origin": {
+                          "description": "ConfigOrigin describes the origin of a config",
+                          "type": "string"
+                        },
+                        "value": {
+                          "description": "Defines the periodic, health check configuration for the app.\nApp will be restarted if the probe fails.",
+                          "type": "object",
+                          "properties": {
+                            "httpGet": {
+                              "description": "HTTPGet specifies an HTTP GET request to perform.",
+                              "type": "object",
+                              "properties": {
+                                "path": {
+                                  "description": "Path to access on the HTTP server.",
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "periodSeconds": {
+                              "description": "How often (in seconds) to perform the probe.\nDefaults to 10 seconds. Minimum value is 1.",
+                              "type": "integer",
+                              "format": "int32",
+                              "minimum": 1
+                            }
+                          }
+                        }
+                      }
+                    },
                     "port": {
                       "description": "Port the app is listening on.",
                       "type": "object",
@@ -18878,6 +18979,9 @@
                 "dockerfileBuild": {
                   "description": "DockerfileBuild indicates if the build has been built using a dockerfile.",
                   "type": "boolean"
+                },
+                "healthProbeConfiguration": {
+                  "description": "HealthProbeConfiguration contains the effective probe settings for this\nRelease, derived from ApplicationConfiguration."
                 },
                 "image": {
                   "description": "Image defines the image spec of the built image",
