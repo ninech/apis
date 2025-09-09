@@ -14,7 +14,4 @@ provider "kubernetes" {
   # 2. use a kubeconfig of an API service account `nctl get asa <name> --print-kubeconfig > asa.yaml`
   # config_path    = "/path/to/asa.yaml"
   # config_context = "nineapis.ch"
-  # 3. use the token of an API service account directly `nctl get asa <name> --print-token`
-  # host  = "https://nineapis.ch"
-  # token = "ey..."
 }
