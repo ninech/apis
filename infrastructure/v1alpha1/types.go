@@ -220,9 +220,6 @@ type CloudVirtualMachineParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	AllowStoppingForUpdate bool `json:"allowStoppingForUpdate"`
-	// ReverseDNS allows to set the reverse DNS entry.
-	// +optional
-	ReverseDNS string `json:"reverseDNS,omitempty"`
 }
 
 // MachineType is a name for a particular machine sizing.
@@ -277,9 +274,6 @@ type CloudVirtualMachineObservation struct {
 	PowerState VirtualMachinePowerState `json:"powerState,omitempty"`
 	// FQDN is the fully qualified domain name at which the VM is reachable at.
 	FQDN string `json:"fqdn,omitempty"`
-	// ReverseDNS is the current set reverse DNS for this cloud virtual machine.
-	// +optional
-	ReverseDNS string `json:"reverseDNS,omitempty"`
 	// UUID of the underlying virtual machine.
 	UUID string `json:"uuid,omitempty"`
 	// Status of all our child resources.

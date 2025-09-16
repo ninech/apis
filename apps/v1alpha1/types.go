@@ -96,14 +96,14 @@ const (
 )
 
 var (
-	// DefaultConfig defines the default values used for Deploio
+	// DefaultConfig defines the default values used for deplo.io
 	// applications
 	DefaultConfig                                         = Config{Size: AppMicro, Replicas: ptr.To(int32(1)), Port: ptr.To(int32(8080)), EnableBasicAuth: ptr.To(false)}
 	AppMicro      ApplicationSize                         = "micro"
 	AppMini       ApplicationSize                         = "mini"
 	AppStandard1  ApplicationSize                         = "standard-1"
 	AppStandard2  ApplicationSize                         = "standard-2"
-	AppResources  map[ApplicationSize]corev1.ResourceList = map[ApplicationSize]corev1.ResourceList{AppMicro: {corev1.ResourceCPU: resource.MustParse("125m"), corev1.ResourceMemory: resource.MustParse("256Mi")}, AppMini: {corev1.ResourceCPU: resource.MustParse("250m"), corev1.ResourceMemory: resource.MustParse("512Mi")}, AppStandard1: {corev1.ResourceCPU: resource.MustParse("500m"), corev1.ResourceMemory: resource.MustParse("1Gi")}, AppStandard2: {corev1.ResourceCPU: resource.MustParse("750m"), corev1.ResourceMemory: resource.MustParse("2Gi")}}
+	AppResources  map[ApplicationSize]corev1.ResourceList = map[ApplicationSize]corev1.ResourceList{AppMicro: corev1.ResourceList{corev1.ResourceCPU: resource.MustParse("125m"), corev1.ResourceMemory: resource.MustParse("256Mi")}, AppMini: corev1.ResourceList{corev1.ResourceCPU: resource.MustParse("250m"), corev1.ResourceMemory: resource.MustParse("512Mi")}, AppStandard1: corev1.ResourceList{corev1.ResourceCPU: resource.MustParse("500m"), corev1.ResourceMemory: resource.MustParse("1Gi")}, AppStandard2: corev1.ResourceList{corev1.ResourceCPU: resource.MustParse("750m"), corev1.ResourceMemory: resource.MustParse("2Gi")}}
 )
 
 // Application takes source code as the input and fully builds and deploys
@@ -228,8 +228,6 @@ type Config struct {
 	// +optional
 	// +nullable
 	Port *int32 `json:"port"`
-	// +optional
-	HealthProbe *Probe `json:"healthProbe,omitempty"`
 	// Replicas sets the amount of replicas of the running app. If this is
 	// increased, make sure your application can cope with running multiple
 	// replicas and all state required is shared in some way.
@@ -264,32 +262,6 @@ type Config struct {
 // +kubebuilder:validation:Enum:="";micro;mini;standard-1;standard-2
 type ApplicationSize string
 type EnvVars []EnvVar
-
-// Defines the periodic, health check configuration for the app.
-// App will be restarted if the probe fails.
-type Probe struct {
-	ProbeHandler `json:",inline"`
-	// How often (in seconds) to perform the probe.
-	// Defaults to 10 seconds. Minimum value is 1.
-	// +optional
-	// +kubebuilder:validation:Minimum=1
-	// +kubebuilder:default:=10
-	PeriodSeconds *int32 `json:"periodSeconds,omitempty"`
-}
-
-// ProbeHandler defines a specific action that should be taken in a probe.
-type ProbeHandler struct {
-	// HTTPGet specifies an HTTP GET request to perform.
-	// +optional
-	HTTPGet *HTTPGetAction `json:"httpGet,omitempty"`
-}
-
-// HTTPGetAction describes an action based on HTTP Get requests.
-type HTTPGetAction struct {
-	// Path to access on the HTTP server.
-	// +optional
-	Path string `json:"path,omitempty"`
-}
 
 // DeployJob defines a command which is executed before a new release gets
 // deployed. The deployment will only continue if the job finished
@@ -711,11 +683,6 @@ type ReleaseParameters struct {
 	// Configuration contains all configurations from the various configuration
 	// sources (project level, application level, etc) merged into one.
 	Configuration FieldOriginConfig `json:"configuration"`
-	// HealthProbeConfiguration contains the effective probe settings for this
-	// Release, derived from ApplicationConfiguration.
-	// +optional
-	// +nullable
-	HealthProbeConfiguration *ProbeConfig `json:"healthProbeConfiguration"`
 	// Timeout of the release after it will be considered failed. This does
 	// not include the time spent waiting for the deploy job and only concerns
 	// the release rollout.
@@ -751,8 +718,6 @@ type FieldOriginConfig struct {
 	// Port the app is listening on.
 	// +optional
 	Port *OriginInt32 `json:"port,omitempty"`
-	// +optional
-	HealthProbe *OriginProbe `json:"healthProbe,omitempty"`
 	// Replicas sets the amount of replicas of the running app.
 	// +optional
 	Replicas *OriginInt32 `json:"replicas,omitempty"`
@@ -777,10 +742,6 @@ type OriginInt32 struct {
 	Value  int32        `json:"value"`
 	Origin ConfigOrigin `json:"origin"`
 }
-type OriginProbe struct {
-	Value  Probe        `json:"value"`
-	Origin ConfigOrigin `json:"origin"`
-}
 type OriginBool struct {
 	Value  bool         `json:"value"`
 	Origin ConfigOrigin `json:"origin"`
@@ -796,37 +757,6 @@ type OriginWorkerJob struct {
 type OriginScheduledJob struct {
 	Value  ScheduledJob `json:"value"`
 	Origin ConfigOrigin `json:"origin"`
-}
-
-// ProbeConfig holds the configurable settings for the app health probes.
-type ProbeConfig struct {
-	// TimeoutSeconds defines default number of seconds after which the
-	// probe times out.
-	// +optional
-	// +kubebuilder:validation:Minimum=1
-	// +kubebuilder:default:=1
-	TimeoutSeconds *int32 `json:"timeoutSeconds,omitempty"`
-	// SuccessThreshold defines default minimum consecutive successes for
-	// the probe to be considered successful after having failed.
-	// Must be 1 for liveness and startup.
-	// +optional
-	// +kubebuilder:validation:Minimum=1
-	// +kubebuilder:default:=1
-	SuccessThreshold *int32 `json:"successThreshold,omitempty"`
-	// FailureThreshold defines default minimum consecutive failures for
-	// the probe to be considered failed after having succeeded.
-	// +optional
-	// +kubebuilder:validation:Minimum=1
-	// +kubebuilder:default:=3
-	FailureThreshold *int32 `json:"failureThreshold,omitempty"`
-	// StartupFailureThreshold defines default minimum consecutive failures for
-	// the startup probe to be considered failed after having succeeded.
-	// This gives the app extra time to warm up (e.g., with period=10s and
-	// threshold=6, up to ~60s).
-	// +optional
-	// +kubebuilder:validation:Minimum=1
-	// +kubebuilder:default:=3
-	StartupFailureThreshold *int32 `json:"startupFailureThreshold,omitempty"`
 }
 
 // An ReleaseStatus represents the observed Release state
