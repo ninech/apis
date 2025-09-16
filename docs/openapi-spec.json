@@ -4877,6 +4877,10 @@
                       "enabled"
                     ],
                     "type": "object"
+                  },
+                  "reverseDNS": {
+                    "description": "ReverseDNS allows to set the reverse DNS entry.",
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -5115,6 +5119,10 @@
                   },
                   "powerState": {
                     "description": "PowerState indicates the observed power state of the VM.",
+                    "type": "string"
+                  },
+                  "reverseDNS": {
+                    "description": "ReverseDNS is the current set reverse DNS for this cloud virtual machine.",
                     "type": "string"
                   },
                   "uuid": {
