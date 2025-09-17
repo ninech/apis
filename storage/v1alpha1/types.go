@@ -10,11 +10,20 @@ import (
 )
 
 const (
-	FiveMins    MigrationIntervalMinutes = "5"
-	TenMins     MigrationIntervalMinutes = "10"
-	FifteenMins MigrationIntervalMinutes = "15"
-	ThirtyMins  MigrationIntervalMinutes = "30"
-	SixtyMins   MigrationIntervalMinutes = "60"
+	// BucketUserLocationDefault represents the default BucketUser location
+	// if no explicit version was specified.
+	BucketUserLocationDefault = meta.LocationNineCZ42
+	// BucketUserCredentialAccessKey is the key name that the s3 access key will get in the
+	// ConnectionCredential
+	BucketUserCredentialAccessKey = "s3_access_key"
+	// BucketUserCredentialSecretKey is the key name that the s3 secret key will get in the
+	// ConnectionCredential
+	BucketUserCredentialSecretKey                          = "s3_secret_key"
+	FiveMins                      MigrationIntervalMinutes = "5"
+	TenMins                       MigrationIntervalMinutes = "10"
+	FifteenMins                   MigrationIntervalMinutes = "15"
+	ThirtyMins                    MigrationIntervalMinutes = "30"
+	SixtyMins                     MigrationIntervalMinutes = "60"
 	// SyncStatusPending indicates the sync is pending and is scheduled to be started.
 	SyncStatusPending SyncStatus = "pending"
 	// SyncStatusSucceeded indicates that the sync job has
