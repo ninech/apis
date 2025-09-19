@@ -193,3 +193,11 @@ type LocalTypedReference struct {
 	// Type info about the resource.
 	metav1.GroupKind `json:",inline"`
 }
+
+// URL represents a URI reference.
+// The general form represented is:
+//
+//	[scheme:][//[userinfo@]host][/]path[?query][#fragment]
+//
+// +kubebuilder:validation:Pattern=`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`
+type URL string
