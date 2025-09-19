@@ -158,6 +158,8 @@ const (
 )
 
 var (
+	// BucketUserLocationOptions is a list of available locations for bucket users.
+	BucketUserLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLMachineTypeDefault specifies the default machine type.
 	MySQLMachineTypeDefault = infra.MachineTypeNineDBS
 	// MySQLModeDefault is the list of enabled SQL modes.
