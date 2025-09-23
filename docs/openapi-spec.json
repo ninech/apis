@@ -17740,11 +17740,6 @@
                     "description": "MachineType defines the sizing for the OpenSearch instance.",
                     "type": "string"
                   },
-                  "privateNetworkingEnabled": {
-                    "default": false,
-                    "description": "PrivateNetworkingEnabled configures a destination for a service connection.",
-                    "type": "boolean"
-                  },
                   "publicNetworkingEnabled": {
                     "default": true,
                     "description": "PublicNetworkingEnabled specifies if the service should be available without service connection.",
@@ -18064,7 +18059,16 @@
                     "x-kubernetes-int-or-string": true
                   },
                   "fqdn": {
-                    "description": "FQDN is the fully qualified domain name, at which the instance is reachable at.",
+                    "description": "FQDN is the fully qualified domain name at which the instance can be reached.\n\nDeprecated: FQDN exists for historical compatibility.\nURL should be used instead as it includes the protocol and port.",
+                    "type": "string"
+                  },
+                  "privateNetworkingFQDN": {
+                    "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.\n\nDeprecated: PrivateNetworkingFQDN exists for historical compatibility.\nPrivateNetworkingURL should be used instead as it includes the protocol and port.",
+                    "type": "string"
+                  },
+                  "privateNetworkingURL": {
+                    "description": "PrivateNetworkingURL is the private address at which the instance can be reached.\nIt requires a service connection to be configured.",
+                    "pattern": "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?\u0026//=]*)",
                     "type": "string"
                   },
                   "snapshotsBucket": {
@@ -18079,6 +18083,11 @@
                       "name"
                     ],
                     "type": "object"
+                  },
+                  "url": {
+                    "description": "URL is the public address at which the instance can be reached.",
+                    "pattern": "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?\u0026//=]*)",
+                    "type": "string"
                   }
                 },
                 "type": "object"
