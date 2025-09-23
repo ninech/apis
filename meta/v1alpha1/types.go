@@ -3,6 +3,12 @@ package v1alpha1
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 const (
+	// DNSCheckCNAME describes a CNAME DNS check
+	DNSCheckCNAME DNSCheckType = "CNAME"
+	// DNSCheckCNAME describes a TXT record DNS check
+	DNSCheckTXT DNSCheckType = "TXT"
+	// DNSCheckCAA describes a check which validates DNS CAA records
+	DNSCheckCAA DNSCheckType = "CAA"
 	// LocationNineCZ41 is the name for our CZ41 location
 	LocationNineCZ41 LocationName = NinePrefix + "cz41"
 	// LocationNineCZ42 is the name for our CZ42 location
