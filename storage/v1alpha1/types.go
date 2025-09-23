@@ -65,6 +65,17 @@ const (
 	KeyValueStoreVersion7 KeyValueStoreVersion = "7"
 	// KeyValueStoreUser is the name of the KeyValueStore user account.
 	KeyValueStoreUser string = "default"
+	// KeyValueStorePort is the network port used by any KeyValueStore instance.
+	KeyValueStorePort int32 = 6379
+	// KeyValueStoreVersionDefault represents the default KeyValueStore version
+	// if no explicit version was specified.
+	KeyValueStoreVersionDefault = KeyValueStoreVersion7
+	// KeyValueStoreLocationDefault represents the default KeyValueStore datacenter location
+	// if no explicit version was specified.
+	KeyValueStoreLocationDefault = meta.LocationNineES34
+	// KeyValueStoreMaxMemoryPolicyDefault represents the default KeyValueStore max memory policy
+	// if no explicit version was specified.
+	KeyValueStoreMaxMemoryPolicyDefault KeyValueStoreMaxMemoryPolicy = "allkeys-lru"
 	// KeyValueStoreMemorySizeDefault is the default memory size for a KeyValueStor.
 	KeyValueStoreMemorySizeDefault = "1Gi"
 	// KeyValueStoreMemorySizeMin is the minimum memory size for a KeyValueStore.
@@ -109,8 +120,11 @@ const (
 	OpenSearchVersion2 OpenSearchVersion = "2"
 	// OpenSearchUser is the name of the OpenSearch user account.
 	OpenSearchUser string = "admin"
-	// OpenSearchPort is the network port used by OpenSearch.
-	OpenSearchHTTPPort int32 = 9200
+	// OpenSearchVersionDefault is the default OpenSearch version.
+	OpenSearchVersionDefault = OpenSearchVersion2
+	// OpenSearchLocationDefault represents the default OpenSearch datacenter location
+	// if no explicit version was specified.
+	OpenSearchLocationDefault = meta.LocationNineES34
 	// OpenSearchClusterTypeSingle represents a single node cluster.
 	OpenSearchClusterTypeSingle OpenSearchClusterType = "single"
 	// OpenSearchClusterTypeMulti represents a multi node cluster.
@@ -160,6 +174,10 @@ const (
 var (
 	// BucketUserLocationOptions is a list of available locations for bucket users.
 	BucketUserLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
+	// KeyValueStoreVersions represents the available versions for KeyValueStore instances.
+	KeyValueStoreVersions = []KeyValueStoreVersion{KeyValueStoreVersion7}
+	// KeyValueStoreLocationOptions represents the available locations for KeyValueStore instances.
+	KeyValueStoreLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41}
 	// MySQLMachineTypeDefault specifies the default machine type.
 	MySQLMachineTypeDefault = infra.MachineTypeNineDBS
 	// MySQLModeDefault is the list of enabled SQL modes.
@@ -172,6 +190,12 @@ var (
 	MySQLDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLDatabaseVersions is a list of all available MySQLVersions.
 	MySQLDatabaseVersions = []MySQLVersion{MySQLDatabaseVersionDefault}
+	// OpenSearchMachineTypeDefault represents the default machine type for OpenSearch clusters.
+	OpenSearchMachineTypeDefault = infra.MachineTypeNineSearchS
+	// OpenSearchVersions represents the available versions of OpenSearch.
+	OpenSearchVersions = []OpenSearchVersion{OpenSearchVersion2}
+	// OpenSearchLocationOptions represents the available locations for OpenSearch clusters.
+	OpenSearchLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41}
 	// OpenSearchClusterTypes represents the available cluster types.
 	OpenSearchClusterTypes = []OpenSearchClusterType{OpenSearchClusterTypeSingle, OpenSearchClusterTypeMulti}
 	// OpenSearchMachineTypes represents the available machine types.
@@ -784,6 +808,10 @@ type KeyValueStoreObservation struct {
 	//
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
+	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
+	//
+	// +optional
+	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 	// DiskSize specifies the total disk size used for persistence.
 	// Note that the disk size cannot be decreased and is based
 	// on the configured MemorySize.
@@ -797,10 +825,6 @@ type KeyValueStoreObservation struct {
 	CACert string `json:"caCert,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
-	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
-	//
-	// +optional
-	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 }
 
 // MySQL deploys a Self Service MySQL instance.
@@ -1213,11 +1237,6 @@ type OpenSearchParameters struct {
 	// +listType:="set"
 	// +optional
 	AllowedCIDRs []meta.IPv4CIDR `json:"allowedCIDRs,omitempty"`
-	// PrivateNetworkingEnabled configures a destination for a service connection.
-	//
-	// +optional
-	// +kubebuilder:default:=false
-	PrivateNetworkingEnabled bool `json:"privateNetworkingEnabled"`
 	// PublicNetworkingEnabled specifies if the service should be available without service connection.
 	//
 	// +optional
@@ -1245,10 +1264,29 @@ type OpenSearchStatus struct {
 
 // OpenSearchObservation are the observable fields of an OpenSearch cluster.
 type OpenSearchObservation struct {
-	// FQDN is the fully qualified domain name, at which the instance is reachable at.
+	// URL is the public address at which the instance can be reached.
+	//
+	// +optional
+	URL meta.URL `json:"url,omitempty"`
+	// FQDN is the fully qualified domain name at which the instance can be reached.
+	//
+	// Deprecated: FQDN exists for historical compatibility.
+	// URL should be used instead as it includes the protocol and port.
 	//
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
+	// PrivateNetworkingURL is the private address at which the instance can be reached.
+	// It requires a service connection to be configured.
+	//
+	// +optional
+	PrivateNetworkingURL meta.URL `json:"privateNetworkingURL,omitempty"`
+	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
+	//
+	// Deprecated: PrivateNetworkingFQDN exists for historical compatibility.
+	// PrivateNetworkingURL should be used instead as it includes the protocol and port.
+	//
+	// +optional
+	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 	// DiskSize specifies the total storage used for persistence.
 	// It includes storage used for all nodes if a multi node cluster is deployed.
 	// Disk size cannot be decreased.
