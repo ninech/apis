@@ -10,6 +10,10 @@ import (
 )
 
 const (
+	// BucketRoleReader allows reads on all objects in a Bucket.
+	BucketRoleReader BucketRole = "reader"
+	// BucketRoleWriter allows reads and writes on all objects in a Bucket.
+	BucketRoleWriter BucketRole = "writer"
 	// BucketUserLocationDefault represents the default BucketUser location
 	// if no explicit version was specified.
 	BucketUserLocationDefault = meta.LocationNineCZ42
@@ -172,6 +176,8 @@ const (
 )
 
 var (
+	// BucketLocationOptions is a list of available locations for buckets.
+	BucketLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// BucketUserLocationOptions is a list of available locations for bucket users.
 	BucketUserLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// KeyValueStoreVersions represents the available versions for KeyValueStore instances.
@@ -217,6 +223,10 @@ var (
 	// PostgresDatabaseVersions is a list of all available PostgresVersions.
 	PostgresDatabaseVersions = []PostgresVersion{PostgresDatabaseVersionDefault}
 )
+
+// BucketRole defines what kind of access is possible.
+// +kubebuilder:validation:Enum=reader;writer
+type BucketRole string
 
 // Bucket is an object storage bucket. It's used to group objects, defines
 // who can access them and how they are stored.
@@ -305,10 +315,6 @@ type BucketPermission struct {
 	// BucketUserRefs references users that will receive this permission.
 	BucketUserRefs []*meta.LocalReference `json:"userRefs,omitempty"`
 }
-
-// BucketRole defines what kind of access is possible.
-// +kubebuilder:validation:Enum=reader;writer
-type BucketRole string
 
 // BucketLifecyclePolicy defines a lifecycle policy of bucket objects.
 type BucketLifecyclePolicy struct {
