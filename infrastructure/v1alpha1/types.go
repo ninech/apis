@@ -391,6 +391,7 @@ type KedaObservation struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="API_READY",type="string",JSONPath=".status.atProvider.apiReady"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:printcolumn:name="VERSION",type="string",JSONPath=".status.atProvider.kubernetesVersion"
 // +kubebuilder:resource:scope=Namespaced,shortName=kc
 // +kubebuilder:object:root=true
 type KubernetesCluster struct {
