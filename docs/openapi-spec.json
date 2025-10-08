@@ -17746,10 +17746,11 @@
                     "type": "boolean"
                   },
                   "version": {
-                    "default": "2",
+                    "default": "3",
                     "description": "Version specifies the OpenSearch version.\nNeeds to match an available OpenSearch Version.",
                     "enum": [
-                      "2"
+                      "2",
+                      "3"
                     ],
                     "type": "string"
                   }
