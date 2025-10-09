@@ -46,6 +46,15 @@ func (l *LokiList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this MetricsAgentList.
+func (l *MetricsAgentList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this PrometheusList.
 func (l *PrometheusList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
