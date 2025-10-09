@@ -12730,8 +12730,7 @@
                   }
                 },
                 "required": [
-                  "location",
-                  "storageTier"
+                  "location"
                 ],
                 "type": "object"
               },
