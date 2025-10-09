@@ -130,13 +130,12 @@ spec:
                       should be available without service connection.
                     type: boolean
                   version:
-                    default: "3"
+                    default: "2"
                     description: |-
                       Version specifies the OpenSearch version.
                       Needs to match an available OpenSearch Version.
                     enum:
                     - "2"
-                    - "3"
                     type: string
                 type: object
                 x-kubernetes-validations:

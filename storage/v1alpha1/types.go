@@ -122,12 +122,10 @@ const (
 	MySQLDatabaseVersionDefault MySQLVersion = MySQLVersionDefault
 	// OpenSearchVersion2 OpenSearch version 2
 	OpenSearchVersion2 OpenSearchVersion = "2"
-	// OpenSearchVersion3 OpenSearch version 3
-	OpenSearchVersion3 OpenSearchVersion = "3"
 	// OpenSearchUser is the name of the OpenSearch user account.
 	OpenSearchUser string = "admin"
 	// OpenSearchVersionDefault is the default OpenSearch version.
-	OpenSearchVersionDefault = OpenSearchVersion3
+	OpenSearchVersionDefault = OpenSearchVersion2
 	// OpenSearchLocationDefault represents the default OpenSearch datacenter location
 	// if no explicit version was specified.
 	OpenSearchLocationDefault = meta.LocationNineES34
@@ -201,7 +199,7 @@ var (
 	// OpenSearchMachineTypeDefault represents the default machine type for OpenSearch clusters.
 	OpenSearchMachineTypeDefault = infra.MachineTypeNineSearchS
 	// OpenSearchVersions represents the available versions of OpenSearch.
-	OpenSearchVersions = []OpenSearchVersion{OpenSearchVersion2, OpenSearchVersion3}
+	OpenSearchVersions = []OpenSearchVersion{OpenSearchVersion2}
 	// OpenSearchLocationOptions represents the available locations for OpenSearch clusters.
 	OpenSearchLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41}
 	// OpenSearchClusterTypes represents the available cluster types.
@@ -266,9 +264,8 @@ type BucketParameters struct {
 	Location meta.LocationName `json:"location"`
 	// StorageType defines the type of the backing storage for the Bucket.
 	// +immutable
-	// +optional
 	// +kubebuilder:default:="standard"
-	StorageType BucketStorageType `json:"storageTier,omitempty"`
+	StorageType BucketStorageType `json:"storageTier"`
 	// Permissions configures user access to the objects in this Bucket.
 	// +optional
 	Permissions []*BucketPermission `json:"permissions,omitempty"`
@@ -1227,7 +1224,7 @@ type OpenSearchParameters struct {
 	// Needs to match an available OpenSearch Version.
 	//
 	// +optional
-	// +kubebuilder:default:="3"
+	// +kubebuilder:default:="2"
 	Version OpenSearchVersion `json:"version,omitempty"`
 	// ClusterType specifies the type of OpenSearch cluster.
 	// A cluster can be upgraded from single-node to multi-node, but not vice versa.
@@ -1259,7 +1256,7 @@ type OpenSearchParameters struct {
 
 // OpenSearchVersion defines the Major OpenSearch version to be used.
 //
-// +kubebuilder:validation:Enum="2";"3"
+// +kubebuilder:validation:Enum="2"
 type OpenSearchVersion string
 
 // OpenSearchClusterType defines the cluster type of an OpenSearch installation.

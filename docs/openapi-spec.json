@@ -12730,7 +12730,8 @@
                   }
                 },
                 "required": [
-                  "location"
+                  "location",
+                  "storageTier"
                 ],
                 "type": "object"
               },
@@ -17745,11 +17746,10 @@
                     "type": "boolean"
                   },
                   "version": {
-                    "default": "3",
+                    "default": "2",
                     "description": "Version specifies the OpenSearch version.\nNeeds to match an available OpenSearch Version.",
                     "enum": [
-                      "2",
-                      "3"
+                      "2"
                     ],
                     "type": "string"
                   }
