@@ -264,8 +264,9 @@ type BucketParameters struct {
 	Location meta.LocationName `json:"location"`
 	// StorageType defines the type of the backing storage for the Bucket.
 	// +immutable
+	// +optional
 	// +kubebuilder:default:="standard"
-	StorageType BucketStorageType `json:"storageTier"`
+	StorageType BucketStorageType `json:"storageTier,omitempty"`
 	// Permissions configures user access to the objects in this Bucket.
 	// +optional
 	Permissions []*BucketPermission `json:"permissions,omitempty"`

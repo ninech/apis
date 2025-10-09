@@ -218,7 +218,6 @@ spec:
                     type: boolean
                 required:
                 - location
-                - storageTier
                 type: object
               managementPolicies:
                 default:
