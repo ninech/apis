@@ -34,6 +34,10 @@ var (
 	LokiGroupKind        = schema.GroupKind{Group: Group, Kind: LokiKind}.String()
 	LokiKindAPIVersion   = LokiKind + "." + SchemeGroupVersion.String()
 	LokiGroupVersionKind = SchemeGroupVersion.WithKind(LokiKind)
+	MetricsAgentKind             = reflect.TypeOf(MetricsAgent{}).Name()
+	MetricsAgentGroupKind        = schema.GroupKind{Group: Group, Kind: MetricsAgentKind}.String()
+	MetricsAgentKindAPIVersion   = MetricsAgentKind + "." + SchemeGroupVersion.String()
+	MetricsAgentGroupVersionKind = SchemeGroupVersion.WithKind(MetricsAgentKind)
 	PrometheusKind             = reflect.TypeOf(Prometheus{}).Name()
 	PrometheusGroupKind        = schema.GroupKind{Group: Group, Kind: PrometheusKind}.String()
 	PrometheusKindAPIVersion   = PrometheusKind + "." + SchemeGroupVersion.String()
@@ -48,6 +52,7 @@ func init() {
 	SchemeBuilder.Register(&Alertmanager{}, &AlertmanagerList{})
 	SchemeBuilder.Register(&Grafana{}, &GrafanaList{})
 	SchemeBuilder.Register(&Loki{}, &LokiList{})
+	SchemeBuilder.Register(&MetricsAgent{}, &MetricsAgentList{})
 	SchemeBuilder.Register(&Prometheus{}, &PrometheusList{})
 	SchemeBuilder.Register(&Promtail{}, &PromtailList{})
 }
