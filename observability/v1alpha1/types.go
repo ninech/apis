@@ -198,6 +198,82 @@ type LokiObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 }
 
+// MetricsAgent deploys a Metrics collection agent.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced,shortName=ma
+// +kubebuilder:object:root=true
+type MetricsAgent struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              MetricsAgentSpec   `json:"spec"`
+	Status            MetricsAgentStatus `json:"status,omitempty"`
+}
+
+// MetricsAgentList contains a list of MetricsAgent.
+// +kubebuilder:object:root=true
+type MetricsAgentList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []MetricsAgent `json:"items"`
+}
+
+// MetricsAgentSpec defines the desired state of a MetricsAgent.
+type MetricsAgentSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            MetricsAgentParameters `json:"forProvider"`
+}
+
+// MetricsAgentParameters are the configurable fields of a MetricsAgent.
+type MetricsAgentParameters struct {
+	// Cluster specifies on which cluster agent should be started on.
+	Cluster meta.LocalReference `json:"cluster"`
+	// Replicas sets the amount of agent replicas to start.
+	// +kubebuilder:default:=2
+	// +optional
+	Replicas int32 `json:"replicas,omitempty"`
+	// EnableDefaultMetrics specifies if this MetricsAgent will scrape
+	// default metrics.
+	// +optional
+	// +kubebuilder:default:=true
+	EnableDefaultMetrics *bool `json:"enableDefaultMetrics"`
+	// ExternalLabels are labels which are attached to every scraped
+	// metric.
+	// +optional
+	ExternalLabels map[string]string `json:"externalLabels,omitempty"`
+	// ScrapeInterval sets the default scrape interval.
+	// +optional
+	// +kubebuilder:default:="30s"
+	// TODO: set reasonable minimum or even move it to cfg?
+	ScrapeInterval *metav1.Duration `json:"scrapeInterval,omitempty"`
+	// Alertmanagers MetricsAgent should send alerts to.
+	// +optional
+	Alertmanagers []meta.Reference `json:"alertmanagers,omitempty"`
+}
+
+// MetricsAgentStatus represents the observed state of a MetricsAgent.
+type MetricsAgentStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               MetricsAgentObservation `json:"atProvider"`
+}
+
+// MetricsAgentObservation are the observable fields of a MetricsAgent.
+type MetricsAgentObservation struct {
+	meta.ReferenceStatus `json:",inline"`
+	// ExternalURL provides the URL to access this MetricsAgent instance from
+	// external of the cluster. The corresponding basic auth credentials
+	// are exposed in the referenced connection secret
+	// (`spec.resourceSpec.writeConnectionSecretToRef`). Access can be
+	// disabled by using `spec.forProvider.access.noExternalAccess`.
+	ExternalURL string `json:"externalURL,omitempty"`
+	// InternalURL provides the URL to access the MetricsAgent instance from
+	// internal of the referenced cluster. Needs to be enabled via
+	// `spec.forProvider.access.internal.enabled`.
+	InternalURL string `json:"internalURL,omitempty"`
+}
+
 // Prometheus deploys a fully managed Prometheus server.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"

@@ -60,6 +60,7 @@ func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	AddToMapper(mapper, observability.AlertmanagerGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.GrafanaGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.LokiGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, observability.MetricsAgentGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.PrometheusGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.PromtailGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, networking.IngressNginxGroupVersionKind, meta.RESTScopeNamespace)
