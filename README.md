@@ -12,3 +12,7 @@ over from an internal Nine repo and should not be modified here.
 
 The docs are available in a rendered form at
 [docs.nineapis.ch](https://docs.nineapis.ch).
+
+## Terraform examples
+
+You can find examples of how to create nine API resource with terraform [here](https://github.com/ninech/terraform-examples).
