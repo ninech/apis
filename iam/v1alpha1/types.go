@@ -13,10 +13,6 @@ const (
 	APIServiceAccountIDKey         = "client_id"
 	APIServiceAccountSecretKey     = "client_secret"
 	APIServiceAccountTokenURLKey   = "token_url"
-	// APIServiceAccountV1 creates a service account based on Kubernetes service
-	// account tokens. This is deprecated as all v1 service accounts will expire
-	// on the 01.12.2025.
-	APIServiceAccountV1 APIServiceAccountVersion = "v1"
 	// APIServiceAccountV2 creates a service account based on oauth2 client
 	// credentials.
 	APIServiceAccountV2 APIServiceAccountVersion = "v2"
@@ -65,7 +61,7 @@ type APIServiceAccountParameters struct {
 	OrganizationAccess bool `json:"organizationAccess"`
 	// Version of the APIServiceAccount.
 	// +optional
-	// +kubebuilder:default:="v1"
+	// +kubebuilder:default:="v2"
 	// +kubebuilder:validation:XValidation:message="downgrade from v2 to v1 is not allowed",rule="!(self == 'v1' && oldSelf == 'v2')"
 	Version APIServiceAccountVersion `json:"version,omitempty"`
 }
