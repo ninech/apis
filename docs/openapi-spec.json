@@ -16610,6 +16610,10 @@
                     "description": "FQDN is the fully qualified domain name at which the database is accessible.",
                     "type": "string"
                   },
+                  "privateNetworkingFQDN": {
+                    "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.",
+                    "type": "string"
+                  },
                   "size": {
                     "anyOf": [
                       {
@@ -18964,6 +18968,10 @@
                   },
                   "fqdn": {
                     "description": "FQDN is the fully qualified domain name at which the database is accessible.",
+                    "type": "string"
+                  },
+                  "privateNetworkingFQDN": {
+                    "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.",
                     "type": "string"
                   },
                   "size": {
