@@ -352,7 +352,7 @@ type StaticEgressSpec struct {
 // StaticEgressParameters are the configurable fields of a StaticEgress
 type StaticEgressParameters struct {
 	// Disabled can be set to true to quickly disable the static egress
-	// without losing the registered egress IP.
+	// without loosing the registered egress IP.
 	// egress IP.
 	// +optional
 	// +kubebuilder:default:=false

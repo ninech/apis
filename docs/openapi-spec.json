@@ -8681,7 +8681,7 @@
                 "properties": {
                   "disabled": {
                     "default": false,
-                    "description": "Disabled can be set to true to quickly disable the static egress\nwithout losing the registered egress IP.\negress IP.",
+                    "description": "Disabled can be set to true to quickly disable the static egress\nwithout loosing the registered egress IP.\negress IP.",
                     "type": "boolean"
                   },
                   "target": {
