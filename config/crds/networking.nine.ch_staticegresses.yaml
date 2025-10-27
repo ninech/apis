@@ -74,7 +74,7 @@ spec:
                     default: false
                     description: |-
                       Disabled can be set to true to quickly disable the static egress
-                      without losing the registered egress IP.
+                      without loosing the registered egress IP.
                       egress IP.
                     type: boolean
                   target:
