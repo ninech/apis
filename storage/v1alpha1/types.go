@@ -1005,9 +1005,6 @@ type MySQLObservation struct {
 	// FQDN is the fully qualified domain name at which the database is accessible.
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
-	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
-	// +optional
-	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 	// Size indicates the total size of the disk.
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
@@ -1444,9 +1441,6 @@ type PostgresObservation struct {
 	// FQDN is the fully qualified domain name at which the database is accessible.
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
-	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
-	// +optional
-	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 	// Size indicates the total size of the disk.
 	// +optional
 	Size *resource.Quantity `json:"size,omitempty"`
