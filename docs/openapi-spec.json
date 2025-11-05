@@ -3557,7 +3557,7 @@
                     "type": "string"
                   },
                   "version": {
-                    "default": "v1",
+                    "default": "v2",
                     "description": "Version of the APIServiceAccount.",
                     "enum": [
                       "v1",
