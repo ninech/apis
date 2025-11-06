@@ -356,6 +356,12 @@ type CORSConfig struct {
 	//
 	// +optional
 	ResponseHeaders []string `json:"responseHeaders,omitempty"`
+	// AllowedHeaders that are specified in the Access-Control-Request-Headers header. These
+	// headers are allowed in a preflight OPTIONS request. In response to any preflight
+	// OPTIONS request, S3 returns any requested headers that are allowed.
+	//
+	// +optional
+	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
 	// MaxAge is the maximum time for the origin to hold the preflight
 	// results, in seconds. Also known as the cache-expiry time, it
 	// defines the duration in which the browser is allowed to make
