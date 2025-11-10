@@ -13007,13 +13007,6 @@
                   "cors": {
                     "description": "CORS settings for this bucket. CORS is a mechanism to allow code\nrunning in a browser to make requests to a domain other than the\none from where it originated.",
                     "properties": {
-                      "allowedHeaders": {
-                        "description": "AllowedHeaders that are specified in the Access-Control-Request-Headers header. These\nheaders are allowed in a preflight OPTIONS request. In response to any preflight\nOPTIONS request, S3 returns any requested headers that are allowed.",
-                        "items": {
-                          "type": "string"
-                        },
-                        "type": "array"
-                      },
                       "maxAge": {
                         "default": 3600,
                         "description": "MaxAge is the maximum time for the origin to hold the preflight\nresults, in seconds. Also known as the cache-expiry time, it\ndefines the duration in which the browser is allowed to make\nrequests before it must repeat the preflight request.",
@@ -17632,13 +17625,6 @@
                   "cors": {
                     "description": "CORS settings for this bucket. CORS is a mechanism to allow code\nrunning in a browser to make requests to a domain other than the\none from where it originated.",
                     "properties": {
-                      "allowedHeaders": {
-                        "description": "AllowedHeaders that are specified in the Access-Control-Request-Headers header. These\nheaders are allowed in a preflight OPTIONS request. In response to any preflight\nOPTIONS request, S3 returns any requested headers that are allowed.",
-                        "items": {
-                          "type": "string"
-                        },
-                        "type": "array"
-                      },
                       "maxAge": {
                         "default": 3600,
                         "description": "MaxAge is the maximum time for the origin to hold the preflight\nresults, in seconds. Also known as the cache-expiry time, it\ndefines the duration in which the browser is allowed to make\nrequests before it must repeat the preflight request.",
