@@ -69,10 +69,8 @@ spec:
                 properties:
                   backendVersion:
                     default: v2
-                    description: |-
-                      BackendVersion specifies the bucket backend version to use. While the
-                      APIs work the same, buckets with v2 are only compatible with
-                      bucketusers also on v2.
+                    description: BucketBackendVersion specifies the bucket backend
+                      version to use.
                     enum:
                     - v2
                     type: string

@@ -27,8 +27,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: BucketMigration is an object to migrate a v1 Bucket's data to
-          a v2 Bucket.
+        description: BucketMigration migrates data from one Bucket to another.
         properties:
           apiVersion:
             description: |-

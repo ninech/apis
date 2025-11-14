@@ -278,12 +278,6 @@ type BucketParameters struct {
 	// PublicList sets this Buckets objects to be publicly listable.
 	// +optional
 	PublicList bool `json:"publicList,omitempty"`
-	// Encryption enables encryption at rest for this Bucket. This is only
-	// relevant for Buckets which use the v1 storage backend. Buckets with a
-	// backend of v2 are always encrypted at rest.
-	// Deprecated: Only affects v1 Buckets and will be removed in the future.
-	// +optional
-	Encryption bool `json:"encryption,omitempty"`
 	// Versioning enables object versioning for this Bucket.
 	// +optional
 	Versioning bool `json:"versioning,omitempty"`
@@ -325,15 +319,7 @@ type BucketLifecyclePolicy struct {
 	// specify if all objects should be expired.
 	// +optional
 	Prefix string `json:"prefix,omitempty"`
-	// ExpireAfter defines the time after an object will be expired (deleted).
-	// Note that this is not minute-accurate and an object might exist for a
-	// bit longer than specified until it is cleaned up. Usually it can take
-	// around 30 minutes.
-	// This field will only be used by Buckets with backend version 'v1'.
-	// +optional
-	ExpireAfter metav1.Duration `json:"expireAfter,omitempty"`
 	// ExpireAfterDays defines the amount of days after an object will be expired (deleted).
-	// This field will only be used by Buckets with backend version 'v2'.
 	// +optional
 	ExpireAfterDays int32 `json:"expireAfterDays,omitempty"`
 	// IsLive specifies if this policy applies to live objects. If false, this
@@ -372,9 +358,7 @@ type CORSConfig struct {
 	MaxAge int `json:"maxAge"`
 }
 
-// BackendVersion specifies the bucket backend version to use. While the
-// APIs work the same, buckets with v2 are only compatible with
-// bucketusers also on v2.
+// BucketBackendVersion specifies the bucket backend version to use.
 // +kubebuilder:validation:Enum=v2
 type BucketBackendVersion string
 
@@ -457,7 +441,7 @@ type BucketUserObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 }
 
-// BucketMigration is an object to migrate a v1 Bucket's data to a v2 Bucket.
+// BucketMigration migrates data from one Bucket to another.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
