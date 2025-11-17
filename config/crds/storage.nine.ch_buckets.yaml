@@ -70,10 +70,8 @@ spec:
                 properties:
                   backendVersion:
                     default: v2
-                    description: |-
-                      BackendVersion specifies the bucket backend version to use. While the
-                      APIs work the same, buckets with v2 are only compatible with
-                      bucketusers also on v2.
+                    description: BucketBackendVersion specifies the bucket backend
+                      version to use.
                     enum:
                     - v2
                     type: string
@@ -124,13 +122,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  encryption:
-                    description: |-
-                      Encryption enables encryption at rest for this Bucket. This is only
-                      relevant for Buckets which use the v1 storage backend. Buckets with a
-                      backend of v2 are always encrypted at rest.
-                      Deprecated: Only affects v1 Buckets and will be removed in the future.
-                    type: boolean
                   lifecyclePolicies:
                     description: |-
                       LifecyclePolicies allows to define automatic expiry (deletion) of
@@ -139,18 +130,9 @@ spec:
                       description: BucketLifecyclePolicy defines a lifecycle policy
                         of bucket objects.
                       properties:
-                        expireAfter:
-                          description: |-
-                            ExpireAfter defines the time after an object will be expired (deleted).
-                            Note that this is not minute-accurate and an object might exist for a
-                            bit longer than specified until it is cleaned up. Usually it can take
-                            around 30 minutes.
-                            This field will only be used by Buckets with backend version 'v1'.
-                          type: string
                         expireAfterDays:
-                          description: |-
-                            ExpireAfterDays defines the amount of days after an object will be expired (deleted).
-                            This field will only be used by Buckets with backend version 'v2'.
+                          description: ExpireAfterDays defines the amount of days
+                            after an object will be expired (deleted).
                           format: int32
                           type: integer
                         isLive:

@@ -114,18 +114,9 @@ spec:
                       description: BucketLifecyclePolicy defines a lifecycle policy
                         of bucket objects.
                       properties:
-                        expireAfter:
-                          description: |-
-                            ExpireAfter defines the time after an object will be expired (deleted).
-                            Note that this is not minute-accurate and an object might exist for a
-                            bit longer than specified until it is cleaned up. Usually it can take
-                            around 30 minutes.
-                            This field will only be used by Buckets with backend version 'v1'.
-                          type: string
                         expireAfterDays:
-                          description: |-
-                            ExpireAfterDays defines the amount of days after an object will be expired (deleted).
-                            This field will only be used by Buckets with backend version 'v2'.
+                          description: ExpireAfterDays defines the amount of days
+                            after an object will be expired (deleted).
                           format: int32
                           type: integer
                         isLive:

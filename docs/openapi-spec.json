@@ -12938,7 +12938,6 @@
           },
           "spec": {
             "forProvider": {
-              "encryption": true,
               "location": "nine-cz42",
               "permissions": [
                 {
@@ -12998,7 +12997,7 @@
                 "properties": {
                   "backendVersion": {
                     "default": "v2",
-                    "description": "BackendVersion specifies the bucket backend version to use. While the\nAPIs work the same, buckets with v2 are only compatible with\nbucketusers also on v2.",
+                    "description": "BucketBackendVersion specifies the bucket backend version to use.",
                     "enum": [
                       "v2"
                     ],
@@ -13046,21 +13045,13 @@
                     },
                     "type": "array"
                   },
-                  "encryption": {
-                    "description": "Encryption enables encryption at rest for this Bucket. This is only\nrelevant for Buckets which use the v1 storage backend. Buckets with a\nbackend of v2 are always encrypted at rest.\nDeprecated: Only affects v1 Buckets and will be removed in the future.",
-                    "type": "boolean"
-                  },
                   "lifecyclePolicies": {
                     "description": "LifecyclePolicies allows to define automatic expiry (deletion) of\nobjects using certain rules.",
                     "items": {
                       "description": "BucketLifecyclePolicy defines a lifecycle policy of bucket objects.",
                       "properties": {
-                        "expireAfter": {
-                          "description": "ExpireAfter defines the time after an object will be expired (deleted).\nNote that this is not minute-accurate and an object might exist for a\nbit longer than specified until it is cleaned up. Usually it can take\naround 30 minutes.\nThis field will only be used by Buckets with backend version 'v1'.",
-                          "type": "string"
-                        },
                         "expireAfterDays": {
-                          "description": "ExpireAfterDays defines the amount of days after an object will be expired (deleted).\nThis field will only be used by Buckets with backend version 'v2'.",
+                          "description": "ExpireAfterDays defines the amount of days after an object will be expired (deleted).",
                           "format": "int32",
                           "type": "integer"
                         },
@@ -13565,7 +13556,7 @@
         ]
       },
       "ch.nine.storage.v1alpha1.BucketMigration": {
-        "description": "BucketMigration is an object to migrate a v1 Bucket's data to a v2 Bucket.",
+        "description": "BucketMigration migrates data from one Bucket to another.",
         "properties": {
           "apiVersion": {
             "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -14139,7 +14130,7 @@
                 "properties": {
                   "backendVersion": {
                     "default": "v2",
-                    "description": "BackendVersion specifies the bucket backend version to use. While the\nAPIs work the same, buckets with v2 are only compatible with\nbucketusers also on v2.",
+                    "description": "BucketBackendVersion specifies the bucket backend version to use.",
                     "enum": [
                       "v2"
                     ],
@@ -17669,12 +17660,8 @@
                     "items": {
                       "description": "BucketLifecyclePolicy defines a lifecycle policy of bucket objects.",
                       "properties": {
-                        "expireAfter": {
-                          "description": "ExpireAfter defines the time after an object will be expired (deleted).\nNote that this is not minute-accurate and an object might exist for a\nbit longer than specified until it is cleaned up. Usually it can take\naround 30 minutes.\nThis field will only be used by Buckets with backend version 'v1'.",
-                          "type": "string"
-                        },
                         "expireAfterDays": {
-                          "description": "ExpireAfterDays defines the amount of days after an object will be expired (deleted).\nThis field will only be used by Buckets with backend version 'v2'.",
+                          "description": "ExpireAfterDays defines the amount of days after an object will be expired (deleted).",
                           "format": "int32",
                           "type": "integer"
                         },
@@ -48427,7 +48414,7 @@
       "name": "Bucket"
     },
     {
-      "description": "BucketMigration is an object to migrate a v1 Bucket's data to a v2 Bucket.",
+      "description": "BucketMigration migrates data from one Bucket to another.",
       "name": "BucketMigration"
     },
     {
