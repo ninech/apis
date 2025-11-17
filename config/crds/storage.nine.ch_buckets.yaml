@@ -500,6 +500,26 @@ spec:
                     description: PublicURL where the bucket content is accessible
                       if set to PublicRead.
                     type: string
+                  referenceErrors:
+                    items:
+                      properties:
+                        kind:
+                          type: string
+                        message:
+                          type: string
+                        name:
+                          description: Name of the target.
+                          type: string
+                        namespace:
+                          description: Namespace of the target.
+                          type: string
+                      required:
+                      - kind
+                      - message
+                      - name
+                      - namespace
+                      type: object
+                    type: array
                 required:
                 - bytesUsed
                 - endpoint
