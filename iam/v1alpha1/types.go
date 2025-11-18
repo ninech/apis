@@ -65,7 +65,7 @@ type APIServiceAccountParameters struct {
 	OrganizationAccess bool `json:"organizationAccess"`
 	// Version of the APIServiceAccount.
 	// +optional
-	// +kubebuilder:default:="v1"
+	// +kubebuilder:default:="v2"
 	// +kubebuilder:validation:XValidation:message="downgrade from v2 to v1 is not allowed",rule="!(self == 'v1' && oldSelf == 'v2')"
 	Version APIServiceAccountVersion `json:"version,omitempty"`
 }
