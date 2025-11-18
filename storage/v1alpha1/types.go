@@ -383,6 +383,7 @@ type BucketObservation struct {
 	CustomHostnamesVerification meta.DNSVerificationStatus `json:"customHostnamesVerification,omitempty"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
+	meta.ReferenceStatus     `json:",inline"`
 }
 
 // BucketUser defines a user who can access Buckets.
