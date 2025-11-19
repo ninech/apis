@@ -606,7 +606,7 @@ spec:
                     type: string
                   defaultURLs:
                     description: DefaultURLs are the URLs at which the application
-                      is avalilable.
+                      is available.
                     items:
                       type: string
                     type: array
