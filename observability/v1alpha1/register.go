@@ -46,6 +46,14 @@ var (
 	PromtailGroupKind        = schema.GroupKind{Group: Group, Kind: PromtailKind}.String()
 	PromtailKindAPIVersion   = PromtailKind + "." + SchemeGroupVersion.String()
 	PromtailGroupVersionKind = SchemeGroupVersion.WithKind(PromtailKind)
+	TempoKind             = reflect.TypeOf(Tempo{}).Name()
+	TempoGroupKind        = schema.GroupKind{Group: Group, Kind: TempoKind}.String()
+	TempoKindAPIVersion   = TempoKind + "." + SchemeGroupVersion.String()
+	TempoGroupVersionKind = SchemeGroupVersion.WithKind(TempoKind)
+	TracingCollectorKind             = reflect.TypeOf(TracingCollector{}).Name()
+	TracingCollectorGroupKind        = schema.GroupKind{Group: Group, Kind: TracingCollectorKind}.String()
+	TracingCollectorKindAPIVersion   = TracingCollectorKind + "." + SchemeGroupVersion.String()
+	TracingCollectorGroupVersionKind = SchemeGroupVersion.WithKind(TracingCollectorKind)
 )
 
 func init() {
@@ -55,4 +63,6 @@ func init() {
 	SchemeBuilder.Register(&MetricsAgent{}, &MetricsAgentList{})
 	SchemeBuilder.Register(&Prometheus{}, &PrometheusList{})
 	SchemeBuilder.Register(&Promtail{}, &PromtailList{})
+	SchemeBuilder.Register(&Tempo{}, &TempoList{})
+	SchemeBuilder.Register(&TracingCollector{}, &TracingCollectorList{})
 }

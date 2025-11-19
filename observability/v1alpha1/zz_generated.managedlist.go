@@ -72,3 +72,21 @@ func (l *PromtailList) GetItems() []resource.Managed {
 	}
 	return items
 }
+
+// GetItems of this TempoList.
+func (l *TempoList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this TracingCollectorList.
+func (l *TracingCollectorList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
