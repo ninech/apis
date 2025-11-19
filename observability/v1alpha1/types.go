@@ -448,3 +448,104 @@ type PromtailObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 	meta.ReferenceStatus     `json:",inline"`
 }
+
+// Tempo describes and deploys Tempo to a cluster.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type Tempo struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              TempoSpec   `json:"spec"`
+	Status            TempoStatus `json:"status,omitempty"`
+}
+
+// TempoList contains a list of Tempo
+// +kubebuilder:object:root=true
+type TempoList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []Tempo `json:"items"`
+}
+
+// A TempoSpec defines the desired state of a Tempo instance.
+type TempoSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            TempoParameters `json:"forProvider"`
+}
+
+// TempoParameters are the configurable fields of a Tempo.
+type TempoParameters struct {
+	// Retention is the duration of how long the traces will be stored in Tempo
+	// storage of Tempo. Defaults to 30 days.
+	// +kubebuilder:default:="720h"
+	Retention *metav1.Duration `json:"retention,omitempty"`
+}
+
+// An TempoStatus represents the observed state of a Tempo.
+type TempoStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               TempoObservation `json:"atProvider"`
+}
+
+// TempoObservation are the observable fields of a Tempo.
+type TempoObservation struct {
+	// Status of all our child resources.
+	meta.ChildResourceStatus `json:",inline"`
+}
+
+// TracingCollector describes and deploys the TracingCollector controller to a cluster.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type TracingCollector struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              TracingCollectorSpec   `json:"spec"`
+	Status            TracingCollectorStatus `json:"status,omitempty"`
+}
+
+// TracingCollectorList contains a list of TracingCollector instances
+// +kubebuilder:object:root=true
+type TracingCollectorList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []TracingCollector `json:"items"`
+}
+
+// An TracingCollectorSpec defines the desired state of a TracingCollector instance.
+type TracingCollectorSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            TracingCollectorParameters `json:"forProvider"`
+}
+
+// TracingCollectorParameters are the configurable fields of a TracingCollector instance.
+type TracingCollectorParameters struct {
+	// Cluster is the cluster where the TracingCollector should be deployed to
+	Cluster meta.LocalReference `json:"cluster"`
+	// Tempo is a reference to a Grafana Tempo instance
+	Tempo meta.Reference `json:"tempo"`
+}
+
+// An TracingCollectorStatus represents the observed state of a TracingCollector instance.
+type TracingCollectorStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               TracingCollectorObservation `json:"atProvider"`
+}
+
+// TracingCollectorObservation are the observable fields of a TracingCollector instance.
+type TracingCollectorObservation struct {
+	// Status of all our child resources.
+	meta.ChildResourceStatus `json:",inline"`
+	meta.ReferenceStatus     `json:",inline"`
+	// GRPCEndpoint where the OpenTelemetry Gateway can be accessed at in the cluster.
+	GRPCEndpoint string `json:"grpcEndpoint,omitempty"`
+	// HTTPEndpoint where the OpenTelemetry Gateway can be accessed at in the cluster.
+	HTTPEndpoint string `json:"httpEndpoint,omitempty"`
+}
