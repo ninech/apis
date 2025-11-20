@@ -708,7 +708,7 @@ type DatabaseBackupScheduleObservation struct {
 
 // KeyValueStore deploys an on-demand KeyValueStore instance.
 // +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="MEMORYSIZE",type="string",JSONPath=".spec.forProvider.memorySize"
+// +kubebuilder:printcolumn:name="MEMORY-SIZE",type="string",JSONPath=".spec.forProvider.memorySize"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
@@ -1179,8 +1179,8 @@ type ObjectsBucketObservation struct {
 // OpenSearch deploys an on-demand OpenSearch instance.
 //
 // +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="CLUSTERTYPE",type="string",JSONPath=".spec.forProvider.clusterType"
-// +kubebuilder:printcolumn:name="MEMORYSIZE",type="string",JSONPath=".spec.forProvider.memorySize"
+// +kubebuilder:printcolumn:name="CLUSTER-TYPE",type="string",JSONPath=".spec.forProvider.clusterType"
+// +kubebuilder:printcolumn:name="DISK-SIZE",type="string",JSONPath=".status.atProvider.diskSize"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
