@@ -18,10 +18,10 @@ spec:
   versions:
   - additionalPrinterColumns:
     - jsonPath: .spec.forProvider.clusterType
-      name: CLUSTER-TYPE
+      name: CLUSTERTYPE
       type: string
-    - jsonPath: .status.atProvider.diskSize
-      name: DISK-SIZE
+    - jsonPath: .spec.forProvider.memorySize
+      name: MEMORYSIZE
       type: string
     - jsonPath: .status.conditions[?(@.type=='Synced')].status
       name: SYNCED

@@ -18,7 +18,7 @@ spec:
   versions:
   - additionalPrinterColumns:
     - jsonPath: .spec.forProvider.memorySize
-      name: MEMORY-SIZE
+      name: MEMORYSIZE
       type: string
     - jsonPath: .status.conditions[?(@.type=='Synced')].status
       name: SYNCED
