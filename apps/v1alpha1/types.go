@@ -370,7 +370,7 @@ type ApplicationStatus struct {
 
 // ApplicationObservation are the observable fields of an Application.
 type ApplicationObservation struct {
-	// DefaultURLs are the URLs at which the application is avalilable.
+	// DefaultURLs are the URLs at which the application is available.
 	// +optional
 	DefaultURLs []string `json:"defaultURLs"`
 	// CNAMETarget specifies to which DNS entry all custom hosts should point to
