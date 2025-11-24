@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: (unknown)
   name: applications.apps.nine.ch
 spec:
   group: apps.nine.ch
@@ -606,7 +606,7 @@ spec:
                     type: string
                   defaultURLs:
                     description: DefaultURLs are the URLs at which the application
-                      is available.
+                      is avalilable.
                     items:
                       type: string
                     type: array

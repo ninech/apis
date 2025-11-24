@@ -124,7 +124,7 @@ var (
 	MachineTypesDB = []MachineType{MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL}
 	// DefaultMachineTypeBounds are the default bounds in which all machine
 	// types must fit.
-	DefaultMachineTypeBounds = MachineTypeBounds{MinCPU: resource.MustParse("1"), MaxCPU: resource.MustParse("24"), MinMemory: resource.MustParse("2Gi"), MaxMemory: resource.MustParse("64Gi"), MinMemCPURatio: 2.0, MaxMemCPURatio: 8.0}
+	DefaultMachineTypeBounds = MachineTypeBounds{MinCPU: resource.MustParse("1"), MaxCPU: resource.MustParse("12"), MinMemory: resource.MustParse("2Gi"), MaxMemory: resource.MustParse("64Gi"), MinMemCPURatio: 2.0, MaxMemCPURatio: 8.0}
 )
 
 // CloudVirtualMachine is a virtual machine instance providing flexible scaling and a

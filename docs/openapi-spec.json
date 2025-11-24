@@ -562,7 +562,7 @@
                     "type": "string"
                   },
                   "defaultURLs": {
-                    "description": "DefaultURLs are the URLs at which the application is available.",
+                    "description": "DefaultURLs are the URLs at which the application is avalilable.",
                     "items": {
                       "type": "string"
                     },
