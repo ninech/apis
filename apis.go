@@ -9,9 +9,9 @@ import (
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	apps "github.com/ninech/apis/apps/v1alpha1"
+	infrastructure "github.com/ninech/apis/infrastructure/v1alpha1"
 	devtools "github.com/ninech/apis/devtools/v1alpha1"
 	iam "github.com/ninech/apis/iam/v1alpha1"
-	infrastructure "github.com/ninech/apis/infrastructure/v1alpha1"
 	observability "github.com/ninech/apis/observability/v1alpha1"
 	networking "github.com/ninech/apis/networking/v1alpha1"
 	storage "github.com/ninech/apis/storage/v1alpha1"
@@ -22,9 +22,9 @@ import (
 func init() {
 	AddToSchemes = append(AddToSchemes,
 		apps.SchemeBuilder.AddToScheme,
+		infrastructure.SchemeBuilder.AddToScheme,
 		devtools.SchemeBuilder.AddToScheme,
 		iam.SchemeBuilder.AddToScheme,
-		infrastructure.SchemeBuilder.AddToScheme,
 		observability.SchemeBuilder.AddToScheme,
 		networking.SchemeBuilder.AddToScheme,
 		storage.SchemeBuilder.AddToScheme,
@@ -49,14 +49,14 @@ func StaticRESTMapper(scheme *runtime.Scheme) *meta.DefaultRESTMapper {
 	AddToMapper(mapper, apps.BuildGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, apps.ProjectConfigGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, apps.ReleaseGroupVersionKind, meta.RESTScopeNamespace)
-	AddToMapper(mapper, devtools.ArgoCDGroupVersionKind, meta.RESTScopeNamespace)
-	AddToMapper(mapper, iam.APIServiceAccountGroupVersionKind, meta.RESTScopeNamespace)
-	AddToMapper(mapper, iam.KubernetesClustersRoleBindingGroupVersionKind, meta.RESTScopeNamespace)
-	AddToMapper(mapper, iam.KubernetesServiceAccountGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, infrastructure.CloudVirtualMachineGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, infrastructure.ClusterDataGroupVersionKind, meta.RESTScopeRoot)
 	AddToMapper(mapper, infrastructure.KedaGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, infrastructure.KubernetesClusterGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, devtools.ArgoCDGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, iam.APIServiceAccountGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, iam.KubernetesClustersRoleBindingGroupVersionKind, meta.RESTScopeNamespace)
+	AddToMapper(mapper, iam.KubernetesServiceAccountGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.AlertmanagerGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.GrafanaGroupVersionKind, meta.RESTScopeNamespace)
 	AddToMapper(mapper, observability.LokiGroupVersionKind, meta.RESTScopeNamespace)
