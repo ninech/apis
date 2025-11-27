@@ -59,6 +59,8 @@ const (
 	DatabaseBackupScheduleCalendarDisabled DatabaseBackupScheduleCalendar = "disabled"
 	// DatabaseBackupScheduleCalendarDaily sets up daily backups for a database.
 	DatabaseBackupScheduleCalendarDaily DatabaseBackupScheduleCalendar = "daily"
+	// MaxDatabaseBackupSchedules is the number (quota) of allowed DatabaseBackupSchedules per source.
+	MaxDatabaseBackupSchedules = 1
 	// DatabaseBackupScheduleTTLMin is the minimum duration after the backups creation until it can be deleted.
 	DatabaseBackupScheduleTTLMin = 24 * time.Hour
 	// DatabaseBackupScheduleTTLMax is the maximum duration after the backups creation until it can be deleted.
@@ -194,6 +196,8 @@ var (
 	MySQLLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLMachineTypes is a list of available machine types.
 	MySQLMachineTypes []infra.MachineType = infra.MachineTypesDB
+	// MySQLVersions is a list of all available MySQLVersions.
+	MySQLVersions = []MySQLVersion{MySQLVersion8}
 	// MySQLDatabaseLocationOptions is a list of available datacenter locations.
 	MySQLDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLDatabaseVersions is a list of all available MySQLVersions.
@@ -572,6 +576,8 @@ type DatabaseBackupParameters struct {
 	BucketUser meta.LocalReference `json:"bucketUser"`
 	// Expiration is the time when the backup will be deleted.
 	Expiration metav1.Time `json:"expiration"`
+	// Image is the container image used for the backup job.
+	Image string `json:"image,omitempty"`
 }
 
 // A DatabaseBackupStatus represents the observed state of a DatabaseBackup.

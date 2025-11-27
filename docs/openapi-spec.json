@@ -15401,6 +15401,10 @@
                     "format": "date-time",
                     "type": "string"
                   },
+                  "image": {
+                    "description": "Image is the container image used for the backup job.",
+                    "type": "string"
+                  },
                   "name": {
                     "description": "Name is the name of the database to be backed up. This is required for\nMySQL and Postgres types as there can be multiple databases on these servers.\nFor shared databases like MySQLDatabase this field is ignored, as\nthe database is defined in the object.",
                     "type": "string"
