@@ -728,6 +728,11 @@ func (in *DatabaseBackupScheduleParameters) DeepCopyInto(out *DatabaseBackupSche
 		*out = make([]metav1alpha1.LocalReference, len(*in))
 		copy(*out, *in)
 	}
+	if in.Names != nil {
+		in, out := &in.Names, &out.Names
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	out.Source = in.Source
 }
 
