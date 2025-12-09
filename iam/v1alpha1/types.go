@@ -70,7 +70,7 @@ type APIServiceAccountParameters struct {
 	Version APIServiceAccountVersion `json:"version,omitempty"`
 }
 
-// +kubebuilder:validation:Enum:=admin;viewer;metrics-admin;metrics-viewer;internal-metrics
+// +kubebuilder:validation:Enum:=admin;viewer;metrics-admin;metrics-viewer;internal-metrics;internal-ipaddress
 type APIServiceAccountRole string
 
 // +kubebuilder:validation:Enum:=v1;v2
