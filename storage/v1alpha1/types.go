@@ -194,6 +194,8 @@ var (
 	MySQLLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLMachineTypes is a list of available machine types.
 	MySQLMachineTypes []infra.MachineType = infra.MachineTypesDB
+	// MySQLVersions is a list of all available MySQLVersions.
+	MySQLVersions = []MySQLVersion{MySQLVersion8}
 	// MySQLDatabaseLocationOptions is a list of available datacenter locations.
 	MySQLDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLDatabaseVersions is a list of all available MySQLVersions.
@@ -572,6 +574,8 @@ type DatabaseBackupParameters struct {
 	BucketUser meta.LocalReference `json:"bucketUser"`
 	// Expiration is the time when the backup will be deleted.
 	Expiration metav1.Time `json:"expiration"`
+	// Image is the container image used for the backup job.
+	Image string `json:"image,omitempty"`
 }
 
 // A DatabaseBackupStatus represents the observed state of a DatabaseBackup.
@@ -667,13 +671,7 @@ type DatabaseBackupScheduleParameters struct {
 	// target bucket containing the database backups.
 	// +optional
 	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
-	// Name is the name of the database to be backed up. This is required for
-	// MySQL and Posgres types as there can be multiple databases on these servers.
-	// For shared databases like MySQLDatabase this field is ignored, as
-	// the database is defined in the object.
-	// +optional
-	Name string `json:"name,omitempty"`
-	// Source is a reference to a Postgres, MySQL or MySQLDatabase object, to
+	// Source is a reference to a Postgres, MySQL, PostgresDatabase or MySQLDatabase object, to
 	// create the database backup from.
 	Source meta.LocalTypedReference `json:"source"`
 }
@@ -700,10 +698,10 @@ type DatabaseBackupScheduleObservation struct {
 	TargetBucket meta.LocalReference `json:"targetBucket,omitempty"`
 	// Last is the time when the most recent backup operation was created.
 	// +optional
-	Last metav1.Time `json:"start,omitempty"`
+	Last metav1.Time `json:"last,omitempty"`
 	// Next is the time when the next backup operation is to be created.
 	// +optional
-	Next metav1.Time `json:"end,omitempty"`
+	Next metav1.Time `json:"next,omitempty"`
 }
 
 // KeyValueStore deploys an on-demand KeyValueStore instance.
@@ -1037,7 +1035,7 @@ type MySQLDatabase struct {
 	Status            MySQLDatabaseStatus `json:"status,omitempty"`
 }
 
-// MySQLList contains a list of MySQL database
+// MySQLDatabaseList contains a list of MySQL databases.
 // +kubebuilder:object:root=true
 type MySQLDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`

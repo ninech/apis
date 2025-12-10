@@ -15402,6 +15402,10 @@
                     "format": "date-time",
                     "type": "string"
                   },
+                  "image": {
+                    "description": "Image is the container image used for the backup job.",
+                    "type": "string"
+                  },
                   "name": {
                     "description": "Name is the name of the database to be backed up. This is required for\nMySQL and Postgres types as there can be multiple databases on these servers.\nFor shared databases like MySQLDatabase this field is ignored, as\nthe database is defined in the object.",
                     "type": "string"
@@ -15823,10 +15827,6 @@
                     },
                     "type": "array"
                   },
-                  "name": {
-                    "description": "Name is the name of the database to be backed up. This is required for\nMySQL and Posgres types as there can be multiple databases on these servers.\nFor shared databases like MySQLDatabase this field is ignored, as\nthe database is defined in the object.",
-                    "type": "string"
-                  },
                   "schedule": {
                     "default": "daily",
                     "description": "Schedule is a cron description of how often a backup is to be created.",
@@ -15837,7 +15837,7 @@
                     "type": "string"
                   },
                   "source": {
-                    "description": "Source is a reference to a Postgres, MySQL or MySQLDatabase object, to\ncreate the database backup from.",
+                    "description": "Source is a reference to a Postgres, MySQL, PostgresDatabase or MySQLDatabase object, to\ncreate the database backup from.",
                     "properties": {
                       "group": {
                         "type": "string"
@@ -16033,13 +16033,13 @@
               "atProvider": {
                 "description": "DatabaseBackupScheduleObservation are the observable fields of a DatabaseBackupSchedule.",
                 "properties": {
-                  "end": {
-                    "description": "Next is the time when the next backup operation is to be created.",
+                  "last": {
+                    "description": "Last is the time when the most recent backup operation was created.",
                     "format": "date-time",
                     "type": "string"
                   },
-                  "start": {
-                    "description": "Last is the time when the most recent backup operation was created.",
+                  "next": {
+                    "description": "Next is the time when the next backup operation is to be created.",
                     "format": "date-time",
                     "type": "string"
                   },
