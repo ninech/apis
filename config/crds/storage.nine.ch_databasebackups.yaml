@@ -91,10 +91,6 @@ spec:
                     description: Expiration is the time when the backup will be deleted.
                     format: date-time
                     type: string
-                  image:
-                    description: Image is the container image used for the backup
-                      job.
-                    type: string
                   name:
                     description: |-
                       Name is the name of the database to be backed up. This is required for
