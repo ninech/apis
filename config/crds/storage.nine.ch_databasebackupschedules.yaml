@@ -84,13 +84,6 @@ spec:
                       - name
                       type: object
                     type: array
-                  name:
-                    description: |-
-                      Name is the name of the database to be backed up. This is required for
-                      MySQL and Posgres types as there can be multiple databases on these servers.
-                      For shared databases like MySQLDatabase this field is ignored, as
-                      the database is defined in the object.
-                    type: string
                   schedule:
                     default: daily
                     description: Schedule is a cron description of how often a backup
@@ -101,7 +94,7 @@ spec:
                     type: string
                   source:
                     description: |-
-                      Source is a reference to a Postgres, MySQL or MySQLDatabase object, to
+                      Source is a reference to a Postgres, MySQL, PostgresDatabase or MySQLDatabase object, to
                       create the database backup from.
                     properties:
                       group:
@@ -300,14 +293,14 @@ spec:
                 description: DatabaseBackupScheduleObservation are the observable
                   fields of a DatabaseBackupSchedule.
                 properties:
-                  end:
-                    description: Next is the time when the next backup operation is
-                      to be created.
-                    format: date-time
-                    type: string
-                  start:
+                  last:
                     description: Last is the time when the most recent backup operation
                       was created.
+                    format: date-time
+                    type: string
+                  next:
+                    description: Next is the time when the next backup operation is
+                      to be created.
                     format: date-time
                     type: string
                   targetBucket:
