@@ -741,7 +741,7 @@ type KeyValueStoreParameters struct {
 	//
 	// +optional
 	// +kubebuilder:default:="nine-es34"
-	Location meta.LocationName `json:"location"`
+	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the KeyValueStore version.
 	// Needs to match an available KeyValueStore Version.
 	//
@@ -1485,7 +1485,7 @@ type PostgresDatabaseParameters struct {
 	// Location specifies in which data center the database will be spawned.
 	// +optional
 	// +kubebuilder:default:="nine-es34"
-	Location meta.LocationName `json:"location"`
+	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the Postgres version.
 	// Needs to match an available Postgres Version.
 	// +optional
