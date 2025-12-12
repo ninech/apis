@@ -741,7 +741,7 @@ type KeyValueStoreParameters struct {
 	//
 	// +optional
 	// +kubebuilder:default:="nine-es34"
-	Location meta.LocationName `json:"location,omitempty"`
+	Location meta.LocationName `json:"location"`
 	// Version specifies the KeyValueStore version.
 	// Needs to match an available KeyValueStore Version.
 	//
@@ -1085,6 +1085,9 @@ type MySQLDatabaseObservation struct {
 	// FQDN is the fully qualified domain name at which the database is accessible.
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
+	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
+	// +optional
+	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 	// Name of the database and user.
 	// +optional
 	Name string `json:"name,omitempty"`
@@ -1485,7 +1488,7 @@ type PostgresDatabaseParameters struct {
 	// Location specifies in which data center the database will be spawned.
 	// +optional
 	// +kubebuilder:default:="nine-es34"
-	Location meta.LocationName `json:"location,omitempty"`
+	Location meta.LocationName `json:"location"`
 	// Version specifies the Postgres version.
 	// Needs to match an available Postgres Version.
 	// +optional
@@ -1509,6 +1512,9 @@ type PostgresDatabaseObservation struct {
 	// FQDN is the fully qualified domain name at which the database is accessible.
 	// +optional
 	FQDN string `json:"fqdn,omitempty"`
+	// PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
+	// +optional
+	PrivateNetworkingFQDN string `json:"privateNetworkingFQDN,omitempty"`
 	// Name of the database and user.
 	// +optional
 	Name string `json:"name,omitempty"`
