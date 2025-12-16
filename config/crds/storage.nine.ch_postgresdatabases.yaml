@@ -345,10 +345,6 @@ spec:
                   name:
                     description: Name of the database and user.
                     type: string
-                  privateNetworkingFQDN:
-                    description: PrivateNetworkingFQDN is the magic DNS name of a
-                      service connection destination.
-                    type: string
                   size:
                     anyOf:
                     - type: integer
