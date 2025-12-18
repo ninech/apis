@@ -119,11 +119,6 @@ type GrafanaParameters struct {
 
 // DataSourceSelection specifies parameters on how to select / search for DataSources.
 type DataSourceSelection struct {
-	// SearchNamespaces is a list of namespaces that will be searched
-	// for data sources that will be added to the Grafana deployment.
-	// If empty, the default is to search in the same namespace that
-	// Grafana resides in.
-	SearchNamespaces []string `json:"searchNamespaces,omitempty"`
 	// FilterLabels is a list of labels that will be filtered for
 	// when searching for data sources.
 	// +optional

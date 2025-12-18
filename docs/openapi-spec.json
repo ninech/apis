@@ -9491,11 +9491,7 @@
           },
           "spec": {
             "forProvider": {
-              "dataSource": {
-                "searchNamespaces": [
-                  "ecorp"
-                ]
-              }
+              "dataSource": {}
             }
           },
           "status": {
@@ -9543,13 +9539,6 @@
                         },
                         "description": "FilterLabels is a list of labels that will be filtered for\nwhen searching for data sources.",
                         "type": "object"
-                      },
-                      "searchNamespaces": {
-                        "description": "SearchNamespaces is a list of namespaces that will be searched\nfor data sources that will be added to the Grafana deployment.\nIf empty, the default is to search in the same namespace that\nGrafana resides in.",
-                        "items": {
-                          "type": "string"
-                        },
-                        "type": "array"
                       }
                     },
                     "type": "object"
