@@ -396,6 +396,47 @@ spec:
                       Paused pauses the release by stopping billing and disabling all runtime
                       workloads.
                     type: boolean
+                  services:
+                    description: |-
+                      Services are referenced resources/products which the deplo.io app
+                      wants to make use of. Credentials and other details of the
+                      referenced targets will be automatically injected. Each entry must
+                      have a unique name assigned.
+                    items:
+                      properties:
+                        name:
+                          description: |-
+                            Name is the chosen name for the target. It is used in the
+                            environment variable injection mechanism.
+                          maxLength: 80
+                          minLength: 1
+                          type: string
+                        target:
+                          description: |-
+                            Target is a reference to another resource which will be used by the
+                            deplo.io app. The resource needs to support being a target explicitly.
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                            name:
+                              description: Name of the target.
+                              type: string
+                            namespace:
+                              description: Namespace of the target.
+                              type: string
+                          required:
+                          - group
+                          - kind
+                          - name
+                          - namespace
+                          type: object
+                      required:
+                      - name
+                      - target
+                      type: object
+                    type: array
                 required:
                 - config
                 - git
