@@ -358,6 +358,51 @@
                   "paused": {
                     "description": "Paused pauses the release by stopping billing and disabling all runtime\nworkloads.",
                     "type": "boolean"
+                  },
+                  "services": {
+                    "description": "Services are referenced resources/products which the deplo.io app\nwants to make use of. Credentials and other details of the\nreferenced targets will be automatically injected. Each entry must\nhave a unique name assigned.",
+                    "items": {
+                      "properties": {
+                        "name": {
+                          "description": "Name is the chosen name for the target. It is used in the\nenvironment variable injection mechanism.",
+                          "maxLength": 80,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "target": {
+                          "description": "Target is a reference to another resource which will be used by the\ndeplo.io app. The resource needs to support being a target explicitly.",
+                          "properties": {
+                            "group": {
+                              "type": "string"
+                            },
+                            "kind": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "description": "Name of the target.",
+                              "type": "string"
+                            },
+                            "namespace": {
+                              "description": "Namespace of the target.",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "group",
+                            "kind",
+                            "name",
+                            "namespace"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "target"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
                   }
                 },
                 "required": [
@@ -2525,6 +2570,55 @@
                     "format": "int64",
                     "type": "integer"
                   },
+                  "services": {
+                    "description": "Services are referenced resources/products which the release\nwants to make use of. Credentials and other details of the\nreferenced targets will be automatically injected.",
+                    "items": {
+                      "properties": {
+                        "name": {
+                          "description": "Name is the chosen name for the target. It is used in the\nenvironment variable injection mechanism.",
+                          "maxLength": 80,
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "target": {
+                          "description": "Target is a reference to another resource which will be used by the\ndeplo.io app. The resource needs to support being a target explicitly.",
+                          "properties": {
+                            "group": {
+                              "type": "string"
+                            },
+                            "kind": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "description": "Name of the target.",
+                              "type": "string"
+                            },
+                            "namespace": {
+                              "description": "Namespace of the target.",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "group",
+                            "kind",
+                            "name",
+                            "namespace"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "target"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "servicesEnvSecret": {
+                    "description": "ServicesEnvSecret specifies the name of the secret which contains\nthe connection detail environment variables which will be injected\ninto the release.",
+                    "type": "string"
+                  },
                   "timeout": {
                     "default": "10m",
                     "description": "Timeout of the release after it will be considered failed. This does\nnot include the time spent waiting for the deploy job and only concerns\nthe release rollout.",
@@ -2832,6 +2926,13 @@
                       "name"
                     ],
                     "x-kubernetes-list-type": "map"
+                  },
+                  "serviceEnvVars": {
+                    "description": "ServiceEnvVars shows all environment variables which can be used for\nthe configured services.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
                   },
                   "workerJobStatus": {
                     "description": "WorkerJobStatus describes the status of all workerjobs",

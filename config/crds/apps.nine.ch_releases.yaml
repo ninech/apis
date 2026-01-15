@@ -475,6 +475,52 @@ spec:
                       used.
                     format: int64
                     type: integer
+                  services:
+                    description: |-
+                      Services are referenced resources/products which the release
+                      wants to make use of. Credentials and other details of the
+                      referenced targets will be automatically injected.
+                    items:
+                      properties:
+                        name:
+                          description: |-
+                            Name is the chosen name for the target. It is used in the
+                            environment variable injection mechanism.
+                          maxLength: 80
+                          minLength: 1
+                          type: string
+                        target:
+                          description: |-
+                            Target is a reference to another resource which will be used by the
+                            deplo.io app. The resource needs to support being a target explicitly.
+                          properties:
+                            group:
+                              type: string
+                            kind:
+                              type: string
+                            name:
+                              description: Name of the target.
+                              type: string
+                            namespace:
+                              description: Namespace of the target.
+                              type: string
+                          required:
+                          - group
+                          - kind
+                          - name
+                          - namespace
+                          type: object
+                      required:
+                      - name
+                      - target
+                      type: object
+                    type: array
+                  servicesEnvSecret:
+                    description: |-
+                      ServicesEnvSecret specifies the name of the secret which contains
+                      the connection detail environment variables which will be injected
+                      into the release.
+                    type: string
                   timeout:
                     default: 10m
                     description: |-
@@ -772,6 +818,13 @@ spec:
                     x-kubernetes-list-map-keys:
                     - name
                     x-kubernetes-list-type: map
+                  serviceEnvVars:
+                    description: |-
+                      ServiceEnvVars shows all environment variables which can be used for
+                      the configured services.
+                    items:
+                      type: string
+                    type: array
                   workerJobStatus:
                     description: WorkerJobStatus describes the status of all workerjobs
                     items:

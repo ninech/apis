@@ -106,6 +106,19 @@ var (
 	AppResources  map[ApplicationSize]corev1.ResourceList = map[ApplicationSize]corev1.ResourceList{AppMicro: {corev1.ResourceCPU: resource.MustParse("125m"), corev1.ResourceMemory: resource.MustParse("256Mi")}, AppMini: {corev1.ResourceCPU: resource.MustParse("250m"), corev1.ResourceMemory: resource.MustParse("512Mi")}, AppStandard1: {corev1.ResourceCPU: resource.MustParse("500m"), corev1.ResourceMemory: resource.MustParse("1Gi")}, AppStandard2: {corev1.ResourceCPU: resource.MustParse("750m"), corev1.ResourceMemory: resource.MustParse("2Gi")}}
 )
 
+type NamedServiceTargetList []NamedServiceTarget
+type NamedServiceTarget struct {
+	// Name is the chosen name for the target. It is used in the
+	// environment variable injection mechanism.
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:MaxLength=80
+	// +kubebuilder:validation:Required
+	Name string `json:"name"`
+	// Target is a reference to another resource which will be used by the
+	// deplo.io app. The resource needs to support being a target explicitly.
+	Target meta.TypedReference `json:"target"`
+}
+
 // Application takes source code as the input and fully builds and deploys
 // the application.
 // +kubebuilder:subresource:status
@@ -169,6 +182,12 @@ type ApplicationParameters struct {
 	// workloads.
 	// +optional
 	Paused bool `json:"paused"`
+	// Services are referenced resources/products which the deplo.io app
+	// wants to make use of. Credentials and other details of the
+	// referenced targets will be automatically injected. Each entry must
+	// have a unique name assigned.
+	// +optional
+	Services NamedServiceTargetList `json:"services,omitempty"`
 }
 
 // Language specifies which kind of application/language should be used
@@ -738,6 +757,16 @@ type ReleaseParameters struct {
 	// workloads.
 	// +optional
 	Paused bool `json:"paused"`
+	// Services are referenced resources/products which the release
+	// wants to make use of. Credentials and other details of the
+	// referenced targets will be automatically injected.
+	// +optional
+	Services NamedServiceTargetList `json:"services,omitempty"`
+	// ServicesEnvSecret specifies the name of the secret which contains
+	// the connection detail environment variables which will be injected
+	// into the release.
+	// +optional
+	ServicesEnvSecret string `json:"servicesEnvSecret,omitempty"`
 }
 
 // A FieldOriginConfig contains the fields of a normal config, but with an
@@ -868,6 +897,9 @@ type ReleaseObservation struct {
 	// Owning indicates if this release is currently owning all resources.
 	// +optional
 	Owning bool `json:"owning"`
+	// ServiceEnvVars shows all environment variables which can be used for
+	// the configured services.
+	ServiceEnvVars []string `json:"serviceEnvVars,omitempty"`
 }
 
 // ReleaseProcessStatus represents the Release status
