@@ -109,6 +109,9 @@ spec:
                     - kind
                     - name
                     type: object
+                    x-kubernetes-validations:
+                    - message: database source is immutable after creation
+                      rule: self == oldSelf
                   ttl:
                     default: 240h
                     description: TTL is the duration after the backups creation until

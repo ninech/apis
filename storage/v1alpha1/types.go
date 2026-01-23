@@ -673,6 +673,7 @@ type DatabaseBackupScheduleParameters struct {
 	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 	// Source is a reference to a Postgres, MySQL, PostgresDatabase or MySQLDatabase object, to
 	// create the database backup from.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="database source is immutable after creation"
 	Source meta.LocalTypedReference `json:"source"`
 }
 
