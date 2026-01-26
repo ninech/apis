@@ -1073,6 +1073,12 @@ type MySQLDatabaseParameters struct {
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="InstanceReference is immutable"
 	// +optional
 	InstanceReference *meta.Reference `json:"instanceRef,omitempty"`
+	// BackupSchedule defines the backup schedule for this database.
+	// Backups can be scheduled daily or disabled entirely.
+	// When enabled, a DatabaseBackupSchedule resource is automatically created.
+	// +kubebuilder:default:=daily
+	// +optional
+	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
 }
 
 // A MySQLDatabaseStatus represents the observed state of a MySQLDatabase.
@@ -1500,6 +1506,12 @@ type PostgresDatabaseParameters struct {
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="InstanceReference is immutable"
 	// +optional
 	InstanceReference *meta.Reference `json:"instanceRef,omitempty"`
+	// BackupSchedule defines the backup schedule for this database.
+	// Backups can be scheduled daily or disabled entirely.
+	// When enabled, a DatabaseBackupSchedule resource is automatically created.
+	// +kubebuilder:default:=daily
+	// +optional
+	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
 }
 
 // A PostgresDatabaseStatus represents the observed state of a PostgresDatabase.

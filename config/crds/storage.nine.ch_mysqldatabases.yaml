@@ -67,6 +67,16 @@ spec:
                 description: MySQLDatabaseParameters are the configurable fields of
                   a MySQLDatabase.
                 properties:
+                  backupSchedule:
+                    default: daily
+                    description: |-
+                      BackupSchedule defines the backup schedule for this database.
+                      Backups can be scheduled daily or disabled entirely.
+                      When enabled, a DatabaseBackupSchedule resource is automatically created.
+                    enum:
+                    - disabled
+                    - daily
+                    type: string
                   characterSet:
                     description: CharacterSet configures the `character_set_server`
                       and collation_server` variables.

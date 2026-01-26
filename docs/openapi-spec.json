@@ -17684,6 +17684,15 @@
               "forProvider": {
                 "description": "MySQLDatabaseParameters are the configurable fields of a MySQLDatabase.",
                 "properties": {
+                  "backupSchedule": {
+                    "default": "daily",
+                    "description": "BackupSchedule defines the backup schedule for this database.\nBackups can be scheduled daily or disabled entirely.\nWhen enabled, a DatabaseBackupSchedule resource is automatically created.",
+                    "enum": [
+                      "disabled",
+                      "daily"
+                    ],
+                    "type": "string"
+                  },
                   "characterSet": {
                     "description": "CharacterSet configures the `character_set_server` and collation_server` variables.",
                     "properties": {
@@ -20051,6 +20060,15 @@
               "forProvider": {
                 "description": "PostgresDatabaseParameters are the configurable fields of a PostgresDatabase.",
                 "properties": {
+                  "backupSchedule": {
+                    "default": "daily",
+                    "description": "BackupSchedule defines the backup schedule for this database.\nBackups can be scheduled daily or disabled entirely.\nWhen enabled, a DatabaseBackupSchedule resource is automatically created.",
+                    "enum": [
+                      "disabled",
+                      "daily"
+                    ],
+                    "type": "string"
+                  },
                   "instanceRef": {
                     "description": "InstanceRef is the instance that contains the database.\nIt is not possible to configure this value manually.",
                     "properties": {
