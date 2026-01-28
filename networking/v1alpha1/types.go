@@ -6,6 +6,163 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// IngressHAProxy deploys an HAProxy ingress controller to a cluster.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced,shortName=haproxy
+// +kubebuilder:object:root=true
+type IngressHAProxy struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              IngressHAProxySpec   `json:"spec"`
+	Status            IngressHAProxyStatus `json:"status,omitempty"`
+}
+
+// IngressHAProxyList contains a list of IngressHAProxy.
+// +kubebuilder:object:root=true
+type IngressHAProxyList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []IngressHAProxy `json:"items"`
+}
+
+// IngressHAProxySpec defines the desired state of an IngressHAProxy.
+type IngressHAProxySpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            IngressHAProxyParameters `json:"forProvider"`
+}
+
+// IngressHAProxyParameters are the configurable fields of a IngressHAProxy.
+type IngressHAProxyParameters struct {
+	// Cluster specifies on which cluster this IngressHAProxy should be installed.
+	Cluster meta.LocalReference `json:"cluster"`
+	// Cloudflare defines the settings for having Cloudflare as a CDN in
+	// front of this Ingress Controller.
+	// Do NOT use this option in combination with the `AppendToXForwardedFor`
+	// variable as this will break client IP detection.
+	// Disabled if not set.
+	// +optional
+	Cloudflare *IngressHAProxyCloudflare `json:"cloudflare,omitempty"`
+	// AppendToXForwardedFor defines if the ingress should take the incoming
+	// X-Forwarded-For header and append IPs to it, instead of replacing the
+	// whole header.
+	// Do NOT use this option in combination with Cloudflare enabled
+	// as this will break client IP detection.
+	// +optional
+	// +kubebuilder:default:=false
+	AppendToXForwardedFor bool `json:"appendToXForwardedFor,omitempty"`
+	// IngressClass sets the class of the ingress controller. Specifies which
+	// ingress objects the controller should take care of. Please note that
+	// the class `haproxy` itself will handle all ingresses without a class
+	// annotation set.
+	// +optional
+	// +kubebuilder:default:=haproxy
+	IngressClass string `json:"ingressClass,omitempty"`
+	// IsDefaultIngressClass specifies if the IngressClass of this controller
+	// should be the default IngressClass in the target cluster.
+	// +optional
+	// +kubebuilder:default:=false
+	IsDefaultIngressClass bool `json:"isDefaultIngressClass"`
+	// EnableDefaultBackend enables the default backend that the ingress will proxy to
+	// if the request does not match any configured ingress route. If
+	// disabled, haproxy will just return a generic 404 for such requests.
+	// +optional
+	// +kubebuilder:default:=false
+	EnableDefaultBackend bool `json:"enableDefaultBackend,omitempty"`
+	// IPSharing enables sharing the IP address of the ingress LB with an
+	// existing service type LoadBalancer. The reference should point to the
+	// service with which the LB IP should be shared. The referenced service
+	// has to have the annotation metallb.universe.tf/allow-shared-ip set and
+	// the ports 80 and 443 cannot be already in use.
+	// +optional
+	IPSharing *meta.Reference `json:"ipSharing,omitempty"`
+	// ScrapeConfigurations allows to overwrite which metrics of the ingress-haproxy
+	// instance are scraped by certain Prometheus instances.
+	// +optional
+	ScrapeConfigurations []meta.ScrapeConfig `json:"scrapeConfigurations,omitempty"`
+	// TODO(#1558)
+	// EnableModSecurity enables the owasp-modsecurity. Note this will enable
+	// it for all paths, and each path must be disabled manually. ModSecurity
+	// will run in "Detection-Only" mode using the recommended configuration.
+	// You can enable the OWASP Core Rule Set by setting the following
+	// annotation:
+	//
+	// nginx.ingress.kubernetes.io/enable-owasp-core-rules: "true"
+	//
+	// https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
+	//
+	// +optional
+	// +kubebuilder:default:=false
+	EnableModSecurity bool `json:"enableModSecurity,omitempty"`
+	// HSTS allows to configure settings for the "HTTP Strict Transport
+	// Security" (HSTS) headers
+	HSTS *HSTSConfiguration `json:"hsts,omitempty"`
+	// DisableHTTP2 disables HTTP2 for all hosts.
+	// +optional
+	// +kubebuilder:default:=false
+	DisableHTTP2 bool `json:"disableHTTP2"`
+	// TLSProtocols to use.
+	// +optional
+	TLSProtocols IngressHAProxyTLSProtocols `json:"tlsProtocols,omitempty"`
+}
+
+// IngressHAProxyCloudflare sets settings on the ingress-haproxy controller to
+// work with cloudflare. This means that it allows to read clientIPs out of
+// HTTP headers that are added by Cloudflare. Note that all domains used in
+// ingress objects should use cloudflare if this is enabled.
+type IngressHAProxyCloudflare struct {
+	// IPs is a list of CIDRs which should contain all Cloudflare Networks.
+	// +optional
+	// +kubebuilder:default:={"173.245.48.0/20","103.21.244.0/22","103.22.200.0/22","103.31.4.0/22","141.101.64.0/18","108.162.192.0/18","190.93.240.0/20","188.114.96.0/20","197.234.240.0/22","198.41.128.0/17","162.158.0.0/15","104.16.0.0/13","104.24.0.0/14","172.64.0.0/13","131.0.72.0/22"}
+	IPs []string `json:"ips,omitempty"`
+}
+
+// HSTSConfiguration allows to configure the "HTTP Strict Transport Security"
+// headers. HSTS is enabled by default.
+type HSTSConfiguration struct {
+	// Enabled enables/disables all HSTS headers. If not given all HSTS
+	// headers are enabled by default.
+	Enabled *bool `json:"enabled,omitempty"`
+	// IncludeSubdomains allows to toggle the "includeSubDomains" field in
+	// the HSTS header (enabled by default).
+	IncludeSubdomains *bool `json:"includeSubdomains,omitempty"`
+	// MaxAge sets the time that the browser should remember that this site
+	// is only to be accessed using HTTPS.
+	MaxAge *metav1.Duration `json:"maxAge,omitempty"`
+	// Preload allows to toggle the HSTS preload feature.
+	Preload *bool `json:"preload,omitempty"`
+}
+
+// +kubebuilder:default={TLSv1.2,TLSv1.3}
+type IngressHAProxyTLSProtocols []IngressHAProxyTLSProtocol
+
+// IngressHAProxyStatus represents the observed state of an IngressHAProxy.
+type IngressHAProxyStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               IngressHAProxyObservation `json:"atProvider"`
+}
+
+// IngressHAProxyObservation are the observable fields of an IngressHAProxy.
+type IngressHAProxyObservation struct {
+	// DNSName is the name of the ingress A-Record, pointing to IPAddress.
+	// +optional
+	DNSName string `json:"dnsName,omitempty"`
+	// IPAddress is the address where the ingress controller is reachable.
+	// +optional
+	IPAddress string `json:"ipAddress,omitempty"`
+	// IPSharingError indicates errors with the IPSharing configuration.
+	// +optional
+	IPSharingError           string `json:"ipSharingError,omitempty"`
+	meta.ChildResourceStatus `json:",inline"`
+	meta.ReferenceStatus     `json:",inline"`
+}
+
+// IngressHAProxyTLSProtocol is a SSL/TLS protocol that haproxy can use.
+// +kubebuilder:validation:Enum=TLSv1.2;TLSv1.3
+type IngressHAProxyTLSProtocol string
+
 // IngressNginx deploys an NGINX ingress controller to a cluster.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -198,22 +355,6 @@ type IngressNginxDefaultBackend struct {
 	// +optional
 	// +kubebuilder:default:=2
 	Replicas int `json:"defaultBackendReplicas,omitempty"`
-}
-
-// HSTSConfiguration allows to configure the "HTTP Strict Transport Security"
-// headers. HSTS is enabled by default.
-type HSTSConfiguration struct {
-	// Enabled enables/disables all HSTS headers. If not given all HSTS
-	// headers are enabled by default.
-	Enabled *bool `json:"enabled,omitempty"`
-	// IncludeSubdomains allows to toggle the "includeSubDomains" field in
-	// the HSTS header (enabled by default).
-	IncludeSubdomains *bool `json:"includeSubdomains,omitempty"`
-	// MaxAge sets the time that the browser should remember that this site
-	// is only to be accessed using HTTPS.
-	MaxAge *metav1.Duration `json:"maxAge,omitempty"`
-	// Preload allows to toggle the HSTS preload feature.
-	Preload *bool `json:"preload,omitempty"`
 }
 
 // +kubebuilder:default={TLSv1.2,TLSv1.3}
