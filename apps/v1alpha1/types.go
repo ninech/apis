@@ -103,7 +103,8 @@ var (
 	AppMini       ApplicationSize                         = "mini"
 	AppStandard1  ApplicationSize                         = "standard-1"
 	AppStandard2  ApplicationSize                         = "standard-2"
-	AppResources  map[ApplicationSize]corev1.ResourceList = map[ApplicationSize]corev1.ResourceList{AppMicro: {corev1.ResourceCPU: resource.MustParse("125m"), corev1.ResourceMemory: resource.MustParse("256Mi")}, AppMini: {corev1.ResourceCPU: resource.MustParse("250m"), corev1.ResourceMemory: resource.MustParse("512Mi")}, AppStandard1: {corev1.ResourceCPU: resource.MustParse("500m"), corev1.ResourceMemory: resource.MustParse("1Gi")}, AppStandard2: {corev1.ResourceCPU: resource.MustParse("750m"), corev1.ResourceMemory: resource.MustParse("2Gi")}}
+	AppStandard4  ApplicationSize                         = "standard-4"
+	AppResources  map[ApplicationSize]corev1.ResourceList = map[ApplicationSize]corev1.ResourceList{AppMicro: {corev1.ResourceCPU: resource.MustParse("125m"), corev1.ResourceMemory: resource.MustParse("256Mi")}, AppMini: {corev1.ResourceCPU: resource.MustParse("250m"), corev1.ResourceMemory: resource.MustParse("512Mi")}, AppStandard1: {corev1.ResourceCPU: resource.MustParse("500m"), corev1.ResourceMemory: resource.MustParse("1Gi")}, AppStandard2: {corev1.ResourceCPU: resource.MustParse("750m"), corev1.ResourceMemory: resource.MustParse("2Gi")}, AppStandard4: {corev1.ResourceCPU: resource.MustParse("1500m"), corev1.ResourceMemory: resource.MustParse("4Gi")}}
 )
 
 type NamedServiceTargetList []NamedServiceTarget
@@ -280,7 +281,7 @@ type Config struct {
 
 // ApplicationSize defines the size of an application and the resources that
 // will be allocated for it.
-// +kubebuilder:validation:Enum:="";micro;mini;standard-1;standard-2
+// +kubebuilder:validation:Enum:="";micro;mini;standard-1;standard-2;standard-4
 type ApplicationSize string
 type EnvVars []EnvVar
 

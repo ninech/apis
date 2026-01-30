@@ -302,6 +302,7 @@ spec:
                                   - mini
                                   - standard-1
                                   - standard-2
+                                  - standard-4
                                   type: string
                                 timeout:
                                   default: 5m
@@ -337,6 +338,7 @@ spec:
                             - mini
                             - standard-1
                             - standard-2
+                            - standard-4
                             type: string
                         required:
                         - origin
@@ -372,6 +374,7 @@ spec:
                                   - mini
                                   - standard-1
                                   - standard-2
+                                  - standard-4
                                   type: string
                               required:
                               - command
