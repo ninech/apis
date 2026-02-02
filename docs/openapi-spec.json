@@ -189,7 +189,8 @@
                                 "micro",
                                 "mini",
                                 "standard-1",
-                                "standard-2"
+                                "standard-2",
+                                "standard-4"
                               ],
                               "type": "string"
                             },
@@ -222,7 +223,8 @@
                           "micro",
                           "mini",
                           "standard-1",
-                          "standard-2"
+                          "standard-2",
+                          "standard-4"
                         ],
                         "type": "string"
                       },
@@ -247,7 +249,8 @@
                                 "micro",
                                 "mini",
                                 "standard-1",
-                                "standard-2"
+                                "standard-2",
+                                "standard-4"
                               ],
                               "type": "string"
                             }
@@ -721,7 +724,8 @@
                             "micro",
                             "mini",
                             "standard-1",
-                            "standard-2"
+                            "standard-2",
+                            "standard-4"
                           ],
                           "type": "string"
                         }
@@ -742,7 +746,8 @@
                       "micro",
                       "mini",
                       "standard-1",
-                      "standard-2"
+                      "standard-2",
+                      "standard-4"
                     ],
                     "type": "string"
                   },
@@ -764,7 +769,8 @@
                             "micro",
                             "mini",
                             "standard-1",
-                            "standard-2"
+                            "standard-2",
+                            "standard-4"
                           ],
                           "type": "string"
                         }
@@ -1096,7 +1102,8 @@
                                 "micro",
                                 "mini",
                                 "standard-1",
-                                "standard-2"
+                                "standard-2",
+                                "standard-4"
                               ],
                               "type": "string"
                             },
@@ -1129,7 +1136,8 @@
                           "micro",
                           "mini",
                           "standard-1",
-                          "standard-2"
+                          "standard-2",
+                          "standard-4"
                         ],
                         "type": "string"
                       },
@@ -1154,7 +1162,8 @@
                                 "micro",
                                 "mini",
                                 "standard-1",
-                                "standard-2"
+                                "standard-2",
+                                "standard-4"
                               ],
                               "type": "string"
                             }
@@ -1744,7 +1753,8 @@
                                 "micro",
                                 "mini",
                                 "standard-1",
-                                "standard-2"
+                                "standard-2",
+                                "standard-4"
                               ],
                               "type": "string"
                             },
@@ -1777,7 +1787,8 @@
                           "micro",
                           "mini",
                           "standard-1",
-                          "standard-2"
+                          "standard-2",
+                          "standard-4"
                         ],
                         "type": "string"
                       },
@@ -1802,7 +1813,8 @@
                                 "micro",
                                 "mini",
                                 "standard-1",
-                                "standard-2"
+                                "standard-2",
+                                "standard-4"
                               ],
                               "type": "string"
                             }
@@ -2383,7 +2395,8 @@
                                     "micro",
                                     "mini",
                                     "standard-1",
-                                    "standard-2"
+                                    "standard-2",
+                                    "standard-4"
                                   ],
                                   "type": "string"
                                 },
@@ -2425,7 +2438,8 @@
                               "micro",
                               "mini",
                               "standard-1",
-                              "standard-2"
+                              "standard-2",
+                              "standard-4"
                             ],
                             "type": "string"
                           }
@@ -2461,7 +2475,8 @@
                                     "micro",
                                     "mini",
                                     "standard-1",
-                                    "standard-2"
+                                    "standard-2",
+                                    "standard-4"
                                   ],
                                   "type": "string"
                                 }
