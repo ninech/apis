@@ -1104,6 +1104,80 @@ type MySQLDatabaseObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
 }
 
+// ObjectsBucket defines a Nutanix Objects Bucket.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type ObjectsBucket struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ObjectsBucketSpec   `json:"spec"`
+	Status            ObjectsBucketStatus `json:"status,omitempty"`
+}
+
+// ObjectsBucketList contains a list of ObjectsBucket
+// +kubebuilder:object:root=true
+type ObjectsBucketList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ObjectsBucket `json:"items"`
+}
+
+// A ObjectsBucketSpec defines the desired state of an ObjectsBucket.
+type ObjectsBucketSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            ObjectsBucketParameters `json:"forProvider"`
+}
+
+// ObjectsBucketParameters are the configurable fields of an ObjectsBucket.
+type ObjectsBucketParameters struct {
+	// Location specifies the physical location of the ObjectsBucket.
+	Location meta.LocationName `json:"location"`
+	// Permissions configures user access to the objects in this Bucket.
+	// +optional
+	Permissions []*BucketPermission `json:"permissions,omitempty"`
+	// PublicRead sets this Buckets objects to be publicly readable.
+	// +optional
+	PublicRead bool `json:"publicRead,omitempty"`
+	// PublicList sets this Buckets objects to be publicly listable.
+	// +optional
+	PublicList bool `json:"publicList,omitempty"`
+	// Versioning enables object versioning for this Bucket.
+	// +optional
+	Versioning bool `json:"versioning,omitempty"`
+	// LifecyclePolicies allows to define automatic expiry (deletion) of
+	// objects using certain rules.
+	// +optional
+	LifecyclePolicies []*BucketLifecyclePolicy `json:"lifecyclePolicies,omitempty"`
+	// CORS settings for this bucket. CORS is a mechanism to allow code
+	// running in a browser to make requests to a domain other than the
+	// one from where it originated.
+	// +optional
+	CORS *CORSConfig `json:"cors,omitempty"`
+}
+
+// A ObjectsBucketStatus represents the observed state of an ObjectsBucket.
+type ObjectsBucketStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               ObjectsBucketObservation `json:"atProvider,omitempty"`
+}
+
+// ObjectsBucketObservation are the observable fields of an ObjectsBucket.
+type ObjectsBucketObservation struct {
+	meta.ReferenceStatus `json:",inline"`
+	// URL where the bucket can be accessed for path-style access.
+	URL string `json:"url"`
+	// API endpoint to use with S3 compatible clients.
+	Endpoint string `json:"endpoint"`
+	// BytesUsed shows the amount of bytes a bucket is currently using.
+	BytesUsed int64 `json:"bytesUsed"`
+	// ObjectCount shows the amount of objects a bucket has.
+	ObjectCount int64 `json:"objectCount"`
+}
+
 // OpenSearch deploys an on-demand OpenSearch instance.
 //
 // +kubebuilder:subresource:status
