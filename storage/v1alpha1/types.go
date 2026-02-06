@@ -1073,6 +1073,16 @@ type MySQLDatabaseParameters struct {
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="InstanceReference is immutable"
 	// +optional
 	InstanceReference *meta.Reference `json:"instanceRef,omitempty"`
+	// BackupSchedule defines the backup schedule for this database.
+	// Backups can be scheduled daily or disabled entirely.
+	// When enabled, a DatabaseBackupSchedule resource is automatically created.
+	// +kubebuilder:default:=daily
+	// +optional
+	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
+	// BucketUsers is a list of bucket users that will gain read access to the
+	// target bucket containing the database backups.
+	// +optional
+	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 }
 
 // A MySQLDatabaseStatus represents the observed state of a MySQLDatabase.
@@ -1426,6 +1436,16 @@ type PostgresDatabaseParameters struct {
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="InstanceReference is immutable"
 	// +optional
 	InstanceReference *meta.Reference `json:"instanceRef,omitempty"`
+	// BackupSchedule defines the backup schedule for this database.
+	// Backups can be scheduled daily or disabled entirely.
+	// When enabled, a DatabaseBackupSchedule resource is automatically created.
+	// +kubebuilder:default:=daily
+	// +optional
+	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
+	// BucketUsers is a list of bucket users that will gain read access to the
+	// target bucket containing the database backups.
+	// +optional
+	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 }
 
 // A PostgresDatabaseStatus represents the observed state of a PostgresDatabase.

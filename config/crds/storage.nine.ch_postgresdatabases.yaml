@@ -67,6 +67,31 @@ spec:
                 description: PostgresDatabaseParameters are the configurable fields
                   of a PostgresDatabase.
                 properties:
+                  backupSchedule:
+                    default: daily
+                    description: |-
+                      BackupSchedule defines the backup schedule for this database.
+                      Backups can be scheduled daily or disabled entirely.
+                      When enabled, a DatabaseBackupSchedule resource is automatically created.
+                    enum:
+                    - disabled
+                    - daily
+                    type: string
+                  bucketUsers:
+                    description: |-
+                      BucketUsers is a list of bucket users that will gain read access to the
+                      target bucket containing the database backups.
+                    items:
+                      description: LocalReference references another object in the
+                        same namespace.
+                      properties:
+                        name:
+                          description: Name of the target.
+                          type: string
+                      required:
+                      - name
+                      type: object
+                    type: array
                   instanceRef:
                     description: |-
                       InstanceRef is the instance that contains the database.
