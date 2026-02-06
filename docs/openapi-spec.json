@@ -9901,6 +9901,29 @@
                     },
                     "type": "array"
                   },
+                  "predefinedDashboards": {
+                    "description": "PredefinedDashboards shows which automatically selected dashboards\nhave been deployed.",
+                    "items": {
+                      "description": "PredefinedDashboardStatus contains information about a dashboard deployment.",
+                      "properties": {
+                        "deployed": {
+                          "description": "Deployed shows the timestamp when this dashboard was deployed.",
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Name is the name of the dashboard.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "deployed",
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
                   "url": {
                     "description": "URL where Grafana can be accessed.",
                     "type": "string"

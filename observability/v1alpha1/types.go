@@ -139,8 +139,20 @@ type GrafanaStatus struct {
 // GrafanaObservation are the observable fields of a Grafana.
 type GrafanaObservation struct {
 	// URL where Grafana can be accessed.
-	URL                      string `json:"url,omitempty"`
+	URL string `json:"url,omitempty"`
+	// PredefinedDashboards shows which automatically selected dashboards
+	// have been deployed.
+	// +optional
+	PredefinedDashboards     []PredefinedDashboardStatus `json:"predefinedDashboards,omitempty"`
 	meta.ChildResourceStatus `json:",inline"`
+}
+
+// PredefinedDashboardStatus contains information about a dashboard deployment.
+type PredefinedDashboardStatus struct {
+	// Name is the name of the dashboard.
+	Name string `json:"name"`
+	// Deployed shows the timestamp when this dashboard was deployed.
+	Deployed metav1.Time `json:"deployed"`
 }
 
 // Loki deploys a fully managed Loki instance.
