@@ -16183,6 +16183,15 @@
                     "format": "date-time",
                     "type": "string"
                   },
+                  "location": {
+                    "description": "Location reports the original physical location of the source database",
+                    "enum": [
+                      "nine-cz41",
+                      "nine-cz42",
+                      "nine-es34"
+                    ],
+                    "type": "string"
+                  },
                   "next": {
                     "description": "Next is the time when the next backup operation is to be created.",
                     "format": "date-time",

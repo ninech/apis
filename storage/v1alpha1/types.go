@@ -690,6 +690,9 @@ type DatabaseBackupScheduleStatus struct {
 
 // DatabaseBackupScheduleObservation are the observable fields of a DatabaseBackupSchedule.
 type DatabaseBackupScheduleObservation struct {
+	// Location reports the original physical location of the source database
+	// +optional
+	Location *meta.LocationName `json:"location,omitempty"`
 	// Type defines the database type that is contained in this backup.
 	// +kubebuilder:default:=unknown
 	// +optional
