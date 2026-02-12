@@ -189,6 +189,13 @@ type ApplicationParameters struct {
 	// have a unique name assigned.
 	// +optional
 	Services NamedServiceTargetList `json:"services,omitempty"`
+	// BuildpackStack describes the desired stack of the buildpacks
+	// to use. It primarily changes the buildpacks used in the build
+	// process.
+	// +kubebuilder:validation:Enum=paketo;heroku
+	// +kubebuilder:default=paketo
+	// +optional
+	BuildpackStack BuildpackStack `json:"buildpackStack,omitempty"`
 }
 
 // Language specifies which kind of application/language should be used
@@ -381,6 +388,9 @@ type DockerfileBuild struct {
 	// +optional
 	BuildContext string `json:"buildContext,omitempty"`
 }
+
+// BuildpackStack represents the origin of buildpacks
+type BuildpackStack string
 
 // An ApplicationStatus represents the observed state of an Application.
 type ApplicationStatus struct {
