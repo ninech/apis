@@ -662,6 +662,11 @@ type DatabaseBackupScheduleSpec struct {
 
 // DatabaseBackupScheduleParameters are the configurable fields of a DatabaseBackupSchedule.
 type DatabaseBackupScheduleParameters struct {
+	// Location specifies the physical location of the object storage used to store the backups in.
+	// This should be left empty, as the offsite location to the referenced Source database is chosen by default.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="location is immutable after creation"
+	// +optional
+	Location *meta.LocationName `json:"location"`
 	// Schedule is a cron description of how often a backup is to be created.
 	// +kubebuilder:default:=daily
 	// +optional
