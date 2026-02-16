@@ -22,10 +22,6 @@ var (
 )
 
 var (
-	IngressHAProxyKind             = reflect.TypeOf(IngressHAProxy{}).Name()
-	IngressHAProxyGroupKind        = schema.GroupKind{Group: Group, Kind: IngressHAProxyKind}.String()
-	IngressHAProxyKindAPIVersion   = IngressHAProxyKind + "." + SchemeGroupVersion.String()
-	IngressHAProxyGroupVersionKind = SchemeGroupVersion.WithKind(IngressHAProxyKind)
 	IngressNginxKind             = reflect.TypeOf(IngressNginx{}).Name()
 	IngressNginxGroupKind        = schema.GroupKind{Group: Group, Kind: IngressNginxKind}.String()
 	IngressNginxKindAPIVersion   = IngressNginxKind + "." + SchemeGroupVersion.String()
@@ -41,7 +37,6 @@ var (
 )
 
 func init() {
-	SchemeBuilder.Register(&IngressHAProxy{}, &IngressHAProxyList{})
 	SchemeBuilder.Register(&IngressNginx{}, &IngressNginxList{})
 	SchemeBuilder.Register(&ServiceConnection{}, &ServiceConnectionList{})
 	SchemeBuilder.Register(&StaticEgress{}, &StaticEgressList{})
