@@ -662,6 +662,11 @@ type DatabaseBackupScheduleSpec struct {
 
 // DatabaseBackupScheduleParameters are the configurable fields of a DatabaseBackupSchedule.
 type DatabaseBackupScheduleParameters struct {
+	// Location specifies the physical location of the object storage used to store the backups in.
+	// This should be left empty, as the offsite location to the referenced Source database is chosen by default.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="location is immutable after creation"
+	// +optional
+	Location *meta.LocationName `json:"location"`
 	// Schedule is a cron description of how often a backup is to be created.
 	// +kubebuilder:default:=daily
 	// +optional
@@ -692,10 +697,6 @@ type DatabaseBackupScheduleStatus struct {
 
 // DatabaseBackupScheduleObservation are the observable fields of a DatabaseBackupSchedule.
 type DatabaseBackupScheduleObservation struct {
-	// Type defines the database type that is contained in this backup.
-	// +kubebuilder:default:=unknown
-	// +optional
-	Type DatabaseBackupType `json:"type,omitempty"`
 	// TargetBucket is the object bucket into which backups are created.
 	// +optional
 	TargetBucket meta.LocalReference `json:"targetBucket,omitempty"`

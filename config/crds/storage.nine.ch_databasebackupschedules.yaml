@@ -84,6 +84,18 @@ spec:
                       - name
                       type: object
                     type: array
+                  location:
+                    description: |-
+                      Location specifies the physical location of the object storage used to store the backups in.
+                      This should be left empty, as the offsite location to the referenced Source database is chosen by default.
+                    enum:
+                    - nine-cz41
+                    - nine-cz42
+                    - nine-es34
+                    type: string
+                    x-kubernetes-validations:
+                    - message: location is immutable after creation
+                      rule: self == oldSelf
                   schedule:
                     default: daily
                     description: Schedule is a cron description of how often a backup
@@ -316,15 +328,6 @@ spec:
                     required:
                     - name
                     type: object
-                  type:
-                    default: unknown
-                    description: Type defines the database type that is contained
-                      in this backup.
-                    enum:
-                    - mysql
-                    - postgres
-                    - unknown
-                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.
