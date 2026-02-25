@@ -77,6 +77,9 @@ spec:
                     required:
                     - name
                     type: object
+                    x-kubernetes-validations:
+                    - message: bucket is immutable after creation
+                      rule: self == oldSelf
                   bucketUser:
                     description: BucketUser is used to write database backups and
                       read them again to restore.
@@ -87,6 +90,9 @@ spec:
                     required:
                     - name
                     type: object
+                    x-kubernetes-validations:
+                    - message: bucketUser is immutable after creation
+                      rule: self == oldSelf
                   expiration:
                     description: Expiration is the time when the backup will be deleted.
                     format: date-time
@@ -95,13 +101,30 @@ spec:
                     description: Image is the container image used for the backup
                       job.
                     type: string
+                    x-kubernetes-validations:
+                    - message: image is immutable after creation
+                      rule: self == oldSelf
+                  location:
+                    description: |-
+                      Location specifies where the backup job is executed.
+                      This field should be left blank because the location of the referenced Source database is chosen by default.
+                    enum:
+                    - nine-cz41
+                    - nine-cz42
+                    - nine-es34
+                    type: string
+                    x-kubernetes-validations:
+                    - message: location is immutable after creation
+                      rule: self == oldSelf
                   name:
                     description: |-
                       Name is the name of the database to be backed up. This is required for
                       MySQL and Postgres types as there can be multiple databases on these servers.
-                      For shared databases like MySQLDatabase this field is ignored, as
-                      the database is defined in the object.
+                      For shared databases like MySQLDatabase this field is automatically populated and needs to be left empty.
                     type: string
+                    x-kubernetes-validations:
+                    - message: name is immutable after creation
+                      rule: self == oldSelf
                   source:
                     description: |-
                       Source is a reference to a Postgres, MySQL or MySQLDatabase object, to
@@ -119,10 +142,14 @@ spec:
                     - kind
                     - name
                     type: object
+                    x-kubernetes-validations:
+                    - message: source is immutable after creation
+                      rule: self == oldSelf
                 required:
                 - bucket
                 - bucketUser
                 - expiration
+                - image
                 - source
                 type: object
               managementPolicies:
@@ -327,15 +354,6 @@ spec:
                     - succeeded
                     - running
                     - failed
-                    - unknown
-                    type: string
-                  type:
-                    default: unknown
-                    description: Type defines the database type that is contained
-                      in this backup.
-                    enum:
-                    - mysql
-                    - postgres
                     - unknown
                     type: string
                   version:
