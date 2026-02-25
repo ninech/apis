@@ -561,23 +561,32 @@ type DatabaseBackupSpec struct {
 
 // DatabaseBackupParameters are the configurable fields of a DatabaseBackup.
 type DatabaseBackupParameters struct {
+	// Location specifies where the backup job is executed.
+	// This field should be left blank because the location of the referenced Source database is chosen by default.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="location is immutable after creation"
+	// +optional
+	Location meta.LocationName `json:"location,omitempty"`
 	// Source is a reference to a Postgres, MySQL or MySQLDatabase object, to
 	// create the database backup from.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="source is immutable after creation"
 	Source meta.LocalTypedReference `json:"source"`
 	// Name is the name of the database to be backed up. This is required for
 	// MySQL and Postgres types as there can be multiple databases on these servers.
-	// For shared databases like MySQLDatabase this field is ignored, as
-	// the database is defined in the object.
+	// For shared databases like MySQLDatabase this field is automatically populated and needs to be left empty.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="name is immutable after creation"
 	// +optional
 	Name string `json:"name,omitempty"`
 	// Bucket reference to an object storage bucket into which the backup is to be created.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="bucket is immutable after creation"
 	Bucket meta.LocalReference `json:"bucket"`
 	// BucketUser is used to write database backups and read them again to restore.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="bucketUser is immutable after creation"
 	BucketUser meta.LocalReference `json:"bucketUser"`
 	// Expiration is the time when the backup will be deleted.
 	Expiration metav1.Time `json:"expiration"`
 	// Image is the container image used for the backup job.
-	Image string `json:"image,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="image is immutable after creation"
+	Image string `json:"image"`
 }
 
 // A DatabaseBackupStatus represents the observed state of a DatabaseBackup.
@@ -588,10 +597,6 @@ type DatabaseBackupStatus struct {
 
 // DatabaseBackupObservation are the observable fields of a DatabaseBackup.
 type DatabaseBackupObservation struct {
-	// Type defines the database type that is contained in this backup.
-	// +kubebuilder:default:=unknown
-	// +optional
-	Type DatabaseBackupType `json:"type,omitempty"`
 	// State represents the backup state.
 	// +kubebuilder:default:=unknown
 	// +optional
@@ -612,11 +617,6 @@ type DatabaseBackupObservation struct {
 	// +optional
 	Version DatabaseBackupVersion `json:"version,omitempty"`
 }
-
-// DatabaseBackupType represents the database management system a database backup is made from.
-// This information is crucial, especially when it comes to restoring the backup.
-// +kubebuilder:validation:Enum=mysql;postgres;unknown
-type DatabaseBackupType string
 
 // DatabaseBackupState represents the backup state.
 // +kubebuilder:validation:Enum=pending;succeeded;running;failed;unknown
@@ -662,6 +662,11 @@ type DatabaseBackupScheduleSpec struct {
 
 // DatabaseBackupScheduleParameters are the configurable fields of a DatabaseBackupSchedule.
 type DatabaseBackupScheduleParameters struct {
+	// Location specifies the physical location of the object storage used to store the backups in.
+	// This should be left empty, as the offsite location to the referenced Source database is chosen by default.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="location is immutable after creation"
+	// +optional
+	Location meta.LocationName `json:"location,omitempty"`
 	// Schedule is a cron description of how often a backup is to be created.
 	// +kubebuilder:default:=daily
 	// +optional
@@ -692,10 +697,6 @@ type DatabaseBackupScheduleStatus struct {
 
 // DatabaseBackupScheduleObservation are the observable fields of a DatabaseBackupSchedule.
 type DatabaseBackupScheduleObservation struct {
-	// Type defines the database type that is contained in this backup.
-	// +kubebuilder:default:=unknown
-	// +optional
-	Type DatabaseBackupType `json:"type,omitempty"`
 	// TargetBucket is the object bucket into which backups are created.
 	// +optional
 	TargetBucket meta.LocalReference `json:"targetBucket,omitempty"`
