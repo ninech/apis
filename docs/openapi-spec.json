@@ -16057,7 +16057,13 @@
                     "required": [
                       "name"
                     ],
-                    "type": "object"
+                    "type": "object",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "bucket is immutable after creation",
+                        "rule": "self == oldSelf"
+                      }
+                    ]
                   },
                   "bucketUser": {
                     "description": "BucketUser is used to write database backups and read them again to restore.",
@@ -16070,7 +16076,13 @@
                     "required": [
                       "name"
                     ],
-                    "type": "object"
+                    "type": "object",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "bucketUser is immutable after creation",
+                        "rule": "self == oldSelf"
+                      }
+                    ]
                   },
                   "expiration": {
                     "description": "Expiration is the time when the backup will be deleted.",
@@ -16079,11 +16091,38 @@
                   },
                   "image": {
                     "description": "Image is the container image used for the backup job.",
-                    "type": "string"
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "image is immutable after creation",
+                        "rule": "self == oldSelf"
+                      }
+                    ]
+                  },
+                  "location": {
+                    "description": "Location specifies where the backup job is executed.\nThis field should be left blank because the location of the referenced Source database is chosen by default.",
+                    "enum": [
+                      "nine-cz41",
+                      "nine-cz42",
+                      "nine-es34"
+                    ],
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "location is immutable after creation",
+                        "rule": "self == oldSelf"
+                      }
+                    ]
                   },
                   "name": {
-                    "description": "Name is the name of the database to be backed up. This is required for\nMySQL and Postgres types as there can be multiple databases on these servers.\nFor shared databases like MySQLDatabase this field is ignored, as\nthe database is defined in the object.",
-                    "type": "string"
+                    "description": "Name is the name of the database to be backed up. This is required for\nMySQL and Postgres types as there can be multiple databases on these servers.\nFor shared databases like MySQLDatabase this field is automatically populated and needs to be left empty.",
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "name is immutable after creation",
+                        "rule": "self == oldSelf"
+                      }
+                    ]
                   },
                   "source": {
                     "description": "Source is a reference to a Postgres, MySQL or MySQLDatabase object, to\ncreate the database backup from.",
@@ -16104,13 +16143,20 @@
                       "kind",
                       "name"
                     ],
-                    "type": "object"
+                    "type": "object",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "source is immutable after creation",
+                        "rule": "self == oldSelf"
+                      }
+                    ]
                   }
                 },
                 "required": [
                   "bucket",
                   "bucketUser",
                   "expiration",
+                  "image",
                   "source"
                 ],
                 "type": "object"
@@ -16318,16 +16364,6 @@
                     ],
                     "type": "string"
                   },
-                  "type": {
-                    "default": "unknown",
-                    "description": "Type defines the database type that is contained in this backup.",
-                    "enum": [
-                      "mysql",
-                      "postgres",
-                      "unknown"
-                    ],
-                    "type": "string"
-                  },
                   "version": {
                     "description": "Version contains the version information of the backup.",
                     "properties": {
@@ -16501,6 +16537,21 @@
                       "type": "object"
                     },
                     "type": "array"
+                  },
+                  "location": {
+                    "description": "Location specifies the physical location of the object storage used to store the backups in.\nThis should be left empty, as the offsite location to the referenced Source database is chosen by default.",
+                    "enum": [
+                      "nine-cz41",
+                      "nine-cz42",
+                      "nine-es34"
+                    ],
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "location is immutable after creation",
+                        "rule": "self == oldSelf"
+                      }
+                    ]
                   },
                   "schedule": {
                     "default": "daily",
@@ -16736,16 +16787,6 @@
                       "name"
                     ],
                     "type": "object"
-                  },
-                  "type": {
-                    "default": "unknown",
-                    "description": "Type defines the database type that is contained in this backup.",
-                    "enum": [
-                      "mysql",
-                      "postgres",
-                      "unknown"
-                    ],
-                    "type": "string"
                   }
                 },
                 "type": "object"
