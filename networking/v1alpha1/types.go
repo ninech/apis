@@ -3,6 +3,7 @@ package v1alpha1
 import (
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -503,4 +504,78 @@ type StaticEgressSelectorLabel struct {
 	Name string `json:"name"`
 	// Value of the label.
 	Value string `json:"value"`
+}
+
+// VPN connects a KubernetesCluster to an external network via an encrypted
+// WireGuard tunnel managed by the Tailscale Connector operator.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="CONNECTOR",type="string",JSONPath=".status.atProvider.connectorHostname"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced,shortName=vpn
+// +kubebuilder:object:root=true
+type VPN struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              VPNSpec   `json:"spec"`
+	Status            VPNStatus `json:"status,omitempty"`
+}
+
+// VPNList contains a list of VPN resources.
+// +kubebuilder:object:root=true
+type VPNList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []VPN `json:"items"`
+}
+
+// VPNSpec defines the desired state of a VPN.
+type VPNSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            VPNParameters `json:"forProvider"`
+}
+
+// VPNParameters are the configurable fields of a VPN.
+type VPNParameters struct {
+	// Cluster is a reference to the KubernetesCluster this VPN connects to.
+	// The referenced cluster must have serviceConnection.enabled set to true.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="cluster is immutable after creation"
+	Cluster meta.LocalReference `json:"cluster"`
+	// AdvertiseRoutes are the CIDRs the in-cluster Connector node advertises
+	// to the tailnet, making cluster pods and services reachable from the
+	// customer's network. Typically the cluster pod CIDR and service CIDR.
+	// +kubebuilder:validation:MinItems=1
+	AdvertiseRoutes []string `json:"advertiseRoutes"`
+	// AllowedRoutes are the customer's IP ranges (CIDRs). The controller
+	// enables these routes in Headscale once the customer's Tailscale node
+	// connects and advertises them.
+	// +kubebuilder:validation:MinItems=1
+	AllowedRoutes []string `json:"allowedRoutes"`
+}
+
+// VPNStatus represents the observed state of a VPN.
+type VPNStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               VPNObservation `json:"atProvider,omitempty"`
+}
+
+// VPNObservation are the observable fields of a VPN.
+type VPNObservation struct {
+	// CustomerAuthKeySecretRef references the Secret in the same namespace
+	// that contains the Headscale pre-auth key the customer uses to connect
+	// their device or network to the VPN.
+	// +optional
+	CustomerAuthKeySecretRef *corev1.LocalObjectReference `json:"customerAuthKeySecretRef,omitempty"`
+	// ConnectorHostname is the tailnet hostname of the in-cluster Connector node.
+	// +optional
+	ConnectorHostname string `json:"connectorHostname,omitempty"`
+	// TailnetIPs are the tailnet IP addresses assigned to the in-cluster Connector.
+	// +optional
+	TailnetIPs []string `json:"tailnetIPs,omitempty"`
+	// EnabledRoutes lists the customer CIDRs that have been approved and
+	// enabled in Headscale for routing.
+	// +optional
+	EnabledRoutes        []string `json:"enabledRoutes,omitempty"`
+	meta.ReferenceStatus `json:",inline"`
 }

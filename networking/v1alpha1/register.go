@@ -38,6 +38,10 @@ var (
 	StaticEgressGroupKind        = schema.GroupKind{Group: Group, Kind: StaticEgressKind}.String()
 	StaticEgressKindAPIVersion   = StaticEgressKind + "." + SchemeGroupVersion.String()
 	StaticEgressGroupVersionKind = SchemeGroupVersion.WithKind(StaticEgressKind)
+	VPNKind             = reflect.TypeOf(VPN{}).Name()
+	VPNGroupKind        = schema.GroupKind{Group: Group, Kind: VPNKind}.String()
+	VPNKindAPIVersion   = VPNKind + "." + SchemeGroupVersion.String()
+	VPNGroupVersionKind = SchemeGroupVersion.WithKind(VPNKind)
 )
 
 func init() {
@@ -45,4 +49,5 @@ func init() {
 	SchemeBuilder.Register(&IngressNginx{}, &IngressNginxList{})
 	SchemeBuilder.Register(&ServiceConnection{}, &ServiceConnectionList{})
 	SchemeBuilder.Register(&StaticEgress{}, &StaticEgressList{})
+	SchemeBuilder.Register(&VPN{}, &VPNList{})
 }
