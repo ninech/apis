@@ -14518,7 +14518,7 @@
                         "type": "array"
                       },
                       "responseHeaders": {
-                        "description": "ResponseHeaders specifies which response headers should be accessible\nto applications (for example, from a JavaScript XMLHttpRequest object).\nCorresponds to the Access-Control-Expose-Headers CORS header.",
+                        "description": "ResponseHeaders specifies which headers should be allowed\nfor CORS.",
                         "items": {
                           "type": "string"
                         },

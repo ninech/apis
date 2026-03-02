@@ -341,9 +341,8 @@ type CORSConfig struct {
 	// Origins specifies the origins that should be allowed for
 	// CORS.
 	Origins []string `json:"origins"`
-	// ResponseHeaders specifies which response headers should be accessible
-	// to applications (for example, from a JavaScript XMLHttpRequest object).
-	// Corresponds to the Access-Control-Expose-Headers CORS header.
+	// ResponseHeaders specifies which headers should be allowed
+	// for CORS.
 	//
 	// +optional
 	ResponseHeaders []string `json:"responseHeaders,omitempty"`
