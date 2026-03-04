@@ -675,10 +675,6 @@ type DatabaseBackupScheduleParameters struct {
 	// TTL is the duration after the backups creation until it can be deleted.
 	// +kubebuilder:default:="240h"
 	TTL *metav1.Duration `json:"ttl"`
-	// BucketUsers is a list of bucket users that will gain read access to the
-	// target bucket containing the database backups.
-	// +optional
-	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 	// Source is a reference to a Postgres, MySQL, PostgresDatabase or MySQLDatabase object, to
 	// create the database backup from.
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="database source is immutable after creation"
@@ -1083,10 +1079,6 @@ type MySQLDatabaseParameters struct {
 	// +kubebuilder:default:=daily
 	// +optional
 	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
-	// BucketUsers is a list of bucket users that will gain read access to the
-	// target bucket containing the database backups.
-	// +optional
-	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 }
 
 // A MySQLDatabaseStatus represents the observed state of a MySQLDatabase.
@@ -1446,10 +1438,6 @@ type PostgresDatabaseParameters struct {
 	// +kubebuilder:default:=daily
 	// +optional
 	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
-	// BucketUsers is a list of bucket users that will gain read access to the
-	// target bucket containing the database backups.
-	// +optional
-	BucketUsers []meta.LocalReference `json:"bucketUsers,omitempty"`
 }
 
 // A PostgresDatabaseStatus represents the observed state of a PostgresDatabase.
