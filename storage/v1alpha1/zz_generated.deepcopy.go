@@ -723,6 +723,11 @@ func (in *DatabaseBackupScheduleParameters) DeepCopyInto(out *DatabaseBackupSche
 		*out = new(v1.Duration)
 		**out = **in
 	}
+	if in.BucketUsers != nil {
+		in, out := &in.BucketUsers, &out.BucketUsers
+		*out = make([]metav1alpha1.LocalReference, len(*in))
+		copy(*out, *in)
+	}
 	out.Source = in.Source
 }
 
@@ -1125,6 +1130,11 @@ func (in *MySQLDatabaseParameters) DeepCopyInto(out *MySQLDatabaseParameters) {
 		in, out := &in.InstanceReference, &out.InstanceReference
 		*out = new(metav1alpha1.Reference)
 		**out = **in
+	}
+	if in.BucketUsers != nil {
+		in, out := &in.BucketUsers, &out.BucketUsers
+		*out = make([]metav1alpha1.LocalReference, len(*in))
+		copy(*out, *in)
 	}
 }
 
@@ -1611,6 +1621,11 @@ func (in *PostgresDatabaseParameters) DeepCopyInto(out *PostgresDatabaseParamete
 		in, out := &in.InstanceReference, &out.InstanceReference
 		*out = new(metav1alpha1.Reference)
 		**out = **in
+	}
+	if in.BucketUsers != nil {
+		in, out := &in.BucketUsers, &out.BucketUsers
+		*out = make([]metav1alpha1.LocalReference, len(*in))
+		copy(*out, *in)
 	}
 }
 
