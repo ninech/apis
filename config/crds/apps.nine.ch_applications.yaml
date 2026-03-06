@@ -97,6 +97,16 @@ spec:
                       - value
                       type: object
                     type: array
+                  buildpackStack:
+                    default: paketo
+                    description: |-
+                      BuildpackStack describes the desired stack of the buildpacks
+                      to use. It primarily changes the buildpacks used in the build
+                      process.
+                    enum:
+                    - paketo
+                    - heroku
+                    type: string
                   config:
                     description: Config contains all parameters configuring the deployment
                       of an Application.
