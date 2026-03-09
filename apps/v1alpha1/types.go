@@ -6,7 +6,6 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/utils/ptr"
 )
 
 const (
@@ -98,7 +97,7 @@ const (
 var (
 	// DefaultConfig defines the default values used for Deploio
 	// applications
-	DefaultConfig                                         = Config{Size: AppMicro, Replicas: ptr.To(int32(1)), Port: ptr.To(int32(8080)), EnableBasicAuth: ptr.To(false)}
+	DefaultConfig                                         = Config{Size: AppMicro, Replicas: new(int32(1)), Port: new(int32(8080)), EnableBasicAuth: new(false)}
 	AppMicro      ApplicationSize                         = "micro"
 	AppMini       ApplicationSize                         = "mini"
 	AppStandard1  ApplicationSize                         = "standard-1"
