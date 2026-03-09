@@ -1,6 +1,6 @@
 module github.com/ninech/apis
 
-go 1.24.0
+go 1.26.0
 
 require (
 	github.com/crossplane/crossplane-runtime v1.18.0
@@ -9,7 +9,6 @@ require (
 	github.com/vmware-tanzu/velero v1.16.1
 	k8s.io/api v0.32.3
 	k8s.io/apimachinery v0.32.3
-	k8s.io/utils v0.0.0-20250502105355-0f33e8f1c979
 	sigs.k8s.io/controller-runtime v0.20.4
 )
 
@@ -61,6 +60,7 @@ require (
 	k8s.io/client-go v0.32.1 // indirect
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20241105132330-32ad38e42d3f // indirect
+	k8s.io/utils v0.0.0-20250502105355-0f33e8f1c979 // indirect
 	sigs.k8s.io/controller-tools v0.16.5 // indirect
 	sigs.k8s.io/json v0.0.0-20241010143419-9aa6b5e7a4b3 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.2 // indirect
