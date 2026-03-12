@@ -23,6 +23,24 @@ const (
 	LogLabelScheduledJob = "scheduled_job"
 	// LogLabelDeployJob is attached to all logs belonging to a deploy job.
 	LogLabelDeployJob = "deploy_job"
+	// LanguageRuby can be used to select the buildpack for ruby applications.
+	LanguageRuby Language = "ruby"
+	// LanguagePHP can be used to select the buildpack for PHP applications.
+	LanguagePHP Language = "php"
+	// LanguagePython can be used to select the buildpack for python applications.
+	LanguagePython Language = "python"
+	// LanguageGolang can be used to select the buildpack for golang applications.
+	LanguageGolang Language = "golang"
+	// LanguageNodeJS can be used to select the buildpack for nodeJS applications.
+	LanguageNodeJS Language = "nodejs"
+	// LanguageStatic can be used to select the buildpack for static websites.
+	LanguageStatic Language = "static"
+	// BuildpackStackHeroku represents the stack which uses all buildpacks
+	// from Heroku
+	BuildpackStackHeroku = "heroku"
+	// BuildpackStackPaketo represents our default stack which uses the
+	// majority of buildpacks from paketo, but also some Heroku ones.
+	BuildpackStackPaketo = "paketo"
 	// BuildProcessStatusError represents an unknown build status
 	BuildProcessStatusUnknown BuildProcessStatus = "unknown"
 	// BuildProcessStatusError represents the status of a failed build
@@ -188,6 +206,13 @@ type ApplicationParameters struct {
 	// have a unique name assigned.
 	// +optional
 	Services NamedServiceTargetList `json:"services,omitempty"`
+	// BuildpackStack describes the desired stack of the buildpacks
+	// to use. It primarily changes the buildpacks used in the build
+	// process.
+	// +kubebuilder:validation:Enum=paketo;heroku
+	// +kubebuilder:default=paketo
+	// +optional
+	BuildpackStack BuildpackStack `json:"buildpackStack,omitempty"`
 }
 
 // Language specifies which kind of application/language should be used
@@ -380,6 +405,9 @@ type DockerfileBuild struct {
 	// +optional
 	BuildContext string `json:"buildContext,omitempty"`
 }
+
+// BuildpackStack represents the origin of buildpacks
+type BuildpackStack string
 
 // An ApplicationStatus represents the observed state of an Application.
 type ApplicationStatus struct {
