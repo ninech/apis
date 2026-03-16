@@ -95,3 +95,8 @@ func (envs EnvVars) WithOrigin(origin ConfigOrigin) OriginEnvVarList {
 	}
 	return result
 }
+
+// String implements the stringer interface for a `BuildpackStack`.
+func (b BuildpackStack) String() string {
+	return string(b)
+}
