@@ -77,6 +77,29 @@ spec:
                     - disabled
                     - daily
                     type: string
+                  collation:
+                    default: C.UTF-8
+                    description: |-
+                      Collation configures the LC_COLLATE and LC_CTYPE of the database.
+                      This is only applied during database creation and cannot be changed afterwards.
+                    enum:
+                    - C.UTF-8
+                    - C
+                    - de_CH.UTF-8
+                    - de_CH
+                    - de_DE.UTF-8
+                    - de_DE
+                    - fr_CH.UTF-8
+                    - fr_CH
+                    - fr_FR.UTF-8
+                    - fr_FR
+                    - it_CH.UTF-8
+                    - it_CH
+                    - it_IT.UTF-8
+                    - it_IT
+                    - en_US.UTF-8
+                    - en_US
+                    type: string
                   instanceRef:
                     description: |-
                       InstanceRef is the instance that contains the database.
@@ -116,6 +139,8 @@ spec:
                   rule: self.location == oldSelf.location
                 - message: Version is immutable and cannot be unset
                   rule: self.version == oldSelf.version
+                - message: Collation is immutable and cannot be unset
+                  rule: self.collation == oldSelf.collation
               managementPolicies:
                 default:
                 - '*'
