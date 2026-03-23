@@ -175,6 +175,8 @@ const (
 	// PostgresDatabaseVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
 	PostgresDatabaseVersionDefault PostgresVersion = PostgresVersionDefault
+	// PostgresDatabaseCollationDefault is the default collation for a PostgresDatabase.
+	PostgresDatabaseCollationDefault PostgresDatabaseCollation = "C.UTF-8"
 )
 
 var (
@@ -1417,6 +1419,7 @@ type PostgresDatabaseSpec struct {
 // PostgresDatabaseParameters are the configurable fields of a PostgresDatabase.
 // +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="self.collation == oldSelf.collation",message="Collation is immutable and cannot be unset"
 type PostgresDatabaseParameters struct {
 	// Location specifies in which data center the database will be spawned.
 	// +optional
@@ -1427,6 +1430,12 @@ type PostgresDatabaseParameters struct {
 	// +optional
 	// +kubebuilder:default:="17"
 	Version PostgresVersion `json:"version,omitempty"`
+	// Collation configures the LC_COLLATE and LC_CTYPE of the database.
+	// This is only applied during database creation and cannot be changed afterwards.
+	// +kubebuilder:default:="C.UTF-8"
+	// +kubebuilder:validation:Enum="C.UTF-8";"C";"de_CH.UTF-8";"de_CH";"de_DE.UTF-8";"de_DE";"fr_CH.UTF-8";"fr_CH";"fr_FR.UTF-8";"fr_FR";"it_CH.UTF-8";"it_CH";"it_IT.UTF-8";"it_IT";"en_US.UTF-8";"en_US"
+	// +optional
+	Collation PostgresDatabaseCollation `json:"collation,omitempty"`
 	// InstanceRef is the instance that contains the database.
 	// It is not possible to configure this value manually.
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="InstanceReference is immutable"
@@ -1439,6 +1448,9 @@ type PostgresDatabaseParameters struct {
 	// +optional
 	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
 }
+
+// PostgresDatabaseCollation defines the LC_COLLATE and LC_CTYPE of a Postgres database.
+type PostgresDatabaseCollation string
 
 // A PostgresDatabaseStatus represents the observed state of a PostgresDatabase.
 type PostgresDatabaseStatus struct {
