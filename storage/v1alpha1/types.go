@@ -65,6 +65,16 @@ const (
 	DatabaseBackupScheduleTTLMax = 365 * 24 * time.Hour
 	// DatabaseBackupMinimumInterval is the minimum interval between two backups.
 	DatabaseBackupMinimumInterval = 1 * time.Hour
+	// DatabaseRestoreStatePending indicates a scheduled but not yet started restore.
+	DatabaseRestoreStatePending DatabaseRestoreState = "pending"
+	// DatabaseRestoreStateSucceeded indicates that the restore was completed successfully.
+	DatabaseRestoreStateSucceeded DatabaseRestoreState = "succeeded"
+	// DatabaseRestoreStateRunning indicates that the restore is still running.
+	DatabaseRestoreStateRunning DatabaseRestoreState = "running"
+	// DatabaseRestoreStateFailed indicates that the restore was unable to complete successfully.
+	DatabaseRestoreStateFailed DatabaseRestoreState = "failed"
+	// DatabaseRestoreStateUnknown indicates the restore's state to be unknown.
+	DatabaseRestoreStateUnknown DatabaseRestoreState = "unknown"
 	// KeyValueStoreVersion7 KeyValueStore version 7
 	KeyValueStoreVersion7 KeyValueStoreVersion = "7"
 	// KeyValueStoreUser is the name of the KeyValueStore user account.
@@ -706,6 +716,80 @@ type DatabaseBackupScheduleObservation struct {
 	// +optional
 	Next metav1.Time `json:"next,omitempty"`
 }
+
+// DatabaseRestore restores a single database from an object store.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type DatabaseRestore struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              DatabaseRestoreSpec   `json:"spec"`
+	Status            DatabaseRestoreStatus `json:"status,omitempty"`
+}
+
+// DatabaseRestoreList contains a list of DatabaseRestores.
+// +kubebuilder:object:root=true
+type DatabaseRestoreList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []DatabaseRestore `json:"items"`
+}
+
+// A DatabaseRestoreSpec defines the desired state of a DatabaseRestore.
+type DatabaseRestoreSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            DatabaseRestoreParameters `json:"forProvider"`
+}
+
+// DatabaseRestoreParameters are the configurable fields of a DatabaseRestore.
+type DatabaseRestoreParameters struct {
+	// Location specifies where the restore job is executed.
+	// This field should be left blank because the location of the referenced Target database is chosen by default.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="location is immutable after creation"
+	// +optional
+	Location meta.LocationName `json:"location,omitempty"`
+	// Backup is a reference to the DatabaseBackup that is to be restored.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="backup is immutable after creation"
+	Backup meta.LocalReference `json:"backup"`
+	// Target is a reference to a Postgres, PostgresDatabase, MySQL or MySQLDatabase object to
+	// restore the database backup to.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="target is immutable after creation"
+	Target meta.LocalTypedReference `json:"target"`
+	// Name is the name of the database to be restored to. This is required for
+	// MySQL and Postgres types as there can be multiple databases on these servers.
+	// For shared databases like MySQLDatabase or PostgresDatabase this field is automatically populated and needs to be left empty.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="name is immutable after creation"
+	// +optional
+	Name string `json:"name,omitempty"`
+}
+
+// A DatabaseRestoreStatus represents the observed state of a DatabaseRestore.
+type DatabaseRestoreStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               DatabaseRestoreObservation `json:"atProvider,omitempty"`
+}
+
+// DatabaseRestoreObservation are the observable fields of a DatabaseRestore.
+type DatabaseRestoreObservation struct {
+	// State represents the restore state.
+	// +kubebuilder:default:=unknown
+	// +optional
+	State DatabaseRestoreState `json:"state,omitempty"`
+	// Start is the time when the restore operation started.
+	// +optional
+	Start metav1.Time `json:"start,omitempty"`
+	// End is the time when the restore operation ended.
+	// +optional
+	End metav1.Time `json:"end,omitempty"`
+}
+
+// DatabaseRestoreState represents the backup state.
+// +kubebuilder:validation:Enum=pending;succeeded;running;failed;unknown
+type DatabaseRestoreState string
 
 // KeyValueStore deploys an on-demand KeyValueStore instance.
 // +kubebuilder:subresource:status
