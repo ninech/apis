@@ -67,21 +67,21 @@ spec:
                 description: GrafanaParameters are the configurable fields of a Grafana.
                 properties:
                   dataSource:
-                    description: DataSource defines search parameters for DataSources.
+                    description: |-
+                      Deprecated: DataSource is no longer used by the controller. Datasource
+                      discovery is scoped automatically to the Grafana's own namespace. This
+                      field will be removed in a future release once all clients have been
+                      updated.
                     properties:
                       filterLabels:
                         additionalProperties:
                           type: string
-                        description: |-
-                          FilterLabels is a list of labels that will be filtered for
-                          when searching for data sources.
+                        description: 'Deprecated: FilterLabels is no longer used by
+                          the controller.'
                         type: object
                       searchNamespaces:
-                        description: |-
-                          SearchNamespaces is a list of namespaces that will be searched
-                          for data sources that will be added to the Grafana deployment.
-                          If empty, the default is to search in the same namespace that
-                          Grafana resides in.
+                        description: 'Deprecated: SearchNamespaces is no longer used
+                          by the controller.'
                         items:
                           type: string
                         type: array
@@ -92,8 +92,6 @@ spec:
                       Please note: Nine reserves the right to revoke admin access in future
                       versions if the admin access is deemed a security or an operational risk.
                     type: boolean
-                required:
-                - dataSource
                 type: object
               managementPolicies:
                 default:

@@ -108,8 +108,12 @@ type GrafanaSpec struct {
 
 // GrafanaParameters are the configurable fields of a Grafana.
 type GrafanaParameters struct {
-	// DataSource defines search parameters for DataSources.
-	DataSource DataSourceSelection `json:"dataSource"`
+	// Deprecated: DataSource is no longer used by the controller. Datasource
+	// discovery is scoped automatically to the Grafana's own namespace. This
+	// field will be removed in a future release once all clients have been
+	// updated.
+	// +optional
+	DataSource DataSourceSelection `json:"dataSource,omitempty"`
 	// EnableAdminAccess gives you admin permissions in the Grafana instance.
 	// Please note: Nine reserves the right to revoke admin access in future
 	// versions if the admin access is deemed a security or an operational risk.
@@ -118,14 +122,14 @@ type GrafanaParameters struct {
 }
 
 // DataSourceSelection specifies parameters on how to select / search for DataSources.
+//
+// Deprecated: DataSourceSelection is no longer used and will be removed in a
+// future release.
 type DataSourceSelection struct {
-	// SearchNamespaces is a list of namespaces that will be searched
-	// for data sources that will be added to the Grafana deployment.
-	// If empty, the default is to search in the same namespace that
-	// Grafana resides in.
+	// Deprecated: SearchNamespaces is no longer used by the controller.
+	// +optional
 	SearchNamespaces []string `json:"searchNamespaces,omitempty"`
-	// FilterLabels is a list of labels that will be filtered for
-	// when searching for data sources.
+	// Deprecated: FilterLabels is no longer used by the controller.
 	// +optional
 	FilterLabels map[string]string `json:"filterLabels,omitempty"`
 }
