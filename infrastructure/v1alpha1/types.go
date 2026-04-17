@@ -41,6 +41,10 @@ var (
 	// 4 CPU Cores
 	// 16GB RAM
 	MachineTypeNineStandard4 = MachineType{name: "nine-standard-4", cpu: 4, memory: resource.MustParse("16Gi")}
+	// MachineTypeNineStandard8 is a VM running on Nine Infrastructure with:
+	// 8 CPU Cores
+	// 32GB RAM
+	MachineTypeNineStandard8 = MachineType{name: "nine-standard-8", cpu: 8, memory: resource.MustParse("32Gi")}
 	// MachineTypeHighMem2 is a VM running on Nine Infrastructure with:
 	// 2 CPU Cores
 	// 16GB RAM
@@ -119,7 +123,7 @@ var (
 	// 2GB RAM
 	MachineTypeNineSmall1 = MachineType{name: "nine-small-1", cpu: 1, memory: resource.MustParse("2Gi")}
 	// MachineTypes is a list of all machine types.
-	MachineTypes = slices.Concat([]MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighMem8, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineSmall1}, MachineTypesDB, []MachineType{MachineTypeNineSearchXS, MachineTypeNineSearchS, MachineTypeNineSearchM, MachineTypeNineSearchL, MachineTypeNineSearchXL})
+	MachineTypes = slices.Concat([]MachineType{MachineTypeNineStandard1, MachineTypeNineStandard2, MachineTypeNineStandard4, MachineTypeNineStandard8, MachineTypeNineHighMem2, MachineTypeNineHighMem4, MachineTypeNineHighMem8, MachineTypeNineHighCPU2, MachineTypeNineHighCPU4, MachineTypeNineHighCPU8, MachineTypeNineSmall1}, MachineTypesDB, []MachineType{MachineTypeNineSearchXS, MachineTypeNineSearchS, MachineTypeNineSearchM, MachineTypeNineSearchL, MachineTypeNineSearchXL})
 	// MachineTypesDB is a list of all database machine types.
 	MachineTypesDB = []MachineType{MachineTypeNineDBXS, MachineTypeNineDBS, MachineTypeNineDBM, MachineTypeNineDBL, MachineTypeNineDBXL, MachineTypeNineDBXXL}
 	// DefaultMachineTypeBounds are the default bounds in which all machine
