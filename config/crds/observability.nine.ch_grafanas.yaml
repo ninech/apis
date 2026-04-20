@@ -66,6 +66,14 @@ spec:
               forProvider:
                 description: GrafanaParameters are the configurable fields of a Grafana.
                 properties:
+                  allowLocalUsers:
+                    description: |-
+                      AllowLocalUsers disables OAuth auto-login, allowing local Grafana users
+                      (created via basic auth) to sign in. OIDC users on such instances must
+                      manually click "Sign in with OAuth" on the login form rather than being
+                      auto-redirected. By default, all login attempts are redirected to the
+                      nine.ch OIDC provider.
+                    type: boolean
                   dataSource:
                     description: DataSource defines search parameters for DataSources.
                     properties:

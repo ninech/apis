@@ -115,6 +115,13 @@ type GrafanaParameters struct {
 	// versions if the admin access is deemed a security or an operational risk.
 	// +optional
 	EnableAdminAccess bool `json:"enableAdminAccess,omitempty"`
+	// AllowLocalUsers disables OAuth auto-login, allowing local Grafana users
+	// (created via basic auth) to sign in. OIDC users on such instances must
+	// manually click "Sign in with OAuth" on the login form rather than being
+	// auto-redirected. By default, all login attempts are redirected to the
+	// nine.ch OIDC provider.
+	// +optional
+	AllowLocalUsers bool `json:"allowLocalUsers,omitempty"`
 }
 
 // DataSourceSelection specifies parameters on how to select / search for DataSources.
