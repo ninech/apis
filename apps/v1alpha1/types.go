@@ -115,7 +115,7 @@ const (
 var (
 	// DefaultConfig defines the default values used for Deploio
 	// applications
-	DefaultConfig                                         = Config{Size: AppMicro, Replicas: new(int32(1)), Port: new(int32(8080)), EnableBasicAuth: new(false)}
+	DefaultConfig                                         = Config{Size: AppMicro, Replicas: new(int32(2)), Port: new(int32(8080)), EnableBasicAuth: new(false)}
 	AppMicro      ApplicationSize                         = "micro"
 	AppMini       ApplicationSize                         = "mini"
 	AppStandard1  ApplicationSize                         = "standard-1"
