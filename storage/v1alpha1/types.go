@@ -1429,6 +1429,7 @@ type PostgresDatabaseParameters struct {
 	// Needs to match an available Postgres Version.
 	// +optional
 	// +kubebuilder:default:="17"
+	// +kubebuilder:validation:Enum="17"
 	Version PostgresVersion `json:"version,omitempty"`
 	// Collation configures the LC_COLLATE and LC_CTYPE of the database.
 	// This is only applied during database creation and cannot be changed afterwards.

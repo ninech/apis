@@ -132,6 +132,8 @@ spec:
                     description: |-
                       Version specifies the Postgres version.
                       Needs to match an available Postgres Version.
+                    enum:
+                    - "17"
                     type: string
                 type: object
                 x-kubernetes-validations:
