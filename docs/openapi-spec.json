@@ -20187,6 +20187,9 @@
                   "version": {
                     "default": "17",
                     "description": "Version specifies the Postgres version.\nNeeds to match an available Postgres Version.",
+                    "enum": [
+                      "17"
+                    ],
                     "type": "string"
                   }
                 },
