@@ -125,7 +125,11 @@ type IngressHAProxyObservation struct {
 	DNSName string `json:"dnsName,omitempty"`
 	// IPAddress is the address where the ingress controller is reachable.
 	// +optional
-	IPAddress                string `json:"ipAddress,omitempty"`
+	IPAddress string `json:"ipAddress,omitempty"`
+	// CloudflareIPs contains the Cloudflare IP ranges used in the last successful reconciliation.
+	// Used as a fallback when the Cloudflare API is unreachable.
+	// +optional
+	CloudflareIPs            []string `json:"cloudflareIPs,omitempty"`
 	meta.ChildResourceStatus `json:",inline"`
 	meta.ReferenceStatus     `json:",inline"`
 }
