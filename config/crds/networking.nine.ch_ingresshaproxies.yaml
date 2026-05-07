@@ -140,6 +140,25 @@ spec:
                       IngressClass sets the class of the ingress controller. Specifies which
                       ingress objects the controller should take care of.
                     type: string
+                  ipSharing:
+                    description: |-
+                      IPSharing enables sharing the IP address of the ingress LB with an
+                      existing service type LoadBalancer. The referenced service must have
+                      the annotation metallb.universe.tf/allow-shared-ip set and ports 80
+                      and 443 must not already be in use on that IP. When set, this
+                      overrides the NineIngressIPSharing setting from the configuration.
+                      An empty reference explicitly disables config-based IP sharing.
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                      namespace:
+                        description: Namespace of the target.
+                        type: string
+                    required:
+                    - name
+                    - namespace
+                    type: object
                   isDefaultIngressClass:
                     default: false
                     description: |-

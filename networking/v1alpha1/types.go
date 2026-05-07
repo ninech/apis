@@ -84,6 +84,14 @@ type IngressHAProxyParameters struct {
 	// TLSProtocols to use.
 	// +optional
 	TLSProtocols IngressHAProxyTLSProtocols `json:"tlsProtocols,omitempty"`
+	// IPSharing enables sharing the IP address of the ingress LB with an
+	// existing service type LoadBalancer. The referenced service must have
+	// the annotation metallb.universe.tf/allow-shared-ip set and ports 80
+	// and 443 must not already be in use on that IP. When set, this
+	// overrides the NineIngressIPSharing setting from the configuration.
+	// An empty reference explicitly disables config-based IP sharing.
+	// +optional
+	IPSharing *meta.Reference `json:"ipSharing,omitempty"`
 }
 
 // IngressHAProxyCloudflare sets settings on the ingress-haproxy controller to
