@@ -7948,6 +7948,13 @@
                     },
                     "type": "array"
                   },
+                  "cloudflareIPs": {
+                    "description": "CloudflareIPs contains the Cloudflare IP ranges used in the last successful reconciliation.\nUsed as a fallback when the Cloudflare API is unreachable.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
                   "dnsName": {
                     "description": "DNSName is the name of the ingress A-Record, pointing to IPAddress.",
                     "type": "string"
