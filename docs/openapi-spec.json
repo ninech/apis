@@ -63,7 +63,7 @@
                     "type": "array"
                   },
                   "buildpackStack": {
-                    "default": "paketo",
+                    "default": "heroku",
                     "description": "BuildpackStack describes the desired stack of the buildpacks\nto use. It primarily changes the buildpacks used in the build\nprocess.",
                     "enum": [
                       "paketo",

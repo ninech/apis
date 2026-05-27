@@ -35,11 +35,11 @@ const (
 	LanguageNodeJS Language = "nodejs"
 	// LanguageStatic can be used to select the buildpack for static websites.
 	LanguageStatic Language = "static"
-	// BuildpackStackHeroku represents the stack which uses all buildpacks
-	// from Heroku
+	// BuildpackStackHeroku represents our default stack which uses all
+	// buildpacks from Heroku.
 	BuildpackStackHeroku = "heroku"
-	// BuildpackStackPaketo represents our default stack which uses the
-	// majority of buildpacks from paketo, but also some Heroku ones.
+	// BuildpackStackPaketo represents the stack which uses the majority
+	// of buildpacks from paketo, but also some Heroku ones.
 	BuildpackStackPaketo = "paketo"
 	// BuildProcessStatusError represents an unknown build status
 	BuildProcessStatusUnknown BuildProcessStatus = "unknown"
@@ -210,7 +210,7 @@ type ApplicationParameters struct {
 	// to use. It primarily changes the buildpacks used in the build
 	// process.
 	// +kubebuilder:validation:Enum=paketo;heroku
-	// +kubebuilder:default=paketo
+	// +kubebuilder:default=heroku
 	// +optional
 	BuildpackStack BuildpackStack `json:"buildpackStack,omitempty"`
 }
