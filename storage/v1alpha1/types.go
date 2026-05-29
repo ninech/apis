@@ -108,7 +108,7 @@ const (
 	MySQLMinWordLengthDefault int = 3
 	// MySQLTransactionIsolationDefault is the default transaction isolation level.
 	MySQLTransactionIsolationDefault MySQLTransactionCharacteristic = "REPEATABLE-READ"
-	// MySQLBackupRetentionDays is the number of days to retain backups by default.
+	// MySQLBackupRetentionDaysDefault is the number of days to retain backups by default.
 	MySQLBackupRetentionDaysDefault int = 10
 	// MySQLDatabaseSizeMax is the maximum size of a [MySQLDatabase].
 	// After reaching [MySQLDatabaseSizeMax], the permissions to writing additional
