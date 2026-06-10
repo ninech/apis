@@ -189,7 +189,7 @@ var (
 	// KeyValueStoreVersions represents the available versions for KeyValueStore instances.
 	KeyValueStoreVersions = []KeyValueStoreVersion{KeyValueStoreVersion7}
 	// KeyValueStoreLocationOptions represents the available locations for KeyValueStore instances.
-	KeyValueStoreLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	KeyValueStoreLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41}
 	// MySQLMachineTypeDefault specifies the default machine type.
 	MySQLMachineTypeDefault = infra.MachineTypeNineDBS
 	// MySQLModeDefault is the list of enabled SQL modes.
@@ -209,7 +209,7 @@ var (
 	// OpenSearchVersions represents the available versions of OpenSearch.
 	OpenSearchVersions = []OpenSearchVersion{OpenSearchVersion2, OpenSearchVersion3}
 	// OpenSearchLocationOptions represents the available locations for OpenSearch clusters.
-	OpenSearchLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	OpenSearchLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41}
 	// OpenSearchClusterTypes represents the available cluster types.
 	OpenSearchClusterTypes = []OpenSearchClusterType{OpenSearchClusterTypeSingle, OpenSearchClusterTypeMulti}
 	// OpenSearchMachineTypes represents the available machine types.
