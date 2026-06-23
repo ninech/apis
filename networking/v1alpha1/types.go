@@ -272,6 +272,12 @@ type IngressNginxParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	EnableModSecurity bool `json:"enableModSecurity,omitempty"`
+	// EnableOwaspModsecurityCrs enables the OWASP ModSecurity Core Rule Set
+	// (CRS). This is only effective when [IngressNginxParameters.EnableModSecurity]
+	// is also set to true.
+	// +optional
+	// +kubebuilder:default:=false
+	EnableOwaspModsecurityCrs bool `json:"enableOwaspModsecurityCrs,omitempty"`
 	// HSTS allows to configure settings for the "HTTP Strict Transport
 	// Security" (HSTS) headers
 	HSTS *HSTSConfiguration `json:"hsts,omitempty"`
