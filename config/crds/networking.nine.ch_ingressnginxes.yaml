@@ -233,13 +233,6 @@ spec:
 
                       https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity
                     type: boolean
-                  enableOwaspModsecurityCrs:
-                    default: false
-                    description: |-
-                      EnableOwaspModsecurityCrs enables the OWASP ModSecurity Core Rule Set
-                      (CRS). This is only effective when [IngressNginxParameters.EnableModSecurity]
-                      is also set to true.
-                    type: boolean
                   enableUnderscoresInHeaders:
                     default: false
                     description: EnableUnderscoresInHeaders allows headers with underscores

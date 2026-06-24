@@ -8289,11 +8289,6 @@
                     "description": "EnableModSecurity enables the owasp-modsecurity. Note this will enable\nit for all paths, and each path must be disabled manually. ModSecurity\nwill run in \"Detection-Only\" mode using the recommended configuration.\nYou can enable the OWASP Core Rule Set by setting the following\nannotation:\n\nnginx.ingress.kubernetes.io/enable-owasp-core-rules: \"true\"\n\nhttps://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md#modsecurity",
                     "type": "boolean"
                   },
-                  "enableOwaspModsecurityCrs": {
-                    "default": false,
-                    "description": "EnableOwaspModsecurityCrs enables the OWASP ModSecurity Core Rule Set\n(CRS). This is only effective when [IngressNginxParameters.EnableModSecurity]\nis also set to true.",
-                    "type": "boolean"
-                  },
                   "enableUnderscoresInHeaders": {
                     "default": false,
                     "description": "EnableUnderscoresInHeaders allows headers with underscores in the name.",
