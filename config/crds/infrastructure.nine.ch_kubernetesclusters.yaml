@@ -76,9 +76,7 @@ spec:
                   of a KubernetesCluster.
                 properties:
                   location:
-                    description: |-
-                      Location of the KubernetesCluster. Note that Clusters are currently
-                      only available in the location nine-es34.
+                    description: Location of the KubernetesCluster.
                     enum:
                     - nine-cz41
                     - nine-cz42
@@ -549,7 +547,7 @@ spec:
                       Experimental and should only be used for development and testing.
                     properties:
                       version:
-                        default: "1.32"
+                        default: "1.33"
                         description: |-
                           Version specifies the Kubernetes version that will be used for this
                           cluster, e.g. "1.26". The patch version cannot be specified and the
