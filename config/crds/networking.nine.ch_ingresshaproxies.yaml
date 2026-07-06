@@ -138,8 +138,11 @@ spec:
                     default: haproxy
                     description: |-
                       IngressClass sets the class of the ingress controller. Specifies which
-                      ingress objects the controller should take care of.
+                      ingress objects the controller should take care of. It is immutable.
                     type: string
+                    x-kubernetes-validations:
+                    - message: ingressClass is immutable
+                      rule: self == oldSelf
                   isDefaultIngressClass:
                     default: false
                     description: |-
