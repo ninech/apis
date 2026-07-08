@@ -122,6 +122,13 @@ type GrafanaParameters struct {
 	// nine.ch OIDC provider.
 	// +optional
 	AllowLocalUsers bool `json:"allowLocalUsers,omitempty"`
+	// StorageSize configures the size of the persistent volume claim backing
+	// the Grafana instance. The size can only be increased: the underlying
+	// persistent volume supports expansion only, so decreasing the value is
+	// rejected by the storage layer.
+	// +optional
+	// +kubebuilder:default:="5Gi"
+	StorageSize *resource.Quantity `json:"storageSize,omitempty"`
 }
 
 // DataSourceSelection specifies parameters on how to select / search for DataSources.

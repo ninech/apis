@@ -10240,6 +10240,20 @@
                   "enableAdminAccess": {
                     "description": "EnableAdminAccess gives you admin permissions in the Grafana instance.\nPlease note: Nine reserves the right to revoke admin access in future\nversions if the admin access is deemed a security or an operational risk.",
                     "type": "boolean"
+                  },
+                  "storageSize": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ],
+                    "default": "5Gi",
+                    "description": "StorageSize configures the size of the persistent volume claim backing\nthe Grafana instance. The size can only be increased: the underlying\npersistent volume supports expansion only, so decreasing the value is\nrejected by the storage layer.",
+                    "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                    "x-kubernetes-int-or-string": true
                   }
                 },
                 "required": [
