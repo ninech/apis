@@ -85,6 +85,11 @@ type IngressHAProxyParameters struct {
 	// TLSProtocols to use.
 	// +optional
 	TLSProtocols IngressHAProxyTLSProtocols `json:"tlsProtocols,omitempty"`
+	// Scheduling optionally pins the ingress controller onto a dedicated node
+	// pool (e.g. the service node pool). If not set, the controller is scheduled
+	// onto the nine-infra nodes as before.
+	// +optional
+	Scheduling *meta.NodePoolScheduling `json:"scheduling,omitempty"`
 }
 
 // IngressHAProxyCloudflare sets settings on the ingress-haproxy controller to
@@ -303,6 +308,11 @@ type IngressNginxParameters struct {
 	// TLSProtocols to use.
 	// +optional
 	TLSProtocols IngressNginxTLSProtocols `json:"tlsProtocols,omitempty"`
+	// Scheduling optionally pins the ingress controller onto a dedicated node
+	// pool (e.g. the service node pool). If not set, the controller is scheduled
+	// onto the nine-infra nodes as before.
+	// +optional
+	Scheduling *meta.NodePoolScheduling `json:"scheduling,omitempty"`
 }
 
 // IngressNginxCache uses the nginx settings `proxy_cache_<x>` to cache

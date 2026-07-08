@@ -1,6 +1,9 @@
 package v1alpha1
 
-import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+import (
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
 
 const (
 	// DNSCheckCNAME describes a CNAME DNS check
@@ -198,6 +201,22 @@ type LocalTypedReference struct {
 	LocalReference `json:",inline"`
 	// Type info about the resource.
 	metav1.GroupKind `json:",inline"`
+}
+
+// NodePoolScheduling describes how a workload should be scheduled onto a
+// specific node pool. It is used to move ingress and monitoring workloads from
+// the nine control-plane nodes onto a dedicated service node pool. A nil
+// [NodePoolScheduling] leaves a workload's default scheduling untouched.
+// +kubebuilder:object:generate=true
+type NodePoolScheduling struct {
+	// NodeSelector selects the nodes onto which the workload should be
+	// scheduled. All entries must match for a node to be eligible.
+	// +optional
+	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
+	// Tolerations allow the workload to schedule onto nodes carrying matching
+	// taints, e.g. the taint of the dedicated service node pool.
+	// +optional
+	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 }
 
 // URL represents a URI reference.

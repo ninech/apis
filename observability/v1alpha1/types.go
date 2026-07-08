@@ -4,6 +4,7 @@ import (
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
 	"github.com/prometheus/common/model"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -270,6 +271,11 @@ type MetricsAgentParameters struct {
 	// Alertmanagers MetricsAgent should send alerts to.
 	// +optional
 	Alertmanagers []meta.Reference `json:"alertmanagers,omitempty"`
+	// Scheduling optionally pins the agent's components onto a dedicated node
+	// pool (e.g. the service node pool). If not set, they are scheduled as
+	// before.
+	// +optional
+	Scheduling *meta.NodePoolScheduling `json:"scheduling,omitempty"`
 }
 
 // MetricsAgentStatus represents the observed state of a MetricsAgent.
@@ -454,6 +460,11 @@ type PromtailParameters struct {
 	// ExternalLabels are static labels to add to all logs being sent to Loki.
 	// +optional
 	ExternalLabels model.LabelSet `json:"externalLabels,omitempty"`
+	// Tolerations are additional tolerations added to the promtail DaemonSet so
+	// it keeps running on all nine nodes, including a dedicated service node
+	// pool that carries a taint.
+	// +optional
+	Tolerations []corev1.Toleration `json:"tolerations,omitempty"`
 }
 
 // An PromtailStatus represents the observed state of a Promtail.
