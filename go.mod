@@ -1,6 +1,6 @@
 module github.com/ninech/apis
 
-go 1.26.5
+go 1.26.4
 
 require (
 	github.com/crossplane/crossplane-runtime v1.18.0

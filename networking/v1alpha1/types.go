@@ -55,10 +55,9 @@ type IngressHAProxyParameters struct {
 	// +kubebuilder:default:=false
 	AppendToXForwardedFor bool `json:"appendToXForwardedFor,omitempty"`
 	// IngressClass sets the class of the ingress controller. Specifies which
-	// ingress objects the controller should take care of. It is immutable.
+	// ingress objects the controller should take care of.
 	// +optional
 	// +kubebuilder:default:=haproxy
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="ingressClass is immutable"
 	IngressClass string `json:"ingressClass,omitempty"`
 	// IsDefaultIngressClass specifies if the IngressClass of this controller
 	// should be the default IngressClass in the target cluster.

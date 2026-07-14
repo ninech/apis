@@ -7650,14 +7650,8 @@
                   },
                   "ingressClass": {
                     "default": "haproxy",
-                    "description": "IngressClass sets the class of the ingress controller. Specifies which\ningress objects the controller should take care of. It is immutable.",
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "ingressClass is immutable",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
+                    "description": "IngressClass sets the class of the ingress controller. Specifies which\ningress objects the controller should take care of.",
+                    "type": "string"
                   },
                   "isDefaultIngressClass": {
                     "default": false,

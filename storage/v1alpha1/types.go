@@ -92,7 +92,7 @@ const (
 	MySQLUser string = "dbadmin"
 	// MySQLLocationDefault represents the default MySQL location
 	// if no explicit version was specified.
-	MySQLLocationDefault = meta.LocationNineCZ42
+	MySQLLocationDefault = meta.LocationNineCZ41
 	// MySQLVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
 	MySQLVersionDefault MySQLVersion = MySQLVersion8
@@ -159,7 +159,7 @@ const (
 	PostgresUser string = "dbadmin"
 	// PostgresLocationDefault represents the default PostgreSQL datacenter location.
 	// if no explicit version was specified.
-	PostgresLocationDefault = meta.LocationNineCZ42
+	PostgresLocationDefault = meta.LocationNineCZ41
 	// PostgresVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
 	PostgresVersionDefault PostgresVersion = PostgresVersion17
@@ -195,7 +195,7 @@ var (
 	// MySQLModeDefault is the list of enabled SQL modes.
 	MySQLModeDefault = []string{"ONLY_FULL_GROUP_BY", "STRICT_TRANS_TABLES", "NO_ZERO_IN_DATE", "NO_ZERO_DATE", "ERROR_FOR_DIVISION_BY_ZERO", "NO_ENGINE_SUBSTITUTION"}
 	// MySQLLocationOptions is a list of available datacenter locations.
-	MySQLLocationOptions = []string{string(meta.LocationNineCZ42)}
+	MySQLLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLMachineTypes is a list of available machine types.
 	MySQLMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// MySQLVersions is a list of all available MySQLVersions.
@@ -219,7 +219,7 @@ var (
 	// PostgresMachineTypeDefault specifies the default machine type.
 	PostgresMachineTypeDefault = infra.MachineTypeNineDBS
 	// PostgresLocationOptions is a list of available datacenter locations.
-	PostgresLocationOptions = []string{string(meta.LocationNineCZ42)}
+	PostgresLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// PostgresMachineTypes is a list of available machine types.
 	PostgresMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// PostgresVersions is a list of all available PostgresVersions.
