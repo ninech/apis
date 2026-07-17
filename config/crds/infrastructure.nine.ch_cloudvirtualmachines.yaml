@@ -182,6 +182,7 @@ spec:
                     - ubuntu20.04
                     - ubuntu22.04
                     - ubuntu24.04
+                    - ubuntu26.04
                     - rocky9
                     - debian12
                     type: string
