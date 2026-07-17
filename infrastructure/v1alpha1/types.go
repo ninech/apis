@@ -27,7 +27,7 @@ const (
 
 var (
 	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
-	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Rocky9), CloudVirtualMachineOS(Debian12)}
+	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Ubuntu26_04), CloudVirtualMachineOS(Rocky9), CloudVirtualMachineOS(Debian12)}
 	// MachineTypeNineStandard1 is a VM running on Nine Infrastructure with:
 	// 1 CPU Cores
 	// 4GB RAM
@@ -240,7 +240,7 @@ type MachineType struct {
 }
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.
-// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;ubuntu24.04;rocky9;debian12
+// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;ubuntu24.04;ubuntu26.04;rocky9;debian12
 // +nine:public:definition
 type CloudVirtualMachineOS OperatingSystem
 
