@@ -18,8 +18,11 @@ const (
 	Ubuntu22_04 OperatingSystem = "ubuntu22.04"
 	Ubuntu20_04 OperatingSystem = "ubuntu20.04"
 	Ubuntu18_04 OperatingSystem = "ubuntu18.04"
-	Debian12    OperatingSystem = "debian12"
-	Debian11    OperatingSystem = "debian11"
+	// Debian
+	// https://www.debian.org/releases/
+	Debian13 OperatingSystem = "debian13"
+	Debian12 OperatingSystem = "debian12"
+	Debian11 OperatingSystem = "debian11"
 	// Alpine
 	// https://alpinelinux.org/releases/
 	AlpineStable OperatingSystem = "alpine-stable"
@@ -27,7 +30,7 @@ const (
 
 var (
 	// CloudVirtualMachineOperatingSystems lists all cloud VM operating systems.
-	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Ubuntu26_04), CloudVirtualMachineOS(Rocky9), CloudVirtualMachineOS(Debian12)}
+	CloudVirtualMachineOperatingSystems = []CloudVirtualMachineOS{CloudVirtualMachineOS(Ubuntu20_04), CloudVirtualMachineOS(Ubuntu22_04), CloudVirtualMachineOS(Ubuntu24_04), CloudVirtualMachineOS(Ubuntu26_04), CloudVirtualMachineOS(Rocky9), CloudVirtualMachineOS(Debian12), CloudVirtualMachineOS(Debian13)}
 	// MachineTypeNineStandard1 is a VM running on Nine Infrastructure with:
 	// 1 CPU Cores
 	// 4GB RAM
@@ -240,7 +243,7 @@ type MachineType struct {
 }
 
 // CloudVirtualMachineOS is an operating system for a cloud VM.
-// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;ubuntu24.04;ubuntu26.04;rocky9;debian12
+// +kubebuilder:validation:Enum=ubuntu20.04;ubuntu22.04;ubuntu24.04;ubuntu26.04;rocky9;debian12;debian13
 // +nine:public:definition
 type CloudVirtualMachineOS OperatingSystem
 

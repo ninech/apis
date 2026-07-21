@@ -185,6 +185,7 @@ spec:
                     - ubuntu26.04
                     - rocky9
                     - debian12
+                    - debian13
                     type: string
                     x-kubernetes-validations:
                     - message: OS is immutable after creation
