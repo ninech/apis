@@ -86,16 +86,20 @@ const (
 	KeyValueStoreMemorySizeMin = "256Mi"
 	// KeyValueStoreMemorySizeMax is the maximum memory size for a KeyValueStore.
 	KeyValueStoreMemorySizeMax = "4Gi"
+	// MySQLVersion84 MySQL version 8.4
+	MySQLVersion84 MySQLVersion = "8.4"
 	// MySQLVersion8 MySQL version 8
+	//
+	// Deprecated: Please use a newer version for new deployments.
 	MySQLVersion8 MySQLVersion = "8"
 	// MySQLUser is the name of the MySQL user account.
 	MySQLUser string = "dbadmin"
 	// MySQLLocationDefault represents the default MySQL location
 	// if no explicit version was specified.
-	MySQLLocationDefault = meta.LocationNineCZ41
+	MySQLLocationDefault = meta.LocationNineCZ42
 	// MySQLVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
-	MySQLVersionDefault MySQLVersion = MySQLVersion8
+	MySQLVersionDefault MySQLVersion = MySQLVersion84
 	// MySQLUserDefault is the default MySQL user name.
 	MySQLUserDefault string = MySQLUser
 	// MySQLLongQueryTimeDefault is the default value for long_query_time.
@@ -103,7 +107,7 @@ const (
 	// MySQLCharsetDefault is the default character set.
 	MySQLCharsetDefault string = "utf8mb4"
 	// MySQLCollationDefault is the default collation.
-	MySQLCollationDefault string = "utf8mb4_unicode_ci"
+	MySQLCollationDefault string = "utf8mb4_0900_ai_ci"
 	// MySQLMinWordLengthDefault is the default value for `ft_min_word_len` and `innodb_ft_min_token_size`.
 	MySQLMinWordLengthDefault int = 3
 	// MySQLTransactionIsolationDefault is the default transaction isolation level.
@@ -119,7 +123,7 @@ const (
 	MySQLDatabaseLocationDefault = meta.LocationNineES34
 	// MySQLDatabaseVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
-	MySQLDatabaseVersionDefault MySQLVersion = MySQLVersionDefault
+	MySQLDatabaseVersionDefault MySQLVersion = MySQLVersion8
 	// OpenSearchVersion2 OpenSearch version 2
 	OpenSearchVersion2 OpenSearchVersion = "2"
 	// OpenSearchVersion3 OpenSearch version 3
@@ -143,23 +147,31 @@ const (
 	OpenSearchHealthStatusYellow OpenSearchHealthStatus = "yellow"
 	// OpenSearchHealthStatusRed means at least one primary shard is not allocated to any node.
 	OpenSearchHealthStatusRed OpenSearchHealthStatus = "red"
+	// PostgresVersion18 Postgres version 18
+	PostgresVersion18 PostgresVersion = "18"
 	// PostgresVersion17 Postgres version 17
 	PostgresVersion17 PostgresVersion = "17"
 	// PostgresVersion16 Postgres version 16
+	//
+	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion16 PostgresVersion = "16"
 	// PostgresVersion15 Postgres version 15
+	//
+	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion15 PostgresVersion = "15"
 	// PostgresVersion14 Postgres version 14
+	//
 	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion14 PostgresVersion = "14"
 	// PostgresVersion13 Postgres version 13
+	//
 	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion13 PostgresVersion = "13"
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
-	// PostgresLocationDefault represents the default PostgreSQL datacenter location
-	// used if no explicit location was specified.
-	PostgresLocationDefault = meta.LocationNineCZ41
+	// PostgresLocationDefault represents the default PostgreSQL datacenter location.
+	// if no explicit version was specified.
+	PostgresLocationDefault = meta.LocationNineCZ42
 	// PostgresVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
 	PostgresVersionDefault PostgresVersion = PostgresVersion17
@@ -181,9 +193,9 @@ const (
 
 var (
 	// BucketLocationOptions is a list of available locations for buckets.
-	BucketLocationOptions = []meta.LocationName{meta.LocationNineCZ42, meta.LocationNineES34}
+	BucketLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// BucketUserLocationOptions is a list of available locations for bucket users.
-	BucketUserLocationOptions = []meta.LocationName{meta.LocationNineCZ42, meta.LocationNineES34}
+	BucketUserLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// DatabaseBackupScheduleCalendars is a list of available backup schedule calendars.
 	DatabaseBackupScheduleCalendars = []DatabaseBackupScheduleCalendar{DatabaseBackupScheduleCalendarDisabled, DatabaseBackupScheduleCalendarDaily}
 	// KeyValueStoreVersions represents the available versions for KeyValueStore instances.
@@ -195,13 +207,15 @@ var (
 	// MySQLModeDefault is the list of enabled SQL modes.
 	MySQLModeDefault = []string{"ONLY_FULL_GROUP_BY", "STRICT_TRANS_TABLES", "NO_ZERO_IN_DATE", "NO_ZERO_DATE", "ERROR_FOR_DIVISION_BY_ZERO", "NO_ENGINE_SUBSTITUTION"}
 	// MySQLLocationOptions is a list of available datacenter locations.
-	MySQLLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	MySQLLocationOptions = []string{string(meta.LocationNineCZ42)}
 	// MySQLMachineTypes is a list of available machine types.
 	MySQLMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// MySQLVersions is a list of all available MySQLVersions.
-	MySQLVersions = []MySQLVersion{MySQLVersion8}
+	MySQLVersions = []MySQLVersion{MySQLVersion84}
+	// MySQLVersionsDeprecated is a list of all deprecated MySQLVersions.
+	MySQLVersionsDeprecated = []MySQLVersion{MySQLVersion8}
 	// MySQLDatabaseLocationOptions is a list of available datacenter locations.
-	MySQLDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	MySQLDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLDatabaseVersions is a list of all available MySQLVersions.
 	MySQLDatabaseVersions = []MySQLVersion{MySQLDatabaseVersionDefault}
 	// OpenSearchMachineTypeDefault represents the default machine type for OpenSearch clusters.
@@ -219,15 +233,15 @@ var (
 	// PostgresMachineTypeDefault specifies the default machine type.
 	PostgresMachineTypeDefault = infra.MachineTypeNineDBS
 	// PostgresLocationOptions is a list of available datacenter locations.
-	PostgresLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	PostgresLocationOptions = []string{string(meta.LocationNineCZ42)}
 	// PostgresMachineTypes is a list of available machine types.
 	PostgresMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// PostgresVersions is a list of all available PostgresVersions.
-	PostgresVersions = []PostgresVersion{PostgresVersion17, PostgresVersion16, PostgresVersion15}
+	PostgresVersions = []PostgresVersion{PostgresVersion18, PostgresVersion17}
 	// PostgresVersionsDeprecated is a list of all deprecated PostgresVersions.
-	PostgresVersionsDeprecated = []PostgresVersion{PostgresVersion14, PostgresVersion13}
+	PostgresVersionsDeprecated = []PostgresVersion{PostgresVersion16, PostgresVersion15, PostgresVersion14, PostgresVersion13}
 	// PostgresDatabaseLocationOptions is a list of available datacenter locations.
-	PostgresDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	PostgresDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// PostgresDatabaseVersions is a list of all available PostgresVersions.
 	PostgresDatabaseVersions = []PostgresVersion{PostgresDatabaseVersionDefault}
 )
@@ -877,8 +891,8 @@ type MySQLParameters struct {
 	// Needs to match an available MySQL Version.
 	//
 	// +optional
-	// +kubebuilder:validation:Enum="8"
-	// +kubebuilder:default:="8"
+	// +kubebuilder:validation:Enum="8";"8.4"
+	// +kubebuilder:default:="8.4"
 	Version MySQLVersion `json:"version,omitempty"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
@@ -903,6 +917,7 @@ type MySQLParameters struct {
 	// CharacterSet configures the `character_set_server` and collation_server` variables.
 	//
 	// +optional
+	// +kubebuilder:default:={name:"utf8mb4",collation:"utf8mb4_0900_ai_ci"}
 	CharacterSet MySQLCharacterSet `json:"characterSet"`
 	// LongQueryTime configures the `long_query_time` variable.
 	// If a query takes longer than this many seconds, the the query is logged to the slow query log file.
@@ -938,7 +953,7 @@ type MySQLParameters struct {
 }
 
 // MySQLVersion Version of MySQL
-// +kubebuilder:validation:Enum="8"
+// +kubebuilder:validation:Enum="8";"8.4"
 type MySQLVersion string
 
 // SSHKey Public SSH key without options
@@ -1064,6 +1079,7 @@ type MySQLDatabaseParameters struct {
 	// Needs to match an available MySQL Version.
 	// +immutable
 	// +optional
+	// +kubebuilder:validation:Enum="8"
 	// +kubebuilder:default:="8"
 	Version MySQLVersion `json:"version,omitempty"`
 	// CharacterSet configures the `character_set_server` and collation_server` variables.
@@ -1356,7 +1372,7 @@ type PostgresParameters struct {
 }
 
 // PostgresVersion Version of Postgres
-// Please use Version >=15 for new deployments.
+// Please use Version >=17 for new deployments.
 // https://www.postgresql.org/support/versioning/
 type PostgresVersion string
 

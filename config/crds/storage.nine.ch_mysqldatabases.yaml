@@ -458,12 +458,16 @@ spec:
                     - nine-es34
                     type: string
                   version:
+                    allOf:
+                    - enum:
+                      - "8"
+                      - "8.4"
+                    - enum:
+                      - "8"
                     default: "8"
                     description: |-
                       Version specifies the MySQL version.
                       Needs to match an available MySQL Version.
-                    enum:
-                    - "8"
                     type: string
                 type: object
                 x-kubernetes-validations:

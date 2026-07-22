@@ -80,6 +80,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   characterSet:
+                    default:
+                      collation: utf8mb4_0900_ai_ci
+                      name: utf8mb4
                     description: CharacterSet configures the `character_set_server`
                       and collation_server` variables.
                     properties:
@@ -536,9 +539,11 @@ spec:
                     allOf:
                     - enum:
                       - "8"
+                      - "8.4"
                     - enum:
                       - "8"
-                    default: "8"
+                      - "8.4"
+                    default: "8.4"
                     description: |-
                       Version specifies the MySQL version.
                       Needs to match an available MySQL Version.
