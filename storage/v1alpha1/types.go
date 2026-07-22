@@ -92,7 +92,7 @@ const (
 	MySQLUser string = "dbadmin"
 	// MySQLLocationDefault represents the default MySQL location
 	// if no explicit version was specified.
-	MySQLLocationDefault = meta.LocationNineCZ42
+	MySQLLocationDefault = meta.LocationNineCZ41
 	// MySQLVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
 	MySQLVersionDefault MySQLVersion = MySQLVersion8
@@ -157,9 +157,9 @@ const (
 	PostgresVersion13 PostgresVersion = "13"
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
-	// PostgresLocationDefault represents the default PostgreSQL datacenter location.
-	// if no explicit version was specified.
-	PostgresLocationDefault = meta.LocationNineCZ42
+	// PostgresLocationDefault represents the default PostgreSQL datacenter location
+	// used if no explicit location was specified.
+	PostgresLocationDefault = meta.LocationNineCZ41
 	// PostgresVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
 	PostgresVersionDefault PostgresVersion = PostgresVersion17
@@ -181,9 +181,9 @@ const (
 
 var (
 	// BucketLocationOptions is a list of available locations for buckets.
-	BucketLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
+	BucketLocationOptions = []meta.LocationName{meta.LocationNineCZ42, meta.LocationNineES34}
 	// BucketUserLocationOptions is a list of available locations for bucket users.
-	BucketUserLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
+	BucketUserLocationOptions = []meta.LocationName{meta.LocationNineCZ42, meta.LocationNineES34}
 	// DatabaseBackupScheduleCalendars is a list of available backup schedule calendars.
 	DatabaseBackupScheduleCalendars = []DatabaseBackupScheduleCalendar{DatabaseBackupScheduleCalendarDisabled, DatabaseBackupScheduleCalendarDaily}
 	// KeyValueStoreVersions represents the available versions for KeyValueStore instances.
@@ -195,13 +195,13 @@ var (
 	// MySQLModeDefault is the list of enabled SQL modes.
 	MySQLModeDefault = []string{"ONLY_FULL_GROUP_BY", "STRICT_TRANS_TABLES", "NO_ZERO_IN_DATE", "NO_ZERO_DATE", "ERROR_FOR_DIVISION_BY_ZERO", "NO_ENGINE_SUBSTITUTION"}
 	// MySQLLocationOptions is a list of available datacenter locations.
-	MySQLLocationOptions = []string{string(meta.LocationNineCZ42)}
+	MySQLLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
 	// MySQLMachineTypes is a list of available machine types.
 	MySQLMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// MySQLVersions is a list of all available MySQLVersions.
 	MySQLVersions = []MySQLVersion{MySQLVersion8}
 	// MySQLDatabaseLocationOptions is a list of available datacenter locations.
-	MySQLDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
+	MySQLDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
 	// MySQLDatabaseVersions is a list of all available MySQLVersions.
 	MySQLDatabaseVersions = []MySQLVersion{MySQLDatabaseVersionDefault}
 	// OpenSearchMachineTypeDefault represents the default machine type for OpenSearch clusters.
@@ -219,7 +219,7 @@ var (
 	// PostgresMachineTypeDefault specifies the default machine type.
 	PostgresMachineTypeDefault = infra.MachineTypeNineDBS
 	// PostgresLocationOptions is a list of available datacenter locations.
-	PostgresLocationOptions = []string{string(meta.LocationNineCZ42)}
+	PostgresLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
 	// PostgresMachineTypes is a list of available machine types.
 	PostgresMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// PostgresVersions is a list of all available PostgresVersions.
@@ -227,7 +227,7 @@ var (
 	// PostgresVersionsDeprecated is a list of all deprecated PostgresVersions.
 	PostgresVersionsDeprecated = []PostgresVersion{PostgresVersion14, PostgresVersion13}
 	// PostgresDatabaseLocationOptions is a list of available datacenter locations.
-	PostgresDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
+	PostgresDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
 	// PostgresDatabaseVersions is a list of all available PostgresVersions.
 	PostgresDatabaseVersions = []PostgresVersion{PostgresDatabaseVersionDefault}
 )
