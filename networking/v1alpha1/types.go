@@ -36,6 +36,7 @@ type IngressHAProxySpec struct {
 }
 
 // IngressHAProxyParameters are the configurable fields of a IngressHAProxy.
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.loadBalancerIP) || has(self.loadBalancerIP)",message="loadBalancerIP cannot be unset once assigned"
 type IngressHAProxyParameters struct {
 	// Cluster specifies on which cluster this IngressHAProxy should be installed.
 	Cluster meta.LocalReference `json:"cluster"`
@@ -65,6 +66,18 @@ type IngressHAProxyParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	IsDefaultIngressClass bool `json:"isDefaultIngressClass"`
+	// LoadBalancerIP pins the LoadBalancer service of this ingress controller
+	// to a specific IP address. The address has to be part of the target
+	// cluster's configured load-balancer address pool; pinning an address that
+	// is not allocated to the cluster is rejected. This is primarily used to
+	// retain an existing ingress IP when migrating from another ingress
+	// controller (e.g. ingress-nginx). If left empty, an address is allocated
+	// automatically. Note that two controllers both serving ports 80 and 443
+	// cannot share the same IP, so a pinned IP can only be bound once the
+	// previous holder has been removed.
+	// +optional
+	// +kubebuilder:validation:Pattern=`\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\z`
+	LoadBalancerIP string `json:"loadBalancerIP,omitempty"`
 	// EnableDefaultBackend enables the default backend that the ingress will proxy to
 	// if the request does not match any configured ingress route. If
 	// disabled, haproxy will just return a generic 404 for such requests.
@@ -168,6 +181,7 @@ type IngressNginxSpec struct {
 }
 
 // IngressNginxParameters are the configurable fields of a IngressNginx.
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.loadBalancerIP) || has(self.loadBalancerIP)",message="loadBalancerIP cannot be unset once assigned"
 type IngressNginxParameters struct {
 	// Cluster specifies on which cluster this IngressNginx should be installed.
 	Cluster meta.LocalReference `json:"cluster"`
@@ -212,6 +226,18 @@ type IngressNginxParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	IsDefaultIngressClass bool `json:"isDefaultIngressClass"`
+	// LoadBalancerIP pins the LoadBalancer service of this ingress controller
+	// to a specific IP address. The address has to be part of the target
+	// cluster's configured load-balancer address pool; pinning an address that
+	// is not allocated to the cluster is rejected. This is primarily used to
+	// retain an existing ingress IP when migrating between ingress controllers
+	// (e.g. rolling back from ingress-haproxy). If left empty, an address is
+	// allocated automatically. Note that two controllers both serving ports 80
+	// and 443 cannot share the same IP, so a pinned IP can only be bound once
+	// the previous holder has been removed.
+	// +optional
+	// +kubebuilder:validation:Pattern=`\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\z`
+	LoadBalancerIP string `json:"loadBalancerIP,omitempty"`
 	// DefaultBackend sets the default backend that the ingress will proxy to
 	// if the request does not match any configured ingress route. If
 	// disabled, nginx will just return a generic 404 for such requests.

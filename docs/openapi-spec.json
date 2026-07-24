@@ -7665,6 +7665,11 @@
                     "description": "IsDefaultIngressClass specifies if the IngressClass of this controller\nshould be the default IngressClass in the target cluster.",
                     "type": "boolean"
                   },
+                  "loadBalancerIP": {
+                    "description": "LoadBalancerIP pins the LoadBalancer service of this ingress controller\nto a specific IP address. The address has to be part of the target\ncluster's configured load-balancer address pool; pinning an address that\nis not allocated to the cluster is rejected. This is primarily used to\nretain an existing ingress IP when migrating from another ingress\ncontroller (e.g. ingress-nginx). If left empty, an address is allocated\nautomatically. Note that two controllers both serving ports 80 and 443\ncannot share the same IP, so a pinned IP can only be bound once the\nprevious holder has been removed.",
+                    "pattern": "\\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\z",
+                    "type": "string"
+                  },
                   "scrapeConfigurations": {
                     "description": "ScrapeConfigurations allows to overwrite which metrics of the ingress-haproxy\ninstance are scraped by certain MetricsAgent instances.",
                     "items": {
@@ -7732,7 +7737,13 @@
                 "required": [
                   "cluster"
                 ],
-                "type": "object"
+                "type": "object",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "loadBalancerIP cannot be unset once assigned",
+                    "rule": "!has(oldSelf.loadBalancerIP) || has(self.loadBalancerIP)"
+                  }
+                ]
               },
               "managementPolicies": {
                 "default": [
@@ -8356,6 +8367,11 @@
                     "description": "IsDefaultIngressClass specifies if the IngressClass of this controller\nshould be the default IngressClass in the target cluster.",
                     "type": "boolean"
                   },
+                  "loadBalancerIP": {
+                    "description": "LoadBalancerIP pins the LoadBalancer service of this ingress controller\nto a specific IP address. The address has to be part of the target\ncluster's configured load-balancer address pool; pinning an address that\nis not allocated to the cluster is rejected. This is primarily used to\nretain an existing ingress IP when migrating between ingress controllers\n(e.g. rolling back from ingress-haproxy). If left empty, an address is\nallocated automatically. Note that two controllers both serving ports 80\nand 443 cannot share the same IP, so a pinned IP can only be bound once\nthe previous holder has been removed.",
+                    "pattern": "\\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\z",
+                    "type": "string"
+                  },
                   "rateLimitStatusCode": {
                     "default": 503,
                     "description": "RateLimitStatusCode configures the status code nginx will return when\nrate limits are hit.\nhttps://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#limit-req-status-code",
@@ -8433,7 +8449,13 @@
                 "required": [
                   "cluster"
                 ],
-                "type": "object"
+                "type": "object",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "loadBalancerIP cannot be unset once assigned",
+                    "rule": "!has(oldSelf.loadBalancerIP) || has(self.loadBalancerIP)"
+                  }
+                ]
               },
               "managementPolicies": {
                 "default": [
