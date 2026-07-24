@@ -65,6 +65,16 @@ const (
 	DatabaseBackupScheduleTTLMax = 365 * 24 * time.Hour
 	// DatabaseBackupMinimumInterval is the minimum interval between two backups.
 	DatabaseBackupMinimumInterval = 1 * time.Hour
+	// DatabaseRestoreStatePending indicates a scheduled but not yet started restore.
+	DatabaseRestoreStatePending DatabaseRestoreState = "pending"
+	// DatabaseRestoreStateSucceeded indicates that the restore was completed successfully.
+	DatabaseRestoreStateSucceeded DatabaseRestoreState = "succeeded"
+	// DatabaseRestoreStateRunning indicates that the restore is still running.
+	DatabaseRestoreStateRunning DatabaseRestoreState = "running"
+	// DatabaseRestoreStateFailed indicates that the restore was unable to complete successfully.
+	DatabaseRestoreStateFailed DatabaseRestoreState = "failed"
+	// DatabaseRestoreStateUnknown indicates the restore's state to be unknown.
+	DatabaseRestoreStateUnknown DatabaseRestoreState = "unknown"
 	// KeyValueStoreVersion7 KeyValueStore version 7
 	KeyValueStoreVersion7 KeyValueStoreVersion = "7"
 	// KeyValueStoreUser is the name of the KeyValueStore user account.
@@ -92,7 +102,7 @@ const (
 	MySQLUser string = "dbadmin"
 	// MySQLLocationDefault represents the default MySQL location
 	// if no explicit version was specified.
-	MySQLLocationDefault = meta.LocationNineCZ41
+	MySQLLocationDefault = meta.LocationNineCZ42
 	// MySQLVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
 	MySQLVersionDefault MySQLVersion = MySQLVersion8
@@ -157,9 +167,9 @@ const (
 	PostgresVersion13 PostgresVersion = "13"
 	// PostgresUser is the name of the Postgres user account.
 	PostgresUser string = "dbadmin"
-	// PostgresLocationDefault represents the default PostgreSQL datacenter location
-	// used if no explicit location was specified.
-	PostgresLocationDefault = meta.LocationNineCZ41
+	// PostgresLocationDefault represents the default PostgreSQL datacenter location.
+	// if no explicit version was specified.
+	PostgresLocationDefault = meta.LocationNineCZ42
 	// PostgresVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
 	PostgresVersionDefault PostgresVersion = PostgresVersion17
@@ -181,9 +191,9 @@ const (
 
 var (
 	// BucketLocationOptions is a list of available locations for buckets.
-	BucketLocationOptions = []meta.LocationName{meta.LocationNineCZ42, meta.LocationNineES34}
+	BucketLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// BucketUserLocationOptions is a list of available locations for bucket users.
-	BucketUserLocationOptions = []meta.LocationName{meta.LocationNineCZ42, meta.LocationNineES34}
+	BucketUserLocationOptions = []string{string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// DatabaseBackupScheduleCalendars is a list of available backup schedule calendars.
 	DatabaseBackupScheduleCalendars = []DatabaseBackupScheduleCalendar{DatabaseBackupScheduleCalendarDisabled, DatabaseBackupScheduleCalendarDaily}
 	// KeyValueStoreVersions represents the available versions for KeyValueStore instances.
@@ -195,13 +205,13 @@ var (
 	// MySQLModeDefault is the list of enabled SQL modes.
 	MySQLModeDefault = []string{"ONLY_FULL_GROUP_BY", "STRICT_TRANS_TABLES", "NO_ZERO_IN_DATE", "NO_ZERO_DATE", "ERROR_FOR_DIVISION_BY_ZERO", "NO_ENGINE_SUBSTITUTION"}
 	// MySQLLocationOptions is a list of available datacenter locations.
-	MySQLLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	MySQLLocationOptions = []string{string(meta.LocationNineCZ42)}
 	// MySQLMachineTypes is a list of available machine types.
 	MySQLMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// MySQLVersions is a list of all available MySQLVersions.
 	MySQLVersions = []MySQLVersion{MySQLVersion8}
 	// MySQLDatabaseLocationOptions is a list of available datacenter locations.
-	MySQLDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	MySQLDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// MySQLDatabaseVersions is a list of all available MySQLVersions.
 	MySQLDatabaseVersions = []MySQLVersion{MySQLDatabaseVersionDefault}
 	// OpenSearchMachineTypeDefault represents the default machine type for OpenSearch clusters.
@@ -219,7 +229,7 @@ var (
 	// PostgresMachineTypeDefault specifies the default machine type.
 	PostgresMachineTypeDefault = infra.MachineTypeNineDBS
 	// PostgresLocationOptions is a list of available datacenter locations.
-	PostgresLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	PostgresLocationOptions = []string{string(meta.LocationNineCZ42)}
 	// PostgresMachineTypes is a list of available machine types.
 	PostgresMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// PostgresVersions is a list of all available PostgresVersions.
@@ -227,7 +237,7 @@ var (
 	// PostgresVersionsDeprecated is a list of all deprecated PostgresVersions.
 	PostgresVersionsDeprecated = []PostgresVersion{PostgresVersion14, PostgresVersion13}
 	// PostgresDatabaseLocationOptions is a list of available datacenter locations.
-	PostgresDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+	PostgresDatabaseLocationOptions = []string{string(meta.LocationNineCZ41), string(meta.LocationNineCZ42), string(meta.LocationNineES34)}
 	// PostgresDatabaseVersions is a list of all available PostgresVersions.
 	PostgresDatabaseVersions = []PostgresVersion{PostgresDatabaseVersionDefault}
 )
@@ -707,6 +717,88 @@ type DatabaseBackupScheduleObservation struct {
 	Next metav1.Time `json:"next,omitempty"`
 }
 
+// DatabaseRestore restores a single database from an object store.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type DatabaseRestore struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              DatabaseRestoreSpec   `json:"spec"`
+	Status            DatabaseRestoreStatus `json:"status,omitempty"`
+}
+
+// DatabaseRestoreList contains a list of DatabaseRestores.
+// +kubebuilder:object:root=true
+type DatabaseRestoreList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []DatabaseRestore `json:"items"`
+}
+
+// A DatabaseRestoreSpec defines the desired state of a DatabaseRestore.
+type DatabaseRestoreSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            DatabaseRestoreParameters `json:"forProvider"`
+}
+
+// DatabaseRestoreParameters are the configurable fields of a DatabaseRestore.
+type DatabaseRestoreParameters struct {
+	// Location specifies where the restore job is executed.
+	// This field should be left blank because the location of the referenced Target database is chosen by default.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="location is immutable after creation"
+	// +optional
+	Location meta.LocationName `json:"location,omitempty"`
+	// Backup is a reference to the DatabaseBackup that is to be restored.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="backup is immutable after creation"
+	Backup meta.LocalReference `json:"backup"`
+	// Target is a reference to a Postgres, PostgresDatabase, MySQL or MySQLDatabase object to
+	// restore the database backup to.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="target is immutable after creation"
+	Target meta.LocalTypedReference `json:"target"`
+	// Name is the name of the database to be restored to. This is required for
+	// MySQL and Postgres types as there can be multiple databases on these servers.
+	// For shared databases like MySQLDatabase or PostgresDatabase this field is automatically populated and needs to be left empty.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="name is immutable after creation"
+	// +optional
+	Name string `json:"name,omitempty"`
+	// Owner is the owner of the database to be restored.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="owner is immutable after creation"
+	Owner string `json:"owner,omitempty"`
+	// Image is the container image used for the backup job.
+	// This field should be left blank: it is defaulted from the referenced backup.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf || oldSelf == ''",message="image is immutable after creation"
+	// +optional
+	Image string `json:"image,omitempty"`
+}
+
+// A DatabaseRestoreStatus represents the observed state of a DatabaseRestore.
+type DatabaseRestoreStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               DatabaseRestoreObservation `json:"atProvider,omitempty"`
+}
+
+// DatabaseRestoreObservation are the observable fields of a DatabaseRestore.
+type DatabaseRestoreObservation struct {
+	// State represents the restore state.
+	// +kubebuilder:default:=unknown
+	// +optional
+	State DatabaseRestoreState `json:"state,omitempty"`
+	// Start is the time when the restore operation started.
+	// +optional
+	Start metav1.Time `json:"start,omitempty"`
+	// End is the time when the restore operation ended.
+	// +optional
+	End metav1.Time `json:"end,omitempty"`
+}
+
+// DatabaseRestoreState represents the backup state.
+// +kubebuilder:validation:Enum=pending;succeeded;running;failed;unknown
+type DatabaseRestoreState string
+
 // KeyValueStore deploys an on-demand KeyValueStore instance.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="MEMORY-SIZE",type="string",JSONPath=".spec.forProvider.memorySize"
@@ -1055,6 +1147,9 @@ type MySQLDatabaseSpec struct {
 // MySQLDatabaseParameters are the configurable fields of a MySQLDatabase.
 // +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="has(oldSelf.restoreFrom) == has(self.restoreFrom)",message="RestoreFrom can not be added or removed after creation"
+// +kubebuilder:validation:XValidation:rule="has(oldSelf.cloneFrom) == has(self.cloneFrom)",message="CloneFrom can not be added or removed after creation"
+// +kubebuilder:validation:XValidation:rule="!(has(self.restoreFrom) && has(self.cloneFrom))",message="RestoreFrom and CloneFrom are mutually exclusive"
 type MySQLDatabaseParameters struct {
 	// Location specifies in which data center the database will be spawned.
 	// +optional
@@ -1081,6 +1176,19 @@ type MySQLDatabaseParameters struct {
 	// +kubebuilder:default:=daily
 	// +optional
 	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
+	// RestoreFrom references a DatabaseBackup which is restored into this
+	// database once it is ready. It can only be set when the database is
+	// created.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="RestoreFrom is immutable"
+	// +optional
+	RestoreFrom *meta.LocalReference `json:"restoreFrom,omitempty"`
+	// CloneFrom references another MySQLDatabase to clone into this database
+	// once it is ready, by taking a fresh backup of the referenced database and
+	// restoring it. It can only be set when the database is created and is
+	// mutually exclusive with RestoreFrom.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="CloneFrom is immutable"
+	// +optional
+	CloneFrom *meta.LocalReference `json:"cloneFrom,omitempty"`
 }
 
 // A MySQLDatabaseStatus represents the observed state of a MySQLDatabase.
@@ -1420,6 +1528,9 @@ type PostgresDatabaseSpec struct {
 // +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.collation == oldSelf.collation",message="Collation is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="has(oldSelf.restoreFrom) == has(self.restoreFrom)",message="RestoreFrom can not be added or removed after creation"
+// +kubebuilder:validation:XValidation:rule="has(oldSelf.cloneFrom) == has(self.cloneFrom)",message="CloneFrom can not be added or removed after creation"
+// +kubebuilder:validation:XValidation:rule="!(has(self.restoreFrom) && has(self.cloneFrom))",message="RestoreFrom and CloneFrom are mutually exclusive"
 type PostgresDatabaseParameters struct {
 	// Location specifies in which data center the database will be spawned.
 	// +optional
@@ -1448,6 +1559,19 @@ type PostgresDatabaseParameters struct {
 	// +kubebuilder:default:=daily
 	// +optional
 	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
+	// RestoreFrom references a DatabaseBackup which is restored into this
+	// database once it is ready. It can only be set when the database is
+	// created.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="RestoreFrom is immutable"
+	// +optional
+	RestoreFrom *meta.LocalReference `json:"restoreFrom,omitempty"`
+	// CloneFrom references another PostgresDatabase to clone into this database
+	// once it is ready, by taking a fresh backup of the referenced database and
+	// restoring it. It can only be set when the database is created and is
+	// mutually exclusive with RestoreFrom.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="CloneFrom is immutable"
+	// +optional
+	CloneFrom *meta.LocalReference `json:"cloneFrom,omitempty"`
 }
 
 // PostgresDatabaseCollation defines the LC_COLLATE and LC_CTYPE of a Postgres database.

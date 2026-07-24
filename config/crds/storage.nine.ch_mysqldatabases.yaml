@@ -430,6 +430,22 @@ spec:
                     x-kubernetes-validations:
                     - message: CharacterSet is immutable
                       rule: self == oldSelf
+                  cloneFrom:
+                    description: |-
+                      CloneFrom references another MySQLDatabase to clone into this database
+                      once it is ready, by taking a fresh backup of the referenced database and
+                      restoring it. It can only be set when the database is created and is
+                      mutually exclusive with RestoreFrom.
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                    x-kubernetes-validations:
+                    - message: CloneFrom is immutable
+                      rule: self == oldSelf
                   instanceRef:
                     description: |-
                       InstanceRef is the instance that contains the database.
@@ -457,6 +473,21 @@ spec:
                     - nine-cz42
                     - nine-es34
                     type: string
+                  restoreFrom:
+                    description: |-
+                      RestoreFrom references a DatabaseBackup which is restored into this
+                      database once it is ready. It can only be set when the database is
+                      created.
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                    required:
+                    - name
+                    type: object
+                    x-kubernetes-validations:
+                    - message: RestoreFrom is immutable
+                      rule: self == oldSelf
                   version:
                     default: "8"
                     description: |-
@@ -471,6 +502,12 @@ spec:
                   rule: self.location == oldSelf.location
                 - message: Version is immutable and cannot be unset
                   rule: self.version == oldSelf.version
+                - message: RestoreFrom can not be added or removed after creation
+                  rule: has(oldSelf.restoreFrom) == has(self.restoreFrom)
+                - message: CloneFrom can not be added or removed after creation
+                  rule: has(oldSelf.cloneFrom) == has(self.cloneFrom)
+                - message: RestoreFrom and CloneFrom are mutually exclusive
+                  rule: '!(has(self.restoreFrom) && has(self.cloneFrom))'
               managementPolicies:
                 default:
                 - '*'
