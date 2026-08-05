@@ -4951,7 +4951,8 @@
                       "ubuntu24.04",
                       "ubuntu26.04",
                       "rocky9",
-                      "debian12"
+                      "debian12",
+                      "debian13"
                     ],
                     "type": "string",
                     "x-kubernetes-validations": [
