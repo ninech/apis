@@ -36,7 +36,7 @@ type IngressHAProxySpec struct {
 }
 
 // IngressHAProxyParameters are the configurable fields of a IngressHAProxy.
-// +kubebuilder:validation:XValidation:rule="!has(oldSelf.loadBalancerIP) || has(self.loadBalancerIP)",message="loadBalancerIP cannot be unset once assigned"
+// +kubebuilder:validation:XValidation:rule="!(has(self.isPublic) && !self.isPublic && has(self.isDefaultIngressClass) && self.isDefaultIngressClass)",message="a non-public ingress controller cannot provide the default IngressClass"
 type IngressHAProxyParameters struct {
 	// Cluster specifies on which cluster this IngressHAProxy should be installed.
 	Cluster meta.LocalReference `json:"cluster"`
@@ -66,18 +66,16 @@ type IngressHAProxyParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	IsDefaultIngressClass bool `json:"isDefaultIngressClass"`
-	// LoadBalancerIP pins the LoadBalancer service of this ingress controller
-	// to a specific IP address. The address has to be part of the target
-	// cluster's configured load-balancer address pool; pinning an address that
-	// is not allocated to the cluster is rejected. This is primarily used to
-	// retain an existing ingress IP when migrating from another ingress
-	// controller (e.g. ingress-nginx). If left empty, an address is allocated
-	// automatically. Note that two controllers both serving ports 80 and 443
-	// cannot share the same IP, so a pinned IP can only be bound once the
-	// previous holder has been removed.
+	// IsPublic specifies whether this ingress controller is reachable from the
+	// outside. A public controller is exposed with a LoadBalancer service and
+	// gets a public IP address assigned. A non-public one is exposed with a
+	// ClusterIP service instead. A non-public controller still owns its
+	// IngressClass and keeps claiming matching Ingress resources without serving
+	// any external traffic, so its class must not be the default one while it is
+	// not public. Defaults to true.
 	// +optional
-	// +kubebuilder:validation:Pattern=`\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\z`
-	LoadBalancerIP string `json:"loadBalancerIP,omitempty"`
+	// +kubebuilder:default:=true
+	IsPublic *bool `json:"isPublic,omitempty"`
 	// EnableDefaultBackend enables the default backend that the ingress will proxy to
 	// if the request does not match any configured ingress route. If
 	// disabled, haproxy will just return a generic 404 for such requests.
@@ -181,7 +179,7 @@ type IngressNginxSpec struct {
 }
 
 // IngressNginxParameters are the configurable fields of a IngressNginx.
-// +kubebuilder:validation:XValidation:rule="!has(oldSelf.loadBalancerIP) || has(self.loadBalancerIP)",message="loadBalancerIP cannot be unset once assigned"
+// +kubebuilder:validation:XValidation:rule="!(has(self.isPublic) && !self.isPublic && has(self.isDefaultIngressClass) && self.isDefaultIngressClass)",message="a non-public ingress controller cannot provide the default IngressClass"
 type IngressNginxParameters struct {
 	// Cluster specifies on which cluster this IngressNginx should be installed.
 	Cluster meta.LocalReference `json:"cluster"`
@@ -226,18 +224,16 @@ type IngressNginxParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	IsDefaultIngressClass bool `json:"isDefaultIngressClass"`
-	// LoadBalancerIP pins the LoadBalancer service of this ingress controller
-	// to a specific IP address. The address has to be part of the target
-	// cluster's configured load-balancer address pool; pinning an address that
-	// is not allocated to the cluster is rejected. This is primarily used to
-	// retain an existing ingress IP when migrating between ingress controllers
-	// (e.g. rolling back from ingress-haproxy). If left empty, an address is
-	// allocated automatically. Note that two controllers both serving ports 80
-	// and 443 cannot share the same IP, so a pinned IP can only be bound once
-	// the previous holder has been removed.
+	// IsPublic specifies whether this ingress controller is reachable from the
+	// outside. A public controller is exposed with a LoadBalancer service and
+	// gets a public IP address assigned. A non-public one is exposed with a
+	// ClusterIP service instead. A non-public controller still owns its
+	// IngressClass and keeps claiming matching Ingress resources without serving
+	// any external traffic, so its class must not be the default one while it is
+	// not public. Defaults to true.
 	// +optional
-	// +kubebuilder:validation:Pattern=`\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\z`
-	LoadBalancerIP string `json:"loadBalancerIP,omitempty"`
+	// +kubebuilder:default:=true
+	IsPublic *bool `json:"isPublic,omitempty"`
 	// DefaultBackend sets the default backend that the ingress will proxy to
 	// if the request does not match any configured ingress route. If
 	// disabled, nginx will just return a generic 404 for such requests.

@@ -7665,10 +7665,10 @@
                     "description": "IsDefaultIngressClass specifies if the IngressClass of this controller\nshould be the default IngressClass in the target cluster.",
                     "type": "boolean"
                   },
-                  "loadBalancerIP": {
-                    "description": "LoadBalancerIP pins the LoadBalancer service of this ingress controller\nto a specific IP address. The address has to be part of the target\ncluster's configured load-balancer address pool; pinning an address that\nis not allocated to the cluster is rejected. This is primarily used to\nretain an existing ingress IP when migrating from another ingress\ncontroller (e.g. ingress-nginx). If left empty, an address is allocated\nautomatically. Note that two controllers both serving ports 80 and 443\ncannot share the same IP, so a pinned IP can only be bound once the\nprevious holder has been removed.",
-                    "pattern": "\\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\z",
-                    "type": "string"
+                  "isPublic": {
+                    "default": true,
+                    "description": "IsPublic specifies whether this ingress controller is reachable from the\noutside. A public controller is exposed with a LoadBalancer service and\ngets a public IP address assigned. A non-public one is exposed with a\nClusterIP service instead. A non-public controller still owns its\nIngressClass and keeps claiming matching Ingress resources without serving\nany external traffic, so its class must not be the default one while it is\nnot public. Defaults to true.",
+                    "type": "boolean"
                   },
                   "scrapeConfigurations": {
                     "description": "ScrapeConfigurations allows to overwrite which metrics of the ingress-haproxy\ninstance are scraped by certain MetricsAgent instances.",
@@ -7740,8 +7740,8 @@
                 "type": "object",
                 "x-kubernetes-validations": [
                   {
-                    "message": "loadBalancerIP cannot be unset once assigned",
-                    "rule": "!has(oldSelf.loadBalancerIP) || has(self.loadBalancerIP)"
+                    "message": "a non-public ingress controller cannot provide the default IngressClass",
+                    "rule": "!(has(self.isPublic) \u0026\u0026 !self.isPublic \u0026\u0026 has(self.isDefaultIngressClass) \u0026\u0026 self.isDefaultIngressClass)"
                   }
                 ]
               },
@@ -8367,10 +8367,10 @@
                     "description": "IsDefaultIngressClass specifies if the IngressClass of this controller\nshould be the default IngressClass in the target cluster.",
                     "type": "boolean"
                   },
-                  "loadBalancerIP": {
-                    "description": "LoadBalancerIP pins the LoadBalancer service of this ingress controller\nto a specific IP address. The address has to be part of the target\ncluster's configured load-balancer address pool; pinning an address that\nis not allocated to the cluster is rejected. This is primarily used to\nretain an existing ingress IP when migrating between ingress controllers\n(e.g. rolling back from ingress-haproxy). If left empty, an address is\nallocated automatically. Note that two controllers both serving ports 80\nand 443 cannot share the same IP, so a pinned IP can only be bound once\nthe previous holder has been removed.",
-                    "pattern": "\\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\z",
-                    "type": "string"
+                  "isPublic": {
+                    "default": true,
+                    "description": "IsPublic specifies whether this ingress controller is reachable from the\noutside. A public controller is exposed with a LoadBalancer service and\ngets a public IP address assigned. A non-public one is exposed with a\nClusterIP service instead. A non-public controller still owns its\nIngressClass and keeps claiming matching Ingress resources without serving\nany external traffic, so its class must not be the default one while it is\nnot public. Defaults to true.",
+                    "type": "boolean"
                   },
                   "rateLimitStatusCode": {
                     "default": 503,
@@ -8452,8 +8452,8 @@
                 "type": "object",
                 "x-kubernetes-validations": [
                   {
-                    "message": "loadBalancerIP cannot be unset once assigned",
-                    "rule": "!has(oldSelf.loadBalancerIP) || has(self.loadBalancerIP)"
+                    "message": "a non-public ingress controller cannot provide the default IngressClass",
+                    "rule": "!(has(self.isPublic) \u0026\u0026 !self.isPublic \u0026\u0026 has(self.isDefaultIngressClass) \u0026\u0026 self.isDefaultIngressClass)"
                   }
                 ]
               },
