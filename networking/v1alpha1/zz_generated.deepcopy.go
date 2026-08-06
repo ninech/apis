@@ -166,6 +166,11 @@ func (in *IngressHAProxyParameters) DeepCopyInto(out *IngressHAProxyParameters) 
 		*out = new(IngressHAProxyCloudflare)
 		**out = **in
 	}
+	if in.IsPublic != nil {
+		in, out := &in.IsPublic, &out.IsPublic
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ScrapeConfigurations != nil {
 		in, out := &in.ScrapeConfigurations, &out.ScrapeConfigurations
 		*out = make([]metav1alpha1.ScrapeConfig, len(*in))
@@ -392,6 +397,11 @@ func (in *IngressNginxParameters) DeepCopyInto(out *IngressNginxParameters) {
 		in, out := &in.Cloudflare, &out.Cloudflare
 		*out = new(IngressNginxCloudflare)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.IsPublic != nil {
+		in, out := &in.IsPublic, &out.IsPublic
+		*out = new(bool)
+		**out = **in
 	}
 	if in.DefaultBackend != nil {
 		in, out := &in.DefaultBackend, &out.DefaultBackend
