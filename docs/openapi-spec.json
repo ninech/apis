@@ -17445,11 +17445,15 @@
                     "x-kubernetes-list-type": "set"
                   },
                   "characterSet": {
+                    "default": {
+                      "collation": "utf8mb4_0900_ai_ci",
+                      "name": "utf8mb4"
+                    },
                     "description": "CharacterSet configures the `character_set_server` and collation_server` variables.",
                     "properties": {
                       "collation": {
-                        "default": "utf8mb4_unicode_ci",
-                        "description": "Collation configures the `collation_server` variable.\nThe server's default collation.\nSee section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), \"Character Set Configuration\".\nThis should be aligned with the configured character set.",
+                        "default": "utf8mb4_0900_ai_ci",
+                        "description": "Collation configures the `collation_server` variable.\nThe server's default collation.\nSee section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), \"Character Set Configuration\".\nThis should be aligned with the configured character set.",
                         "enum": [
                           "armscii8_bin",
                           "armscii8_general_ci",
@@ -17742,7 +17746,7 @@
                       },
                       "name": {
                         "default": "utf8mb4",
-                        "description": "Name configures the `character_set_server` variable.\nThe servers default character set.\nSee section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), \"Character Set Configuration\".\nIf you set this variable, you should also set collation_server to specify the collation for the character set.",
+                        "description": "Name configures the `character_set_server` variable.\nThe servers default character set.\nSee section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), \"Character Set Configuration\".\nIf you set this variable, you should also set collation_server to specify the collation for the character set.",
                         "enum": [
                           "armscii8",
                           "ascii",
@@ -17836,7 +17840,7 @@
                     ],
                     "description": "SQLMode configures the sql_mode setting.\nModes affect the SQL syntax MySQL supports and the data validation checks it performs.",
                     "items": {
-                      "description": "MySQLMode represents a single possible SQL mode.\nModes affect the SQL syntax MySQL supports and the data validation checks it performs.\nThis makes it easier to use MySQL in different environments and to use\nMySQL together with other database servers.\nhttps://dev.mysql.com/doc/refman/8.0/en/sql-mode.html",
+                      "description": "MySQLMode represents a single possible SQL mode.\nModes affect the SQL syntax MySQL supports and the data validation checks it performs.\nThis makes it easier to use MySQL in different environments and to use\nMySQL together with other database servers.\nhttps://dev.mysql.com/doc/refman/8.4/en/sql-mode.html",
                       "enum": [
                         "ALLOW_INVALID_DATES",
                         "ANSI_QUOTES",
@@ -17884,20 +17888,12 @@
                     "type": "string"
                   },
                   "version": {
-                    "allOf": [
-                      {
-                        "enum": [
-                          "8"
-                        ]
-                      },
-                      {
-                        "enum": [
-                          "8"
-                        ]
-                      }
+                    "default": "8.4",
+                    "description": "Version specifies the MySQL version.\nNeeds to match an available MySQL Version.\n\nThe enum must cover every version still running an instance.\nCreation of deprecated versions is rejected by the webhook.",
+                    "enum": [
+                      "8",
+                      "8.4"
                     ],
-                    "default": "8",
-                    "description": "Version specifies the MySQL version.\nNeeds to match an available MySQL Version.",
                     "type": "string"
                   }
                 },
@@ -18312,8 +18308,8 @@
                     "description": "CharacterSet configures the `character_set_server` and collation_server` variables.",
                     "properties": {
                       "collation": {
-                        "default": "utf8mb4_unicode_ci",
-                        "description": "Collation configures the `collation_server` variable.\nThe server's default collation.\nSee section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), \"Character Set Configuration\".\nThis should be aligned with the configured character set.",
+                        "default": "utf8mb4_0900_ai_ci",
+                        "description": "Collation configures the `collation_server` variable.\nThe server's default collation.\nSee section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), \"Character Set Configuration\".\nThis should be aligned with the configured character set.",
                         "enum": [
                           "armscii8_bin",
                           "armscii8_general_ci",
@@ -18606,7 +18602,7 @@
                       },
                       "name": {
                         "default": "utf8mb4",
-                        "description": "Name configures the `character_set_server` variable.\nThe servers default character set.\nSee section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), \"Character Set Configuration\".\nIf you set this variable, you should also set collation_server to specify the collation for the character set.",
+                        "description": "Name configures the `character_set_server` variable.\nThe servers default character set.\nSee section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), \"Character Set Configuration\".\nIf you set this variable, you should also set collation_server to specify the collation for the character set.",
                         "enum": [
                           "armscii8",
                           "ascii",
@@ -19754,8 +19750,14 @@
                     "type": "array"
                   },
                   "version": {
-                    "default": "17",
-                    "description": "Version specifies the Postgres version.\nNeeds to match an available Postgres Version.",
+                    "default": "18",
+                    "description": "Version specifies the Postgres version.\nNeeds to match an available Postgres Version.\n\nThe enum must cover every version still running an instance.\nCreation of deprecated versions is rejected by the webhook.",
+                    "enum": [
+                      "15",
+                      "16",
+                      "17",
+                      "18"
+                    ],
                     "type": "string"
                   }
                 },

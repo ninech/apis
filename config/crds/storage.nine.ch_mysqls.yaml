@@ -80,15 +80,18 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   characterSet:
+                    default:
+                      collation: utf8mb4_0900_ai_ci
+                      name: utf8mb4
                     description: CharacterSet configures the `character_set_server`
                       and collation_server` variables.
                     properties:
                       collation:
-                        default: utf8mb4_unicode_ci
+                        default: utf8mb4_0900_ai_ci
                         description: |-
                           Collation configures the `collation_server` variable.
                           The server's default collation.
-                          See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+                          See section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), "Character Set Configuration".
                           This should be aligned with the configured character set.
                         enum:
                         - armscii8_bin
@@ -383,7 +386,7 @@ spec:
                         description: |-
                           Name configures the `character_set_server` variable.
                           The servers default character set.
-                          See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+                          See section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), "Character Set Configuration".
                           If you set this variable, you should also set collation_server to specify the collation for the character set.
                         enum:
                         - armscii8
@@ -488,7 +491,7 @@ spec:
                         Modes affect the SQL syntax MySQL supports and the data validation checks it performs.
                         This makes it easier to use MySQL in different environments and to use
                         MySQL together with other database servers.
-                        https://dev.mysql.com/doc/refman/8.0/en/sql-mode.html
+                        https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html
                       enum:
                       - ALLOW_INVALID_DATES
                       - ANSI_QUOTES
@@ -533,15 +536,16 @@ spec:
                     - SERIALIZABLE
                     type: string
                   version:
-                    allOf:
-                    - enum:
-                      - "8"
-                    - enum:
-                      - "8"
-                    default: "8"
+                    default: "8.4"
                     description: |-
                       Version specifies the MySQL version.
                       Needs to match an available MySQL Version.
+
+                      The enum must cover every version still running an instance.
+                      Creation of deprecated versions is rejected by the webhook.
+                    enum:
+                    - "8"
+                    - "8.4"
                     type: string
                 type: object
                 x-kubernetes-validations:
