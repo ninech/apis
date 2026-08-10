@@ -82,11 +82,11 @@ spec:
                       and collation_server` variables.
                     properties:
                       collation:
-                        default: utf8mb4_unicode_ci
+                        default: utf8mb4_0900_ai_ci
                         description: |-
                           Collation configures the `collation_server` variable.
                           The server's default collation.
-                          See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+                          See section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), "Character Set Configuration".
                           This should be aligned with the configured character set.
                         enum:
                         - armscii8_bin
@@ -381,7 +381,7 @@ spec:
                         description: |-
                           Name configures the `character_set_server` variable.
                           The servers default character set.
-                          See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+                          See section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), "Character Set Configuration".
                           If you set this variable, you should also set collation_server to specify the collation for the character set.
                         enum:
                         - armscii8

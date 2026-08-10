@@ -86,7 +86,11 @@ const (
 	KeyValueStoreMemorySizeMin = "256Mi"
 	// KeyValueStoreMemorySizeMax is the maximum memory size for a KeyValueStore.
 	KeyValueStoreMemorySizeMax = "4Gi"
+	// MySQLVersion84 MySQL version 8.4
+	MySQLVersion84 MySQLVersion = "8.4"
 	// MySQLVersion8 MySQL version 8
+	//
+	// Deprecated: Please use a newer version for new deployments.
 	MySQLVersion8 MySQLVersion = "8"
 	// MySQLUser is the name of the MySQL user account.
 	MySQLUser string = "dbadmin"
@@ -95,7 +99,7 @@ const (
 	MySQLLocationDefault = meta.LocationNineCZ41
 	// MySQLVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
-	MySQLVersionDefault MySQLVersion = MySQLVersion8
+	MySQLVersionDefault MySQLVersion = MySQLVersion84
 	// MySQLUserDefault is the default MySQL user name.
 	MySQLUserDefault string = MySQLUser
 	// MySQLLongQueryTimeDefault is the default value for long_query_time.
@@ -103,7 +107,7 @@ const (
 	// MySQLCharsetDefault is the default character set.
 	MySQLCharsetDefault string = "utf8mb4"
 	// MySQLCollationDefault is the default collation.
-	MySQLCollationDefault string = "utf8mb4_unicode_ci"
+	MySQLCollationDefault string = "utf8mb4_0900_ai_ci"
 	// MySQLMinWordLengthDefault is the default value for `ft_min_word_len` and `innodb_ft_min_token_size`.
 	MySQLMinWordLengthDefault int = 3
 	// MySQLTransactionIsolationDefault is the default transaction isolation level.
@@ -119,7 +123,7 @@ const (
 	MySQLDatabaseLocationDefault = meta.LocationNineES34
 	// MySQLDatabaseVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
-	MySQLDatabaseVersionDefault MySQLVersion = MySQLVersionDefault
+	MySQLDatabaseVersionDefault MySQLVersion = MySQLVersion8
 	// OpenSearchVersion2 OpenSearch version 2
 	OpenSearchVersion2 OpenSearchVersion = "2"
 	// OpenSearchVersion3 OpenSearch version 3
@@ -143,16 +147,24 @@ const (
 	OpenSearchHealthStatusYellow OpenSearchHealthStatus = "yellow"
 	// OpenSearchHealthStatusRed means at least one primary shard is not allocated to any node.
 	OpenSearchHealthStatusRed OpenSearchHealthStatus = "red"
+	// PostgresVersion18 Postgres version 18
+	PostgresVersion18 PostgresVersion = "18"
 	// PostgresVersion17 Postgres version 17
 	PostgresVersion17 PostgresVersion = "17"
 	// PostgresVersion16 Postgres version 16
+	//
+	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion16 PostgresVersion = "16"
 	// PostgresVersion15 Postgres version 15
+	//
+	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion15 PostgresVersion = "15"
 	// PostgresVersion14 Postgres version 14
+	//
 	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion14 PostgresVersion = "14"
 	// PostgresVersion13 Postgres version 13
+	//
 	// Deprecated: Please use a newer version for new deployments.
 	PostgresVersion13 PostgresVersion = "13"
 	// PostgresUser is the name of the Postgres user account.
@@ -162,7 +174,7 @@ const (
 	PostgresLocationDefault = meta.LocationNineCZ41
 	// PostgresVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
-	PostgresVersionDefault PostgresVersion = PostgresVersion17
+	PostgresVersionDefault PostgresVersion = PostgresVersion18
 	// PostgresBackupRetentionDaysDefault is the number of days to retain backups by default.
 	PostgresBackupRetentionDaysDefault int = 10
 	// PostgresDatabaseSizeMax is the maximum size of a PostgresDatabase.
@@ -174,7 +186,7 @@ const (
 	PostgresDatabaseLocationDefault = meta.LocationNineES34
 	// PostgresDatabaseVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
-	PostgresDatabaseVersionDefault PostgresVersion = PostgresVersionDefault
+	PostgresDatabaseVersionDefault PostgresVersion = PostgresVersion17
 	// PostgresDatabaseCollationDefault is the default collation for a PostgresDatabase.
 	PostgresDatabaseCollationDefault PostgresDatabaseCollation = "C.UTF-8"
 )
@@ -199,7 +211,9 @@ var (
 	// MySQLMachineTypes is a list of available machine types.
 	MySQLMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// MySQLVersions is a list of all available MySQLVersions.
-	MySQLVersions = []MySQLVersion{MySQLVersion8}
+	MySQLVersions = []MySQLVersion{MySQLVersion84}
+	// MySQLVersionsDeprecated is a list of all deprecated MySQLVersions.
+	MySQLVersionsDeprecated = []MySQLVersion{MySQLVersion8}
 	// MySQLDatabaseLocationOptions is a list of available datacenter locations.
 	MySQLDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
 	// MySQLDatabaseVersions is a list of all available MySQLVersions.
@@ -223,9 +237,9 @@ var (
 	// PostgresMachineTypes is a list of available machine types.
 	PostgresMachineTypes []infra.MachineType = infra.MachineTypesDB
 	// PostgresVersions is a list of all available PostgresVersions.
-	PostgresVersions = []PostgresVersion{PostgresVersion17, PostgresVersion16, PostgresVersion15}
+	PostgresVersions = []PostgresVersion{PostgresVersion18, PostgresVersion17}
 	// PostgresVersionsDeprecated is a list of all deprecated PostgresVersions.
-	PostgresVersionsDeprecated = []PostgresVersion{PostgresVersion14, PostgresVersion13}
+	PostgresVersionsDeprecated = []PostgresVersion{PostgresVersion16, PostgresVersion15, PostgresVersion14, PostgresVersion13}
 	// PostgresDatabaseLocationOptions is a list of available datacenter locations.
 	PostgresDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
 	// PostgresDatabaseVersions is a list of all available PostgresVersions.
@@ -876,9 +890,13 @@ type MySQLParameters struct {
 	// Version specifies the MySQL version.
 	// Needs to match an available MySQL Version.
 	//
+	// The enum must cover every version still running an instance.
+	// Creation of deprecated versions is rejected by the webhook.
+	//
+	// +immutable
 	// +optional
-	// +kubebuilder:validation:Enum="8"
-	// +kubebuilder:default:="8"
+	// +kubebuilder:validation:Enum="8";"8.4"
+	// +kubebuilder:default:="8.4"
 	Version MySQLVersion `json:"version,omitempty"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
@@ -903,6 +921,7 @@ type MySQLParameters struct {
 	// CharacterSet configures the `character_set_server` and collation_server` variables.
 	//
 	// +optional
+	// +kubebuilder:default:={name:"utf8mb4",collation:"utf8mb4_0900_ai_ci"}
 	CharacterSet MySQLCharacterSet `json:"characterSet"`
 	// LongQueryTime configures the `long_query_time` variable.
 	// If a query takes longer than this many seconds, the the query is logged to the slow query log file.
@@ -938,7 +957,6 @@ type MySQLParameters struct {
 }
 
 // MySQLVersion Version of MySQL
-// +kubebuilder:validation:Enum="8"
 type MySQLVersion string
 
 // SSHKey Public SSH key without options
@@ -949,7 +967,7 @@ type SSHKey string
 // Modes affect the SQL syntax MySQL supports and the data validation checks it performs.
 // This makes it easier to use MySQL in different environments and to use
 // MySQL together with other database servers.
-// https://dev.mysql.com/doc/refman/8.0/en/sql-mode.html
+// https://dev.mysql.com/doc/refman/8.4/en/sql-mode.html
 //
 // +kubebuilder:validation:Enum="ALLOW_INVALID_DATES";"ANSI_QUOTES";"ERROR_FOR_DIVISION_BY_ZERO";"HIGH_NOT_PRECEDENCE";"IGNORE_SPACE";"NO_AUTO_VALUE_ON_ZERO";"NO_BACKSLASH_ESCAPES";"NO_DIR_IN_CREATE";"NO_ENGINE_SUBSTITUTION";"NO_UNSIGNED_SUBTRACTION";"NO_ZERO_DATE";"NO_ZERO_IN_DATE";"ONLY_FULL_GROUP_BY";"PAD_CHAR_TO_FULL_LENGTH";"PIPES_AS_CONCAT";"REAL_AS_FLOAT";"STRICT_ALL_TABLES";"STRICT_TRANS_TABLES";"TIME_TRUNCATE_FRACTIONAL"
 type MySQLMode string
@@ -958,7 +976,7 @@ type MySQLMode string
 type MySQLCharacterSet struct {
 	// Name configures the `character_set_server` variable.
 	// The servers default character set.
-	// See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+	// See section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), "Character Set Configuration".
 	// If you set this variable, you should also set collation_server to specify the collation for the character set.
 	//
 	// +optional
@@ -967,11 +985,11 @@ type MySQLCharacterSet struct {
 	Name string `json:"name,omitempty"`
 	// Collation configures the `collation_server` variable.
 	// The server's default collation.
-	// See section 10.15 (https://dev.mysql.com/doc/refman/8.0/en/charset-configuration.html), "Character Set Configuration".
+	// See section 12.15 (https://dev.mysql.com/doc/refman/8.4/en/charset-configuration.html), "Character Set Configuration".
 	// This should be aligned with the configured character set.
 	//
 	// +optional
-	// +kubebuilder:default="utf8mb4_unicode_ci"
+	// +kubebuilder:default="utf8mb4_0900_ai_ci"
 	// +kubebuilder:validation:Enum="armscii8_bin";"armscii8_general_ci";"ascii_bin";"ascii_general_ci";"big5_bin";"big5_chinese_ci";"binary";"cp1250_bin";"cp1250_croatian_ci";"cp1250_czech_cs";"cp1250_general_ci";"cp1250_polish_ci";"cp1251_bin";"cp1251_bulgarian_ci";"cp1251_general_ci";"cp1251_general_cs";"cp1251_ukrainian_ci";"cp1256_bin";"cp1256_general_ci";"cp1257_bin";"cp1257_general_ci";"cp1257_lithuanian_ci";"cp850_bin";"cp850_general_ci";"cp852_bin";"cp852_general_ci";"cp866_bin";"cp866_general_ci";"cp932_bin";"cp932_japanese_ci";"dec8_bin";"dec8_swedish_ci";"eucjpms_bin";"eucjpms_japanese_ci";"euckr_bin";"euckr_korean_ci";"gb18030_bin";"gb18030_chinese_ci";"gb18030_unicode_520_ci";"gb2312_bin";"gb2312_chinese_ci";"gbk_bin";"gbk_chinese_ci";"geostd8_bin";"geostd8_general_ci";"greek_bin";"greek_general_ci";"hebrew_bin";"hebrew_general_ci";"hp8_bin";"hp8_english_ci";"keybcs2_bin";"keybcs2_general_ci";"koi8r_bin";"koi8r_general_ci";"koi8u_bin";"koi8u_general_ci";"latin1_bin";"latin1_danish_ci";"latin1_general_ci";"latin1_general_cs";"latin1_german1_ci";"latin1_german2_ci";"latin1_spanish_ci";"latin1_swedish_ci";"latin2_bin";"latin2_croatian_ci";"latin2_czech_cs";"latin2_general_ci";"latin2_hungarian_ci";"latin5_bin";"latin5_turkish_ci";"latin7_bin";"latin7_estonian_cs";"latin7_general_ci";"latin7_general_cs";"macce_bin";"macce_general_ci";"macroman_bin";"macroman_general_ci";"sjis_bin";"sjis_japanese_ci";"swe7_bin";"swe7_swedish_ci";"tis620_bin";"tis620_thai_ci";"ucs2_bin";"ucs2_croatian_ci";"ucs2_czech_ci";"ucs2_danish_ci";"ucs2_esperanto_ci";"ucs2_estonian_ci";"ucs2_general_ci";"ucs2_general_mysql500_ci";"ucs2_german2_ci";"ucs2_hungarian_ci";"ucs2_icelandic_ci";"ucs2_latvian_ci";"ucs2_lithuanian_ci";"ucs2_persian_ci";"ucs2_polish_ci";"ucs2_roman_ci";"ucs2_romanian_ci";"ucs2_sinhala_ci";"ucs2_slovak_ci";"ucs2_slovenian_ci";"ucs2_spanish2_ci";"ucs2_spanish_ci";"ucs2_swedish_ci";"ucs2_turkish_ci";"ucs2_unicode_520_ci";"ucs2_unicode_ci";"ucs2_vietnamese_ci";"ujis_bin";"ujis_japanese_ci";"utf16_bin";"utf16_croatian_ci";"utf16_czech_ci";"utf16_danish_ci";"utf16_esperanto_ci";"utf16_estonian_ci";"utf16_general_ci";"utf16_german2_ci";"utf16_hungarian_ci";"utf16_icelandic_ci";"utf16_latvian_ci";"utf16le_bin";"utf16le_general_ci";"utf16_lithuanian_ci";"utf16_persian_ci";"utf16_polish_ci";"utf16_roman_ci";"utf16_romanian_ci";"utf16_sinhala_ci";"utf16_slovak_ci";"utf16_slovenian_ci";"utf16_spanish2_ci";"utf16_spanish_ci";"utf16_swedish_ci";"utf16_turkish_ci";"utf16_unicode_520_ci";"utf16_unicode_ci";"utf16_vietnamese_ci";"utf32_bin";"utf32_croatian_ci";"utf32_czech_ci";"utf32_danish_ci";"utf32_esperanto_ci";"utf32_estonian_ci";"utf32_general_ci";"utf32_german2_ci";"utf32_hungarian_ci";"utf32_icelandic_ci";"utf32_latvian_ci";"utf32_lithuanian_ci";"utf32_persian_ci";"utf32_polish_ci";"utf32_roman_ci";"utf32_romanian_ci";"utf32_sinhala_ci";"utf32_slovak_ci";"utf32_slovenian_ci";"utf32_spanish2_ci";"utf32_spanish_ci";"utf32_swedish_ci";"utf32_turkish_ci";"utf32_unicode_520_ci";"utf32_unicode_ci";"utf32_vietnamese_ci";"utf8mb3_bin";"utf8mb3_croatian_ci";"utf8mb3_czech_ci";"utf8mb3_danish_ci";"utf8mb3_esperanto_ci";"utf8mb3_estonian_ci";"utf8mb3_general_ci";"utf8mb3_general_mysql500_ci";"utf8mb3_german2_ci";"utf8mb3_hungarian_ci";"utf8mb3_icelandic_ci";"utf8mb3_latvian_ci";"utf8mb3_lithuanian_ci";"utf8mb3_persian_ci";"utf8mb3_polish_ci";"utf8mb3_roman_ci";"utf8mb3_romanian_ci";"utf8mb3_sinhala_ci";"utf8mb3_slovak_ci";"utf8mb3_slovenian_ci";"utf8mb3_spanish2_ci";"utf8mb3_spanish_ci";"utf8mb3_swedish_ci";"utf8mb3_tolower_ci";"utf8mb3_turkish_ci";"utf8mb3_unicode_520_ci";"utf8mb3_unicode_ci";"utf8mb3_vietnamese_ci";"utf8mb4_0900_ai_ci";"utf8mb4_0900_as_ci";"utf8mb4_0900_as_cs";"utf8mb4_0900_bin";"utf8mb4_bg_0900_ai_ci";"utf8mb4_bg_0900_as_cs";"utf8mb4_bin";"utf8mb4_bs_0900_ai_ci";"utf8mb4_bs_0900_as_cs";"utf8mb4_croatian_ci";"utf8mb4_cs_0900_ai_ci";"utf8mb4_cs_0900_as_cs";"utf8mb4_czech_ci";"utf8mb4_da_0900_ai_ci";"utf8mb4_da_0900_as_cs";"utf8mb4_danish_ci";"utf8mb4_de_pb_0900_ai_ci";"utf8mb4_de_pb_0900_as_cs";"utf8mb4_eo_0900_ai_ci";"utf8mb4_eo_0900_as_cs";"utf8mb4_es_0900_ai_ci";"utf8mb4_es_0900_as_cs";"utf8mb4_esperanto_ci";"utf8mb4_estonian_ci";"utf8mb4_es_trad_0900_ai_ci";"utf8mb4_es_trad_0900_as_cs";"utf8mb4_et_0900_ai_ci";"utf8mb4_et_0900_as_cs";"utf8mb4_general_ci";"utf8mb4_german2_ci";"utf8mb4_gl_0900_ai_ci";"utf8mb4_gl_0900_as_cs";"utf8mb4_hr_0900_ai_ci";"utf8mb4_hr_0900_as_cs";"utf8mb4_hu_0900_ai_ci";"utf8mb4_hu_0900_as_cs";"utf8mb4_hungarian_ci";"utf8mb4_icelandic_ci";"utf8mb4_is_0900_ai_ci";"utf8mb4_is_0900_as_cs";"utf8mb4_ja_0900_as_cs";"utf8mb4_ja_0900_as_cs_ks";"utf8mb4_la_0900_ai_ci";"utf8mb4_la_0900_as_cs";"utf8mb4_latvian_ci";"utf8mb4_lithuanian_ci";"utf8mb4_lt_0900_ai_ci";"utf8mb4_lt_0900_as_cs";"utf8mb4_lv_0900_ai_ci";"utf8mb4_lv_0900_as_cs";"utf8mb4_mn_cyrl_0900_ai_ci";"utf8mb4_mn_cyrl_0900_as_cs";"utf8mb4_nb_0900_ai_ci";"utf8mb4_nb_0900_as_cs";"utf8mb4_nn_0900_ai_ci";"utf8mb4_nn_0900_as_cs";"utf8mb4_persian_ci";"utf8mb4_pl_0900_ai_ci";"utf8mb4_pl_0900_as_cs";"utf8mb4_polish_ci";"utf8mb4_ro_0900_ai_ci";"utf8mb4_ro_0900_as_cs";"utf8mb4_roman_ci";"utf8mb4_romanian_ci";"utf8mb4_ru_0900_ai_ci";"utf8mb4_ru_0900_as_cs";"utf8mb4_sinhala_ci";"utf8mb4_sk_0900_ai_ci";"utf8mb4_sk_0900_as_cs";"utf8mb4_sl_0900_ai_ci";"utf8mb4_sl_0900_as_cs";"utf8mb4_slovak_ci";"utf8mb4_slovenian_ci";"utf8mb4_spanish2_ci";"utf8mb4_spanish_ci";"utf8mb4_sr_latn_0900_ai_ci";"utf8mb4_sr_latn_0900_as_cs";"utf8mb4_sv_0900_ai_ci";"utf8mb4_sv_0900_as_cs";"utf8mb4_swedish_ci";"utf8mb4_tr_0900_ai_ci";"utf8mb4_tr_0900_as_cs";"utf8mb4_turkish_ci";"utf8mb4_unicode_520_ci";"utf8mb4_unicode_ci";"utf8mb4_vi_0900_ai_ci";"utf8mb4_vi_0900_as_cs";"utf8mb4_vietnamese_ci";"utf8mb4_zh_0900_as_cs"
 	Collation string `json:"collation,omitempty"`
 }
@@ -1064,6 +1082,7 @@ type MySQLDatabaseParameters struct {
 	// Needs to match an available MySQL Version.
 	// +immutable
 	// +optional
+	// +kubebuilder:validation:Enum="8"
 	// +kubebuilder:default:="8"
 	Version MySQLVersion `json:"version,omitempty"`
 	// CharacterSet configures the `character_set_server` and collation_server` variables.
@@ -1330,8 +1349,14 @@ type PostgresParameters struct {
 	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the Postgres version.
 	// Needs to match an available Postgres Version.
+	//
+	// The enum must cover every version still running an instance.
+	// Creation of deprecated versions is rejected by the webhook.
+	//
+	// +immutable
 	// +optional
-	// +kubebuilder:default:="17"
+	// +kubebuilder:validation:Enum="15";"16";"17";"18"
+	// +kubebuilder:default:="18"
 	Version PostgresVersion `json:"version,omitempty"`
 	// AllowedCIDRs specify the allowed IP addresses, connecting to the db.
 	// IPs are in CIDR format, e.g. 192.168.1.1/24
@@ -1356,8 +1381,6 @@ type PostgresParameters struct {
 }
 
 // PostgresVersion Version of Postgres
-// Please use Version >=15 for new deployments.
-// https://www.postgresql.org/support/versioning/
 type PostgresVersion string
 
 // A PostgresStatus represents the observed state of a Postgres database.
@@ -1427,9 +1450,10 @@ type PostgresDatabaseParameters struct {
 	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the Postgres version.
 	// Needs to match an available Postgres Version.
+	// +immutable
 	// +optional
-	// +kubebuilder:default:="17"
 	// +kubebuilder:validation:Enum="17"
+	// +kubebuilder:default:="17"
 	Version PostgresVersion `json:"version,omitempty"`
 	// Collation configures the LC_COLLATE and LC_CTYPE of the database.
 	// This is only applied during database creation and cannot be changed afterwards.
