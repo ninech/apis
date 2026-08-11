@@ -466,13 +466,6 @@ spec:
                         description: Tag specifies the image tag to use
                         type: string
                     type: object
-                  ingressController:
-                    description: |-
-                      IngressController is the nine-internal ingress controller that serves
-                      this Release on the deploio cluster, derived from ApplicationConfiguration
-                      at Release creation time. An empty value is treated as nginx to stay
-                      compatible with Releases that predate the field.
-                    type: string
                   paused:
                     description: |-
                       Paused pauses the release by stopping billing and disabling all runtime

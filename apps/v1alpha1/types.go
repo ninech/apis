@@ -763,12 +763,6 @@ type ReleaseParameters struct {
 	// +optional
 	// +nullable
 	HealthProbeConfiguration *ProbeConfig `json:"healthProbeConfiguration"`
-	// IngressController is the nine-internal ingress controller that serves
-	// this Release on the deploio cluster, derived from ApplicationConfiguration
-	// at Release creation time. An empty value is treated as nginx to stay
-	// compatible with Releases that predate the field.
-	// +optional
-	IngressController meta.IngressControllerType `json:"ingressController,omitempty"`
 	// Timeout of the release after it will be considered failed. This does
 	// not include the time spent waiting for the deploy job and only concerns
 	// the release rollout.

@@ -2585,10 +2585,6 @@
                     },
                     "type": "object"
                   },
-                  "ingressController": {
-                    "description": "IngressController is the nine-internal ingress controller that serves\nthis Release on the deploio cluster, derived from ApplicationConfiguration\nat Release creation time. An empty value is treated as nginx to stay\ncompatible with Releases that predate the field.",
-                    "type": "string"
-                  },
                   "paused": {
                     "description": "Paused pauses the release by stopping billing and disabling all runtime\nworkloads.",
                     "type": "boolean"

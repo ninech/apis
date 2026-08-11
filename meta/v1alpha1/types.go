@@ -132,10 +132,6 @@ type Image struct {
 	PullSecret string `json:"pullSecret,omitempty"`
 }
 
-// IngressControllerType specifies which ingress controller is used for
-// nine-internal ingress resources on a KubernetesCluster.
-type IngressControllerType string
-
 // IPv4CIDR represents a IPv4 address in CIDR notation
 // +kubebuilder:validation:Pattern=`\A([0-9]{1,3}\.){3}[0-9]{1,3}\/([0-9]|[1-2][0-9]|3[0-2])\z`
 type IPv4CIDR string
