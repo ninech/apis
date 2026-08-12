@@ -17808,7 +17808,7 @@
                     "type": "integer"
                   },
                   "location": {
-                    "default": "nine-cz41",
+                    "default": "nine-cz42",
                     "description": "Location specifies in which datacenter the database will be spawned.\nNeeds to match the available MachineTypes in that datacenter.",
                     "enum": [
                       "nine-cz41",
@@ -19731,7 +19731,7 @@
                     "type": "integer"
                   },
                   "location": {
-                    "default": "nine-cz41",
+                    "default": "nine-cz42",
                     "description": "Location specifies in which datacenter the database will be spawned.\nNeeds to match the available MachineTypes in that datacenter.",
                     "enum": [
                       "nine-cz41",
