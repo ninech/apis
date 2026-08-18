@@ -203,6 +203,10 @@
                               ],
                               "type": "string"
                             },
+                            "timeZone": {
+                              "description": "TimeZone defines the time zone the schedule is evaluated in (e.g. \"Europe/Zurich\").",
+                              "type": "string"
+                            },
                             "timeout": {
                               "default": "5m",
                               "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
@@ -1116,6 +1120,10 @@
                               ],
                               "type": "string"
                             },
+                            "timeZone": {
+                              "description": "TimeZone defines the time zone the schedule is evaluated in (e.g. \"Europe/Zurich\").",
+                              "type": "string"
+                            },
                             "timeout": {
                               "default": "5m",
                               "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
@@ -1767,6 +1775,10 @@
                               ],
                               "type": "string"
                             },
+                            "timeZone": {
+                              "description": "TimeZone defines the time zone the schedule is evaluated in (e.g. \"Europe/Zurich\").",
+                              "type": "string"
+                            },
                             "timeout": {
                               "default": "5m",
                               "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
@@ -2407,6 +2419,10 @@
                                     "standard-2",
                                     "standard-4"
                                   ],
+                                  "type": "string"
+                                },
+                                "timeZone": {
+                                  "description": "TimeZone defines the time zone the schedule is evaluated in (e.g. \"Europe/Zurich\").",
                                   "type": "string"
                                 },
                                 "timeout": {
@@ -10199,11 +10215,7 @@
           },
           "spec": {
             "forProvider": {
-              "dataSource": {
-                "searchNamespaces": [
-                  "ecorp"
-                ]
-              }
+              "dataSource": {}
             }
           },
           "status": {
@@ -10255,13 +10267,6 @@
                         },
                         "description": "Deprecated: FilterLabels is no longer used by the controller.",
                         "type": "object"
-                      },
-                      "searchNamespaces": {
-                        "description": "Deprecated: SearchNamespaces is no longer used by the controller.",
-                        "items": {
-                          "type": "string"
-                        },
-                        "type": "array"
                       }
                     },
                     "type": "object"

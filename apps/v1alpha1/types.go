@@ -389,6 +389,9 @@ type ScheduledJob struct {
 	// +optional
 	// +kubebuilder:default:="micro"
 	Size *ApplicationSize `json:"size,omitempty" yaml:"size,omitempty"`
+	// TimeZone defines the time zone the schedule is evaluated in (e.g. "Europe/Zurich").
+	// +optional
+	TimeZone *string `json:"timeZone,omitempty"`
 }
 type DockerfileBuild struct {
 	// Enabled defines if the Dockerfile build should be enabled
