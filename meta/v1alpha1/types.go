@@ -15,6 +15,10 @@ const (
 	LocationNineCZ42 LocationName = NinePrefix + "cz42"
 	// LocationNineES34 is the name for our ES34 location
 	LocationNineES34 LocationName = NinePrefix + "es34"
+	// CauseTypeLocationRestricted is the cause type set when a resource is denied
+	// because its location is restricted. The message lists the locations that
+	// accept new resources, separated by spaces.
+	CauseTypeLocationRestricted = "LocationRestricted"
 	// ClusterDataDeploioName is the name of the ClusterData resource which
 	// exposes connection details of the deplo.io cluster to customers
 	ClusterDataDeploioName = "deploio"

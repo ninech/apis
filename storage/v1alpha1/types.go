@@ -41,8 +41,6 @@ const (
 	SyncStatusFailed SyncStatus = "failed"
 	// SyncStatusUnknown indicates the status is unknown.
 	SyncStatusUnknown SyncStatus = "unknown"
-	// DBLocationDefault is the default location for database instances.
-	DBLocationDefault = meta.LocationNineCZ41
 	// DBDailyBackupsDefault is the default number of daily database backups to keep.
 	DBKeepDailyBackupsDefault int = 10
 	// DatabaseBackupStatePending indicates a scheduled but not yet started backup.
@@ -96,7 +94,7 @@ const (
 	MySQLUser string = "dbadmin"
 	// MySQLLocationDefault represents the default MySQL location
 	// if no explicit version was specified.
-	MySQLLocationDefault = meta.LocationNineCZ41
+	MySQLLocationDefault = meta.LocationNineCZ42
 	// MySQLVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
 	MySQLVersionDefault MySQLVersion = MySQLVersion84
@@ -171,7 +169,7 @@ const (
 	PostgresUser string = "dbadmin"
 	// PostgresLocationDefault represents the default PostgreSQL datacenter location
 	// used if no explicit location was specified.
-	PostgresLocationDefault = meta.LocationNineCZ41
+	PostgresLocationDefault = meta.LocationNineCZ42
 	// PostgresVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
 	PostgresVersionDefault PostgresVersion = PostgresVersion18
@@ -885,7 +883,7 @@ type MySQLParameters struct {
 	// Needs to match the available MachineTypes in that datacenter.
 	//
 	// +optional
-	// +kubebuilder:default:="nine-cz41"
+	// +kubebuilder:default:="nine-cz42"
 	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the MySQL version.
 	// Needs to match an available MySQL Version.
@@ -1345,7 +1343,7 @@ type PostgresParameters struct {
 	// Location specifies in which datacenter the database will be spawned.
 	// Needs to match the available MachineTypes in that datacenter.
 	// +optional
-	// +kubebuilder:default:="nine-cz41"
+	// +kubebuilder:default:="nine-cz42"
 	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the Postgres version.
 	// Needs to match an available Postgres Version.
