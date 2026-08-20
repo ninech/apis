@@ -133,9 +133,6 @@ type GrafanaParameters struct {
 // Deprecated: DataSourceSelection is no longer used and will be removed in a
 // future release.
 type DataSourceSelection struct {
-	// Deprecated: SearchNamespaces is no longer used by the controller.
-	// +optional
-	SearchNamespaces []string `json:"searchNamespaces,omitempty"`
 	// Deprecated: FilterLabels is no longer used by the controller.
 	// +optional
 	FilterLabels map[string]string `json:"filterLabels,omitempty"`
