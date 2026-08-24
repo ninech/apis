@@ -87,6 +87,12 @@ spec:
                         description: 'Deprecated: FilterLabels is no longer used by
                           the controller.'
                         type: object
+                      searchNamespaces:
+                        description: 'Deprecated: SearchNamespaces is no longer used
+                          by the controller.'
+                        items:
+                          type: string
+                        type: array
                     type: object
                   enableAdminAccess:
                     description: |-
