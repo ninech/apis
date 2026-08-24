@@ -159,12 +159,13 @@ spec:
                     - message: RestoreFrom is immutable
                       rule: self == oldSelf
                   version:
-                    default: "17"
+                    default: "18"
                     description: |-
                       Version specifies the Postgres version.
                       Needs to match an available Postgres Version.
                     enum:
                     - "17"
+                    - "18"
                     type: string
                 type: object
                 x-kubernetes-validations:

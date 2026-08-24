@@ -19162,10 +19162,11 @@
                     ]
                   },
                   "version": {
-                    "default": "8",
+                    "default": "8.4",
                     "description": "Version specifies the MySQL version.\nNeeds to match an available MySQL Version.",
                     "enum": [
-                      "8"
+                      "8",
+                      "8.4"
                     ],
                     "type": "string"
                   }
@@ -20774,10 +20775,11 @@
                     ]
                   },
                   "version": {
-                    "default": "17",
+                    "default": "18",
                     "description": "Version specifies the Postgres version.\nNeeds to match an available Postgres Version.",
                     "enum": [
-                      "17"
+                      "17",
+                      "18"
                     ],
                     "type": "string"
                   }
