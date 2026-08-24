@@ -63,6 +63,16 @@ const (
 	DatabaseBackupScheduleTTLMax = 365 * 24 * time.Hour
 	// DatabaseBackupMinimumInterval is the minimum interval between two backups.
 	DatabaseBackupMinimumInterval = 1 * time.Hour
+	// DatabaseRestoreStatePending indicates a scheduled but not yet started restore.
+	DatabaseRestoreStatePending DatabaseRestoreState = "pending"
+	// DatabaseRestoreStateSucceeded indicates that the restore was completed successfully.
+	DatabaseRestoreStateSucceeded DatabaseRestoreState = "succeeded"
+	// DatabaseRestoreStateRunning indicates that the restore is still running.
+	DatabaseRestoreStateRunning DatabaseRestoreState = "running"
+	// DatabaseRestoreStateFailed indicates that the restore was unable to complete successfully.
+	DatabaseRestoreStateFailed DatabaseRestoreState = "failed"
+	// DatabaseRestoreStateUnknown indicates the restore's state to be unknown.
+	DatabaseRestoreStateUnknown DatabaseRestoreState = "unknown"
 	// KeyValueStoreVersion7 KeyValueStore version 7
 	KeyValueStoreVersion7 KeyValueStoreVersion = "7"
 	// KeyValueStoreUser is the name of the KeyValueStore user account.
@@ -719,6 +729,91 @@ type DatabaseBackupScheduleObservation struct {
 	Next metav1.Time `json:"next,omitempty"`
 }
 
+// DatabaseRestore restores a single database from an object store.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type DatabaseRestore struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              DatabaseRestoreSpec   `json:"spec"`
+	Status            DatabaseRestoreStatus `json:"status,omitempty"`
+}
+
+// DatabaseRestoreList contains a list of DatabaseRestores.
+// +kubebuilder:object:root=true
+type DatabaseRestoreList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []DatabaseRestore `json:"items"`
+}
+
+// A DatabaseRestoreSpec defines the desired state of a DatabaseRestore.
+type DatabaseRestoreSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            DatabaseRestoreParameters `json:"forProvider"`
+}
+
+// DatabaseRestoreParameters are the configurable fields of a DatabaseRestore.
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.location) || (has(self.location) && self.location == oldSelf.location)",message="location is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.name) || (has(self.name) && self.name == oldSelf.name)",message="name is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.owner) || (has(self.owner) && self.owner == oldSelf.owner)",message="owner is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="!has(oldSelf.image) || (has(self.image) && self.image == oldSelf.image)",message="image is immutable and cannot be unset"
+type DatabaseRestoreParameters struct {
+	// Location specifies where the restore job is executed.
+	// This field should be left blank because the location of the referenced Target database is chosen by default.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="location is immutable after creation"
+	// +optional
+	Location meta.LocationName `json:"location,omitempty"`
+	// Backup is a reference to the DatabaseBackup that is to be restored.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="backup is immutable after creation"
+	Backup meta.LocalReference `json:"backup"`
+	// Target is a reference to a Postgres, PostgresDatabase, MySQL or MySQLDatabase object to
+	// restore the database backup to.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="target is immutable after creation"
+	Target meta.LocalTypedReference `json:"target"`
+	// Name is the name of the database to be restored to. This is required for
+	// MySQL and Postgres types as there can be multiple databases on these servers.
+	// For shared databases like MySQLDatabase or PostgresDatabase this field is automatically populated and needs to be left empty.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="name is immutable after creation"
+	// +optional
+	Name string `json:"name,omitempty"`
+	// Owner is the owner of the database to be restored.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="owner is immutable after creation"
+	Owner string `json:"owner,omitempty"`
+	// Image is the container image used for the backup job.
+	// This field should be left blank: it is defaulted from the referenced backup.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf || oldSelf == ''",message="image is immutable after creation"
+	// +optional
+	Image string `json:"image,omitempty"`
+}
+
+// A DatabaseRestoreStatus represents the observed state of a DatabaseRestore.
+type DatabaseRestoreStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               DatabaseRestoreObservation `json:"atProvider,omitempty"`
+}
+
+// DatabaseRestoreObservation are the observable fields of a DatabaseRestore.
+type DatabaseRestoreObservation struct {
+	// State represents the restore state.
+	// +kubebuilder:default:=unknown
+	// +optional
+	State DatabaseRestoreState `json:"state,omitempty"`
+	// Start is the time when the restore operation started.
+	// +optional
+	Start metav1.Time `json:"start,omitempty"`
+	// End is the time when the restore operation ended.
+	// +optional
+	End metav1.Time `json:"end,omitempty"`
+}
+
+// DatabaseRestoreState represents the backup state.
+type DatabaseRestoreState string
+
 // KeyValueStore deploys an on-demand KeyValueStore instance.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="MEMORY-SIZE",type="string",JSONPath=".spec.forProvider.memorySize"
@@ -1071,6 +1166,9 @@ type MySQLDatabaseSpec struct {
 // MySQLDatabaseParameters are the configurable fields of a MySQLDatabase.
 // +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="has(oldSelf.restoreFrom) == has(self.restoreFrom)",message="RestoreFrom can not be added or removed after creation"
+// +kubebuilder:validation:XValidation:rule="has(oldSelf.cloneFrom) == has(self.cloneFrom)",message="CloneFrom can not be added or removed after creation"
+// +kubebuilder:validation:XValidation:rule="!(has(self.restoreFrom) && has(self.cloneFrom))",message="RestoreFrom and CloneFrom are mutually exclusive"
 type MySQLDatabaseParameters struct {
 	// Location specifies in which data center the database will be spawned.
 	// +optional
@@ -1098,6 +1196,19 @@ type MySQLDatabaseParameters struct {
 	// +kubebuilder:default:=daily
 	// +optional
 	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
+	// RestoreFrom references a DatabaseBackup which is restored into this
+	// database once it is ready. It can only be set when the database is
+	// created.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="RestoreFrom is immutable"
+	// +optional
+	RestoreFrom *meta.LocalReference `json:"restoreFrom,omitempty"`
+	// CloneFrom references another MySQLDatabase to clone into this database
+	// once it is ready, by taking a fresh backup of the referenced database and
+	// restoring it. It can only be set when the database is created and is
+	// mutually exclusive with RestoreFrom.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="CloneFrom is immutable"
+	// +optional
+	CloneFrom *meta.LocalReference `json:"cloneFrom,omitempty"`
 }
 
 // A MySQLDatabaseStatus represents the observed state of a MySQLDatabase.
@@ -1122,11 +1233,35 @@ type MySQLDatabaseObservation struct {
 	Locked string `json:"locked,omitempty"`
 	// Database details
 	DatabaseObservation `json:",inline"`
+	// Bootstrap records the outcome of the restore which gave the database its
+	// initial contents. It is only set on a database created from a backup or
+	// as a clone of another database, and never changes once set.
+	// +optional
+	Bootstrap *BootstrapStatus `json:"bootstrap,omitempty"`
 	// CACert is the certificate of the CA that is used by the service.
 	// The value is a base64 encoded PEM.
 	CACert string `json:"caCert,omitempty"`
 	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
+}
+
+// BootstrapStatus records the outcome of a database's bootstrap restore. That
+// is the restore composed for its restoreFrom or cloneFrom reference, which
+// gave the database its initial contents.
+//
+// The field is written once and never changes. Once it is set, the bootstrap
+// restore is never composed, acknowledged or run again. A deleted
+// DatabaseRestore can therefore not overwrite the database's data.
+type BootstrapStatus struct {
+	// State is the final state the bootstrap restore reached.
+	// +kubebuilder:validation:Enum=succeeded;failed
+	State DatabaseRestoreState `json:"state"`
+	// Restore names the DatabaseRestore which ran. For a clone the ephemeral
+	// DatabaseBackup carries the same name. A succeeded restore is
+	// garbage-collected, so neither object necessarily still exists.
+	Restore string `json:"restore"`
+	// End is the time the bootstrap restore reached its final state.
+	End metav1.Time `json:"end"`
 }
 
 // OpenSearch deploys an on-demand OpenSearch instance.
@@ -1441,6 +1576,9 @@ type PostgresDatabaseSpec struct {
 // +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.version == oldSelf.version",message="Version is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="self.collation == oldSelf.collation",message="Collation is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="has(oldSelf.restoreFrom) == has(self.restoreFrom)",message="RestoreFrom can not be added or removed after creation"
+// +kubebuilder:validation:XValidation:rule="has(oldSelf.cloneFrom) == has(self.cloneFrom)",message="CloneFrom can not be added or removed after creation"
+// +kubebuilder:validation:XValidation:rule="!(has(self.restoreFrom) && has(self.cloneFrom))",message="RestoreFrom and CloneFrom are mutually exclusive"
 type PostgresDatabaseParameters struct {
 	// Location specifies in which data center the database will be spawned.
 	// +optional
@@ -1470,6 +1608,19 @@ type PostgresDatabaseParameters struct {
 	// +kubebuilder:default:=daily
 	// +optional
 	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
+	// RestoreFrom references a DatabaseBackup which is restored into this
+	// database once it is ready. It can only be set when the database is
+	// created.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="RestoreFrom is immutable"
+	// +optional
+	RestoreFrom *meta.LocalReference `json:"restoreFrom,omitempty"`
+	// CloneFrom references another PostgresDatabase to clone into this database
+	// once it is ready, by taking a fresh backup of the referenced database and
+	// restoring it. It can only be set when the database is created and is
+	// mutually exclusive with RestoreFrom.
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="CloneFrom is immutable"
+	// +optional
+	CloneFrom *meta.LocalReference `json:"cloneFrom,omitempty"`
 }
 
 // PostgresDatabaseCollation defines the LC_COLLATE and LC_CTYPE of a Postgres database.
@@ -1497,6 +1648,11 @@ type PostgresDatabaseObservation struct {
 	Locked string `json:"locked,omitempty"`
 	// Database details
 	DatabaseObservation `json:",inline"`
+	// Bootstrap records the outcome of the restore which gave the database its
+	// initial contents. It is only set on a database created from a backup or
+	// as a clone of another database, and never changes once set.
+	// +optional
+	Bootstrap *BootstrapStatus `json:"bootstrap,omitempty"`
 	// CACert is the certificate of the CA that is used by the service.
 	// The value is a base64 encoded PEM.
 	CACert string `json:"caCert,omitempty"`

@@ -4,14 +4,14 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.18.0
-  name: postgresdatabases.storage.nine.ch
+  name: databaserestores.storage.nine.ch
 spec:
   group: storage.nine.ch
   names:
-    kind: PostgresDatabase
-    listKind: PostgresDatabaseList
-    plural: postgresdatabases
-    singular: postgresdatabase
+    kind: DatabaseRestore
+    listKind: DatabaseRestoreList
+    plural: databaserestores
+    singular: databaserestore
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -27,7 +27,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: PostgresDatabase deploys a Postgres database.
+        description: DatabaseRestore restores a single database from an object store.
         properties:
           apiVersion:
             description: |-
@@ -47,7 +47,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: A PostgresDatabaseSpec defines the desired state of a PostgresDatabase.
+            description: A DatabaseRestoreSpec defines the desired state of a DatabaseRestore.
             properties:
               deletionPolicy:
                 default: Delete
@@ -64,25 +64,12 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                description: PostgresDatabaseParameters are the configurable fields
-                  of a PostgresDatabase.
+                description: DatabaseRestoreParameters are the configurable fields
+                  of a DatabaseRestore.
                 properties:
-                  backupSchedule:
-                    default: daily
-                    description: |-
-                      BackupSchedule defines the backup schedule for this database.
-                      Backups can be scheduled daily or disabled entirely.
-                      When enabled, a DatabaseBackupSchedule resource is automatically created.
-                    enum:
-                    - disabled
-                    - daily
-                    type: string
-                  cloneFrom:
-                    description: |-
-                      CloneFrom references another PostgresDatabase to clone into this database
-                      once it is ready, by taking a fresh backup of the referenced database and
-                      restoring it. It can only be set when the database is created and is
-                      mutually exclusive with RestoreFrom.
+                  backup:
+                    description: Backup is a reference to the DatabaseBackup that
+                      is to be restored.
                     properties:
                       name:
                         description: Name of the target.
@@ -91,95 +78,79 @@ spec:
                     - name
                     type: object
                     x-kubernetes-validations:
-                    - message: CloneFrom is immutable
+                    - message: backup is immutable after creation
                       rule: self == oldSelf
-                  collation:
-                    default: C.UTF-8
+                  image:
                     description: |-
-                      Collation configures the LC_COLLATE and LC_CTYPE of the database.
-                      This is only applied during database creation and cannot be changed afterwards.
-                    enum:
-                    - C.UTF-8
-                    - C
-                    - de_CH.UTF-8
-                    - de_CH
-                    - de_DE.UTF-8
-                    - de_DE
-                    - fr_CH.UTF-8
-                    - fr_CH
-                    - fr_FR.UTF-8
-                    - fr_FR
-                    - it_CH.UTF-8
-                    - it_CH
-                    - it_IT.UTF-8
-                    - it_IT
-                    - en_US.UTF-8
-                    - en_US
+                      Image is the container image used for the backup job.
+                      This field should be left blank: it is defaulted from the referenced backup.
                     type: string
-                  instanceRef:
-                    description: |-
-                      InstanceRef is the instance that contains the database.
-                      It is not possible to configure this value manually.
-                    properties:
-                      name:
-                        description: Name of the target.
-                        type: string
-                      namespace:
-                        description: Namespace of the target.
-                        type: string
-                    required:
-                    - name
-                    - namespace
-                    type: object
                     x-kubernetes-validations:
-                    - message: InstanceReference is immutable
-                      rule: self == oldSelf
+                    - message: image is immutable after creation
+                      rule: self == oldSelf || oldSelf == ''
                   location:
-                    default: nine-es34
-                    description: Location specifies in which data center the database
-                      will be spawned.
+                    description: |-
+                      Location specifies where the restore job is executed.
+                      This field should be left blank because the location of the referenced Target database is chosen by default.
                     enum:
                     - nine-cz41
                     - nine-cz42
                     - nine-es34
                     type: string
-                  restoreFrom:
+                    x-kubernetes-validations:
+                    - message: location is immutable after creation
+                      rule: self == oldSelf
+                  name:
                     description: |-
-                      RestoreFrom references a DatabaseBackup which is restored into this
-                      database once it is ready. It can only be set when the database is
-                      created.
+                      Name is the name of the database to be restored to. This is required for
+                      MySQL and Postgres types as there can be multiple databases on these servers.
+                      For shared databases like MySQLDatabase or PostgresDatabase this field is automatically populated and needs to be left empty.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: name is immutable after creation
+                      rule: self == oldSelf
+                  owner:
+                    description: Owner is the owner of the database to be restored.
+                    type: string
+                    x-kubernetes-validations:
+                    - message: owner is immutable after creation
+                      rule: self == oldSelf
+                  target:
+                    description: |-
+                      Target is a reference to a Postgres, PostgresDatabase, MySQL or MySQLDatabase object to
+                      restore the database backup to.
                     properties:
+                      group:
+                        type: string
+                      kind:
+                        type: string
                       name:
                         description: Name of the target.
                         type: string
                     required:
+                    - group
+                    - kind
                     - name
                     type: object
                     x-kubernetes-validations:
-                    - message: RestoreFrom is immutable
+                    - message: target is immutable after creation
                       rule: self == oldSelf
-                  version:
-                    default: "17"
-                    description: |-
-                      Version specifies the Postgres version.
-                      Needs to match an available Postgres Version.
-                    enum:
-                    - "17"
-                    type: string
+                required:
+                - backup
+                - target
                 type: object
                 x-kubernetes-validations:
-                - message: Location is immutable and cannot be unset
-                  rule: self.location == oldSelf.location
-                - message: Version is immutable and cannot be unset
-                  rule: self.version == oldSelf.version
-                - message: Collation is immutable and cannot be unset
-                  rule: self.collation == oldSelf.collation
-                - message: RestoreFrom can not be added or removed after creation
-                  rule: has(oldSelf.restoreFrom) == has(self.restoreFrom)
-                - message: CloneFrom can not be added or removed after creation
-                  rule: has(oldSelf.cloneFrom) == has(self.cloneFrom)
-                - message: RestoreFrom and CloneFrom are mutually exclusive
-                  rule: '!(has(self.restoreFrom) && has(self.cloneFrom))'
+                - message: location is immutable and cannot be unset
+                  rule: '!has(oldSelf.location) || (has(self.location) && self.location
+                    == oldSelf.location)'
+                - message: name is immutable and cannot be unset
+                  rule: '!has(oldSelf.name) || (has(self.name) && self.name == oldSelf.name)'
+                - message: owner is immutable and cannot be unset
+                  rule: '!has(oldSelf.owner) || (has(self.owner) && self.owner ==
+                    oldSelf.owner)'
+                - message: image is immutable and cannot be unset
+                  rule: '!has(oldSelf.image) || (has(self.image) && self.image ==
+                    oldSelf.image)'
               managementPolicies:
                 default:
                 - '*'
@@ -348,121 +319,25 @@ spec:
             - forProvider
             type: object
           status:
-            description: A PostgresDatabaseStatus represents the observed state of
-              a PostgresDatabase.
+            description: A DatabaseRestoreStatus represents the observed state of
+              a DatabaseRestore.
             properties:
               atProvider:
-                description: PostgresDatabaseObservation are the observable fields
-                  of a PostgresDatabase.
+                description: DatabaseRestoreObservation are the observable fields
+                  of a DatabaseRestore.
                 properties:
-                  bootstrap:
-                    description: |-
-                      Bootstrap records the outcome of the restore which gave the database its
-                      initial contents. It is only set on a database created from a backup or
-                      as a clone of another database, and never changes once set.
-                    properties:
-                      end:
-                        description: End is the time the bootstrap restore reached
-                          its final state.
-                        format: date-time
-                        type: string
-                      restore:
-                        description: |-
-                          Restore names the DatabaseRestore which ran. For a clone the ephemeral
-                          DatabaseBackup carries the same name. A succeeded restore is
-                          garbage-collected, so neither object necessarily still exists.
-                        type: string
-                      state:
-                        description: State is the final state the bootstrap restore
-                          reached.
-                        enum:
-                        - succeeded
-                        - failed
-                        type: string
-                    required:
-                    - end
-                    - restore
-                    - state
-                    type: object
-                  caCert:
-                    description: |-
-                      CACert is the certificate of the CA that is used by the service.
-                      The value is a base64 encoded PEM.
+                  end:
+                    description: End is the time when the restore operation ended.
+                    format: date-time
                     type: string
-                  childResourceErrors:
-                    description: ChildResourceErrors of a managed resource.
-                    items:
-                      description: |-
-                        ChildResourceError is an error that occurred on a child resource of
-                        a managed resource.
-                      properties:
-                        message:
-                          description: Message that describes why the resource failed.
-                          type: string
-                        resource:
-                          description: Resource references the child resource that
-                            errored.
-                          properties:
-                            name:
-                              description: Name of the target.
-                              type: string
-                            namespace:
-                              description: Namespace of the target.
-                              type: string
-                          required:
-                          - name
-                          - namespace
-                          type: object
-                        type:
-                          description: Type specifies the type of the resource.
-                          properties:
-                            group:
-                              type: string
-                            kind:
-                              type: string
-                            version:
-                              type: string
-                          required:
-                          - group
-                          - kind
-                          - version
-                          type: object
-                      required:
-                      - message
-                      - resource
-                      - type
-                      type: object
-                    type: array
-                  connections:
-                    default: 0
-                    description: Connections indicates the number of connections on
-                      a database.
-                    type: integer
-                  fqdn:
-                    description: FQDN is the fully qualified domain name at which
-                      the database is accessible.
+                  start:
+                    description: Start is the time when the restore operation started.
+                    format: date-time
                     type: string
-                  locked:
-                    description: Locked reports why a database has been locked.
+                  state:
+                    default: unknown
+                    description: State represents the restore state.
                     type: string
-                  name:
-                    description: Name of the database and user.
-                    type: string
-                  privateNetworkingFQDN:
-                    description: PrivateNetworkingFQDN is the magic DNS name of a
-                      service connection destination.
-                    type: string
-                  size:
-                    anyOf:
-                    - type: integer
-                    - type: string
-                    default: 0
-                    description: Size indicates the total size of the database.
-                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                    x-kubernetes-int-or-string: true
-                required:
-                - connections
-                - size
                 type: object
               conditions:
                 description: Conditions of the resource.
@@ -517,8 +392,6 @@ spec:
                   it can not recover from without human intervention.
                 format: int64
                 type: integer
-            required:
-            - atProvider
             type: object
         required:
         - spec
