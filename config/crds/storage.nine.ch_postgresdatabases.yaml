@@ -77,22 +77,6 @@ spec:
                     - disabled
                     - daily
                     type: string
-                  cloneFrom:
-                    description: |-
-                      CloneFrom references another PostgresDatabase to clone into this database
-                      once it is ready, by taking a fresh backup of the referenced database and
-                      restoring it. It can only be set when the database is created and is
-                      mutually exclusive with RestoreFrom.
-                    properties:
-                      name:
-                        description: Name of the target.
-                        type: string
-                    required:
-                    - name
-                    type: object
-                    x-kubernetes-validations:
-                    - message: CloneFrom is immutable
-                      rule: self == oldSelf
                   collation:
                     default: C.UTF-8
                     description: |-
@@ -143,21 +127,6 @@ spec:
                     - nine-cz42
                     - nine-es34
                     type: string
-                  restoreFrom:
-                    description: |-
-                      RestoreFrom references a DatabaseBackup which is restored into this
-                      database once it is ready. It can only be set when the database is
-                      created.
-                    properties:
-                      name:
-                        description: Name of the target.
-                        type: string
-                    required:
-                    - name
-                    type: object
-                    x-kubernetes-validations:
-                    - message: RestoreFrom is immutable
-                      rule: self == oldSelf
                   version:
                     default: "17"
                     description: |-
@@ -174,12 +143,6 @@ spec:
                   rule: self.version == oldSelf.version
                 - message: Collation is immutable and cannot be unset
                   rule: self.collation == oldSelf.collation
-                - message: RestoreFrom can not be added or removed after creation
-                  rule: has(oldSelf.restoreFrom) == has(self.restoreFrom)
-                - message: CloneFrom can not be added or removed after creation
-                  rule: has(oldSelf.cloneFrom) == has(self.cloneFrom)
-                - message: RestoreFrom and CloneFrom are mutually exclusive
-                  rule: '!(has(self.restoreFrom) && has(self.cloneFrom))'
               managementPolicies:
                 default:
                 - '*'
@@ -355,35 +318,6 @@ spec:
                 description: PostgresDatabaseObservation are the observable fields
                   of a PostgresDatabase.
                 properties:
-                  bootstrap:
-                    description: |-
-                      Bootstrap records the outcome of the restore which gave the database its
-                      initial contents. It is only set on a database created from a backup or
-                      as a clone of another database, and never changes once set.
-                    properties:
-                      end:
-                        description: End is the time the bootstrap restore reached
-                          its final state.
-                        format: date-time
-                        type: string
-                      restore:
-                        description: |-
-                          Restore names the DatabaseRestore which ran. For a clone the ephemeral
-                          DatabaseBackup carries the same name. A succeeded restore is
-                          garbage-collected, so neither object necessarily still exists.
-                        type: string
-                      state:
-                        description: State is the final state the bootstrap restore
-                          reached.
-                        enum:
-                        - succeeded
-                        - failed
-                        type: string
-                    required:
-                    - end
-                    - restore
-                    - state
-                    type: object
                   caCert:
                     description: |-
                       CACert is the certificate of the CA that is used by the service.
