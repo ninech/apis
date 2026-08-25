@@ -304,10 +304,6 @@ spec:
                                   - standard-2
                                   - standard-4
                                   type: string
-                                timeZone:
-                                  description: TimeZone defines the time zone the
-                                    schedule is evaluated in (e.g. "Europe/Zurich").
-                                  type: string
                                 timeout:
                                   default: 5m
                                   description: Timeout of the job. Minimum is 1 minute

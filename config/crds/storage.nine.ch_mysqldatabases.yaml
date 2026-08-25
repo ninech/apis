@@ -489,13 +489,12 @@ spec:
                     - message: RestoreFrom is immutable
                       rule: self == oldSelf
                   version:
-                    default: "8.4"
+                    default: "8"
                     description: |-
                       Version specifies the MySQL version.
                       Needs to match an available MySQL Version.
                     enum:
                     - "8"
-                    - "8.4"
                     type: string
                 type: object
                 x-kubernetes-validations:

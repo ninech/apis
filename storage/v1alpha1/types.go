@@ -131,7 +131,7 @@ const (
 	MySQLDatabaseLocationDefault = meta.LocationNineES34
 	// MySQLDatabaseVersionDefault represents the default MySQL version used
 	// if no explicit version was specified.
-	MySQLDatabaseVersionDefault MySQLVersion = MySQLVersion84
+	MySQLDatabaseVersionDefault MySQLVersion = MySQLVersion8
 	// OpenSearchVersion2 OpenSearch version 2
 	OpenSearchVersion2 OpenSearchVersion = "2"
 	// OpenSearchVersion3 OpenSearch version 3
@@ -194,7 +194,7 @@ const (
 	PostgresDatabaseLocationDefault = meta.LocationNineES34
 	// PostgresDatabaseVersionDefault represents the default PostgreSQL version used
 	// if no explicit version was specified.
-	PostgresDatabaseVersionDefault PostgresVersion = PostgresVersion18
+	PostgresDatabaseVersionDefault PostgresVersion = PostgresVersion17
 	// PostgresDatabaseCollationDefault is the default collation for a PostgresDatabase.
 	PostgresDatabaseCollationDefault PostgresDatabaseCollation = "C.UTF-8"
 )
@@ -226,8 +226,6 @@ var (
 	MySQLDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
 	// MySQLDatabaseVersions is a list of all available MySQLVersions.
 	MySQLDatabaseVersions = []MySQLVersion{MySQLDatabaseVersionDefault}
-	// MySQLDatabaseVersionsDeprecated is a list of all deprecated MySQLVersions for MySQLDatabase.
-	MySQLDatabaseVersionsDeprecated = []MySQLVersion{MySQLVersion8}
 	// OpenSearchMachineTypeDefault represents the default machine type for OpenSearch clusters.
 	OpenSearchMachineTypeDefault = infra.MachineTypeNineSearchS
 	// OpenSearchVersions represents the available versions of OpenSearch.
@@ -253,9 +251,7 @@ var (
 	// PostgresDatabaseLocationOptions is a list of available datacenter locations.
 	PostgresDatabaseLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
 	// PostgresDatabaseVersions is a list of all available PostgresVersions.
-	PostgresDatabaseVersions = []PostgresVersion{PostgresVersion18, PostgresVersion17}
-	// PostgresDatabaseVersionsDeprecated is a list of all deprecated PostgresVersions for PostgresDatabase.
-	PostgresDatabaseVersionsDeprecated = []PostgresVersion{PostgresVersion16, PostgresVersion15, PostgresVersion14, PostgresVersion13}
+	PostgresDatabaseVersions = []PostgresVersion{PostgresDatabaseVersionDefault}
 )
 
 // BucketRole defines what kind of access is possible.
@@ -1182,8 +1178,8 @@ type MySQLDatabaseParameters struct {
 	// Needs to match an available MySQL Version.
 	// +immutable
 	// +optional
-	// +kubebuilder:validation:Enum="8";"8.4"
-	// +kubebuilder:default:="8.4"
+	// +kubebuilder:validation:Enum="8"
+	// +kubebuilder:default:="8"
 	Version MySQLVersion `json:"version,omitempty"`
 	// CharacterSet configures the `character_set_server` and collation_server` variables.
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="CharacterSet is immutable"
@@ -1592,8 +1588,8 @@ type PostgresDatabaseParameters struct {
 	// Needs to match an available Postgres Version.
 	// +immutable
 	// +optional
-	// +kubebuilder:validation:Enum="17";"18"
-	// +kubebuilder:default:="18"
+	// +kubebuilder:validation:Enum="17"
+	// +kubebuilder:default:="17"
 	Version PostgresVersion `json:"version,omitempty"`
 	// Collation configures the LC_COLLATE and LC_CTYPE of the database.
 	// This is only applied during database creation and cannot be changed afterwards.

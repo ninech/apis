@@ -385,9 +385,6 @@ type ScheduledJob struct {
 	FiniteJob `json:",inline"`
 	// Schedule defines the schedule in crontab syntax
 	Schedule string `json:"schedule"`
-	// TimeZone defines the time zone the schedule is evaluated in (e.g. "Europe/Zurich").
-	// +optional
-	TimeZone string `json:"timeZone,omitempty"`
 	// Size defines the amount of CPU and memory which this job can make use of
 	// +optional
 	// +kubebuilder:default:="micro"
