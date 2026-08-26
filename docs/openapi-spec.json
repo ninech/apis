@@ -6739,7 +6739,7 @@
                     "description": "VCluster is a virtual KubernetesCluster running on top of NKE.\nExperimental and should only be used for development and testing.",
                     "properties": {
                       "version": {
-                        "default": "1.34",
+                        "default": "1.33",
                         "description": "Version specifies the Kubernetes version that will be used for this\ncluster, e.g. \"1.34\". The patch version cannot be specified and the\nlatest supported one will be used.",
                         "enum": [
                           "1.26",
