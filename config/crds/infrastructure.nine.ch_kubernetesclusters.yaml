@@ -546,7 +546,7 @@ spec:
                       Experimental and should only be used for development and testing.
                     properties:
                       version:
-                        default: "1.34"
+                        default: "1.33"
                         description: |-
                           Version specifies the Kubernetes version that will be used for this
                           cluster, e.g. "1.34". The patch version cannot be specified and the

@@ -442,7 +442,7 @@ spec:
                     minimum: 0
                     type: integer
                   location:
-                    default: nine-cz42
+                    default: nine-cz41
                     description: |-
                       Location specifies in which datacenter the database will be spawned.
                       Needs to match the available MachineTypes in that datacenter.
