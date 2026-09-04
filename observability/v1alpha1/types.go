@@ -4,6 +4,7 @@ import (
 	runtimev1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	meta "github.com/ninech/apis/meta/v1alpha1"
 	"github.com/prometheus/common/model"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -216,6 +217,14 @@ type LokiStatus struct {
 // LokiObservation are the observable fields of a Loki.
 type LokiObservation struct {
 	meta.ChildResourceStatus `json:",inline"`
+	// Requests contains the CPU, memory and persistent storage requests of all
+	// deployed Loki components, see
+	// [LokiConfiguration.DeployedRequests]. They can deviate from the defaults
+	// of [LokiResourceRequests], as the requests of the components are
+	// continuously adapted to the actual consumption by vertical pod
+	// autoscalers.
+	// +optional
+	Requests corev1.ResourceList `json:"requests,omitempty"`
 }
 
 // MetricsAgent deploys a Metrics collection agent.

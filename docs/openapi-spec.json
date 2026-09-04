@@ -10955,6 +10955,22 @@
                       "type": "object"
                     },
                     "type": "array"
+                  },
+                  "requests": {
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                      "x-kubernetes-int-or-string": true
+                    },
+                    "description": "Requests contains the CPU, memory and persistent storage requests of all\ndeployed Loki components, see\n[LokiConfiguration.DeployedRequests]. They can deviate from the defaults\nof [LokiResourceRequests], as the requests of the components are\ncontinuously adapted to the actual consumption by vertical pod\nautoscalers.",
+                    "type": "object"
                   }
                 },
                 "type": "object"
