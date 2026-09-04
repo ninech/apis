@@ -178,8 +178,11 @@ type ApplicationParameters struct {
 	Config   Config               `json:"config"`
 	// Hosts is a list of host names where the application can be accessed. If
 	// empty, the application will just be accessible on a generated host name
-	// on the deploio.app domain.
+	// on the deploio.app domain. Limited to 50 to stay under LetsEncrypt's
+	// 100 SAN-per-certificate limit, since all hosts are bundled into a
+	// single certificate.
 	// +optional
+	// +kubebuilder:validation:MaxItems=50
 	Hosts []string `json:"hosts,omitempty"`
 	// Env variables which are passed to configure env variables required during
 	// the build process.
