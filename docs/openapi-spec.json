@@ -10899,6 +10899,22 @@
               "atProvider": {
                 "description": "LokiObservation are the observable fields of a Loki.",
                 "properties": {
+                  "allocatedResources": {
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
+                      "x-kubernetes-int-or-string": true
+                    },
+                    "description": "AllocatedResources shows the CPU, memory and disk which are currently\nallocated to this Loki instance. They are adjusted automatically to the\nload of the instance and are the basis for the usage based part of the\nbill.",
+                    "type": "object"
+                  },
                   "childResourceErrors": {
                     "description": "ChildResourceErrors of a managed resource.",
                     "items": {
