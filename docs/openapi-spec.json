@@ -7692,30 +7692,6 @@
                     "description": "IsPublic specifies whether this ingress controller is reachable from the\noutside. A public controller is exposed with a LoadBalancer service and\ngets a public IP address assigned. A non-public one is exposed with a\nClusterIP service instead. A non-public controller still owns its\nIngressClass and keeps claiming matching Ingress resources without serving\nany external traffic, so its class must not be the default one while it is\nnot public. Defaults to true.",
                     "type": "boolean"
                   },
-                  "redirectFromCode": {
-                    "default": 308,
-                    "description": "RedirectFromCode is the status code of the redirects that the\n\"haproxy-ingress.github.io/redirect-from\" and \"redirect-from-regex\"\nIngress annotations produce, which send a source domain to the host\ndeclared in the Ingress. It applies to every Ingress this controller\nserves.",
-                    "enum": [
-                      301,
-                      302,
-                      303,
-                      307,
-                      308
-                    ],
-                    "type": "integer"
-                  },
-                  "redirectToCode": {
-                    "default": 308,
-                    "description": "RedirectToCode is the status code of the redirects that the\n\"haproxy-ingress.github.io/redirect-to\" Ingress annotation produces,\nwhich sends the host declared in the Ingress to a configured URL. Like\n[IngressHAProxyParameters.RedirectFromCode] it applies to every Ingress\nthis controller serves. Defaults to a permanent 308.",
-                    "enum": [
-                      301,
-                      302,
-                      303,
-                      307,
-                      308
-                    ],
-                    "type": "integer"
-                  },
                   "scrapeConfigurations": {
                     "description": "ScrapeConfigurations allows to overwrite which metrics of the ingress-haproxy\ninstance are scraped by certain MetricsAgent instances.",
                     "items": {
@@ -10899,22 +10875,6 @@
               "atProvider": {
                 "description": "LokiObservation are the observable fields of a Loki.",
                 "properties": {
-                  "allocatedResources": {
-                    "additionalProperties": {
-                      "anyOf": [
-                        {
-                          "type": "integer"
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ],
-                      "pattern": "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$",
-                      "x-kubernetes-int-or-string": true
-                    },
-                    "description": "AllocatedResources shows the CPU, memory and disk which are currently\nallocated to this Loki instance. They are adjusted automatically to the\nload of the instance and are the basis for the usage based part of the\nbill.",
-                    "type": "object"
-                  },
                   "childResourceErrors": {
                     "description": "ChildResourceErrors of a managed resource.",
                     "items": {
