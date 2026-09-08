@@ -6,16 +6,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// IngressHAProxyRedirectCode is the HTTP status code of a redirect that the
-// ingress controller issues.
-//
-// 301 and 308 are permanent and browsers may cache them indefinitely, 302, 303
-// and 307 are temporary. 307 and 308 preserve the request method and body, so a
-// POST stays a POST, while 301, 302 and 303 allow clients to repeat the request
-// as a GET.
-// +kubebuilder:validation:Enum=301;302;303;307;308
-type IngressHAProxyRedirectCode int
-
 // IngressHAProxy deploys an HAProxy ingress controller to a cluster.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -103,22 +93,6 @@ type IngressHAProxyParameters struct {
 	// +optional
 	// +kubebuilder:default:=false
 	DisableHTTP2 bool `json:"disableHTTP2"`
-	// RedirectFromCode is the status code of the redirects that the
-	// "haproxy-ingress.github.io/redirect-from" and "redirect-from-regex"
-	// Ingress annotations produce, which send a source domain to the host
-	// declared in the Ingress. It applies to every Ingress this controller
-	// serves.
-	// +optional
-	// +kubebuilder:default:=308
-	RedirectFromCode IngressHAProxyRedirectCode `json:"redirectFromCode,omitempty"`
-	// RedirectToCode is the status code of the redirects that the
-	// "haproxy-ingress.github.io/redirect-to" Ingress annotation produces,
-	// which sends the host declared in the Ingress to a configured URL. Like
-	// [IngressHAProxyParameters.RedirectFromCode] it applies to every Ingress
-	// this controller serves. Defaults to a permanent 308.
-	// +optional
-	// +kubebuilder:default:=308
-	RedirectToCode IngressHAProxyRedirectCode `json:"redirectToCode,omitempty"`
 	// TLSProtocols to use.
 	// +optional
 	TLSProtocols IngressHAProxyTLSProtocols `json:"tlsProtocols,omitempty"`
