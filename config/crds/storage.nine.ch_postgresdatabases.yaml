@@ -100,13 +100,21 @@ spec:
                       This is only applied during database creation and cannot be changed afterwards.
                     enum:
                     - C.UTF-8
+                    - C
                     - de_CH.UTF-8
+                    - de_CH
                     - de_DE.UTF-8
+                    - de_DE
                     - fr_CH.UTF-8
+                    - fr_CH
                     - fr_FR.UTF-8
+                    - fr_FR
                     - it_CH.UTF-8
+                    - it_CH
                     - it_IT.UTF-8
+                    - it_IT
                     - en_US.UTF-8
+                    - en_US
                     type: string
                   instanceRef:
                     description: |-

@@ -1598,7 +1598,7 @@ type PostgresDatabaseParameters struct {
 	// Collation configures the LC_COLLATE and LC_CTYPE of the database.
 	// This is only applied during database creation and cannot be changed afterwards.
 	// +kubebuilder:default:="C.UTF-8"
-	// +kubebuilder:validation:Enum="C.UTF-8";"de_CH.UTF-8";"de_DE.UTF-8";"fr_CH.UTF-8";"fr_FR.UTF-8";"it_CH.UTF-8";"it_IT.UTF-8";"en_US.UTF-8"
+	// +kubebuilder:validation:Enum="C.UTF-8";"C";"de_CH.UTF-8";"de_CH";"de_DE.UTF-8";"de_DE";"fr_CH.UTF-8";"fr_CH";"fr_FR.UTF-8";"fr_FR";"it_CH.UTF-8";"it_CH";"it_IT.UTF-8";"it_IT";"en_US.UTF-8";"en_US"
 	// +optional
 	Collation PostgresDatabaseCollation `json:"collation,omitempty"`
 	// InstanceRef is the instance that contains the database.
