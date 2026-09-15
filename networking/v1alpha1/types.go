@@ -172,6 +172,18 @@ type IngressHAProxyObservation struct {
 	meta.ReferenceStatus     `json:",inline"`
 }
 
+// IngressHAProxyTimeout is an HAProxy timeout value: a whole number followed by
+// a unit suffix, for example "60s", "1m" or "1h".
+//
+// The suffix is mandatory because HAProxy interprets a bare number as
+// milliseconds, so an unsuffixed "60" would silently configure a 60ms timeout
+// rather than the intended 60 seconds.
+//
+// Note that HAProxy timeouts measure inactivity, not total request duration: a
+// backend that keeps sending data never trips one, however long it runs.
+// +kubebuilder:validation:Pattern=`^[0-9]+(ms|s|m|h)$`
+type IngressHAProxyTimeout string
+
 // IngressHAProxyTLSProtocol is a SSL/TLS protocol that haproxy can use.
 // +kubebuilder:validation:Enum=TLSv1.2;TLSv1.3
 type IngressHAProxyTLSProtocol string
