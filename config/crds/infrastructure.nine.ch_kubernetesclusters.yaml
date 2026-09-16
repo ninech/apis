@@ -568,6 +568,15 @@ spec:
                         - message: only one minor upgrade is allowed
                           rule: double(self) - double(oldSelf) < 0.02
                     type: object
+                  verticalPodAutoscaler:
+                    description: VerticalPodAutoscaler enables the vertical pod autoscaler
+                      for cluster.
+                    type: boolean
+                  verticalPodAutoscalerRecommendOnly:
+                    description: |-
+                      VerticalPodAutoscalerRecommendOnly = true runs only vpa's
+                      recommender (no automatic pod resizing, no admission webhook).
+                    type: boolean
                 required:
                 - location
                 - nodePools

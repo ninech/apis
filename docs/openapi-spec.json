@@ -6766,6 +6766,14 @@
                       }
                     },
                     "type": "object"
+                  },
+                  "verticalPodAutoscaler": {
+                    "description": "VerticalPodAutoscaler enables the vertical pod autoscaler for cluster.",
+                    "type": "boolean"
+                  },
+                  "verticalPodAutoscalerRecommendOnly": {
+                    "description": "VerticalPodAutoscalerRecommendOnly = true runs only vpa's\nrecommender (no automatic pod resizing, no admission webhook).",
+                    "type": "boolean"
                   }
                 },
                 "required": [

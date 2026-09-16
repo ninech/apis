@@ -439,6 +439,13 @@ type KubernetesClusterParameters struct {
 	// by certain Prometheus instances
 	// +optional
 	ScrapeConfigurations *KubernetesClusterScrapeConfiguration `json:"scrapeConfiguration,omitempty"`
+	// VerticalPodAutoscaler enables the vertical pod autoscaler for cluster.
+	// +optional
+	VerticalPodAutoscaler *bool `json:"verticalPodAutoscaler,omitempty"`
+	// VerticalPodAutoscalerRecommendOnly = true runs only vpa's
+	// recommender (no automatic pod resizing, no admission webhook).
+	// +optional
+	VerticalPodAutoscalerRecommendOnly *bool `json:"verticalPodAutoscalerRecommendOnly,omitempty"`
 }
 
 // NKEClusterSettings defines additional fields that a nine KubernetesCluster
