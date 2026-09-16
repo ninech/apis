@@ -352,10 +352,11 @@
                     "type": "object"
                   },
                   "hosts": {
-                    "description": "Hosts is a list of host names where the application can be accessed. If\nempty, the application will just be accessible on a generated host name\non the deploio.app domain.",
+                    "description": "Hosts is a list of host names where the application can be accessed. If\nempty, the application will just be accessible on a generated host name\non the deploio.app domain. Limited to 50 to stay under LetsEncrypt's\n100 SAN-per-certificate limit, since all hosts are bundled into a\nsingle certificate.",
                     "items": {
                       "type": "string"
                     },
+                    "maxItems": 50,
                     "type": "array"
                   },
                   "language": {
