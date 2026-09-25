@@ -702,11 +702,18 @@ spec:
                           garbage-collected, so neither object necessarily still exists.
                         type: string
                       state:
+                        allOf:
+                        - enum:
+                          - pending
+                          - succeeded
+                          - running
+                          - failed
+                          - unknown
+                        - enum:
+                          - succeeded
+                          - failed
                         description: State is the final state the bootstrap restore
                           reached.
-                        enum:
-                        - succeeded
-                        - failed
                         type: string
                     required:
                     - end
