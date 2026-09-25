@@ -17310,6 +17310,13 @@
                   "state": {
                     "default": "unknown",
                     "description": "State represents the restore state.",
+                    "enum": [
+                      "pending",
+                      "succeeded",
+                      "running",
+                      "failed",
+                      "unknown"
+                    ],
                     "type": "string"
                   }
                 },
@@ -19429,11 +19436,24 @@
                         "type": "string"
                       },
                       "state": {
-                        "description": "State is the final state the bootstrap restore reached.",
-                        "enum": [
-                          "succeeded",
-                          "failed"
+                        "allOf": [
+                          {
+                            "enum": [
+                              "pending",
+                              "succeeded",
+                              "running",
+                              "failed",
+                              "unknown"
+                            ]
+                          },
+                          {
+                            "enum": [
+                              "succeeded",
+                              "failed"
+                            ]
+                          }
                         ],
+                        "description": "State is the final state the bootstrap restore reached.",
                         "type": "string"
                       }
                     },
@@ -21038,11 +21058,24 @@
                         "type": "string"
                       },
                       "state": {
-                        "description": "State is the final state the bootstrap restore reached.",
-                        "enum": [
-                          "succeeded",
-                          "failed"
+                        "allOf": [
+                          {
+                            "enum": [
+                              "pending",
+                              "succeeded",
+                              "running",
+                              "failed",
+                              "unknown"
+                            ]
+                          },
+                          {
+                            "enum": [
+                              "succeeded",
+                              "failed"
+                            ]
+                          }
                         ],
+                        "description": "State is the final state the bootstrap restore reached.",
                         "type": "string"
                       }
                     },

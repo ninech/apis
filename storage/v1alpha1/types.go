@@ -41,18 +41,18 @@ const (
 	SyncStatusFailed SyncStatus = "failed"
 	// SyncStatusUnknown indicates the status is unknown.
 	SyncStatusUnknown SyncStatus = "unknown"
+	// DatabaseJobStatePending indicates a scheduled but not yet started job.
+	DatabaseJobStatePending DatabaseJobState = "pending"
+	// DatabaseJobStateSucceeded indicates that the job was completed successfully.
+	DatabaseJobStateSucceeded DatabaseJobState = "succeeded"
+	// DatabaseJobStateRunning indicates that the job is still running.
+	DatabaseJobStateRunning DatabaseJobState = "running"
+	// DatabaseJobStateFailed indicates that the job was unable to complete successfully.
+	DatabaseJobStateFailed DatabaseJobState = "failed"
+	// DatabaseJobStateUnknown indicates the job's state to be unknown.
+	DatabaseJobStateUnknown DatabaseJobState = "unknown"
 	// DBDailyBackupsDefault is the default number of daily database backups to keep.
 	DBKeepDailyBackupsDefault int = 10
-	// DatabaseBackupStatePending indicates a scheduled but not yet started backup.
-	DatabaseBackupStatePending DatabaseBackupState = "pending"
-	// DatabaseBackupStateSucceeded indicates that the backup was completed successfully.
-	DatabaseBackupStateSucceeded DatabaseBackupState = "succeeded"
-	// DatabaseBackupStateRunning indicates that the backup is still running.
-	DatabaseBackupStateRunning DatabaseBackupState = "running"
-	// DatabaseBackupStateFailed indicates that the backup was unable to complete successfully.
-	DatabaseBackupStateFailed DatabaseBackupState = "failed"
-	// DatabaseBackupStateUnknown indicates the backup's state to be unknown.
-	DatabaseBackupStateUnknown DatabaseBackupState = "unknown"
 	// DatabaseBackupScheduleCalendarDisabled disables backup operations.
 	DatabaseBackupScheduleCalendarDisabled DatabaseBackupScheduleCalendar = "disabled"
 	// DatabaseBackupScheduleCalendarDaily sets up daily backups for a database.
@@ -63,16 +63,6 @@ const (
 	DatabaseBackupScheduleTTLMax = 365 * 24 * time.Hour
 	// DatabaseBackupMinimumInterval is the minimum interval between two backups.
 	DatabaseBackupMinimumInterval = 1 * time.Hour
-	// DatabaseRestoreStatePending indicates a scheduled but not yet started restore.
-	DatabaseRestoreStatePending DatabaseRestoreState = "pending"
-	// DatabaseRestoreStateSucceeded indicates that the restore was completed successfully.
-	DatabaseRestoreStateSucceeded DatabaseRestoreState = "succeeded"
-	// DatabaseRestoreStateRunning indicates that the restore is still running.
-	DatabaseRestoreStateRunning DatabaseRestoreState = "running"
-	// DatabaseRestoreStateFailed indicates that the restore was unable to complete successfully.
-	DatabaseRestoreStateFailed DatabaseRestoreState = "failed"
-	// DatabaseRestoreStateUnknown indicates the restore's state to be unknown.
-	DatabaseRestoreStateUnknown DatabaseRestoreState = "unknown"
 	// KeyValueStoreVersion7 KeyValueStore version 7
 	KeyValueStoreVersion7 KeyValueStoreVersion = "7"
 	// KeyValueStoreUser is the name of the KeyValueStore user account.
@@ -629,7 +619,7 @@ type DatabaseBackupObservation struct {
 	// State represents the backup state.
 	// +kubebuilder:default:=unknown
 	// +optional
-	State DatabaseBackupState `json:"state,omitempty"`
+	State DatabaseJobState `json:"state,omitempty"`
 	// Path is the object key name of the backup in the object store bucket.
 	// +optional
 	Path string `json:"path,omitempty"`
@@ -647,9 +637,9 @@ type DatabaseBackupObservation struct {
 	Version DatabaseBackupVersion `json:"version,omitempty"`
 }
 
-// DatabaseBackupState represents the backup state.
+// DatabaseJobState represents the state of a database backup or restore.
 // +kubebuilder:validation:Enum=pending;succeeded;running;failed;unknown
-type DatabaseBackupState string
+type DatabaseJobState string
 
 // DatabaseBackupVersion contains the version information of the backup.
 type DatabaseBackupVersion struct {
@@ -806,7 +796,7 @@ type DatabaseRestoreObservation struct {
 	// State represents the restore state.
 	// +kubebuilder:default:=unknown
 	// +optional
-	State DatabaseRestoreState `json:"state,omitempty"`
+	State DatabaseJobState `json:"state,omitempty"`
 	// Start is the time when the restore operation started.
 	// +optional
 	Start metav1.Time `json:"start,omitempty"`
@@ -814,9 +804,6 @@ type DatabaseRestoreObservation struct {
 	// +optional
 	End metav1.Time `json:"end,omitempty"`
 }
-
-// DatabaseRestoreState represents the backup state.
-type DatabaseRestoreState string
 
 // KeyValueStore deploys an on-demand KeyValueStore instance.
 // +kubebuilder:subresource:status
@@ -1259,7 +1246,7 @@ type MySQLDatabaseObservation struct {
 type BootstrapStatus struct {
 	// State is the final state the bootstrap restore reached.
 	// +kubebuilder:validation:Enum=succeeded;failed
-	State DatabaseRestoreState `json:"state"`
+	State DatabaseJobState `json:"state"`
 	// Restore names the DatabaseRestore which ran. For a clone the ephemeral
 	// DatabaseBackup carries the same name. A succeeded restore is
 	// garbage-collected, so neither object necessarily still exists.
