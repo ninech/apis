@@ -454,12 +454,13 @@ type NKEClusterSettings struct {
 	// Registries in the NKE cluster. Pulling images from these registries
 	// will then work without using image pull secrets.
 	// +optional
-	// +listType=map
-	// +listMapKey=name
-	// +listMapKey=namespace
-	// +listMapKey=group
-	// +listMapKey=kind
+	// +kubebuilder:validation:cel:rule="self.map(r, r.name + '/' + r.namespace + '/' + r.group + '/' + r.kind).distinct().size() == self.size()"
+	// +kubebuilder:validation:cel:message="each referenced container registry must be unique."
 	ContainerRegistries []meta.TypedReference `json:"containerRegistries"`
+	// VerticalPodAutoscaler configures the vertical pod autoscaler for this
+	// cluster.
+	// +optional
+	VerticalPodAutoscaler *VerticalPodAutoscalerCustomerSettings `json:"verticalPodAutoscaler,omitempty"`
 }
 type StaticEgress struct {
 	// Enabled defines if the static egress feature should be enabled or
@@ -476,6 +477,19 @@ type AuditLogConfiguration struct {
 }
 type AuditLogTarget struct {
 	meta.LocalTypedReference `json:",inline"`
+}
+
+// VerticalPodAutoscalerCustomerSettings are the vertical pod autoscaler
+// settings the user can configure for a KubernetesCluster.
+type VerticalPodAutoscalerCustomerSettings struct {
+	// Enabled enables or disables the vertical pod autoscaler for this
+	// cluster.
+	// +optional
+	Enabled *bool `json:"enabled,omitempty"`
+	// RecommendOnly when set to true only shows suggested CPU/memory values
+	// without automatically changing anything.
+	// +optional
+	RecommendOnly *bool `json:"recommendOnly,omitempty"`
 }
 
 // VClusterSettings defines additional fields that a nine KubernetesCluster

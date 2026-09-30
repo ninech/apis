@@ -128,9 +128,6 @@ spec:
                     - "17"
                     - "18"
                     type: string
-                    x-kubernetes-validations:
-                    - message: version is immutable
-                      rule: self == oldSelf
                 type: object
                 x-kubernetes-validations:
                 - message: Location is immutable and cannoth be unset

@@ -133,12 +133,6 @@ spec:
                           - namespace
                           type: object
                         type: array
-                        x-kubernetes-list-map-keys:
-                        - name
-                        - namespace
-                        - group
-                        - kind
-                        x-kubernetes-list-type: map
                       staticEgress:
                         description: StaticEgress defines settings for the static
                           egress feature
@@ -148,6 +142,22 @@ spec:
                             description: |-
                               Enabled defines if the static egress feature should be enabled or
                               disabled
+                            type: boolean
+                        type: object
+                      verticalPodAutoscaler:
+                        description: |-
+                          VerticalPodAutoscaler configures the vertical pod autoscaler for this
+                          cluster.
+                        properties:
+                          enabled:
+                            description: |-
+                              Enabled enables or disables the vertical pod autoscaler for this
+                              cluster.
+                            type: boolean
+                          recommendOnly:
+                            description: |-
+                              RecommendOnly when set to true only shows suggested CPU/memory values
+                              without automatically changing anything.
                             type: boolean
                         type: object
                     type: object
