@@ -89,9 +89,8 @@ spec:
                             type: string
                           retries:
                             default: 0
-                            description: |-
-                              Retries defines how many times the job will be restarted on failure.
-                              Minimum is 0 and maximum is 5.
+                            description: Retries defines how many times the job will
+                              be restarted on failure.
                             format: int32
                             type: integer
                           timeout:
@@ -179,9 +178,8 @@ spec:
                               type: string
                             retries:
                               default: 0
-                              description: |-
-                                Retries defines how many times the job will be restarted on failure.
-                                Minimum is 0 and maximum is 5.
+                              description: Retries defines how many times the job
+                                will be restarted on failure.
                               format: int32
                               type: integer
                             schedule:
