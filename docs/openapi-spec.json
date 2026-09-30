@@ -88,7 +88,7 @@
                           },
                           "retries": {
                             "default": 0,
-                            "description": "Retries defines how many times the job will be restarted on failure.\nMinimum is 0 and maximum is 5.",
+                            "description": "Retries defines how many times the job will be restarted on failure.",
                             "format": "int32",
                             "type": "integer"
                           },
@@ -182,7 +182,7 @@
                             },
                             "retries": {
                               "default": 0,
-                              "description": "Retries defines how many times the job will be restarted on failure.\nMinimum is 0 and maximum is 5.",
+                              "description": "Retries defines how many times the job will be restarted on failure.",
                               "format": "int32",
                               "type": "integer"
                             },
@@ -1006,7 +1006,7 @@
                           },
                           "retries": {
                             "default": 0,
-                            "description": "Retries defines how many times the job will be restarted on failure.\nMinimum is 0 and maximum is 5.",
+                            "description": "Retries defines how many times the job will be restarted on failure.",
                             "format": "int32",
                             "type": "integer"
                           },
@@ -1100,7 +1100,7 @@
                             },
                             "retries": {
                               "default": 0,
-                              "description": "Retries defines how many times the job will be restarted on failure.\nMinimum is 0 and maximum is 5.",
+                              "description": "Retries defines how many times the job will be restarted on failure.",
                               "format": "int32",
                               "type": "integer"
                             },
@@ -1661,7 +1661,7 @@
                           },
                           "retries": {
                             "default": 0,
-                            "description": "Retries defines how many times the job will be restarted on failure.\nMinimum is 0 and maximum is 5.",
+                            "description": "Retries defines how many times the job will be restarted on failure.",
                             "format": "int32",
                             "type": "integer"
                           },
@@ -1755,7 +1755,7 @@
                             },
                             "retries": {
                               "default": 0,
-                              "description": "Retries defines how many times the job will be restarted on failure.\nMinimum is 0 and maximum is 5.",
+                              "description": "Retries defines how many times the job will be restarted on failure.",
                               "format": "int32",
                               "type": "integer"
                             },
@@ -2233,7 +2233,7 @@
                               },
                               "retries": {
                                 "default": 0,
-                                "description": "Retries defines how many times the job will be restarted on failure.\nMinimum is 0 and maximum is 5.",
+                                "description": "Retries defines how many times the job will be restarted on failure.",
                                 "format": "int32",
                                 "type": "integer"
                               },
@@ -2401,7 +2401,7 @@
                                 },
                                 "retries": {
                                   "default": 0,
-                                  "description": "Retries defines how many times the job will be restarted on failure.\nMinimum is 0 and maximum is 5.",
+                                  "description": "Retries defines how many times the job will be restarted on failure.",
                                   "format": "int32",
                                   "type": "integer"
                                 },
@@ -6294,14 +6294,7 @@
                           ],
                           "type": "object"
                         },
-                        "type": "array",
-                        "x-kubernetes-list-map-keys": [
-                          "name",
-                          "namespace",
-                          "group",
-                          "kind"
-                        ],
-                        "x-kubernetes-list-type": "map"
+                        "type": "array"
                       },
                       "staticEgress": {
                         "description": "StaticEgress defines settings for the static egress feature",
@@ -14678,13 +14671,7 @@
                       "nine-cz42",
                       "nine-es34"
                     ],
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "location is immutable",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
+                    "type": "string"
                   },
                   "permissions": {
                     "description": "Permissions configures user access to the objects in this Bucket.",
@@ -14738,13 +14725,7 @@
                     "enum": [
                       "standard"
                     ],
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "storageTier is immutable",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
+                    "type": "string"
                   },
                   "versioning": {
                     "description": "Versioning enables object versioning for this Bucket.",
@@ -18409,13 +18390,7 @@
                       "8",
                       "8.4"
                     ],
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "version is immutable",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
+                    "type": "string"
                   }
                 },
                 "type": "object",
@@ -19257,13 +19232,7 @@
                       "8",
                       "8.4"
                     ],
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "version is immutable",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
+                    "type": "string"
                   }
                 },
                 "type": "object",
@@ -20377,13 +20346,7 @@
                       "17",
                       "18"
                     ],
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "version is immutable",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
+                    "type": "string"
                   }
                 },
                 "type": "object",
@@ -20887,13 +20850,7 @@
                       "17",
                       "18"
                     ],
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "version is immutable",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
+                    "type": "string"
                   }
                 },
                 "type": "object",
