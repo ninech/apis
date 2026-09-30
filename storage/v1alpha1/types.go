@@ -284,10 +284,10 @@ type BucketSpec struct {
 // BucketParameters are the configurable fields of a Bucket.
 type BucketParameters struct {
 	// Location specifies the physical location of the Bucket.
-	// +immutable
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="location is immutable"
 	Location meta.LocationName `json:"location"`
 	// StorageType defines the type of the backing storage for the Bucket.
-	// +immutable
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="storageTier is immutable"
 	// +optional
 	// +kubebuilder:default:="standard"
 	StorageType BucketStorageType `json:"storageTier,omitempty"`
@@ -977,7 +977,7 @@ type MySQLParameters struct {
 	// The enum must cover every version still running an instance.
 	// Creation of deprecated versions is rejected by the webhook.
 	//
-	// +immutable
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="version is immutable"
 	// +optional
 	// +kubebuilder:validation:Enum="8";"8.4"
 	// +kubebuilder:default:="8.4"
@@ -1167,7 +1167,7 @@ type MySQLDatabaseParameters struct {
 	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the MySQL version.
 	// Needs to match an available MySQL Version.
-	// +immutable
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="version is immutable"
 	// +optional
 	// +kubebuilder:validation:Enum="8";"8.4"
 	// +kubebuilder:default:="8.4"
@@ -1477,7 +1477,7 @@ type PostgresParameters struct {
 	// The enum must cover every version still running an instance.
 	// Creation of deprecated versions is rejected by the webhook.
 	//
-	// +immutable
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="version is immutable"
 	// +optional
 	// +kubebuilder:validation:Enum="15";"16";"17";"18"
 	// +kubebuilder:default:="18"
@@ -1577,7 +1577,7 @@ type PostgresDatabaseParameters struct {
 	Location meta.LocationName `json:"location,omitempty"`
 	// Version specifies the Postgres version.
 	// Needs to match an available Postgres Version.
-	// +immutable
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="version is immutable"
 	// +optional
 	// +kubebuilder:validation:Enum="17";"18"
 	// +kubebuilder:default:="18"

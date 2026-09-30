@@ -454,8 +454,11 @@ type NKEClusterSettings struct {
 	// Registries in the NKE cluster. Pulling images from these registries
 	// will then work without using image pull secrets.
 	// +optional
-	// +kubebuilder:validation:cel:rule="self.map(r, r.name + '/' + r.namespace + '/' + r.group + '/' + r.kind).distinct().size() == self.size()"
-	// +kubebuilder:validation:cel:message="each referenced container registry must be unique."
+	// +listType=map
+	// +listMapKey=name
+	// +listMapKey=namespace
+	// +listMapKey=group
+	// +listMapKey=kind
 	ContainerRegistries []meta.TypedReference `json:"containerRegistries"`
 }
 type StaticEgress struct {
