@@ -6,7 +6,6 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"time"
 )
 
 const (
@@ -61,15 +60,6 @@ const (
 	ConfigOriginProject      = "project"
 	ConfigOriginOrganization = "organization"
 	ConfigOriginGit          = "git"
-	// DefaultJobTimeout is the timeout of a job if none is set.
-	// It matches the kubebuilder default of [FiniteJob.Timeout].
-	DefaultJobTimeout = 5 * time.Minute
-	// MinJobTimeout is the minimum timeout of a job.
-	MinJobTimeout = time.Minute
-	// MaxJobTimeout is the maximum timeout of a job.
-	MaxJobTimeout = 30 * time.Minute
-	// MaxJobRetries is the maximum number of retries of a job.
-	MaxJobRetries = 5
 	// ReleaseProcessStatusReplicaFailure is added in a Release when for the
 	// collection of underlying resources (Deployment, Service, Ingress, Secret,
 	// etc), one of its pods fails to be created or deleted.
@@ -368,9 +358,9 @@ type Job struct {
 // FiniteJob defines fields for all jobs which have a finite runtime
 type FiniteJob struct {
 	// Retries defines how many times the job will be restarted on failure.
-	// Minimum is 0 and maximum is 5.
 	// +optional
 	// +kubebuilder:default:=0
+	// +kubebuilder:validation:max:=5
 	Retries *int32 `json:"retries,omitempty"`
 	// Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.
 	// +optional
