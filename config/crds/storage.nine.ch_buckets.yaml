@@ -157,9 +157,6 @@ spec:
                     - nine-cz42
                     - nine-es34
                     type: string
-                    x-kubernetes-validations:
-                    - message: location is immutable
-                      rule: self == oldSelf
                   permissions:
                     description: Permissions configures user access to the objects
                       in this Bucket.
@@ -207,9 +204,6 @@ spec:
                     enum:
                     - standard
                     type: string
-                    x-kubernetes-validations:
-                    - message: storageTier is immutable
-                      rule: self == oldSelf
                   versioning:
                     description: Versioning enables object versioning for this Bucket.
                     type: boolean
