@@ -17003,7 +17003,7 @@
         ]
       },
       "ch.nine.storage.v1alpha1.DatabaseRestore": {
-        "description": "DatabaseRestore restores a single database from an object store.",
+        "description": "DatabaseRestore restores a single database from an object store. A restore\nruns only once. Succeeded and failed restores are deleted after 7 days.",
         "properties": {
           "apiVersion": {
             "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -52506,7 +52506,7 @@
       "name": "DatabaseBackupSchedule"
     },
     {
-      "description": "DatabaseRestore restores a single database from an object store.",
+      "description": "DatabaseRestore restores a single database from an object store. A restore\nruns only once. Succeeded and failed restores are deleted after 7 days.",
       "name": "DatabaseRestore"
     },
     {

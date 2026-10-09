@@ -723,7 +723,8 @@ type DatabaseBackupScheduleObservation struct {
 	Next metav1.Time `json:"next,omitempty"`
 }
 
-// DatabaseRestore restores a single database from an object store.
+// DatabaseRestore restores a single database from an object store. A restore
+// runs only once. Succeeded and failed restores are deleted after 7 days.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
