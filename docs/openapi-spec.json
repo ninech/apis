@@ -7627,11 +7627,11 @@
                 "properties": {
                   "appendToXForwardedFor": {
                     "default": false,
-                    "description": "AppendToXForwardedFor defines if the ingress should take the incoming\nX-Forwarded-For header and append IPs to it, instead of replacing the\nwhole header.\nDo NOT use this option in combination with Cloudflare enabled\nas this will break client IP detection.",
+                    "description": "AppendToXForwardedFor defines if the ingress should take the incoming\nX-Forwarded-For header and append IPs to it, instead of replacing the\nwhole header. The leftmost entries are then set by the client and\nmust only be trusted if the proxy in front of the ingress is trusted.",
                     "type": "boolean"
                   },
                   "cloudflare": {
-                    "description": "Cloudflare defines the settings for having Cloudflare as a CDN in\nfront of this Ingress Controller.\nDo NOT use this option in combination with the `AppendToXForwardedFor`\nvariable as this will break client IP detection.\nDisabled if not set.",
+                    "description": "Cloudflare defines the settings for having Cloudflare as a CDN in\nfront of this Ingress Controller. Only connections from Cloudflare\nare accepted, and the Cf-Connecting-Ip and X-Forwarded-For headers set\nby Cloudflare are passed to the backends with the connecting IP\nappended to X-Forwarded-For. This implies AppendToXForwardedFor.\nDisabled if not set.",
                     "type": "object"
                   },
                   "cluster": {

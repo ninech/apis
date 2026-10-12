@@ -51,17 +51,17 @@ type IngressHAProxyParameters struct {
 	// Cluster specifies on which cluster this IngressHAProxy should be installed.
 	Cluster meta.LocalReference `json:"cluster"`
 	// Cloudflare defines the settings for having Cloudflare as a CDN in
-	// front of this Ingress Controller.
-	// Do NOT use this option in combination with the `AppendToXForwardedFor`
-	// variable as this will break client IP detection.
+	// front of this Ingress Controller. Only connections from Cloudflare
+	// are accepted, and the Cf-Connecting-Ip and X-Forwarded-For headers set
+	// by Cloudflare are passed to the backends with the connecting IP
+	// appended to X-Forwarded-For. This implies AppendToXForwardedFor.
 	// Disabled if not set.
 	// +optional
 	Cloudflare *IngressHAProxyCloudflare `json:"cloudflare,omitempty"`
 	// AppendToXForwardedFor defines if the ingress should take the incoming
 	// X-Forwarded-For header and append IPs to it, instead of replacing the
-	// whole header.
-	// Do NOT use this option in combination with Cloudflare enabled
-	// as this will break client IP detection.
+	// whole header. The leftmost entries are then set by the client and
+	// must only be trusted if the proxy in front of the ingress is trusted.
 	// +optional
 	// +kubebuilder:default:=false
 	AppendToXForwardedFor bool `json:"appendToXForwardedFor,omitempty"`
