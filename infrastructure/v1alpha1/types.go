@@ -622,5 +622,56 @@ type MachineTypeBounds struct {
 	MinMemCPURatio, MaxMemCPURatio float64
 }
 
+// A ManagedServer represents a node managed by Puppet.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="LOCATION",type="string",JSONPath=".spec.forProvider.location"
+// +kubebuilder:printcolumn:name="VIRTUAL",type="boolean",JSONPath=".status.atProvider.virtual"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type ManagedServer struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ManagedServerSpec   `json:"spec"`
+	Status            ManagedServerStatus `json:"status,omitempty"`
+}
+
+// ManagedServerList contains a list of ManagedServers.
+// +kubebuilder:object:root=true
+type ManagedServerList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ManagedServer `json:"items"`
+}
+
+// A ManagedServerSpec defines the desired state of a ManagedServer.
+type ManagedServerSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            ManagedServerParameters `json:"forProvider"`
+}
+
+// ManagedServerParameters are the fields of a ManagedServer.
+type ManagedServerParameters struct {
+	// Location is the datacenter of the server.
+	Location meta.LocationName `json:"location"`
+}
+
+// A ManagedServerStatus represents the observed state of a ManagedServer.
+type ManagedServerStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               ManagedServerObservation `json:"atProvider"`
+}
+
+// ManagedServerObservation are the observable fields of a ManagedServer.
+type ManagedServerObservation struct {
+	// IPAddresses are the primary IPv4 and IPv6 addresses of the server.
+	// +optional
+	IPAddresses []string `json:"ipAddresses,omitempty"`
+	// Virtual is true for a virtual server and false for a dedicated server.
+	Virtual bool `json:"virtual"`
+}
+
 // OperatingSystem is an Operating System for a VM.
 type OperatingSystem string
