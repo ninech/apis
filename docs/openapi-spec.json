@@ -17003,7 +17003,7 @@
         ]
       },
       "ch.nine.storage.v1alpha1.DatabaseRestore": {
-        "description": "DatabaseRestore restores a single database from an object store.",
+        "description": "DatabaseRestore restores a single database from an object store. A finished\nrestore is deleted automatically at its expiration.",
         "properties": {
           "apiVersion": {
             "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
@@ -17318,6 +17318,11 @@
                 "properties": {
                   "end": {
                     "description": "End is the time when the restore operation ended.",
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "expiration": {
+                    "description": "Expiration is the time when the restore will be deleted. It is set when\nthe restore ends.",
                     "format": "date-time",
                     "type": "string"
                   },
@@ -52506,7 +52511,7 @@
       "name": "DatabaseBackupSchedule"
     },
     {
-      "description": "DatabaseRestore restores a single database from an object store.",
+      "description": "DatabaseRestore restores a single database from an object store. A finished\nrestore is deleted automatically at its expiration.",
       "name": "DatabaseRestore"
     },
     {

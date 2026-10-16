@@ -27,7 +27,9 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: DatabaseRestore restores a single database from an object store.
+        description: |-
+          DatabaseRestore restores a single database from an object store. A finished
+          restore is deleted automatically at its expiration.
         properties:
           apiVersion:
             description: |-
@@ -328,6 +330,12 @@ spec:
                 properties:
                   end:
                     description: End is the time when the restore operation ended.
+                    format: date-time
+                    type: string
+                  expiration:
+                    description: |-
+                      Expiration is the time when the restore will be deleted. It is set when
+                      the restore ends.
                     format: date-time
                     type: string
                   start:

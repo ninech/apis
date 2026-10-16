@@ -723,7 +723,8 @@ type DatabaseBackupScheduleObservation struct {
 	Next metav1.Time `json:"next,omitempty"`
 }
 
-// DatabaseRestore restores a single database from an object store.
+// DatabaseRestore restores a single database from an object store. A finished
+// restore is deleted automatically at its expiration.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
@@ -803,6 +804,10 @@ type DatabaseRestoreObservation struct {
 	// End is the time when the restore operation ended.
 	// +optional
 	End metav1.Time `json:"end,omitempty"`
+	// Expiration is the time when the restore will be deleted. It is set when
+	// the restore ends.
+	// +optional
+	Expiration metav1.Time `json:"expiration,omitempty"`
 }
 
 // KeyValueStore deploys an on-demand KeyValueStore instance.
