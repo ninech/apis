@@ -97,13 +97,6 @@ spec:
                     description: Expiration is the time when the backup will be deleted.
                     format: date-time
                     type: string
-                  image:
-                    description: Image is the container image used for the backup
-                      job.
-                    type: string
-                    x-kubernetes-validations:
-                    - message: image is immutable after creation
-                      rule: self == oldSelf
                   location:
                     description: |-
                       Location specifies where the backup job is executed.
@@ -149,7 +142,6 @@ spec:
                 - bucket
                 - bucketUser
                 - expiration
-                - image
                 - source
                 type: object
               managementPolicies:
@@ -330,6 +322,9 @@ spec:
                   end:
                     description: End is the time when the backup operation ended.
                     format: date-time
+                    type: string
+                  image:
+                    description: Image is the container image of the backup job.
                     type: string
                   path:
                     description: Path is the object key name of the backup in the
