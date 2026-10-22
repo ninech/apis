@@ -6354,8 +6354,8 @@
                           "type": "string"
                         },
                         "maxNodes": {
-                          "description": "MaxNodes describes the upper bound of nodes in this pool. If MinNodes\n== MaxNodes, autoscaling is disabled.",
-                          "minimum": 0,
+                          "description": "MinNodes describes the upper bound of nodes in this pool. If MinNodes\n== MaxNodes, autoscaling is disabled.",
+                          "minimum": 1,
                           "type": "integer"
                         },
                         "minNodes": {
@@ -6405,13 +6405,7 @@
                         "minNodes",
                         "name"
                       ],
-                      "type": "object",
-                      "x-kubernetes-validations": [
-                        {
-                          "message": "maxNodes must be greater than or equal to minNodes",
-                          "rule": "self.maxNodes \u003e= self.minNodes"
-                        }
-                      ]
+                      "type": "object"
                     },
                     "type": "array",
                     "x-kubernetes-list-map-keys": [
