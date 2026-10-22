@@ -224,6 +224,9 @@ spec:
                     required:
                     - name
                     type: object
+                    x-kubernetes-validations:
+                    - message: Value is immutable
+                      rule: self == oldSelf
                   diskSpace:
                     anyOf:
                     - type: integer
