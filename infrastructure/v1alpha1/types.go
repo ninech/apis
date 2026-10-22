@@ -493,6 +493,7 @@ type VClusterSettings struct {
 }
 
 // NodePool configures a pool of nodes which are added to the cluster.
+// +kubebuilder:validation:XValidation:rule="self.maxNodes >= self.minNodes",message="maxNodes must be greater than or equal to minNodes"
 type NodePool struct {
 	// Name of the node pool. Changing this results in a new rollout of all
 	// nodes in the pool.
@@ -501,9 +502,9 @@ type NodePool struct {
 	// == MaxNodes, autoscaling is disabled.
 	// +kubebuilder:validation:Minimum=0
 	MinNodes int `json:"minNodes"`
-	// MinNodes describes the upper bound of nodes in this pool. If MinNodes
+	// MaxNodes describes the upper bound of nodes in this pool. If MinNodes
 	// == MaxNodes, autoscaling is disabled.
-	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:validation:Minimum=0
 	MaxNodes int `json:"maxNodes"`
 	// Labels specifies the node labels. Changing this results in a new
 	// rollout of all nodes in the pool.
