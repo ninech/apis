@@ -188,9 +188,9 @@ spec:
                           type: string
                         maxNodes:
                           description: |-
-                            MinNodes describes the upper bound of nodes in this pool. If MinNodes
+                            MaxNodes describes the upper bound of nodes in this pool. If MinNodes
                             == MaxNodes, autoscaling is disabled.
-                          minimum: 1
+                          minimum: 0
                           type: integer
                         minNodes:
                           description: |-
@@ -242,6 +242,9 @@ spec:
                       - minNodes
                       - name
                       type: object
+                      x-kubernetes-validations:
+                      - message: maxNodes must be greater than or equal to minNodes
+                        rule: self.maxNodes >= self.minNodes
                     type: array
                     x-kubernetes-list-map-keys:
                     - name
