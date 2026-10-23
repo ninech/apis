@@ -560,12 +560,7 @@ type StaticEgressObservation struct {
 	// all egressing traffic of the pod will be emitted with the egress IP
 	// address. Only supported by certain targets.
 	// +optional
-	SelectorLabel *StaticEgressSelectorLabel `json:"selectionLabel,omitempty"`
-	// PrometheusCluster is the cluster the targeted Prometheus is running
-	// on. It is needed to clean up even if the Prometheus is already gone.
-	// Only set for Prometheus targets.
-	// +optional
-	PrometheusCluster    *meta.LocalReference `json:"prometheusCluster,omitempty"`
+	SelectorLabel        *StaticEgressSelectorLabel `json:"selectionLabel,omitempty"`
 	meta.ReferenceStatus `json:",inline"`
 }
 

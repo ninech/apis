@@ -726,11 +726,6 @@ func (in *StaticEgressObservation) DeepCopyInto(out *StaticEgressObservation) {
 		*out = new(StaticEgressSelectorLabel)
 		**out = **in
 	}
-	if in.PrometheusCluster != nil {
-		in, out := &in.PrometheusCluster, &out.PrometheusCluster
-		*out = new(metav1alpha1.LocalReference)
-		**out = **in
-	}
 	in.ReferenceStatus.DeepCopyInto(&out.ReferenceStatus)
 }
 

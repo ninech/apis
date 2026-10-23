@@ -336,20 +336,58 @@ type BucketPermission struct {
 }
 
 // BucketLifecyclePolicy defines a lifecycle policy of bucket objects.
+// It corresponds to a single S3 lifecycle rule.
+// +kubebuilder:validation:XValidation:rule="!has(self.expireAfterDays) || (!has(self.expiration) && !has(self.noncurrentVersionExpiration))",message="expireAfterDays and isLive can not be combined with expiration or noncurrentVersionExpiration"
+// +kubebuilder:validation:XValidation:rule="has(self.expireAfterDays) || has(self.expiration) || has(self.noncurrentVersionExpiration)",message="lifecycle policy must define expiration or noncurrentVersionExpiration; if you are using nctl, please upgrade to the latest version"
 type BucketLifecyclePolicy struct {
 	// Prefix can be used to only expire objects with a certain prefix. Do not
 	// specify if all objects should be expired.
 	// +optional
 	Prefix string `json:"prefix,omitempty"`
+	// Expiration defines the expiry of current object versions and of expired delete markers.
+	// +optional
+	Expiration *BucketLifecycleExpiration `json:"expiration,omitempty"`
+	// NoncurrentVersionExpiration defines the expiry of noncurrent (previous) object versions.
+	// This is only useful when the bucket has versioning enabled.
+	// +optional
+	NoncurrentVersionExpiration *BucketLifecycleNoncurrentVersionExpiration `json:"noncurrentVersionExpiration,omitempty"`
 	// ExpireAfterDays defines the amount of days after an object will be expired (deleted).
+	//
+	// Deprecated: Use Expiration or NoncurrentVersionExpiration instead.
 	// +optional
 	ExpireAfterDays int32 `json:"expireAfterDays,omitempty"`
 	// IsLive specifies if this policy applies to live objects. If false, this
-	// policy only applies to archived objects, so this is only useful when
-	// the bucket has versioning enabled.
+	// policy only applies to archived objects, so this is only useful when the bucket has versioning enabled.
+	// It only has an effect in combination with ExpireAfterDays.
+	//
+	// Deprecated: Use Expiration or NoncurrentVersionExpiration instead.
 	// +kubebuilder:default:=true
 	// +optional
 	IsLive bool `json:"isLive"`
+}
+
+// BucketLifecycleExpiration defines the expiry of current object versions and of expired delete markers.
+// Either Days or ExpiredObjectDeleteMarker can be set, but not both.
+// +kubebuilder:validation:XValidation:rule="has(self.days) != (has(self.expiredObjectDeleteMarker) && self.expiredObjectDeleteMarker)",message="exactly one of days or expiredObjectDeleteMarker must be set"
+type BucketLifecycleExpiration struct {
+	// Days defines the amount of days after which current object versions are expired.
+	// In a versioned bucket, expiring a current version creates a delete marker and keeps the object as a noncurrent version.
+	// +kubebuilder:validation:Minimum=1
+	// +optional
+	Days int32 `json:"days,omitempty"`
+	// ExpiredObjectDeleteMarker removes delete markers which have no noncurrent versions left behind them.
+	// A delete marker only expires once all its noncurrent versions have been deleted,
+	// so this is usually combined with a NoncurrentVersionExpiration.
+	// This is only useful when the bucket has versioning enabled.
+	// +optional
+	ExpiredObjectDeleteMarker bool `json:"expiredObjectDeleteMarker,omitempty"`
+}
+
+// BucketLifecycleNoncurrentVersionExpiration defines the expiry of noncurrent object versions.
+type BucketLifecycleNoncurrentVersionExpiration struct {
+	// NoncurrentDays defines the amount of days after which an object version is expired once it became noncurrent.
+	// +kubebuilder:validation:Minimum=1
+	NoncurrentDays int32 `json:"noncurrentDays"`
 }
 
 // CORSConfig defines the configuration for Cross-Origin Resource

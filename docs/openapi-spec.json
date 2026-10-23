@@ -9648,19 +9648,6 @@
                     "description": "Address is the egress IP which will be used for all egressing\ntraffic",
                     "type": "string"
                   },
-                  "prometheusCluster": {
-                    "description": "PrometheusCluster is the cluster the targeted Prometheus is running\non. It is needed to clean up even if the Prometheus is already gone.\nOnly set for Prometheus targets.",
-                    "properties": {
-                      "name": {
-                        "description": "Name of the target.",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "name"
-                    ],
-                    "type": "object"
-                  },
                   "referenceErrors": {
                     "items": {
                       "properties": {
@@ -11733,13 +11720,7 @@
                     "required": [
                       "name"
                     ],
-                    "type": "object",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "Value is immutable",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
+                    "type": "object"
                   },
                   "diskSpace": {
                     "anyOf": [
@@ -14675,24 +14656,71 @@
                   "lifecyclePolicies": {
                     "description": "LifecyclePolicies allows to define automatic expiry (deletion) of\nobjects using certain rules.",
                     "items": {
-                      "description": "BucketLifecyclePolicy defines a lifecycle policy of bucket objects.",
+                      "description": "BucketLifecyclePolicy defines a lifecycle policy of bucket objects.\nIt corresponds to a single S3 lifecycle rule.",
                       "properties": {
+                        "expiration": {
+                          "description": "Expiration defines the expiry of current object versions and of expired delete markers.",
+                          "properties": {
+                            "days": {
+                              "description": "Days defines the amount of days after which current object versions are expired.\nIn a versioned bucket, expiring a current version creates a delete marker and keeps the object as a noncurrent version.",
+                              "format": "int32",
+                              "minimum": 1,
+                              "type": "integer"
+                            },
+                            "expiredObjectDeleteMarker": {
+                              "description": "ExpiredObjectDeleteMarker removes delete markers which have no noncurrent versions left behind them.\nA delete marker only expires once all its noncurrent versions have been deleted,\nso this is usually combined with a NoncurrentVersionExpiration.\nThis is only useful when the bucket has versioning enabled.",
+                              "type": "boolean"
+                            }
+                          },
+                          "type": "object",
+                          "x-kubernetes-validations": [
+                            {
+                              "message": "exactly one of days or expiredObjectDeleteMarker must be set",
+                              "rule": "has(self.days) != (has(self.expiredObjectDeleteMarker) \u0026\u0026 self.expiredObjectDeleteMarker)"
+                            }
+                          ]
+                        },
                         "expireAfterDays": {
-                          "description": "ExpireAfterDays defines the amount of days after an object will be expired (deleted).",
+                          "description": "ExpireAfterDays defines the amount of days after an object will be expired (deleted).\n\nDeprecated: Use Expiration or NoncurrentVersionExpiration instead.",
                           "format": "int32",
                           "type": "integer"
                         },
                         "isLive": {
                           "default": true,
-                          "description": "IsLive specifies if this policy applies to live objects. If false, this\npolicy only applies to archived objects, so this is only useful when\nthe bucket has versioning enabled.",
+                          "description": "IsLive specifies if this policy applies to live objects. If false, this\npolicy only applies to archived objects, so this is only useful when the bucket has versioning enabled.\nIt only has an effect in combination with ExpireAfterDays.\n\nDeprecated: Use Expiration or NoncurrentVersionExpiration instead.",
                           "type": "boolean"
+                        },
+                        "noncurrentVersionExpiration": {
+                          "description": "NoncurrentVersionExpiration defines the expiry of noncurrent (previous) object versions.\nThis is only useful when the bucket has versioning enabled.",
+                          "properties": {
+                            "noncurrentDays": {
+                              "description": "NoncurrentDays defines the amount of days after which an object version is expired once it became noncurrent.",
+                              "format": "int32",
+                              "minimum": 1,
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "noncurrentDays"
+                          ],
+                          "type": "object"
                         },
                         "prefix": {
                           "description": "Prefix can be used to only expire objects with a certain prefix. Do not\nspecify if all objects should be expired.",
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "x-kubernetes-validations": [
+                        {
+                          "message": "expireAfterDays and isLive can not be combined with expiration or noncurrentVersionExpiration",
+                          "rule": "!has(self.expireAfterDays) || (!has(self.expiration) \u0026\u0026 !has(self.noncurrentVersionExpiration))"
+                        },
+                        {
+                          "message": "lifecycle policy must define expiration or noncurrentVersionExpiration; if you are using nctl, please upgrade to the latest version",
+                          "rule": "has(self.expireAfterDays) || has(self.expiration) || has(self.noncurrentVersionExpiration)"
+                        }
+                      ]
                     },
                     "type": "array"
                   },
