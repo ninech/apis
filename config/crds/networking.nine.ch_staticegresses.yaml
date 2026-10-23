@@ -279,6 +279,18 @@ spec:
                       Address is the egress IP which will be used for all egressing
                       traffic
                     type: string
+                  prometheusCluster:
+                    description: |-
+                      PrometheusCluster is the cluster the targeted Prometheus is running
+                      on. It is needed to clean up even if the Prometheus is already gone.
+                      Only set for Prometheus targets.
+                    properties:
+                      name:
+                        description: Name of the target.
+                        type: string
+                    required:
+                    - name
+                    type: object
                   referenceErrors:
                     items:
                       properties:

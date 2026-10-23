@@ -9648,6 +9648,19 @@
                     "description": "Address is the egress IP which will be used for all egressing\ntraffic",
                     "type": "string"
                   },
+                  "prometheusCluster": {
+                    "description": "PrometheusCluster is the cluster the targeted Prometheus is running\non. It is needed to clean up even if the Prometheus is already gone.\nOnly set for Prometheus targets.",
+                    "properties": {
+                      "name": {
+                        "description": "Name of the target.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "type": "object"
+                  },
                   "referenceErrors": {
                     "items": {
                       "properties": {
@@ -11720,7 +11733,13 @@
                     "required": [
                       "name"
                     ],
-                    "type": "object"
+                    "type": "object",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "Value is immutable",
+                        "rule": "self == oldSelf"
+                      }
+                    ]
                   },
                   "diskSpace": {
                     "anyOf": [
