@@ -6354,8 +6354,8 @@
                           "type": "string"
                         },
                         "maxNodes": {
-                          "description": "MaxNodes describes the upper bound of nodes in this pool. If MinNodes\n== MaxNodes, autoscaling is disabled.",
-                          "minimum": 0,
+                          "description": "MinNodes describes the upper bound of nodes in this pool. If MinNodes\n== MaxNodes, autoscaling is disabled.",
+                          "minimum": 1,
                           "type": "integer"
                         },
                         "minNodes": {
@@ -6405,13 +6405,7 @@
                         "minNodes",
                         "name"
                       ],
-                      "type": "object",
-                      "x-kubernetes-validations": [
-                        {
-                          "message": "maxNodes must be greater than or equal to minNodes",
-                          "rule": "self.maxNodes \u003e= self.minNodes"
-                        }
-                      ]
+                      "type": "object"
                     },
                     "type": "array",
                     "x-kubernetes-list-map-keys": [
@@ -9648,19 +9642,6 @@
                     "description": "Address is the egress IP which will be used for all egressing\ntraffic",
                     "type": "string"
                   },
-                  "prometheusCluster": {
-                    "description": "PrometheusCluster is the cluster the targeted Prometheus is running\non. It is needed to clean up even if the Prometheus is already gone.\nOnly set for Prometheus targets.",
-                    "properties": {
-                      "name": {
-                        "description": "Name of the target.",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "name"
-                    ],
-                    "type": "object"
-                  },
                   "referenceErrors": {
                     "items": {
                       "properties": {
@@ -11733,13 +11714,7 @@
                     "required": [
                       "name"
                     ],
-                    "type": "object",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "Value is immutable",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
+                    "type": "object"
                   },
                   "diskSpace": {
                     "anyOf": [
@@ -16236,16 +16211,6 @@
                     "format": "date-time",
                     "type": "string"
                   },
-                  "image": {
-                    "description": "Image is the container image used for the backup job.",
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "image is immutable after creation",
-                        "rule": "self == oldSelf"
-                      }
-                    ]
-                  },
                   "location": {
                     "description": "Location specifies where the backup job is executed.\nThis field should be left blank because the location of the referenced Source database is chosen by default.",
                     "enum": [
@@ -16303,7 +16268,6 @@
                   "bucket",
                   "bucketUser",
                   "expiration",
-                  "image",
                   "source"
                 ],
                 "type": "object"
@@ -16475,6 +16439,10 @@
                   "end": {
                     "description": "End is the time when the backup operation ended.",
                     "format": "date-time",
+                    "type": "string"
+                  },
+                  "image": {
+                    "description": "Image is the container image of the backup job.",
                     "type": "string"
                   },
                   "path": {
@@ -17080,16 +17048,6 @@
                       }
                     ]
                   },
-                  "image": {
-                    "description": "Image is the container image used for the backup job.\nThis field should be left blank: it is defaulted from the referenced backup.",
-                    "type": "string",
-                    "x-kubernetes-validations": [
-                      {
-                        "message": "image is immutable after creation",
-                        "rule": "self == oldSelf || oldSelf == ''"
-                      }
-                    ]
-                  },
                   "location": {
                     "description": "Location specifies where the restore job is executed.\nThis field should be left blank because the location of the referenced Target database is chosen by default.",
                     "enum": [
@@ -17170,10 +17128,6 @@
                   {
                     "message": "owner is immutable and cannot be unset",
                     "rule": "!has(oldSelf.owner) || (has(self.owner) \u0026\u0026 self.owner == oldSelf.owner)"
-                  },
-                  {
-                    "message": "image is immutable and cannot be unset",
-                    "rule": "!has(oldSelf.image) || (has(self.image) \u0026\u0026 self.image == oldSelf.image)"
                   }
                 ]
               },
@@ -17349,6 +17303,10 @@
                   "expiration": {
                     "description": "Expiration is the time when the restore will be deleted. It is set when\nthe restore ends.",
                     "format": "date-time",
+                    "type": "string"
+                  },
+                  "image": {
+                    "description": "Image is the container image of the restore job.",
                     "type": "string"
                   },
                   "start": {

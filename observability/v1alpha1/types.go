@@ -332,7 +332,6 @@ type PrometheusSpec struct {
 // PrometheusParameters are the configurable fields of a Prometheus.
 type PrometheusParameters struct {
 	// Cluster specifies on which cluster prometheus should be started on.
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Value is immutable"
 	Cluster meta.LocalReference `json:"cluster"`
 	// DiskSpace to request for storing metrics.
 	// +kubebuilder:default:="50Gi"
