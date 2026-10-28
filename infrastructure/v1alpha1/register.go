@@ -38,6 +38,10 @@ var (
 	KubernetesClusterGroupKind        = schema.GroupKind{Group: Group, Kind: KubernetesClusterKind}.String()
 	KubernetesClusterKindAPIVersion   = KubernetesClusterKind + "." + SchemeGroupVersion.String()
 	KubernetesClusterGroupVersionKind = SchemeGroupVersion.WithKind(KubernetesClusterKind)
+	ManagedServerKind             = reflect.TypeOf(ManagedServer{}).Name()
+	ManagedServerGroupKind        = schema.GroupKind{Group: Group, Kind: ManagedServerKind}.String()
+	ManagedServerKindAPIVersion   = ManagedServerKind + "." + SchemeGroupVersion.String()
+	ManagedServerGroupVersionKind = SchemeGroupVersion.WithKind(ManagedServerKind)
 )
 
 func init() {
@@ -45,4 +49,5 @@ func init() {
 	SchemeBuilder.Register(&ClusterData{}, &ClusterDataList{})
 	SchemeBuilder.Register(&Keda{}, &KedaList{})
 	SchemeBuilder.Register(&KubernetesCluster{}, &KubernetesClusterList{})
+	SchemeBuilder.Register(&ManagedServer{}, &ManagedServerList{})
 }

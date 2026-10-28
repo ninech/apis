@@ -623,5 +623,87 @@ type MachineTypeBounds struct {
 	MinMemCPURatio, MaxMemCPURatio float64
 }
 
+// A ManagedServer represents a node managed by Puppet.
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="LOCATION",type="string",JSONPath=".spec.forProvider.location"
+// +kubebuilder:printcolumn:name="PLATFORM",type="string",JSONPath=".status.atProvider.platform"
+// +kubebuilder:printcolumn:name="OS",type="string",JSONPath=".status.atProvider.os"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:object:root=true
+type ManagedServer struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ManagedServerSpec   `json:"spec"`
+	Status            ManagedServerStatus `json:"status,omitempty"`
+}
+
+// ManagedServerList contains a list of ManagedServers.
+// +kubebuilder:object:root=true
+type ManagedServerList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ManagedServer `json:"items"`
+}
+
+// A ManagedServerSpec defines the desired state of a ManagedServer.
+type ManagedServerSpec struct {
+	runtimev1.ResourceSpec `json:",inline"`
+	ForProvider            ManagedServerParameters `json:"forProvider"`
+}
+
+// ManagedServerParameters are the fields of a ManagedServer.
+type ManagedServerParameters struct {
+	// Location is the datacenter of the server.
+	Location meta.LocationName `json:"location"`
+}
+
+// A ManagedServerStatus represents the observed state of a ManagedServer.
+type ManagedServerStatus struct {
+	runtimev1.ResourceStatus `json:",inline"`
+	AtProvider               ManagedServerObservation `json:"atProvider"`
+}
+
+// ManagedServerObservation are the observable fields of a ManagedServer.
+type ManagedServerObservation struct {
+	// IPAddresses are the primary IPv4 and IPv6 addresses of the server.
+	IPAddresses []string `json:"ipAddresses,omitempty"`
+	// FQDN is the fully qualified domain name of the server.
+	FQDN string `json:"fqdn,omitempty"`
+	// Platform is the platform on which the server runs.
+	Platform ManagedServerPlatform `json:"platform,omitempty"`
+	// OS is the operating system and its major release, e.g. ubuntu24.04.
+	OS OperatingSystem `json:"os,omitempty"`
+	// Resources are the CPUs, the memory and the disks of the server.
+	Resources ManagedServerResources `json:"resources,omitempty"`
+}
+
+// ManagedServerPlatform is the platform on which a server runs.
+// +kubebuilder:validation:Enum=virtual-v1;virtual-v2;dedicated;unknown
+type ManagedServerPlatform string
+
 // OperatingSystem is an Operating System for a VM.
 type OperatingSystem string
+
+// ManagedServerResources are the CPUs, the memory and the disks of a server.
+type ManagedServerResources struct {
+	// CPUs is the number of logical CPUs that the operating system sees.
+	CPUs int `json:"cpus,omitempty"`
+	// Memory is the memory that the operating system can use, rounded down
+	// to MiB. It is usually less than the installed memory.
+	Memory *resource.Quantity `json:"memory,omitempty"`
+	// Disks are the block devices of the server, sorted by name, for example
+	// sda. On a dedicated server, they are the physical drives without RAID
+	// or LVM.
+	Disks []ManagedServerDisk `json:"disks,omitempty"`
+}
+
+// ManagedServerDisk is a block device of a server.
+type ManagedServerDisk struct {
+	// Name is the name of the device.
+	Name string `json:"name"`
+	// Size is the size of the device.
+	Size resource.Quantity `json:"size"`
+}
