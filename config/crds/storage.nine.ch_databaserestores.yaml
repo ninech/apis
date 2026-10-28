@@ -82,14 +82,6 @@ spec:
                     x-kubernetes-validations:
                     - message: backup is immutable after creation
                       rule: self == oldSelf
-                  image:
-                    description: |-
-                      Image is the container image used for the backup job.
-                      This field should be left blank: it is defaulted from the referenced backup.
-                    type: string
-                    x-kubernetes-validations:
-                    - message: image is immutable after creation
-                      rule: self == oldSelf || oldSelf == ''
                   location:
                     description: |-
                       Location specifies where the restore job is executed.
@@ -150,9 +142,6 @@ spec:
                 - message: owner is immutable and cannot be unset
                   rule: '!has(oldSelf.owner) || (has(self.owner) && self.owner ==
                     oldSelf.owner)'
-                - message: image is immutable and cannot be unset
-                  rule: '!has(oldSelf.image) || (has(self.image) && self.image ==
-                    oldSelf.image)'
               managementPolicies:
                 default:
                 - '*'
@@ -337,6 +326,9 @@ spec:
                       Expiration is the time when the restore will be deleted. It is set when
                       the restore ends.
                     format: date-time
+                    type: string
+                  image:
+                    description: Image is the container image of the restore job.
                     type: string
                   start:
                     description: Start is the time when the restore operation started.

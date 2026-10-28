@@ -603,9 +603,6 @@ type DatabaseBackupParameters struct {
 	BucketUser meta.LocalReference `json:"bucketUser"`
 	// Expiration is the time when the backup will be deleted.
 	Expiration metav1.Time `json:"expiration"`
-	// Image is the container image used for the backup job.
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="image is immutable after creation"
-	Image string `json:"image"`
 }
 
 // A DatabaseBackupStatus represents the observed state of a DatabaseBackup.
@@ -635,6 +632,9 @@ type DatabaseBackupObservation struct {
 	// Version contains the version information of the backup.
 	// +optional
 	Version DatabaseBackupVersion `json:"version,omitempty"`
+	// Image is the container image of the backup job.
+	// +optional
+	Image string `json:"image,omitempty"`
 }
 
 // DatabaseJobState represents the state of a database backup or restore.
@@ -756,7 +756,6 @@ type DatabaseRestoreSpec struct {
 // +kubebuilder:validation:XValidation:rule="!has(oldSelf.location) || (has(self.location) && self.location == oldSelf.location)",message="location is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="!has(oldSelf.name) || (has(self.name) && self.name == oldSelf.name)",message="name is immutable and cannot be unset"
 // +kubebuilder:validation:XValidation:rule="!has(oldSelf.owner) || (has(self.owner) && self.owner == oldSelf.owner)",message="owner is immutable and cannot be unset"
-// +kubebuilder:validation:XValidation:rule="!has(oldSelf.image) || (has(self.image) && self.image == oldSelf.image)",message="image is immutable and cannot be unset"
 type DatabaseRestoreParameters struct {
 	// Location specifies where the restore job is executed.
 	// This field should be left blank because the location of the referenced Target database is chosen by default.
@@ -779,11 +778,6 @@ type DatabaseRestoreParameters struct {
 	// Owner is the owner of the database to be restored.
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="owner is immutable after creation"
 	Owner string `json:"owner,omitempty"`
-	// Image is the container image used for the backup job.
-	// This field should be left blank: it is defaulted from the referenced backup.
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf || oldSelf == ''",message="image is immutable after creation"
-	// +optional
-	Image string `json:"image,omitempty"`
 }
 
 // A DatabaseRestoreStatus represents the observed state of a DatabaseRestore.
@@ -808,6 +802,9 @@ type DatabaseRestoreObservation struct {
 	// the restore ends.
 	// +optional
 	Expiration metav1.Time `json:"expiration,omitempty"`
+	// Image is the container image of the restore job.
+	// +optional
+	Image string `json:"image,omitempty"`
 }
 
 // KeyValueStore deploys an on-demand KeyValueStore instance.
