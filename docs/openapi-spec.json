@@ -16231,10 +16231,15 @@
                       }
                     ]
                   },
-                  "expiration": {
-                    "description": "Expiration is the time when the backup will be deleted.",
-                    "format": "date-time",
-                    "type": "string"
+                  "image": {
+                    "description": "Image is the container image used for the backup job.",
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "image is immutable after creation",
+                        "rule": "self == oldSelf"
+                      }
+                    ]
                   },
                   "location": {
                     "description": "Location specifies where the backup job is executed.\nThis field should be left blank because the location of the referenced Source database is chosen by default.",
@@ -16292,7 +16297,7 @@
                 "required": [
                   "bucket",
                   "bucketUser",
-                  "expiration",
+                  "image",
                   "source"
                 ],
                 "type": "object"
@@ -16466,8 +16471,9 @@
                     "format": "date-time",
                     "type": "string"
                   },
-                  "image": {
-                    "description": "Image is the container image of the backup job.",
+                  "expiration": {
+                    "description": "Expiration is the time when the backup will be deleted.",
+                    "format": "date-time",
                     "type": "string"
                   },
                   "path": {
@@ -16519,6 +16525,9 @@
                     "type": "object"
                   }
                 },
+                "required": [
+                  "expiration"
+                ],
                 "type": "object"
               },
               "conditions": {
@@ -17073,6 +17082,16 @@
                       }
                     ]
                   },
+                  "image": {
+                    "description": "Image is the container image used for the backup job.\nThis field should be left blank: it is defaulted from the referenced backup.",
+                    "type": "string",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "image is immutable after creation",
+                        "rule": "self == oldSelf || oldSelf == ''"
+                      }
+                    ]
+                  },
                   "location": {
                     "description": "Location specifies where the restore job is executed.\nThis field should be left blank because the location of the referenced Target database is chosen by default.",
                     "enum": [
@@ -17153,6 +17172,10 @@
                   {
                     "message": "owner is immutable and cannot be unset",
                     "rule": "!has(oldSelf.owner) || (has(self.owner) \u0026\u0026 self.owner == oldSelf.owner)"
+                  },
+                  {
+                    "message": "image is immutable and cannot be unset",
+                    "rule": "!has(oldSelf.image) || (has(self.image) \u0026\u0026 self.image == oldSelf.image)"
                   }
                 ]
               },
@@ -17328,10 +17351,6 @@
                   "expiration": {
                     "description": "Expiration is the time when the restore will be deleted. It is set when\nthe restore ends.",
                     "format": "date-time",
-                    "type": "string"
-                  },
-                  "image": {
-                    "description": "Image is the container image of the restore job.",
                     "type": "string"
                   },
                   "start": {

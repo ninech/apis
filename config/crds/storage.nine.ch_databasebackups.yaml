@@ -93,10 +93,13 @@ spec:
                     x-kubernetes-validations:
                     - message: bucketUser is immutable after creation
                       rule: self == oldSelf
-                  expiration:
-                    description: Expiration is the time when the backup will be deleted.
-                    format: date-time
+                  image:
+                    description: Image is the container image used for the backup
+                      job.
                     type: string
+                    x-kubernetes-validations:
+                    - message: image is immutable after creation
+                      rule: self == oldSelf
                   location:
                     description: |-
                       Location specifies where the backup job is executed.
@@ -141,7 +144,7 @@ spec:
                 required:
                 - bucket
                 - bucketUser
-                - expiration
+                - image
                 - source
                 type: object
               managementPolicies:
@@ -323,8 +326,9 @@ spec:
                     description: End is the time when the backup operation ended.
                     format: date-time
                     type: string
-                  image:
-                    description: Image is the container image of the backup job.
+                  expiration:
+                    description: Expiration is the time when the backup will be deleted.
+                    format: date-time
                     type: string
                   path:
                     description: Path is the object key name of the backup in the
@@ -362,6 +366,8 @@ spec:
                           the backup.
                         type: string
                     type: object
+                required:
+                - expiration
                 type: object
               conditions:
                 description: Conditions of the resource.
