@@ -155,7 +155,7 @@ spec:
                               timeout:
                                 default: 5m
                                 description: Timeout of the job. Minimum is 1 minute
-                                  and maximum is 60 minutes.
+                                  and maximum is 30 minutes.
                                 format: duration
                                 type: string
                             required:
@@ -313,7 +313,7 @@ spec:
                                 timeout:
                                   default: 5m
                                   description: Timeout of the job. Minimum is 1 minute
-                                    and maximum is 60 minutes.
+                                    and maximum is 30 minutes.
                                   format: duration
                                   type: string
                               required:
