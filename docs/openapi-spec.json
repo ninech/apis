@@ -94,7 +94,7 @@
                           },
                           "timeout": {
                             "default": "5m",
-                            "description": "Timeout of the job. Minimum is 1 minute and maximum is 60 minutes.",
+                            "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
                             "format": "duration",
                             "type": "string"
                           }
@@ -209,7 +209,7 @@
                             },
                             "timeout": {
                               "default": "5m",
-                              "description": "Timeout of the job. Minimum is 1 minute and maximum is 60 minutes.",
+                              "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
                               "format": "duration",
                               "type": "string"
                             }
@@ -1012,7 +1012,7 @@
                           },
                           "timeout": {
                             "default": "5m",
-                            "description": "Timeout of the job. Minimum is 1 minute and maximum is 60 minutes.",
+                            "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
                             "format": "duration",
                             "type": "string"
                           }
@@ -1127,7 +1127,7 @@
                             },
                             "timeout": {
                               "default": "5m",
-                              "description": "Timeout of the job. Minimum is 1 minute and maximum is 60 minutes.",
+                              "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
                               "format": "duration",
                               "type": "string"
                             }
@@ -1667,7 +1667,7 @@
                           },
                           "timeout": {
                             "default": "5m",
-                            "description": "Timeout of the job. Minimum is 1 minute and maximum is 60 minutes.",
+                            "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
                             "format": "duration",
                             "type": "string"
                           }
@@ -1782,7 +1782,7 @@
                             },
                             "timeout": {
                               "default": "5m",
-                              "description": "Timeout of the job. Minimum is 1 minute and maximum is 60 minutes.",
+                              "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
                               "format": "duration",
                               "type": "string"
                             }
@@ -2239,7 +2239,7 @@
                               },
                               "timeout": {
                                 "default": "5m",
-                                "description": "Timeout of the job. Minimum is 1 minute and maximum is 60 minutes.",
+                                "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
                                 "format": "duration",
                                 "type": "string"
                               }
@@ -2428,7 +2428,7 @@
                                 },
                                 "timeout": {
                                   "default": "5m",
-                                  "description": "Timeout of the job. Minimum is 1 minute and maximum is 60 minutes.",
+                                  "description": "Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.",
                                   "format": "duration",
                                   "type": "string"
                                 }
