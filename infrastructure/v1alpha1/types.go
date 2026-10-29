@@ -460,10 +460,6 @@ type NKEClusterSettings struct {
 	// +listMapKey=group
 	// +listMapKey=kind
 	ContainerRegistries []meta.TypedReference `json:"containerRegistries"`
-	// VerticalPodAutoscaler configures the vertical pod autoscaler for this
-	// cluster.
-	// +optional
-	VerticalPodAutoscaler *VerticalPodAutoscalerCustomerSettings `json:"verticalPodAutoscaler,omitempty"`
 }
 type StaticEgress struct {
 	// Enabled defines if the static egress feature should be enabled or
@@ -481,19 +477,6 @@ type AuditLogConfiguration struct {
 type AuditLogTarget struct {
 	meta.LocalTypedReference `json:",inline"`
 }
-
-// VerticalPodAutoscalerCustomerSettings are the vertical pod autoscaler
-// settings the user can configure for a KubernetesCluster
-type VerticalPodAutoscalerCustomerSettings struct {
-	// Mode controls the vertical pod autoscaler for this cluster: Disabled
-	// turns it off, RecommendOnly only shows suggested CPU/memory values
-	// without automatically changing anything, and Enabled fully enables it.
-	// +optional
-	// +kubebuilder:default:="Disabled"
-	// +kubebuilder:validation:Enum:=Disabled;RecommendOnly;Enabled
-	Mode VerticalPodAutoscalerMode `json:"mode,omitempty"`
-}
-type VerticalPodAutoscalerMode string
 
 // VClusterSettings defines additional fields that a nine KubernetesCluster
 // based on VCluster can have.
