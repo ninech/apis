@@ -67,7 +67,7 @@ const (
 	// MinJobTimeout is the minimum timeout of a job.
 	MinJobTimeout = time.Minute
 	// MaxJobTimeout is the maximum timeout of a job.
-	MaxJobTimeout = time.Hour
+	MaxJobTimeout = 30 * time.Minute
 	// MaxJobRetries is the maximum number of retries of a job.
 	MaxJobRetries = 5
 	// ReleaseProcessStatusReplicaFailure is added in a Release when for the
@@ -372,7 +372,7 @@ type FiniteJob struct {
 	// +optional
 	// +kubebuilder:default:=0
 	Retries *int32 `json:"retries,omitempty"`
-	// Timeout of the job. Minimum is 1 minute and maximum is 60 minutes.
+	// Timeout of the job. Minimum is 1 minute and maximum is 30 minutes.
 	// +optional
 	// +kubebuilder:default:="5m"
 	// +kubebuilder:validation:Type=string
