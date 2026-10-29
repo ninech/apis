@@ -24,6 +24,11 @@ const (
 	LogLabelScheduledJob = "scheduled_job"
 	// LogLabelDeployJob is attached to all logs belonging to a deploy job.
 	LogLabelDeployJob = "deploy_job"
+	// LogLabelSource is attached to Kubernetes events of an app with the
+	// value [LogSourceEvent], to separate them from the app logs.
+	LogLabelSource = "source"
+	// LogSourceEvent is the [LogLabelSource] of Kubernetes events.
+	LogSourceEvent = "event"
 	// LanguageRuby can be used to select the buildpack for ruby applications.
 	LanguageRuby Language = "ruby"
 	// LanguagePHP can be used to select the buildpack for PHP applications.
