@@ -150,23 +150,6 @@ spec:
                               disabled
                             type: boolean
                         type: object
-                      verticalPodAutoscaler:
-                        description: |-
-                          VerticalPodAutoscaler configures the vertical pod autoscaler for this
-                          cluster.
-                        properties:
-                          mode:
-                            default: Disabled
-                            description: |-
-                              Mode controls the vertical pod autoscaler for this cluster: Disabled
-                              turns it off, RecommendOnly only shows suggested CPU/memory values
-                              without automatically changing anything, and Enabled fully enables it.
-                            enum:
-                            - Disabled
-                            - RecommendOnly
-                            - Enabled
-                            type: string
-                        type: object
                     type: object
                   nodePools:
                     items:

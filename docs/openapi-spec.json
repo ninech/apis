@@ -6313,22 +6313,6 @@
                           }
                         },
                         "type": "object"
-                      },
-                      "verticalPodAutoscaler": {
-                        "description": "VerticalPodAutoscaler configures the vertical pod autoscaler for this\ncluster.",
-                        "properties": {
-                          "mode": {
-                            "default": "Disabled",
-                            "description": "Mode controls the vertical pod autoscaler for this cluster: Disabled\nturns it off, RecommendOnly only shows suggested CPU/memory values\nwithout automatically changing anything, and Enabled fully enables it.",
-                            "enum": [
-                              "Disabled",
-                              "RecommendOnly",
-                              "Enabled"
-                            ],
-                            "type": "string"
-                          }
-                        },
-                        "type": "object"
                       }
                     },
                     "type": "object"
