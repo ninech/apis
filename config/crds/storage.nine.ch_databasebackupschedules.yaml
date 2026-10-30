@@ -69,6 +69,15 @@ spec:
                 description: DatabaseBackupScheduleParameters are the configurable
                   fields of a DatabaseBackupSchedule.
                 properties:
+                  dailyTime:
+                    description: |-
+                      DailyTime is the time of day in the format HH:MM (Europe/Zurich) at which
+                      backups are created. It can only be set if the schedule is daily.
+                      If it is empty, a time between 02:00 and 03:59 is chosen.
+                      On the last Sunday in March, when clocks go forward, a time between
+                      02:00 and 02:59 does not exist and the backup is created one hour later.
+                    pattern: ^([01][0-9]|2[0-3]):[0-5][0-9]$
+                    type: string
                   location:
                     description: |-
                       Location specifies the physical location of the object storage used to store the backups in.
