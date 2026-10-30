@@ -60,7 +60,7 @@ const (
 	// DatabaseBackupScheduleTTLMin is the minimum duration after the backups creation until it can be deleted.
 	DatabaseBackupScheduleTTLMin = 24 * time.Hour
 	// DatabaseBackupScheduleTTLMax is the maximum duration after the backups creation until it can be deleted.
-	DatabaseBackupScheduleTTLMax = 365 * 24 * time.Hour
+	DatabaseBackupScheduleTTLMax = 30 * 24 * time.Hour
 	// DatabaseBackupMinimumInterval is the minimum interval between two backups.
 	DatabaseBackupMinimumInterval = 1 * time.Hour
 	// KeyValueStoreVersion7 KeyValueStore version 7
@@ -601,8 +601,6 @@ type DatabaseBackupParameters struct {
 	// BucketUser is used to write database backups and read them again to restore.
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="bucketUser is immutable after creation"
 	BucketUser meta.LocalReference `json:"bucketUser"`
-	// Expiration is the time when the backup will be deleted.
-	Expiration metav1.Time `json:"expiration"`
 }
 
 // A DatabaseBackupStatus represents the observed state of a DatabaseBackup.
@@ -632,6 +630,9 @@ type DatabaseBackupObservation struct {
 	// Version contains the version information of the backup.
 	// +optional
 	Version DatabaseBackupVersion `json:"version,omitempty"`
+	// Expiration is the time when the backup will be deleted.
+	// +optional
+	Expiration metav1.Time `json:"expiration,omitempty"`
 	// Image is the container image of the backup job.
 	// +optional
 	Image string `json:"image,omitempty"`
@@ -690,6 +691,14 @@ type DatabaseBackupScheduleParameters struct {
 	// +kubebuilder:default:=daily
 	// +optional
 	Schedule DatabaseBackupScheduleCalendar `json:"schedule,omitempty"`
+	// DailyTime is the time of day in the format HH:MM (Europe/Zurich) at which
+	// backups are created. It can only be set if the schedule is daily.
+	// If it is empty, a time between 02:00 and 03:59 is chosen.
+	// On the last Sunday in March, when clocks go forward, a time between
+	// 02:00 and 02:59 does not exist and the backup is created one hour later.
+	// +kubebuilder:validation:Pattern=`^([01][0-9]|2[0-3]):[0-5][0-9]$`
+	// +optional
+	DailyTime string `json:"dailyTime,omitempty"`
 	// TTL is the duration after the backups creation until it can be deleted.
 	// +kubebuilder:default:="240h"
 	TTL *metav1.Duration `json:"ttl"`
@@ -1189,6 +1198,19 @@ type MySQLDatabaseParameters struct {
 	// +kubebuilder:default:=daily
 	// +optional
 	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
+	// BackupDailyTime is the time of day in the format HH:MM (Europe/Zurich) at
+	// which backups are created. It can only be set if the backup schedule is daily.
+	// If it is empty, a time between 02:00 and 03:59 is chosen.
+	// On the last Sunday in March, when clocks go forward, a time between
+	// 02:00 and 02:59 does not exist and the backup is created one hour later.
+	// +kubebuilder:validation:Pattern=`^([01][0-9]|2[0-3]):[0-5][0-9]$`
+	// +optional
+	BackupDailyTime string `json:"backupDailyTime,omitempty"`
+	// BackupTTL is the duration after the creation of a scheduled backup until
+	// it can be deleted. It must be between 24h and 720h. If it is empty, the
+	// default of the DatabaseBackupSchedule is used.
+	// +optional
+	BackupTTL *metav1.Duration `json:"backupTTL,omitempty"`
 	// RestoreFrom references a DatabaseBackup which is restored into this
 	// database once it is ready. It can only be set when the database is
 	// created.
@@ -1601,6 +1623,19 @@ type PostgresDatabaseParameters struct {
 	// +kubebuilder:default:=daily
 	// +optional
 	BackupSchedule DatabaseBackupScheduleCalendar `json:"backupSchedule,omitempty"`
+	// BackupDailyTime is the time of day in the format HH:MM (Europe/Zurich) at
+	// which backups are created. It can only be set if the backup schedule is daily.
+	// If it is empty, a time between 02:00 and 03:59 is chosen.
+	// On the last Sunday in March, when clocks go forward, a time between
+	// 02:00 and 02:59 does not exist and the backup is created one hour later.
+	// +kubebuilder:validation:Pattern=`^([01][0-9]|2[0-3]):[0-5][0-9]$`
+	// +optional
+	BackupDailyTime string `json:"backupDailyTime,omitempty"`
+	// BackupTTL is the duration after the creation of a scheduled backup until
+	// it can be deleted. It must be between 24h and 720h. If it is empty, the
+	// default of the DatabaseBackupSchedule is used.
+	// +optional
+	BackupTTL *metav1.Duration `json:"backupTTL,omitempty"`
 	// RestoreFrom references a DatabaseBackup which is restored into this
 	// database once it is ready. It can only be set when the database is
 	// created.

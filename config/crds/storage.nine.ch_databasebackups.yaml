@@ -93,10 +93,6 @@ spec:
                     x-kubernetes-validations:
                     - message: bucketUser is immutable after creation
                       rule: self == oldSelf
-                  expiration:
-                    description: Expiration is the time when the backup will be deleted.
-                    format: date-time
-                    type: string
                   location:
                     description: |-
                       Location specifies where the backup job is executed.
@@ -141,7 +137,6 @@ spec:
                 required:
                 - bucket
                 - bucketUser
-                - expiration
                 - source
                 type: object
               managementPolicies:
@@ -321,6 +316,10 @@ spec:
                 properties:
                   end:
                     description: End is the time when the backup operation ended.
+                    format: date-time
+                    type: string
+                  expiration:
+                    description: Expiration is the time when the backup will be deleted.
                     format: date-time
                     type: string
                   image:
