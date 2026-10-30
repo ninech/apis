@@ -323,6 +323,10 @@ spec:
                     description: End is the time when the backup operation ended.
                     format: date-time
                     type: string
+                  expiration:
+                    description: Expiration is the time when the backup will be deleted.
+                    format: date-time
+                    type: string
                   image:
                     description: Image is the container image of the backup job.
                     type: string

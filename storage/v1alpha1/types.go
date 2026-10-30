@@ -60,7 +60,7 @@ const (
 	// DatabaseBackupScheduleTTLMin is the minimum duration after the backups creation until it can be deleted.
 	DatabaseBackupScheduleTTLMin = 24 * time.Hour
 	// DatabaseBackupScheduleTTLMax is the maximum duration after the backups creation until it can be deleted.
-	DatabaseBackupScheduleTTLMax = 365 * 24 * time.Hour
+	DatabaseBackupScheduleTTLMax = 30 * 24 * time.Hour
 	// DatabaseBackupMinimumInterval is the minimum interval between two backups.
 	DatabaseBackupMinimumInterval = 1 * time.Hour
 	// KeyValueStoreVersion7 KeyValueStore version 7
@@ -632,6 +632,9 @@ type DatabaseBackupObservation struct {
 	// Version contains the version information of the backup.
 	// +optional
 	Version DatabaseBackupVersion `json:"version,omitempty"`
+	// Expiration is the time when the backup will be deleted.
+	// +optional
+	Expiration metav1.Time `json:"expiration,omitempty"`
 	// Image is the container image of the backup job.
 	// +optional
 	Image string `json:"image,omitempty"`
