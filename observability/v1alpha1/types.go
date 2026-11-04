@@ -9,6 +9,17 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+const (
+	// GrafanaLocationDefault represents the default Grafana datacenter
+	// location if no explicit location was specified.
+	GrafanaLocationDefault = meta.LocationNineES34
+)
+
+var (
+	// GrafanaLocationOptions is a list of available datacenter locations.
+	GrafanaLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
+)
+
 // Alertmanager deploys a fully managed Alertmanager instance.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -108,7 +119,14 @@ type GrafanaSpec struct {
 }
 
 // GrafanaParameters are the configurable fields of a Grafana.
+// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
+// +kubebuilder:validation:XValidation:rule="(has(self.highAvailability) && self.highAvailability) == (has(oldSelf.highAvailability) && oldSelf.highAvailability)",message="highAvailability is immutable after creation"
 type GrafanaParameters struct {
+	// Location specifies in which datacenter Grafana will be spawned.
+	//
+	// +optional
+	// +kubebuilder:default:="nine-es34"
+	Location meta.LocationName `json:"location,omitempty"`
 	// Deprecated: DataSource is no longer used by the controller. Datasource
 	// discovery is scoped automatically to the Grafana's own namespace. This
 	// field will be removed in a future release once all clients have been
@@ -127,6 +145,12 @@ type GrafanaParameters struct {
 	// nine.ch OIDC provider.
 	// +optional
 	AllowLocalUsers bool `json:"allowLocalUsers,omitempty"`
+	// HighAvailability runs multiple Grafana replicas which share a
+	// dedicated PostgreSQL database instead of a local SQLite database.
+	// Grafana alerting is evaluated on every replica and notifications are
+	// deduplicated between them. This can only be set on creation.
+	// +optional
+	HighAvailability bool `json:"highAvailability,omitempty"`
 }
 
 // DataSourceSelection specifies parameters on how to select / search for DataSources.

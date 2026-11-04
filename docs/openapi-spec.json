@@ -10341,9 +10341,33 @@
                   "enableAdminAccess": {
                     "description": "EnableAdminAccess gives you admin permissions in the Grafana instance.\nPlease note: Nine reserves the right to revoke admin access in future\nversions if the admin access is deemed a security or an operational risk.",
                     "type": "boolean"
+                  },
+                  "highAvailability": {
+                    "description": "HighAvailability runs multiple Grafana replicas which share a\ndedicated PostgreSQL database instead of a local SQLite database.\nGrafana alerting is evaluated on every replica and notifications are\ndeduplicated between them. This can only be set on creation.",
+                    "type": "boolean"
+                  },
+                  "location": {
+                    "default": "nine-es34",
+                    "description": "Location specifies in which datacenter Grafana will be spawned.",
+                    "enum": [
+                      "nine-cz41",
+                      "nine-cz42",
+                      "nine-es34"
+                    ],
+                    "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "Location is immutable and cannot be unset",
+                    "rule": "self.location == oldSelf.location"
+                  },
+                  {
+                    "message": "highAvailability is immutable after creation",
+                    "rule": "(has(self.highAvailability) \u0026\u0026 self.highAvailability) == (has(oldSelf.highAvailability) \u0026\u0026 oldSelf.highAvailability)"
+                  }
+                ]
               },
               "managementPolicies": {
                 "default": [
