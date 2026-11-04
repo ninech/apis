@@ -67,6 +67,15 @@ spec:
                 description: PostgresDatabaseParameters are the configurable fields
                   of a PostgresDatabase.
                 properties:
+                  backupDailyTime:
+                    description: |-
+                      BackupDailyTime is the time of day in the format HH:MM (Europe/Zurich) at
+                      which backups are created. It can only be set if the backup schedule is daily.
+                      If it is empty, a time between 02:00 and 03:59 is chosen.
+                      On the last Sunday in March, when clocks go forward, a time between
+                      02:00 and 02:59 does not exist and the backup is created one hour later.
+                    pattern: ^([01][0-9]|2[0-3]):[0-5][0-9]$
+                    type: string
                   backupSchedule:
                     default: daily
                     description: |-
@@ -76,6 +85,12 @@ spec:
                     enum:
                     - disabled
                     - daily
+                    type: string
+                  backupTTL:
+                    description: |-
+                      BackupTTL is the duration after the creation of a scheduled backup until
+                      it can be deleted. It must be between 24h and 720h. If it is empty, the
+                      default of the DatabaseBackupSchedule is used.
                     type: string
                   cloneFrom:
                     description: |-
