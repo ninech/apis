@@ -53,8 +53,6 @@ const (
 	DatabaseJobStateUnknown DatabaseJobState = "unknown"
 	// DBDailyBackupsDefault is the default number of daily database backups to keep.
 	DBKeepDailyBackupsDefault int = 10
-	// DatabaseBackupDefaultRetentionTime is the default retention time for backups.
-	DatabaseBackupDefaultRetentionTime = 10 * 24 * time.Hour
 	// DatabaseBackupScheduleCalendarDisabled disables backup operations.
 	DatabaseBackupScheduleCalendarDisabled DatabaseBackupScheduleCalendar = "disabled"
 	// DatabaseBackupScheduleCalendarDaily sets up daily backups for a database.
