@@ -332,10 +332,6 @@ spec:
                         description: Enabled defines if the Dockerfile build should
                           be enabled
                         type: boolean
-                        x-kubernetes-validations:
-                        - message: Dockerfile builds cannot be enabled/disabled after
-                            creation of the application (field is immutable)
-                          rule: self == oldSelf
                     type: object
                   git:
                     description: ApplicationGitConfig configures the git repo to connect
