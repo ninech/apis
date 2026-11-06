@@ -802,6 +802,10 @@ spec:
                     description: ScheduledJobStatus describes the status of all workerjobs
                     items:
                       properties:
+                        error:
+                          description: Error describes why the scheduled job could
+                            not be deployed.
+                          type: string
                         name:
                           type: string
                         replicaObservation:

@@ -757,6 +757,10 @@ spec:
                     description: ScheduledJobs shows the currently running ScheduledJobs.
                     items:
                       properties:
+                        error:
+                          description: Error describes why the scheduled job could
+                            not be deployed.
+                          type: string
                         name:
                           type: string
                         schedule:

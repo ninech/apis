@@ -502,6 +502,9 @@ type ApplicationScheduledJobStatus struct {
 	Name     string          `json:"name"`
 	Size     ApplicationSize `json:"size"`
 	Schedule string          `json:"schedule"`
+	// Error describes why the scheduled job could not be deployed.
+	// +optional
+	Error string `json:"error,omitempty"`
 }
 
 // BuildpackMetadata describes the binary that was used in the build phase.
@@ -1004,4 +1007,7 @@ type WorkerJobStatus struct {
 type ScheduledJobStatus struct {
 	Name               string               `json:"name"`
 	ReplicaObservation []ReplicaObservation `json:"replicaObservation"`
+	// Error describes why the scheduled job could not be deployed.
+	// +optional
+	Error string `json:"error,omitempty"`
 }
