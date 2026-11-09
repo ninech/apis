@@ -413,7 +413,6 @@ type ScheduledJob struct {
 }
 type DockerfileBuild struct {
 	// Enabled defines if the Dockerfile build should be enabled
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="Dockerfile builds cannot be enabled/disabled after creation of the application (field is immutable)"
 	// +optional
 	Enabled bool `json:"enabled"`
 	// DockerfilePath specifies the path to the Dockerfile. If left empty a
