@@ -399,7 +399,8 @@ spec:
                     description: |-
                       Language specifies which kind of application/language should be
                       used for building the application. If left empty, an automatic
-                      detection will be run.
+                      detection will be run. It is ignored if dockerfile builds are
+                      enabled.
                     enum:
                     - ""
                     - ruby
@@ -459,9 +460,6 @@ spec:
                 - config
                 - git
                 type: object
-                x-kubernetes-validations:
-                - message: language can't be set if dockerfile builds are enabled.
-                  rule: '!(has(self.language) && self.dockerfileBuild.enabled)'
               managementPolicies:
                 default:
                 - '*'
