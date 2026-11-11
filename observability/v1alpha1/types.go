@@ -9,17 +9,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-const (
-	// GrafanaLocationDefault represents the default Grafana datacenter
-	// location if no explicit location was specified.
-	GrafanaLocationDefault = meta.LocationNineES34
-)
-
-var (
-	// GrafanaLocationOptions is a list of available datacenter locations.
-	GrafanaLocationOptions = []meta.LocationName{meta.LocationNineES34, meta.LocationNineCZ41, meta.LocationNineCZ42}
-)
-
 // Alertmanager deploys a fully managed Alertmanager instance.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -119,14 +108,7 @@ type GrafanaSpec struct {
 }
 
 // GrafanaParameters are the configurable fields of a Grafana.
-// +kubebuilder:validation:XValidation:rule="self.location == oldSelf.location",message="Location is immutable and cannot be unset"
-// +kubebuilder:validation:XValidation:rule="(has(self.highAvailability) && self.highAvailability) == (has(oldSelf.highAvailability) && oldSelf.highAvailability)",message="highAvailability is immutable after creation"
 type GrafanaParameters struct {
-	// Location specifies in which datacenter Grafana will be spawned.
-	//
-	// +optional
-	// +kubebuilder:default:="nine-es34"
-	Location meta.LocationName `json:"location,omitempty"`
 	// Deprecated: DataSource is no longer used by the controller. Datasource
 	// discovery is scoped automatically to the Grafana's own namespace. This
 	// field will be removed in a future release once all clients have been
@@ -145,11 +127,6 @@ type GrafanaParameters struct {
 	// nine.ch OIDC provider.
 	// +optional
 	AllowLocalUsers bool `json:"allowLocalUsers,omitempty"`
-	// HighAvailability runs Grafana with multiple replicas so that it stays
-	// available during maintenance and node failures. This can only be set on
-	// creation.
-	// +optional
-	HighAvailability bool `json:"highAvailability,omitempty"`
 }
 
 // DataSourceSelection specifies parameters on how to select / search for DataSources.
@@ -175,17 +152,7 @@ type GrafanaObservation struct {
 	// PredefinedDashboards shows which automatically selected dashboards
 	// have been deployed.
 	// +optional
-	PredefinedDashboards []PredefinedDashboardStatus `json:"predefinedDashboards,omitempty"`
-	// DatabaseSize is the size of the PostgreSQL database of a highly
-	// available Grafana.
-	// +optional
-	DatabaseSize *resource.Quantity `json:"databaseSize,omitempty"`
-	// AllocatedResources shows the CPU, memory and disk which are currently
-	// allocated to this Grafana instance. They are adjusted automatically to
-	// the load of the instance and are the basis for the usage based part of
-	// the bill.
-	// +optional
-	AllocatedResources       corev1.ResourceList `json:"allocatedResources,omitempty"`
+	PredefinedDashboards     []PredefinedDashboardStatus `json:"predefinedDashboards,omitempty"`
 	meta.ChildResourceStatus `json:",inline"`
 }
 
