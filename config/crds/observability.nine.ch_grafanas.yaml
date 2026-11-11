@@ -94,7 +94,28 @@ spec:
                       Please note: Nine reserves the right to revoke admin access in future
                       versions if the admin access is deemed a security or an operational risk.
                     type: boolean
+                  highAvailability:
+                    description: |-
+                      HighAvailability runs Grafana with multiple replicas so that it stays
+                      available during maintenance and node failures. This can only be set on
+                      creation.
+                    type: boolean
+                  location:
+                    default: nine-es34
+                    description: Location specifies in which datacenter Grafana will
+                      be spawned.
+                    enum:
+                    - nine-cz41
+                    - nine-cz42
+                    - nine-es34
+                    type: string
                 type: object
+                x-kubernetes-validations:
+                - message: Location is immutable and cannot be unset
+                  rule: self.location == oldSelf.location
+                - message: highAvailability is immutable after creation
+                  rule: (has(self.highAvailability) && self.highAvailability) == (has(oldSelf.highAvailability)
+                    && oldSelf.highAvailability)
               managementPolicies:
                 default:
                 - '*'
@@ -268,6 +289,19 @@ spec:
               atProvider:
                 description: GrafanaObservation are the observable fields of a Grafana.
                 properties:
+                  allocatedResources:
+                    additionalProperties:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    description: |-
+                      AllocatedResources shows the CPU, memory and disk which are currently
+                      allocated to this Grafana instance. They are adjusted automatically to
+                      the load of the instance and are the basis for the usage based part of
+                      the bill.
+                    type: object
                   childResourceErrors:
                     description: ChildResourceErrors of a managed resource.
                     items:
@@ -312,6 +346,15 @@ spec:
                       - type
                       type: object
                     type: array
+                  databaseSize:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    description: |-
+                      DatabaseSize is the size of the PostgreSQL database of a highly
+                      available Grafana.
+                    pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    x-kubernetes-int-or-string: true
                   predefinedDashboards:
                     description: |-
                       PredefinedDashboards shows which automatically selected dashboards

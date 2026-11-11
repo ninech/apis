@@ -23,8 +23,8 @@ package v1alpha1
 import (
 	metav1alpha1 "github.com/ninech/apis/meta/v1alpha1"
 	"github.com/prometheus/common/model"
-	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -269,6 +269,18 @@ func (in *GrafanaObservation) DeepCopyInto(out *GrafanaObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DatabaseSize != nil {
+		in, out := &in.DatabaseSize, &out.DatabaseSize
+		x := (*in).DeepCopy()
+		*out = &x
+	}
+	if in.AllocatedResources != nil {
+		in, out := &in.AllocatedResources, &out.AllocatedResources
+		*out = make(v1.ResourceList, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val.DeepCopy()
+		}
+	}
 	in.ChildResourceStatus.DeepCopyInto(&out.ChildResourceStatus)
 }
 
@@ -397,7 +409,7 @@ func (in *LokiObservation) DeepCopyInto(out *LokiObservation) {
 	in.ChildResourceStatus.DeepCopyInto(&out.ChildResourceStatus)
 	if in.AllocatedResources != nil {
 		in, out := &in.AllocatedResources, &out.AllocatedResources
-		*out = make(corev1.ResourceList, len(*in))
+		*out = make(v1.ResourceList, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val.DeepCopy()
 		}
@@ -419,7 +431,7 @@ func (in *LokiParameters) DeepCopyInto(out *LokiParameters) {
 	*out = *in
 	if in.Retention != nil {
 		in, out := &in.Retention, &out.Retention
-		*out = new(v1.Duration)
+		*out = new(metav1.Duration)
 		**out = **in
 	}
 	if in.AllowedCIDRs != nil {
@@ -566,7 +578,7 @@ func (in *MetricsAgentParameters) DeepCopyInto(out *MetricsAgentParameters) {
 	}
 	if in.ScrapeInterval != nil {
 		in, out := &in.ScrapeInterval, &out.ScrapeInterval
-		*out = new(v1.Duration)
+		*out = new(metav1.Duration)
 		**out = **in
 	}
 	if in.Alertmanagers != nil {
@@ -767,12 +779,12 @@ func (in *PrometheusParameters) DeepCopyInto(out *PrometheusParameters) {
 	}
 	if in.RetentionTime != nil {
 		in, out := &in.RetentionTime, &out.RetentionTime
-		*out = new(v1.Duration)
+		*out = new(metav1.Duration)
 		**out = **in
 	}
 	if in.ScrapeInterval != nil {
 		in, out := &in.ScrapeInterval, &out.ScrapeInterval
-		*out = new(v1.Duration)
+		*out = new(metav1.Duration)
 		**out = **in
 	}
 	if in.Alertmanagers != nil {
@@ -1041,7 +1053,7 @@ func (in *TempoParameters) DeepCopyInto(out *TempoParameters) {
 	*out = *in
 	if in.Retention != nil {
 		in, out := &in.Retention, &out.Retention
-		*out = new(v1.Duration)
+		*out = new(metav1.Duration)
 		**out = **in
 	}
 }
