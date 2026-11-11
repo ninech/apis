@@ -354,7 +354,7 @@
                     "type": "array"
                   },
                   "language": {
-                    "description": "Language specifies which kind of application/language should be\nused for building the application. If left empty, an automatic\ndetection will be run. It is ignored if dockerfile builds are\nenabled.",
+                    "description": "Language specifies which kind of application/language should be\nused for building the application. If left empty, an automatic\ndetection will be run.",
                     "enum": [
                       "",
                       "ruby",
@@ -420,7 +420,13 @@
                   "config",
                   "git"
                 ],
-                "type": "object"
+                "type": "object",
+                "x-kubernetes-validations": [
+                  {
+                    "message": "language can't be set if dockerfile builds are enabled.",
+                    "rule": "!(has(self.language) \u0026\u0026 self.dockerfileBuild.enabled)"
+                  }
+                ]
               },
               "managementPolicies": {
                 "default": [
