@@ -85,6 +85,9 @@ spec:
                     description: |-
                       ResetCredentials if set to true, the credentials of this user will be reset
                       in the next reconciliation loop.
+
+                      Deprecated: set the nine.ch/rotate-credentials annotation to a new value,
+                      e.g. the current time, instead.
                     type: boolean
                 required:
                 - location
@@ -307,13 +310,21 @@ spec:
                       - type
                       type: object
                     type: array
+                  lastCredentialsRotation:
+                    description: |-
+                      LastCredentialsRotation is the value of the nine.ch/rotate-credentials
+                      annotation the credentials were last reset for.
+                    type: string
+                  replacedCredentialsUID:
+                    description: |-
+                      ReplacedCredentialsUID is the UID of the object which held the
+                      credentials before the reset in progress.
+                    type: string
                   resettingCredentials:
                     description: |-
-                      ResettingCredentials indicates if a reset is in progress. If it is true,
-                      the current credentials can be considered out of date.
+                      ResettingCredentials is true from the reset of the credentials until the
+                      new credentials have been written to the connection secret and applied.
                     type: boolean
-                required:
-                - resettingCredentials
                 type: object
               conditions:
                 description: Conditions of the resource.

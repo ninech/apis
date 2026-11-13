@@ -425,6 +425,11 @@ spec:
                       Deprecated: FQDN exists for historical compatibility.
                       URL should be used instead as it includes the protocol and port.
                     type: string
+                  lastCredentialsRotation:
+                    description: |-
+                      LastCredentialsRotation is the value of the nine.ch/rotate-credentials
+                      annotation the credentials were last reset for.
+                    type: string
                   privateNetworkingFQDN:
                     description: |-
                       PrivateNetworkingFQDN is the magic DNS name of a service connection destination.
@@ -438,6 +443,16 @@ spec:
                       It requires a service connection to be configured.
                     pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)
                     type: string
+                  replacedCredentialsUID:
+                    description: |-
+                      ReplacedCredentialsUID is the UID of the object which held the
+                      credentials before the reset in progress.
+                    type: string
+                  resettingCredentials:
+                    description: |-
+                      ResettingCredentials is true from the reset of the credentials until the
+                      new credentials have been written to the connection secret and applied.
+                    type: boolean
                   snapshotsBucket:
                     description: SnapshotsBucket is the object bucket into which index
                       snapshots are created.
