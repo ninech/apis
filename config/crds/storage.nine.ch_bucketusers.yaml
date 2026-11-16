@@ -83,9 +83,15 @@ spec:
                     type: string
                   resetCredentials:
                     description: |-
-                      ResetCredentials if set to true, the credentials of this user will be reset
-                      in the next reconciliation loop.
+                      ResetCredentials is no longer supported and can only be set to false.
+
+                      Deprecated: set the nine.ch/rotate-credentials annotation to a new value,
+                      e.g. the current time, to reset the credentials instead.
                     type: boolean
+                    x-kubernetes-validations:
+                    - message: resetCredentials is no longer supported, set the nine.ch/rotate-credentials
+                        annotation to a new value instead
+                      rule: '!self'
                 required:
                 - location
                 type: object
@@ -307,13 +313,29 @@ spec:
                       - type
                       type: object
                     type: array
+                  lastCredentialsRotationAnnotationValue:
+                    description: |-
+                      LastCredentialsRotationAnnotationValue is the value of the
+                      nine.ch/rotate-credentials annotation the credentials were last reset
+                      for.
+                    type: string
+                  lastCredentialsRotationTime:
+                    description: |-
+                      LastCredentialsRotationTime is the time the last reset of the credentials
+                      was completed, i.e. the new credentials were written to the connection
+                      secret and applied.
+                    format: date-time
+                    type: string
+                  replacedCredentialsUID:
+                    description: |-
+                      ReplacedCredentialsUID is the UID of the object which held the
+                      credentials before the reset in progress.
+                    type: string
                   resettingCredentials:
                     description: |-
-                      ResettingCredentials indicates if a reset is in progress. If it is true,
-                      the current credentials can be considered out of date.
+                      ResettingCredentials is true from the reset of the credentials until the
+                      new credentials have been written to the connection secret and applied.
                     type: boolean
-                required:
-                - resettingCredentials
                 type: object
               conditions:
                 description: Conditions of the resource.
