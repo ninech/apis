@@ -796,19 +796,6 @@ spec:
                     description: FQDN is the fully qualified domain name at which
                       the database is accessible.
                     type: string
-                  lastCredentialsRotationAnnotationValue:
-                    description: |-
-                      LastCredentialsRotationAnnotationValue is the value of the
-                      nine.ch/rotate-credentials annotation the credentials were last reset
-                      for.
-                    type: string
-                  lastCredentialsRotationTime:
-                    description: |-
-                      LastCredentialsRotationTime is the time the last reset of the credentials
-                      was completed, i.e. the new credentials were written to the connection
-                      secret and applied.
-                    format: date-time
-                    type: string
                   locked:
                     description: Locked reports why a database has been locked.
                     type: string
@@ -819,22 +806,6 @@ spec:
                     description: PrivateNetworkingFQDN is the magic DNS name of a
                       service connection destination.
                     type: string
-                  replacedCredentialsFingerprint:
-                    description: |-
-                      ReplacedCredentialsFingerprint is the fingerprint of the credentials
-                      before the reset in progress. The reset is only done once the recreated
-                      object holds credentials with a different fingerprint.
-                    type: string
-                  replacedCredentialsUID:
-                    description: |-
-                      ReplacedCredentialsUID is the UID of the object which held the
-                      credentials before the reset in progress.
-                    type: string
-                  resettingCredentials:
-                    description: |-
-                      ResettingCredentials is true from the reset of the credentials until the
-                      new credentials have been written to the connection secret and applied.
-                    type: boolean
                   size:
                     anyOf:
                     - type: integer

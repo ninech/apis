@@ -1,15 +1,8 @@
 package v1alpha1
 
-import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
-)
+import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 const (
-	// RotateCredentialsAnnotation requests a reset of the credentials of a
-	// resource. The credentials are reset whenever the annotation is set to a
-	// value they have not been reset for yet, e.g. the current time.
-	RotateCredentialsAnnotation = "nine.ch/rotate-credentials"
 	// DNSCheckCNAME describes a CNAME DNS check
 	DNSCheckCNAME DNSCheckType = "CNAME"
 	// DNSCheckCNAME describes a TXT record DNS check
@@ -39,35 +32,6 @@ const (
 	// identifies nine resources.
 	NineOwnedLabelValue = "nine"
 )
-
-// CredentialsRotationStatus reflects the credentials resets requested through
-// the nine.ch/rotate-credentials annotation.
-// +kubebuilder:object:generate=true
-type CredentialsRotationStatus struct {
-	// LastCredentialsRotationAnnotationValue is the value of the
-	// nine.ch/rotate-credentials annotation the credentials were last reset
-	// for.
-	// +optional
-	LastCredentialsRotationAnnotationValue string `json:"lastCredentialsRotationAnnotationValue,omitempty"`
-	// LastCredentialsRotationTime is the time the last reset of the credentials
-	// was completed, i.e. the new credentials were written to the connection
-	// secret and applied.
-	// +optional
-	LastCredentialsRotationTime *metav1.Time `json:"lastCredentialsRotationTime,omitempty"`
-	// ResettingCredentials is true from the reset of the credentials until the
-	// new credentials have been written to the connection secret and applied.
-	// +optional
-	ResettingCredentials bool `json:"resettingCredentials,omitempty"`
-	// ReplacedCredentialsUID is the UID of the object which held the
-	// credentials before the reset in progress.
-	// +optional
-	ReplacedCredentialsUID types.UID `json:"replacedCredentialsUID,omitempty"`
-	// ReplacedCredentialsFingerprint is the fingerprint of the credentials
-	// before the reset in progress. The reset is only done once the recreated
-	// object holds credentials with a different fingerprint.
-	// +optional
-	ReplacedCredentialsFingerprint string `json:"replacedCredentialsFingerprint,omitempty"`
-}
 
 // DNSCheckType describes the type of a DNS check.
 // +kubebuilder:object:generate=true

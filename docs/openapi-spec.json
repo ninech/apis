@@ -15823,7 +15823,9 @@
             }
           },
           "status": {
-            "atProvider": {}
+            "atProvider": {
+              "resettingCredentials": false
+            }
           }
         },
         "properties": {
@@ -15876,7 +15878,7 @@
                     "type": "string"
                   },
                   "resetCredentials": {
-                    "description": "ResetCredentials if set to true, the credentials of this user will be reset\nin the next reconciliation loop.\n\nDeprecated: set the nine.ch/rotate-credentials annotation to a new value,\ne.g. the current time, instead.",
+                    "description": "ResetCredentials if set to true, the credentials of this user will be reset\nin the next reconciliation loop.",
                     "type": "boolean"
                   }
                 },
@@ -16106,28 +16108,14 @@
                     },
                     "type": "array"
                   },
-                  "lastCredentialsRotationAnnotationValue": {
-                    "description": "LastCredentialsRotationAnnotationValue is the value of the\nnine.ch/rotate-credentials annotation the credentials were last reset\nfor.",
-                    "type": "string"
-                  },
-                  "lastCredentialsRotationTime": {
-                    "description": "LastCredentialsRotationTime is the time the last reset of the credentials\nwas completed, i.e. the new credentials were written to the connection\nsecret and applied.",
-                    "format": "date-time",
-                    "type": "string"
-                  },
-                  "replacedCredentialsFingerprint": {
-                    "description": "ReplacedCredentialsFingerprint is the fingerprint of the credentials\nbefore the reset in progress. The reset is only done once the recreated\nobject holds credentials with a different fingerprint.",
-                    "type": "string"
-                  },
-                  "replacedCredentialsUID": {
-                    "description": "ReplacedCredentialsUID is the UID of the object which held the\ncredentials before the reset in progress.",
-                    "type": "string"
-                  },
                   "resettingCredentials": {
-                    "description": "ResettingCredentials is true from the reset of the credentials until the\nnew credentials have been written to the connection secret and applied.",
+                    "description": "ResettingCredentials indicates if a reset is in progress. If it is true,\nthe current credentials can be considered out of date.",
                     "type": "boolean"
                   }
                 },
+                "required": [
+                  "resettingCredentials"
+                ],
                 "type": "object"
               },
               "conditions": {
@@ -17893,30 +17881,9 @@
                     "description": "FQDN is the fully qualified domain name, at which the instance is reachable at.",
                     "type": "string"
                   },
-                  "lastCredentialsRotationAnnotationValue": {
-                    "description": "LastCredentialsRotationAnnotationValue is the value of the\nnine.ch/rotate-credentials annotation the credentials were last reset\nfor.",
-                    "type": "string"
-                  },
-                  "lastCredentialsRotationTime": {
-                    "description": "LastCredentialsRotationTime is the time the last reset of the credentials\nwas completed, i.e. the new credentials were written to the connection\nsecret and applied.",
-                    "format": "date-time",
-                    "type": "string"
-                  },
                   "privateNetworkingFQDN": {
                     "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.",
                     "type": "string"
-                  },
-                  "replacedCredentialsFingerprint": {
-                    "description": "ReplacedCredentialsFingerprint is the fingerprint of the credentials\nbefore the reset in progress. The reset is only done once the recreated\nobject holds credentials with a different fingerprint.",
-                    "type": "string"
-                  },
-                  "replacedCredentialsUID": {
-                    "description": "ReplacedCredentialsUID is the UID of the object which held the\ncredentials before the reset in progress.",
-                    "type": "string"
-                  },
-                  "resettingCredentials": {
-                    "description": "ResettingCredentials is true from the reset of the credentials until the\nnew credentials have been written to the connection secret and applied.",
-                    "type": "boolean"
                   }
                 },
                 "type": "object"
@@ -18807,30 +18774,9 @@
                     "description": "FQDN is the fully qualified domain name at which the database is accessible.",
                     "type": "string"
                   },
-                  "lastCredentialsRotationAnnotationValue": {
-                    "description": "LastCredentialsRotationAnnotationValue is the value of the\nnine.ch/rotate-credentials annotation the credentials were last reset\nfor.",
-                    "type": "string"
-                  },
-                  "lastCredentialsRotationTime": {
-                    "description": "LastCredentialsRotationTime is the time the last reset of the credentials\nwas completed, i.e. the new credentials were written to the connection\nsecret and applied.",
-                    "format": "date-time",
-                    "type": "string"
-                  },
                   "privateNetworkingFQDN": {
                     "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.",
                     "type": "string"
-                  },
-                  "replacedCredentialsFingerprint": {
-                    "description": "ReplacedCredentialsFingerprint is the fingerprint of the credentials\nbefore the reset in progress. The reset is only done once the recreated\nobject holds credentials with a different fingerprint.",
-                    "type": "string"
-                  },
-                  "replacedCredentialsUID": {
-                    "description": "ReplacedCredentialsUID is the UID of the object which held the\ncredentials before the reset in progress.",
-                    "type": "string"
-                  },
-                  "resettingCredentials": {
-                    "description": "ResettingCredentials is true from the reset of the credentials until the\nnew credentials have been written to the connection secret and applied.",
-                    "type": "boolean"
                   },
                   "size": {
                     "anyOf": [
@@ -19710,15 +19656,6 @@
                     "description": "FQDN is the fully qualified domain name at which the database is accessible.",
                     "type": "string"
                   },
-                  "lastCredentialsRotationAnnotationValue": {
-                    "description": "LastCredentialsRotationAnnotationValue is the value of the\nnine.ch/rotate-credentials annotation the credentials were last reset\nfor.",
-                    "type": "string"
-                  },
-                  "lastCredentialsRotationTime": {
-                    "description": "LastCredentialsRotationTime is the time the last reset of the credentials\nwas completed, i.e. the new credentials were written to the connection\nsecret and applied.",
-                    "format": "date-time",
-                    "type": "string"
-                  },
                   "locked": {
                     "description": "Locked reports why a database has been locked.",
                     "type": "string"
@@ -19730,18 +19667,6 @@
                   "privateNetworkingFQDN": {
                     "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.",
                     "type": "string"
-                  },
-                  "replacedCredentialsFingerprint": {
-                    "description": "ReplacedCredentialsFingerprint is the fingerprint of the credentials\nbefore the reset in progress. The reset is only done once the recreated\nobject holds credentials with a different fingerprint.",
-                    "type": "string"
-                  },
-                  "replacedCredentialsUID": {
-                    "description": "ReplacedCredentialsUID is the UID of the object which held the\ncredentials before the reset in progress.",
-                    "type": "string"
-                  },
-                  "resettingCredentials": {
-                    "description": "ResettingCredentials is true from the reset of the credentials until the\nnew credentials have been written to the connection secret and applied.",
-                    "type": "boolean"
                   },
                   "size": {
                     "anyOf": [
@@ -20320,15 +20245,6 @@
                     "description": "FQDN is the fully qualified domain name at which the instance can be reached.\n\nDeprecated: FQDN exists for historical compatibility.\nURL should be used instead as it includes the protocol and port.",
                     "type": "string"
                   },
-                  "lastCredentialsRotationAnnotationValue": {
-                    "description": "LastCredentialsRotationAnnotationValue is the value of the\nnine.ch/rotate-credentials annotation the credentials were last reset\nfor.",
-                    "type": "string"
-                  },
-                  "lastCredentialsRotationTime": {
-                    "description": "LastCredentialsRotationTime is the time the last reset of the credentials\nwas completed, i.e. the new credentials were written to the connection\nsecret and applied.",
-                    "format": "date-time",
-                    "type": "string"
-                  },
                   "privateNetworkingFQDN": {
                     "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.\n\nDeprecated: PrivateNetworkingFQDN exists for historical compatibility.\nPrivateNetworkingURL should be used instead as it includes the protocol and port.",
                     "type": "string"
@@ -20337,18 +20253,6 @@
                     "description": "PrivateNetworkingURL is the private address at which the instance can be reached.\nIt requires a service connection to be configured.",
                     "pattern": "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?\u0026//=]*)",
                     "type": "string"
-                  },
-                  "replacedCredentialsFingerprint": {
-                    "description": "ReplacedCredentialsFingerprint is the fingerprint of the credentials\nbefore the reset in progress. The reset is only done once the recreated\nobject holds credentials with a different fingerprint.",
-                    "type": "string"
-                  },
-                  "replacedCredentialsUID": {
-                    "description": "ReplacedCredentialsUID is the UID of the object which held the\ncredentials before the reset in progress.",
-                    "type": "string"
-                  },
-                  "resettingCredentials": {
-                    "description": "ResettingCredentials is true from the reset of the credentials until the\nnew credentials have been written to the connection secret and applied.",
-                    "type": "boolean"
                   },
                   "snapshotsBucket": {
                     "description": "SnapshotsBucket is the object bucket into which index snapshots are created.",
@@ -20847,30 +20751,9 @@
                     "description": "FQDN is the fully qualified domain name at which the database is accessible.",
                     "type": "string"
                   },
-                  "lastCredentialsRotationAnnotationValue": {
-                    "description": "LastCredentialsRotationAnnotationValue is the value of the\nnine.ch/rotate-credentials annotation the credentials were last reset\nfor.",
-                    "type": "string"
-                  },
-                  "lastCredentialsRotationTime": {
-                    "description": "LastCredentialsRotationTime is the time the last reset of the credentials\nwas completed, i.e. the new credentials were written to the connection\nsecret and applied.",
-                    "format": "date-time",
-                    "type": "string"
-                  },
                   "privateNetworkingFQDN": {
                     "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.",
                     "type": "string"
-                  },
-                  "replacedCredentialsFingerprint": {
-                    "description": "ReplacedCredentialsFingerprint is the fingerprint of the credentials\nbefore the reset in progress. The reset is only done once the recreated\nobject holds credentials with a different fingerprint.",
-                    "type": "string"
-                  },
-                  "replacedCredentialsUID": {
-                    "description": "ReplacedCredentialsUID is the UID of the object which held the\ncredentials before the reset in progress.",
-                    "type": "string"
-                  },
-                  "resettingCredentials": {
-                    "description": "ResettingCredentials is true from the reset of the credentials until the\nnew credentials have been written to the connection secret and applied.",
-                    "type": "boolean"
                   },
                   "size": {
                     "anyOf": [
@@ -21416,15 +21299,6 @@
                     "description": "FQDN is the fully qualified domain name at which the database is accessible.",
                     "type": "string"
                   },
-                  "lastCredentialsRotationAnnotationValue": {
-                    "description": "LastCredentialsRotationAnnotationValue is the value of the\nnine.ch/rotate-credentials annotation the credentials were last reset\nfor.",
-                    "type": "string"
-                  },
-                  "lastCredentialsRotationTime": {
-                    "description": "LastCredentialsRotationTime is the time the last reset of the credentials\nwas completed, i.e. the new credentials were written to the connection\nsecret and applied.",
-                    "format": "date-time",
-                    "type": "string"
-                  },
                   "locked": {
                     "description": "Locked reports why a database has been locked.",
                     "type": "string"
@@ -21436,18 +21310,6 @@
                   "privateNetworkingFQDN": {
                     "description": "PrivateNetworkingFQDN is the magic DNS name of a service connection destination.",
                     "type": "string"
-                  },
-                  "replacedCredentialsFingerprint": {
-                    "description": "ReplacedCredentialsFingerprint is the fingerprint of the credentials\nbefore the reset in progress. The reset is only done once the recreated\nobject holds credentials with a different fingerprint.",
-                    "type": "string"
-                  },
-                  "replacedCredentialsUID": {
-                    "description": "ReplacedCredentialsUID is the UID of the object which held the\ncredentials before the reset in progress.",
-                    "type": "string"
-                  },
-                  "resettingCredentials": {
-                    "description": "ResettingCredentials is true from the reset of the credentials until the\nnew credentials have been written to the connection secret and applied.",
-                    "type": "boolean"
                   },
                   "size": {
                     "anyOf": [

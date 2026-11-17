@@ -443,9 +443,6 @@ type BucketUserSpec struct {
 type BucketUserParameters struct {
 	// ResetCredentials if set to true, the credentials of this user will be reset
 	// in the next reconciliation loop.
-	//
-	// Deprecated: set the nine.ch/rotate-credentials annotation to a new value,
-	// e.g. the current time, instead.
 	// +optional
 	ResetCredentials *bool `json:"resetCredentials,omitempty"`
 	// Location specifies the physical location of the BucketUser.
@@ -463,8 +460,9 @@ type BucketUserStatus struct {
 
 // BucketUserObservation are the observable fields of a Bucket.
 type BucketUserObservation struct {
-	// Status of credentials resets.
-	meta.CredentialsRotationStatus `json:",inline"`
+	// ResettingCredentials indicates if a reset is in progress. If it is true,
+	// the current credentials can be considered out of date.
+	ResettingCredentials bool `json:"resettingCredentials"`
 	// Status of all our child resources.
 	meta.ChildResourceStatus `json:",inline"`
 }
@@ -939,8 +937,6 @@ type KeyValueStoreObservation struct {
 	CACert string `json:"caCert,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
-	// Status of credentials resets.
-	meta.CredentialsRotationStatus `json:",inline"`
 }
 
 // MySQL deploys a Self Service MySQL instance.
@@ -1130,8 +1126,6 @@ type MySQLObservation struct {
 	CACert string `json:"caCert,omitempty"`
 	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
-	// Status of credentials resets.
-	meta.CredentialsRotationStatus `json:",inline"`
 }
 
 // DatabaseObservation are the observable fields of a database.
@@ -1266,8 +1260,6 @@ type MySQLDatabaseObservation struct {
 	CACert string `json:"caCert,omitempty"`
 	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
-	// Status of credentials resets.
-	meta.CredentialsRotationStatus `json:",inline"`
 }
 
 // BootstrapStatus records the outcome of a database's bootstrap restore. That
@@ -1423,8 +1415,6 @@ type OpenSearchObservation struct {
 	SnapshotsBucket meta.LocalReference `json:"snapshotsBucket,omitempty"`
 	// Status of all the child resources.
 	meta.ChildResourceStatus `json:",inline"`
-	// Status of credentials resets.
-	meta.CredentialsRotationStatus `json:",inline"`
 }
 
 // OpenSearchClusterHealth holds a basic overview over the health of the cluster.
@@ -1568,8 +1558,6 @@ type PostgresObservation struct {
 	CACert string `json:"caCert,omitempty"`
 	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
-	// Status of credentials resets.
-	meta.CredentialsRotationStatus `json:",inline"`
 }
 
 // PostgresDatabase deploys a Postgres database.
@@ -1700,8 +1688,6 @@ type PostgresDatabaseObservation struct {
 	CACert string `json:"caCert,omitempty"`
 	// Status of all child resources.
 	meta.ChildResourceStatus `json:",inline"`
-	// Status of credentials resets.
-	meta.CredentialsRotationStatus `json:",inline"`
 }
 
 // Registry describes and deploys Docker Container Registry to a cluster.
