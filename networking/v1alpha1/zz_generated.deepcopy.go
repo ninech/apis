@@ -183,6 +183,11 @@ func (in *IngressHAProxyParameters) DeepCopyInto(out *IngressHAProxyParameters) 
 		*out = new(HSTSConfiguration)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.PathTypeOrder != nil {
+		in, out := &in.PathTypeOrder, &out.PathTypeOrder
+		*out = make([]IngressHAProxyPathType, len(*in))
+		copy(*out, *in)
+	}
 	if in.TLSProtocols != nil {
 		in, out := &in.TLSProtocols, &out.TLSProtocols
 		*out = make(IngressHAProxyTLSProtocols, len(*in))
