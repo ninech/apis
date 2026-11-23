@@ -7718,6 +7718,28 @@
                     "description": "IsPublic specifies whether this ingress controller is reachable from the\noutside. A public controller is exposed with a LoadBalancer service and\ngets a public IP address assigned. A non-public one is exposed with a\nClusterIP service instead. A non-public controller still owns its\nIngressClass and keeps claiming matching Ingress resources without serving\nany external traffic, so its class must not be the default one while it is\nnot public. Defaults to true.",
                     "type": "boolean"
                   },
+                  "pathTypeOrder": {
+                    "description": "PathTypeOrder sets the order in which paths of different types are\nmatched when they do not overlap. Overlapping paths are always ordered\nby length, but overlaps with regex paths are not detected, so with the\ndefault order exact,prefix,begin,regex a \"/\" Prefix path matches before\nany regex path. Moving regex forward, e.g. to exact,regex,prefix,begin,\nmakes regex paths win instead. Wildcard hostnames are matched as regex\npaths as well, so this also changes hostname precedence. It applies to\nevery Ingress this controller serves and must list every path type\nexactly once. Defaults to haproxy-ingress' exact,prefix,begin,regex.\nSee https://haproxy-ingress.github.io/docs/configuration/keys/#path-type",
+                    "items": {
+                      "description": "IngressHAProxyPathType is a haproxy-ingress path matching type.",
+                      "enum": [
+                        "exact",
+                        "prefix",
+                        "begin",
+                        "regex"
+                      ],
+                      "type": "string"
+                    },
+                    "maxItems": 4,
+                    "minItems": 4,
+                    "type": "array",
+                    "x-kubernetes-validations": [
+                      {
+                        "message": "pathTypeOrder must list every path type exactly once",
+                        "rule": "self.all(x, self.exists_one(y, y == x))"
+                      }
+                    ]
+                  },
                   "redirectFromCode": {
                     "default": 308,
                     "description": "RedirectFromCode is the status code of the redirects that the\n\"haproxy-ingress.github.io/redirect-from\" and \"redirect-from-regex\"\nIngress annotations produce, which send a source domain to the host\ndeclared in the Ingress. It applies to every Ingress this controller\nserves.",

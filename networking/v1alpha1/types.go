@@ -6,6 +6,10 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// IngressHAProxyPathType is a haproxy-ingress path matching type.
+// +kubebuilder:validation:Enum=exact;prefix;begin;regex
+type IngressHAProxyPathType string
+
 // IngressHAProxyRedirectCode is the HTTP status code of a redirect that the
 // ingress controller issues.
 //
@@ -119,6 +123,21 @@ type IngressHAProxyParameters struct {
 	// +optional
 	// +kubebuilder:default:=308
 	RedirectToCode IngressHAProxyRedirectCode `json:"redirectToCode,omitempty"`
+	// PathTypeOrder sets the order in which paths of different types are
+	// matched when they do not overlap. Overlapping paths are always ordered
+	// by length, but overlaps with regex paths are not detected, so with the
+	// default order exact,prefix,begin,regex a "/" Prefix path matches before
+	// any regex path. Moving regex forward, e.g. to exact,regex,prefix,begin,
+	// makes regex paths win instead. Wildcard hostnames are matched as regex
+	// paths as well, so this also changes hostname precedence. It applies to
+	// every Ingress this controller serves and must list every path type
+	// exactly once. Defaults to haproxy-ingress' exact,prefix,begin,regex.
+	// See https://haproxy-ingress.github.io/docs/configuration/keys/#path-type
+	// +optional
+	// +kubebuilder:validation:MinItems=4
+	// +kubebuilder:validation:MaxItems=4
+	// +kubebuilder:validation:XValidation:rule="self.all(x, self.exists_one(y, y == x))",message="pathTypeOrder must list every path type exactly once"
+	PathTypeOrder []IngressHAProxyPathType `json:"pathTypeOrder,omitempty"`
 	// TLSProtocols to use.
 	// +optional
 	TLSProtocols IngressHAProxyTLSProtocols `json:"tlsProtocols,omitempty"`
