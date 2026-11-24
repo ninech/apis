@@ -160,33 +160,6 @@ spec:
                       any external traffic, so its class must not be the default one while it is
                       not public. Defaults to true.
                     type: boolean
-                  pathTypeOrder:
-                    description: |-
-                      PathTypeOrder sets the order in which paths of different types are
-                      matched when they do not overlap. Overlapping paths are always ordered
-                      by length, but overlaps with regex paths are not detected, so with the
-                      default order exact,prefix,begin,regex a "/" Prefix path matches before
-                      any regex path. Moving regex forward, e.g. to exact,regex,prefix,begin,
-                      makes regex paths win instead. Wildcard hostnames are matched as regex
-                      paths as well, so this also changes hostname precedence. It applies to
-                      every Ingress this controller serves and must list every path type
-                      exactly once. Defaults to haproxy-ingress' exact,prefix,begin,regex.
-                      See https://haproxy-ingress.github.io/docs/configuration/keys/#path-type
-                    items:
-                      description: IngressHAProxyPathType is a haproxy-ingress path
-                        matching type.
-                      enum:
-                      - exact
-                      - prefix
-                      - begin
-                      - regex
-                      type: string
-                    maxItems: 4
-                    minItems: 4
-                    type: array
-                    x-kubernetes-validations:
-                    - message: pathTypeOrder must list every path type exactly once
-                      rule: self.all(x, self.exists_one(y, y == x))
                   redirectFromCode:
                     default: 308
                     description: |-
